@@ -29,47 +29,8 @@ public class AutoDiagnoser extends Command{
     public void execute() {
         
         switch (caseNo) {
-            // Testing gearHandler mechanisms
-            case 1:
-                int originalGearState = Robot.gearHandler.gearHandlerState();
-                Robot.gearHandler.toggleArm();
-                int gearState = Robot.gearHandler.gearHandlerState();
-                if ((0 <= gearState && gearState <= 2 || gearState == 7) && originalGearState >=3
-                                && originalGearState <= 6)
-                    Log.i("AutoDiagnoser", "Arms can be moved");
-                else if (!(0 <= gearState && gearState <= 2 || gearState == 7) && !(originalGearState >=3
-                                && originalGearState <= 6)) {
-                    Log.i("AutoDiagnoser", "Arms can be moved");
-                }
-                else {
-                    DriverStation.reportWarning("Arms cannot be moved!", false);
-                    error = true;
-                }
-                caseNo += 1;
-
-            // Testing climber functionality
-            case 2:
-                if (timeSpot == 0) {
-                    Robot.climber.climb();
-                    timeSpot = Timer.getFPGATimestamp();
-                }
-                
-                else if ((timeSpot - Timer.getFPGATimestamp()) > 2) {
-                    caseNo += 1;
-                    motorSpeed = Robot.climber.getSpeed();
-                    timeSpot = 0;
-                    if (motorSpeed < 0.1) {
-                        Log.i("AutoDiagnoser", "Climber functioning properly");
-                    }
-                    else {
-                        DriverStation.reportWarning("Climber malfunctioning!", false);
-                        Log.e("AutoDiagnoser", "Climber malfunctioning!");
-                        error = true;
-                    }
-                }
-                caseNo += 1;
             // Testing movement
-            case 3:
+            case 1:
                 if (timeSpot == 0) {
                     timeSpot = Timer.getFPGATimestamp();
                     drive = new StraightDriveWithTime(0.1, 600);
@@ -88,8 +49,8 @@ public class AutoDiagnoser extends Command{
                 }
                 
             // Testing 
-            case 4:
-            case 5:
+            case 2:
+            case 3:
         }
     }
 
@@ -98,9 +59,6 @@ public class AutoDiagnoser extends Command{
         return (caseNo > 5);
     }
     
-    protected void end() {
-        Robot.blingSystem.showError(error);
-    }
     
     protected void interrupted() {
         end();

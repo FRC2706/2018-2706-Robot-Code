@@ -1,23 +1,14 @@
 
 package org.usfirst.frc.team2706.robot;
 
-import org.usfirst.frc.team2706.robot.commands.autonomous.automodes.SideCameraPeg;
-import org.usfirst.frc.team2706.robot.commands.autonomous.automodes.SideGearCurve;
-import org.usfirst.frc.team2706.robot.commands.autonomous.automodes.SideStartSideGear;
-import org.usfirst.frc.team2706.robot.commands.autonomous.automodes.VisionCenterPeg;
 import org.usfirst.frc.team2706.robot.commands.autonomous.movements.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.autonomous.movements.StraightDriveWithEncoders;
-import org.usfirst.frc.team2706.robot.commands.autonomous.plays.DrivePlaceGear;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.commands.teleop.RecordJoystick;
 import org.usfirst.frc.team2706.robot.controls.StickRumble;
 import org.usfirst.frc.team2706.robot.subsystems.AutonomousSelector;
-import org.usfirst.frc.team2706.robot.subsystems.Bling;
 import org.usfirst.frc.team2706.robot.subsystems.Camera;
-import org.usfirst.frc.team2706.robot.subsystems.Climber;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team2706.robot.subsystems.GearHandler;
-
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -42,15 +33,6 @@ public class Robot extends IterativeRobot {
 
     // The spinny dial on the robot that selects what autonomous mode we are going to do
     public static AutonomousSelector hardwareChooser;
-
-    // The gear handler arm
-    public static GearHandler gearHandler;
-
-    // The climber
-    public static Climber climber;
-    
-    // This will be the bling subsystem controller
-    public static Bling blingSystem;
 
     // Stores all of the joysticks, and returns them as read only.
     public static OI oi;
@@ -79,13 +61,6 @@ public class Robot extends IterativeRobot {
         driveTrain = new DriveTrain();
 
         camera = new Camera();
-
-        gearHandler = new GearHandler();
-
-        climber = new Climber();
-
-        // New bling subsystem class.
-        blingSystem = new Bling();
         
         oi = new OI();
         // WARNING DO NOT AUTOFORMAT THIS OR BAD THINGS WILL HAPPEN TO YOU
@@ -95,15 +70,7 @@ public class Robot extends IterativeRobot {
                         /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
                  /* position 2: Drive to baseline */ new StraightDriveWithEncoders(0.5, 10, 1, 1),
      /* position 3: Drive to opposing launch line */ new StraightDriveWithEncoders(0.5, 20, 1, 1),
-        /* position 4: Center Position place gear */ new DrivePlaceGear(0.5, 7+2.35/3, 3),
- /* position 5: Left position place gear > launch */ new SideCameraPeg(0.7, 3.0, 7.5, 60, 4, 5, false),
-/* position 6: Right position place gear > launch */ new SideCameraPeg(0.7, 3.0, 7.5, 60, 4, 5, true),
- /* position 7: Left position place gear > launch */ new SideStartSideGear(false, 0.65, 5.85, 60, 6, 3.5, 10),
-/* position 8: Right position place gear > launch */ new SideStartSideGear(true, 0.65, 5.85, 60, 6, 3.5, 10),
-           /* position 9: Center gear with vision */ new VisionCenterPeg(0.5,0,4,true),
-                  /* position 10: Record n replay */ new RotateDriveWithGyro(0.6,60,25),
-          /* position 11: Curve from left to gear */ new SideGearCurve(0.6, 5.0, 9.2, 60, 4, 5, false),
-     /* position 12: Right gear middle hopper pop */ new SideGearCurve(0.6, 5.0, 9.2, 60, 4, 5, true)
+                  /* position 10: Record n replay */ new RotateDriveWithGyro(0.6,60,25)
         );
 
         // Set up the Microsoft LifeCam and start streaming it to the Driver Station
@@ -146,9 +113,6 @@ public class Robot extends IterativeRobot {
         // Schedule the autonomous command that was selected
         if (autonomousCommand != null)
             autonomousCommand.start();
-        if (!blingSystem.getDefaultCommand().isRunning())
-            blingSystem.getDefaultCommand().start();
-        
         }
 
     /**
@@ -196,13 +160,9 @@ public class Robot extends IterativeRobot {
 
     private void log() {
         driveTrain.log();
-        gearHandler.log();
         hardwareChooser.log();
-<<<<<<< HEAD
-        gearHandler.log();
-=======
+
         
         Log.updateTableLog();
->>>>>>> origin/master
     }
 }
