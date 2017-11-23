@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2706.robot.commands.autonomous.movements;
+package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.movements;
 
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;

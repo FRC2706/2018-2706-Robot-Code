@@ -1,14 +1,14 @@
 
 package org.usfirst.frc.team2706.robot;
 
-import org.usfirst.frc.team2706.robot.commands.autonomous.movements.RotateDriveWithGyro;
-import org.usfirst.frc.team2706.robot.commands.autonomous.movements.StraightDriveWithEncoders;
+import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
+import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
-import org.usfirst.frc.team2706.robot.commands.teleop.RecordJoystick;
 import org.usfirst.frc.team2706.robot.controls.StickRumble;
 import org.usfirst.frc.team2706.robot.subsystems.AutonomousSelector;
 import org.usfirst.frc.team2706.robot.subsystems.Camera;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -68,9 +68,7 @@ public class Robot extends IterativeRobot {
         hardwareChooser = new AutonomousSelector(
                          /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
                         /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
-                 /* position 2: Drive to baseline */ new StraightDriveWithEncoders(0.5, 10, 1, 1),
-     /* position 3: Drive to opposing launch line */ new StraightDriveWithEncoders(0.5, 20, 1, 1),
-                  /* position 10: Record n replay */ new RotateDriveWithGyro(0.6,60,25)
+             /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.4, 1, 1, 1)
         );
 
         // Set up the Microsoft LifeCam and start streaming it to the Driver Station
