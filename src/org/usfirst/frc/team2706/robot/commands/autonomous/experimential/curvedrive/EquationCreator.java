@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2706.robot.commands.autonomous.curvecreator;
+package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive;
 
 /**
  * Actually does the math to create the equation from two points and a tangent. Warning: Complicated

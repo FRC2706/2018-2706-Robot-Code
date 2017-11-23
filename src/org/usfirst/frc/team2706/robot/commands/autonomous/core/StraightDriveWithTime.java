@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2706.robot.commands.autonomous.movements;
+package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 
 import java.util.Timer;
 import java.util.TimerTask;

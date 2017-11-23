@@ -2,7 +2,6 @@ package org.usfirst.frc.team2706.robot;
 
 import java.lang.reflect.Field;
 
-import org.usfirst.frc.team2706.robot.commands.autonomous.movements.TeleopStraightDriveWithCamera;
 import org.usfirst.frc.team2706.robot.commands.teleop.HandBrake;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 

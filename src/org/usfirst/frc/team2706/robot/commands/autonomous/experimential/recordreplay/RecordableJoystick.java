@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2706.robot.controls;
+package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

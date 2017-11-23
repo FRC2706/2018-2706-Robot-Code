@@ -21,7 +21,13 @@ Subsystems classes are for the lowest end things like gyro, direct communication
 The Commands folder / package is split into two types of commands:
 
 __Autonomous Commands:__
-(Add new formatting/structure details for this year)
+
+Autonomous commands are this year all in the base package of robot.commands.autonomous.
+Inside that package there are three packages:
+	auto2018: Only autonomous modes that will be useful in 2018 and 2018 only, for example mechanism specific movements
+	core: Base autonomous movements that work every year and are 100% perfect and tested, eg. move forward on a timer
+	experimental: Everything else that isn't perfected or is still in the works, also unique ideas like curvedrive
+	auto2018 and experimental both have packages called 'automodes' and 'movements' inside of them, movements is commands that perform one function, and automodes is commandgroups or commands that perform multiple functions
 
 __Teleop commands__:
 (Add new formatting/structure details for this year)

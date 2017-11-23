@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2706.robot.commands.autonomous.curvecreator;
+package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive;
 
 /**
  * Simple class that stores your x and y position for the equationcreator to increase simplicity in
