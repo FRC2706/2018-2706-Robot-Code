@@ -183,8 +183,8 @@ public class RobotMap {
     @SuppressWarnings("unchecked")
     private static <T> T getConstant(String constant) {
         try {
-            return (T) getArray(RobotMap.class.getDeclaredField(constant + "_VALS")
-                            .get(null))[ROBOT_ID];
+            return RobotConfig.get("RobotMap." + constant, (T) getArray(RobotMap.class.getDeclaredField(constant + "_VALS")
+                            .get(null))[ROBOT_ID]);
         } catch (Exception e) {
             e.printStackTrace();
         }

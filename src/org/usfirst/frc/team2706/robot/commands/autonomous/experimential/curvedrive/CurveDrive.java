@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive;
 
 import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.RobotConfig;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -35,15 +36,17 @@ public class CurveDrive extends Command {
      * @param yFeet Distance forward, in feet (preferably not negative)
      * @param endCurve Ending angle (-90 to 90 degrees, but only useful at -80 to 80)
      * @param speed Base speed the robot drives (-1.0 to 1.0)
+     * @param name The name of the of the configuration properties to look for
      */
-    public CurveDrive(double xFeet, double yFeet, double endCurve, double speed, boolean isRight) {
+    public CurveDrive(double xFeet, double yFeet, double endCurve, double speed, boolean isRight, String name) {
+        super(name);
         requires(Robot.driveTrain);
 
-        this.xFeet = xFeet;
-        this.yFeet = yFeet;
-        this.endCurve = endCurve;
-        this.speed = speed;
-        this.isRight = isRight;
+        this.xFeet = RobotConfig.get(name + ".xFeet", xFeet);
+        this.yFeet = RobotConfig.get(name + ".yFeet", yFeet);
+        this.endCurve = RobotConfig.get(name + ".endCurve", endCurve);
+        this.speed = RobotConfig.get(name + ".speed", speed);
+        this.isRight = RobotConfig.get(name + ".isRight", isRight);
     }
 
     protected void initialize() {

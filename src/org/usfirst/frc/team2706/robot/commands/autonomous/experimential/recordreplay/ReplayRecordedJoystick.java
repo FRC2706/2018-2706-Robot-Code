@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.OI;
 import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.RobotConfig;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -28,8 +29,8 @@ public class ReplayRecordedJoystick extends Command {
      * @see #ReplayRecordableJoystick(Joystick, Joystick, Supplier) The main constructor
      */
     public ReplayRecordedJoystick(Joystick driverStick, Joystick operatorStick, String name,
-                    boolean deserializeInConstructor) {
-        this(driverStick, operatorStick, () -> name, deserializeInConstructor);
+                    boolean deserializeInConstructor, String joystickName) {
+        this(driverStick, operatorStick, () -> RobotConfig.get(name + ".joystickName", joystickName), deserializeInConstructor, name);
     }
 
     /**
@@ -43,9 +44,12 @@ public class ReplayRecordedJoystick extends Command {
      * @param deserializeInConstructor When true, does not wait until the command is enabled to find
      *        the location of the files, this is important for competitions where delays in the
      *        start of autonomous are a bigger issue
+     * @param name The name of the of the configuration properties to look for
      */
     public ReplayRecordedJoystick(Joystick driverStick, Joystick operatorStick,
-                    Supplier<String> nameSupplier, boolean deserializeInConstructor) {
+                    Supplier<String> nameSupplier, boolean deserializeInConstructor, String name) {
+        super(name);
+        
         this.nameSupplier = nameSupplier;
 
         this.driverStick = driverStick;
@@ -54,11 +58,11 @@ public class ReplayRecordedJoystick extends Command {
         this.deserializeInConstructor = deserializeInConstructor;
 
         if (deserializeInConstructor) {
-            String name = nameSupplier.get();
+            String joystickName = nameSupplier.get();
             String folder = "/home/lvuser/joystick-recordings/" + name + "/";
 
-            String driverLoc = folder + name + "-driver";
-            String operatorLoc = folder + name + "-operator";
+            String driverLoc = folder + joystickName + "-driver";
+            String operatorLoc = folder + joystickName + "-operator";
 
             this.driverStick = new RecordableJoystick(driverStick, driverLoc, true);
             this.operatorStick = new RecordableJoystick(operatorStick, operatorLoc, true);

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2706.robot.controls;
 
 import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.RobotConfig;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
@@ -63,24 +64,27 @@ public class StickRumble extends Command {
      * @param intensity How much the controllers will vibrate.
      * @param whichController Select which controller will vibrate. <p>
      * 0 = both, 1 = driver, 2 = operator.
+     * @param name The name of the of the configuration properties to look for
      */
     public StickRumble(double timeOn, double timeOff, int repeatCount, double intervalTime,
-                    int intervalCount, double intensity, int whichController) {
+                    int intervalCount, double intensity, int whichController, String name) {
+        super(name);
+        
         joystick = Robot.oi.getDriverJoystick();
         operatorJoy = Robot.oi.getOperatorJoystick();
         finished = false;
 
         // Need to know this to get time passed.
-        this.timeOn = timeOn;
-        this.timeOff = timeOff;
-        this.repeatCount = repeatCount;
-        StickRumble.repeatCountCopy = repeatCount;
-        StickRumble.intervalTime = intervalTime;
-        StickRumble.intervalCount = intervalCount;
+        this.timeOn = RobotConfig.get(name + ".timeOn", timeOn);
+        this.timeOff = RobotConfig.get(name + ".timeOff", timeOff);
+        this.repeatCount = RobotConfig.get(name + ".repeatCount", repeatCount);
+        StickRumble.repeatCountCopy = RobotConfig.get(name + ".repeatCount", repeatCount);
+        StickRumble.intervalTime = RobotConfig.get(name + ".intervalTime", intervalTime);
+        StickRumble.intervalCount = RobotConfig.get(name + ".intervalCount", intervalCount);
         if (StickRumble.intervalCount == -1)
             infiniteCount = true;
-        vibrationIntensity = intensity;
-        selectionOfController = whichController;
+        vibrationIntensity = RobotConfig.get(name + ".intensity", intensity);
+        selectionOfController = RobotConfig.get(name + ".whichController", whichController);
         finished = false;
     }
     

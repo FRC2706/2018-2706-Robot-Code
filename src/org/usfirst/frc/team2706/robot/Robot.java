@@ -68,7 +68,7 @@ public class Robot extends IterativeRobot {
         hardwareChooser = new AutonomousSelector(
                          /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
                         /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
-             /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.4, 1, 1, 1)
+             /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.4, 1, 1, 1, "AutoForwardFoot")
         );
 
         // Set up the Microsoft LifeCam and start streaming it to the Driver Station
@@ -77,7 +77,7 @@ public class Robot extends IterativeRobot {
         UsbCamera rearCamera = CameraServer.getInstance().startAutomaticCapture(1);
         
         recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
-                        () -> SmartDashboard.getString("record-joystick-name", "default"));        
+                        () -> SmartDashboard.getString("record-joystick-name", "default"), "recordJoystick");        
     }
 
     /**
@@ -134,7 +134,7 @@ public class Robot extends IterativeRobot {
             recordAJoystick.start();
 
         // Tell drive team to drive
-        rumbler = new StickRumble(0.4, 0.15, 1, 0, 1, 1.0, 1);
+        rumbler = new StickRumble(0.4, 0.15, 1, 0, 1, 1.0, 1, "controllerStickRumble");
         rumbler.start();
         
         // Deactivate the camera ring light
