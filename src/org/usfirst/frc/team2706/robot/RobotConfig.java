@@ -15,6 +15,8 @@ import com.google.gson.JsonPrimitive;
 public class RobotConfig {
 
     private static final File CONFIG_FOLDER = new File("/home/lvuser/config/");
+    private static final String OVERRIDE = "override", VALUE = "value";
+    private static final int TYPE_BOOLEAN = 0, TYPE_NUMBER = 1, TYPE_STRING = 2;
     
     /**
      * Gets a configuration value from the robot filesystem
@@ -23,69 +25,56 @@ public class RobotConfig {
      * @param defaultValue The value to be returned if no other value exists
      * @return The value for of the property
      */
-    public static boolean get(String name, boolean defaultValue) {
-        Optional<JsonPrimitive> val = get(name, new JsonPrimitive(defaultValue));
-        if(val.isPresent()) {
-            return val.get().getAsBoolean();
+    @SuppressWarnings("unchecked")
+    public static <T> T get(String name, T defaultValue) {
+        if(defaultValue instanceof Boolean) {
+            Optional<JsonPrimitive> val = get(name, new JsonPrimitive(Boolean.class.cast(defaultValue)));
+            if(val.isPresent()) {
+                return (T) defaultValue.getClass().cast(val.get().getAsBoolean());
+            }
         }
-        else {
-            return defaultValue;
+        else if(defaultValue instanceof String) {
+            Optional<JsonPrimitive> val = get(name, new JsonPrimitive(String.class.cast(defaultValue)));
+            if(val.isPresent()) {
+                return (T) defaultValue.getClass().cast(val.get().getAsString());
+            }
         }
-    }
-    
-    /**
-     * Gets a configuration value from the robot filesystem
-     * 
-     * @param name The name of the property to get
-     * @param defaultValue The value to be returned if no other value exists
-     * @return The value for of the property
-     */
-    public static char get(String name, char defaultValue) {
-        Optional<JsonPrimitive> val = get(name, new JsonPrimitive(defaultValue));
-        if(val.isPresent()) {
-            return val.get().getAsCharacter();
+        else if(defaultValue instanceof Character) {
+            Optional<JsonPrimitive> val = get(name, new JsonPrimitive(Character.class.cast(defaultValue)));
+            if(val.isPresent()) {
+                return (T) defaultValue.getClass().cast(val.get().getAsCharacter());
+            }
         }
-        else {
-            return defaultValue;
+        else if(defaultValue instanceof Number) {
+            Optional<JsonPrimitive> val = get(name, new JsonPrimitive(Number.class.cast(defaultValue)));
+            if(val.isPresent()) {
+                Number num = val.get().getAsNumber();
+                if(defaultValue instanceof Byte) {
+                    return (T) defaultValue.getClass().cast(num.byteValue());
+                }
+                else if(defaultValue instanceof Double) {
+                    return (T) defaultValue.getClass().cast(num.doubleValue());
+                }
+                else if(defaultValue instanceof Float) {
+                    return (T) defaultValue.getClass().cast(num.floatValue());
+                }
+                else if(defaultValue instanceof Integer) {
+                    return (T) defaultValue.getClass().cast(num.intValue());
+                }
+                else if(defaultValue instanceof Long) {
+                    return (T) defaultValue.getClass().cast(num.longValue());
+                }
+                else if(defaultValue instanceof Short) {
+                    return (T) defaultValue.getClass().cast(num.shortValue());
+                }
+            }
         }
-    }
-    
-    /**
-     * Gets a configuration value from the robot filesystem
-     * 
-     * @param name The name of the property to get
-     * @param defaultValue The value to be returned if no other value exists
-     * @return The value for of the property
-     */
-    public static Number get(String name, Number defaultValue) {
-        Optional<JsonPrimitive> val = get(name, new JsonPrimitive(defaultValue));
-        if(val.isPresent()) {
-            return val.get().getAsNumber();
-        }
-        else {
-            return defaultValue;
-        }
-    }
-    
-    /**
-     * Gets a configuration value from the robot filesystem
-     * 
-     * @param name The name of the property to get
-     * @param defaultValue The value to be returned if no other value exists
-     * @return The value for of the property
-     */
-    public static String get(String name, String defaultValue) {
-        Optional<JsonPrimitive> val = get(name, new JsonPrimitive(defaultValue));
-        if(val.isPresent()) {
-            return val.get().getAsString();
-        }
-        else {
-            return defaultValue;
-        }
-    }
+        
+        return defaultValue;
+    } 
     
     private static Optional<JsonPrimitive> get(String name, JsonPrimitive defaultValue) {
-        String[] path = name.split(".");
+        String[] path = name.split("\\.");
         if(path.length < 2) {
             return Optional.empty();
         }
@@ -95,37 +84,67 @@ public class RobotConfig {
         Optional<JsonObject> optional = getJSON(path[0]);
         if(optional.isPresent()) {
             json = optional.get();
-            root = json;
         }
         else {
-            return Optional.empty();
+            json = new JsonObject();
         }
+        
+        root = json;
 
         boolean success = true;
         
-        for(int i = 1; i < path.length - 2; i++) {
-            if(!json.has(path[i])) {
-                json.addProperty(path[i], "");
+        for(int i = 1; i < path.length; i++) {
+            if(!json.has(path[i]) || !json.get(path[i]).isJsonObject()) {
+                json.remove(path[i]);
+                json.add(path[i], new JsonObject());
                 success = false;
             }
             json = json.getAsJsonObject(path[i]);
         }
         
-        if(!json.has(path[path.length - 1])) {
-            json.add(path[path.length - 1], defaultValue);
-            
+        if(!json.has(VALUE) || !json.get(VALUE).isJsonPrimitive()
+                        || getPrimitiveType(json.get(VALUE).getAsJsonPrimitive())
+                        != getPrimitiveType(defaultValue)) {
             success = false;
         }
-        else {
-            return Optional.of(json.getAsJsonPrimitive(path[path.length - 1]));
+        
+        if(!json.has(OVERRIDE) || !json.get(OVERRIDE).isJsonPrimitive()) {
+            success = false;
+        }
+        else if(!json.get(OVERRIDE).getAsBoolean()) {
+            if(!json.get(VALUE).getAsJsonPrimitive().equals(defaultValue)) {
+                success = false;
+            }
+            else {
+                return Optional.empty();
+            }
         }
         
         if(!success) {
+            json.remove(OVERRIDE);
+            json.addProperty(OVERRIDE, false);
+            
+            json.remove(VALUE);
+            json.add(VALUE, defaultValue);
+            
             reserialize(path[0], root);
+            return Optional.empty();
         }
-        
-        return Optional.empty();
-        
+        else {
+            return Optional.of(json.getAsJsonPrimitive("value"));
+        }
+    }
+    
+    private static int getPrimitiveType(JsonPrimitive primitive) {
+        if(primitive.isBoolean()) {
+            return TYPE_BOOLEAN;
+        }
+        else if(primitive.isNumber()) {
+            return TYPE_NUMBER;
+        }
+        else {
+            return TYPE_STRING;
+        }
     }
     
     private static Optional<JsonObject> getJSON(String name) {
@@ -134,6 +153,7 @@ public class RobotConfig {
         StringBuilder src = new StringBuilder();
         try {
             if(!configFile.isFile()) {
+                configFile.getParentFile().mkdirs();
                 configFile.createNewFile();
                 return Optional.empty();
             }
