@@ -125,6 +125,7 @@ public class CurveDrive extends Command {
         // Finds out what x position you should be at, and compares it with what you are currently at
         double wantedX = (eq.a * Math.pow(yPos, 3)) + (eq.b * Math.pow(xPos, 2));
 
+        @SuppressWarnings("unused")
         double offset = xPos - wantedX;
 
         // Figures out how far you should rotate based on offset and gyro pos
