@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive;
 
+import java.util.LinkedHashMap;
+
 import org.usfirst.frc.team2706.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -49,7 +51,7 @@ public class CurveDrive extends Command {
     protected void initialize() {
         // Creates the cubic equation that the robot follows
         eq = EquationCreator.MakeCubicEquation(xFeet, yFeet, endCurve, isRight);
-
+        tangents = EquationCreator.createTangents(2, yFeet, eq);
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
 
@@ -94,7 +96,7 @@ public class CurveDrive extends Command {
         tangent = Math.toDegrees(Math.atan(tangent));
 
         // Finds out what x position you should be at, and compares it with what you are currently at
-        double wantedX = (eq.a * Math.pow(yPos, 3)) + (eq.b * Math.pow(xPos, 2));
+        double wantedX = (eq.a * Math.pow(yPos, 3)) + (eq.b * Math.pow(yPos, 2));
 
         double offset = xPos - wantedX;
 
@@ -113,7 +115,60 @@ public class CurveDrive extends Command {
         // Tank Drives according to the above factors
         Robot.driveTrain.drive(-leftSpeed, -rightSpeed);
     }
+    LinkedHashMap<Double, Double> tangents;
+    public void followCurveRelational() {
+        // Figures out the angle that you are currently on
+        double tangent = (Robot.driveTrain.getHeading() - initHeading);
+        
+        double desiredTangent = 0;
+        double desiredBelowY = 0;
+        double desiredBelowTangent = 0;
+        double desiredBelowClosestDistance = Double.POSITIVE_INFINITY;
+        double desiredAboveY = 0;
+        double desiredAboveTangent = 0;
+        double desiredAboveClosestDistance = Double.POSITIVE_INFINITY;
+        for(Double key : tangents.keySet()) {
+            Double value = tangents.get(key);
+            if(key < yPos) {
+                if(Math.abs(key - yPos) < desiredBelowClosestDistance) {
+                    desiredBelowY = key;
+                    desiredBelowTangent = value;
+                }
+            }
+            else {
+                if(Math.abs(key - yPos) < desiredAboveClosestDistance) {
+                    desiredAboveY = key;
+                    desiredAboveTangent = value;
+                    //TODO break right here lol
+                }
+            }
+        }
+       
+       double desiredBelowX = (eq.a * Math.pow(desiredBelowY, 3)) + (eq.b * Math.pow(desiredBelowY, 2));
+       double desiredAboveX = (eq.a * Math.pow(desiredAboveY, 3)) + (eq.b * Math.pow(desiredAboveY, 2));
+       
+       // pythagoreum theorum
+       double distanceBelow = Math.sqrt(Math.pow(yPos - desiredBelowY, 2) + Math.pow(xPos - desiredBelowX, 2));
+       double distanceAbove = Math.sqrt(Math.pow(yPos - desiredAboveY, 2) + Math.pow(xPos - desiredAboveX, 2));
+       double total = distanceBelow + distanceAbove;
+       double proportionBelow = distanceBelow / total;
+       double proportionAbove = distanceAbove / total;
+       desiredTangent = desiredBelowTangent * proportionBelow + desiredAboveTangent * proportionAbove;
+       
+       double rotateVal = desiredTangent - tangent;
+       rotateVal /= 10;
 
+       // Calculates your tank drive speeds based on the base speed and the rotation
+       double leftSpeed = (speed + rotateVal);
+       double rightSpeed = (speed - rotateVal);
+
+       if (Math.abs(leftSpeed - rightSpeed) > 0.4) {
+           leftSpeed /= 2;
+           rightSpeed /= 2;
+       }
+       // Tank Drives according to the above factors
+       Robot.driveTrain.drive(-leftSpeed, -rightSpeed);
+    }
     public void followCurveArcade() {
         // Figures out the angle that you are currently on
         double tangent = (3 * eq.a * Math.pow(yPos, 2)) + (2 * eq.b * yPos);
