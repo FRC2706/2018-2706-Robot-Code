@@ -399,7 +399,8 @@ public class DriveTrain extends Subsystem {
 
         @Override
         public double pidGet() {
-            Log.d("Drive", "Got encoder input of " + right.getDistance() / 2);
+            Log.d("DriveTrain", "Got encoder input of " + right.getDistance());
+            
             return right.getDistance();
         }
 
@@ -431,6 +432,8 @@ public class DriveTrain extends Subsystem {
             if (heading > 358.0)
                 heading = 0;
 
+            Log.d("DriveTrain", "Got gyro input of " + (invert ? -heading : heading));
+            
             return invert ? -heading : heading;
         }
 
@@ -492,14 +495,14 @@ public class DriveTrain extends Subsystem {
 
             if (useGyroStraightening)
                 if (invert) {
-                    drive.arcadeDrive(output, rotateVal);
+                    drive.arcadeDrive(output, -rotateVal);
                 } else {
-                    drive.arcadeDrive(-output, -rotateVal);
+                    drive.arcadeDrive(-output, rotateVal);
                 }
             else if (invert) {
                 drive.tankDrive(-output, output, false);
             } else {
-                drive.tankDrive(output, output, false);
+                drive.tankDrive(-output, -output, false);
             }
         }
 

@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2706.robot;
 
+import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
@@ -67,7 +68,8 @@ public class Robot extends IterativeRobot {
         hardwareChooser = new AutonomousSelector(
                          /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
                         /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
-             /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.4, 1, 1, 1)
+             /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.7, 4, 1, 5),
+                                                     new RotateDriveWithGyro(0.5, 90, 5)
         );
 
         // Set up the Microsoft LifeCam and start streaming it to the Driver Station
