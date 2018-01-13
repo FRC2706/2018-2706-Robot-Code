@@ -312,7 +312,7 @@ public class DriveTrain extends Subsystem {
      * @return The distance driven (average of left and right encoders).
      */
     public double getDistance() {
-        return (left_encoder.getDistance() + right_encoder.getDistance()) / 2;
+        return right_encoder.getDistance();
     }
 
     public double getLeftDistanceToObstacle() {
@@ -399,7 +399,8 @@ public class DriveTrain extends Subsystem {
 
         @Override
         public double pidGet() {
-            return (left.getDistance() + right.getDistance()) / 2;
+            Log.d("Drive", "Got encoder input of " + right.getDistance() / 2);
+            return right.getDistance();
         }
 
     }
@@ -460,6 +461,9 @@ public class DriveTrain extends Subsystem {
         @Override
         public void pidWrite(double output) {
 
+
+            Log.d("DriveTrain", "Driving at a speed of " + output);
+            
             double rotateVal;
             if (useCamera) {
                 // Checks if target is found, cuts off the edges, and then creates a rotation value
