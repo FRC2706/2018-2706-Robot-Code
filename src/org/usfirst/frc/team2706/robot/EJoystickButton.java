@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Hacky extension of the JoystickButton to allow canceling a command when a button is released,
@@ -44,7 +45,7 @@ public class EJoystickButton extends JoystickButton {
             private boolean m_pressedLast = grab();
 
             // DO NOT MODIFY THIS CODE. IF YOU DO AND YOU FAIL PLEASE ADD A NUMBER TO THE COUNTER
-            // FAILED ATTEMPTS: 22
+            // FAILED ATTEMPTS: 23
             @Override
             public void execute() {
                 if (grab()) {
@@ -58,10 +59,23 @@ public class EJoystickButton extends JoystickButton {
             }
         });
     }
-
+    
+    private boolean m_sendablePressed;
+    
     // Grabs the value
     private boolean grab() {
-        return get() || (getTable() != null && getTable().getBoolean("pressed", false));
+        return get() || m_sendablePressed;
     }
+    
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("Button");
+        builder.setSafeState(() -> {
+          m_sendablePressed = false;
+        });
+        builder.addBooleanProperty("pressed", this::grab, (value) -> {
+          m_sendablePressed = value;
+        });
+      }
 
 }

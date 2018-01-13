@@ -13,9 +13,12 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.StreamHandler;
 
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.tables.ITable;
-import edu.wpi.first.wpilibj.tables.ITableListener;
+import edu.wpi.first.networktables.EntryListenerFlags;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
+import edu.wpi.first.networktables.TableEntryListener;
 
 /**
  * Logs to DriverStation at levels debug, info, warning, error
@@ -28,7 +31,7 @@ public class Log {
 
     private static final Logger logger = Logger.getLogger(ROOT_LOGGER_NAME);
     
-    private static ITableListener updateListener;
+    private static TableEntryListener updateListener;
     
     private static ByteArrayOutputStream out;
     
@@ -90,23 +93,24 @@ public class Log {
             e.printStackTrace();
         }
         
-        updateListener = new ITableListener() {
+        updateListener = new TableEntryListener() {
+
             @Override
-            public void valueChanged(ITable source, String key, Object value, boolean isNew) {
-                if(key.equals("level")) {
-                    Level level = Level.parse(((int)source.getNumber(key, Level.ALL.intValue()))+"");
-                    ch.setLevel(level);
-                    tableOut.setLevel(level);
-                    logger.setLevel(level);
-                }
+            public void valueChanged(NetworkTable source, String key,
+                            NetworkTableEntry entry, NetworkTableValue value, int flags) {
+                Level level = Level.parse(((int)entry.getNumber(Level.ALL.intValue()))+"");
+                ch.setLevel(level);
+                tableOut.setLevel(level);
+                logger.setLevel(level);
+                
             }
         };
         
-        NetworkTable.getTable(LOGGER_TABLE).addTableListener(updateListener);
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).addEntryListener("level", updateListener, EntryListenerFlags.kUpdate);
     }
 
     public static void updateTableLog() {
-        byte[] a = NetworkTable.getTable(LOGGER_TABLE).getRaw("Value", new byte[0]);
+        byte[] a = NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value").getRaw(new byte[0]);
         byte[] b = out.toByteArray();
         
         byte[] results = new byte[0];
@@ -125,7 +129,7 @@ public class Log {
         
         out.reset();
         
-        NetworkTable.getTable(LOGGER_TABLE).putRaw("Value", results);
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value").setRaw(results);
     }
     
     /**

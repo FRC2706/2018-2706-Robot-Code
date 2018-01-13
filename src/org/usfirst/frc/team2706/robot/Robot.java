@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2706.robot;
 
+import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
@@ -14,7 +15,6 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -68,7 +68,8 @@ public class Robot extends IterativeRobot {
         hardwareChooser = new AutonomousSelector(
                          /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
                         /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
-             /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.4, 1, 1, 1)
+             /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.7, 4, 1, 5),
+                                                     new RotateDriveWithGyro(0.5, 90, 5)
         );
 
         // Set up the Microsoft LifeCam and start streaming it to the Driver Station
@@ -152,9 +153,7 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during test mode
      */
-    public void testPeriodic() {
-        LiveWindow.run();
-    }
+    public void testPeriodic() {}
 
     private void log() {
         driveTrain.log();

@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Controlls the 12 switch dial on the robot to select an autonomous mode. The autonomous modes on
+ * Controls the 12 switch dial on the robot to select an autonomous mode. The autonomous modes on
  * each of the switches are defined in Robot.java
  */
 public class AutonomousSelector extends Subsystem {
