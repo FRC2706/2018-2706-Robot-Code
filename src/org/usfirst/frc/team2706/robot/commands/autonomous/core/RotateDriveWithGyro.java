@@ -49,9 +49,9 @@ public class RotateDriveWithGyro extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        Log.d(this, "Rotating " + angle + " degrees at a speed of " + speed);
+        
         Robot.driveTrain.reset();
-
-
 
         PID.setInputRange(-360.0, 360.0);
 
@@ -63,6 +63,7 @@ public class RotateDriveWithGyro extends Command {
         } else {
             PID.setOutputRange(speed, -speed);
         }
+        
         // Will accept within 1 degrees of target
         PID.setAbsoluteTolerance(1);
 
@@ -88,9 +89,10 @@ public class RotateDriveWithGyro extends Command {
     protected void end() {
         // Disable PID output and stop robot to be safe
         PID.disable();
-        Log.d("RotateDriveWithGyro", "Ended");
 
         Robot.driveTrain.drive(0, 0);
+        
+        Log.d(this, "Done rotating");
     }
 
     // Called when another command which requires one or more of the same

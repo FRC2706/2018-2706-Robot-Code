@@ -79,6 +79,8 @@ public class ReplayRecordedJoystick extends Command {
         String name = nameSupplier.get();
         String folder = "/home/lvuser/joystick-recordings/" + name + "/";
 
+        Log.i("Record and Replay", "Replaying joystick from folder " + folder);
+        
         if (!deserializeInConstructor) {
             String driverLoc = folder + name + "-driver";
             String operatorLoc = folder + name + "-operator";
@@ -97,8 +99,6 @@ public class ReplayRecordedJoystick extends Command {
 
         Robot.oi.destroy();
         Robot.oi = new OI(driverStick, operatorStick);
-
-        Log.i("Record and Replay", "Replaying joystick from folder " + folder);
     }
 
     @Override

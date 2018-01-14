@@ -51,6 +51,8 @@ public class QuickRotate extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        Log.d(this, "QuickRotating to " + targetHeading + " degrees");
+        
         done = 10;
         maxCycles = 120;
 
@@ -59,7 +61,7 @@ public class QuickRotate extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Log.d("Quick Rotate", "Current Heading: " + Robot.driveTrain.getHeading());
+        Log.d(this, "Current Heading: " + Robot.driveTrain.getHeading());
         currentHeading = normalize(Robot.driveTrain.getHeading());
         double error = normalize(targetHeading - currentHeading);
 

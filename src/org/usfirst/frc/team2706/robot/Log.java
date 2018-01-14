@@ -19,6 +19,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.networktables.TableEntryListener;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * Logs to DriverStation at levels debug, info, warning, error
@@ -28,7 +29,7 @@ public class Log {
     /**
      * The NetworkTables table where logs go
      */
-    public static final String LOGGER_TABLE = "logging-level";
+    public static final String LOGGER_TABLE = "/logging-level";
     
     /**
      * The name of the JUL logger
@@ -41,14 +42,16 @@ public class Log {
     
     private static ByteArrayOutputStream out;
     
+    private static boolean fmsConnected = false;
+    
     private static final Formatter formatter = new Formatter() {
         @Override
         public String format(LogRecord record) {
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
             Date dt = new Date(record.getMillis());
             String S = sdf.format(dt);
-
-            return record.getLevel() + " " + S + " " + record.getSourceClassName() + "."
+            
+            return record.getLevel() + " " + S + "[" + DriverStation.getInstance().getMatchTime() + "] " + record.getSourceClassName() + "."
                             + record.getSourceMethodName() + "() " + record.getLoggerName()
                             + " " + record.getMessage() + "\n";
         }
@@ -104,7 +107,7 @@ public class Log {
             @Override
             public void valueChanged(NetworkTable source, String key,
                             NetworkTableEntry entry, NetworkTableValue value, int flags) {
-                Level level = Level.parse(((int)entry.getNumber(Level.ALL.intValue()))+"");
+                Level level = Level.parse(entry.getNumber(Level.ALL.intValue()).intValue()+"");
                 ch.setLevel(level);
                 tableOut.setLevel(level);
                 logger.setLevel(level);
@@ -113,12 +116,31 @@ public class Log {
         };
         
         NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).addEntryListener("level", updateListener, EntryListenerFlags.kUpdate);
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("level").setNumber(0);
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("match").setString("");
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("save").setBoolean(false);
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value").setRaw(new byte[0]);
     }
 
     /**
      * Updates the NetworkTables log with the latest logs
      */
     public static void updateTableLog() {
+        if(!fmsConnected && DriverStation.getInstance().isFMSAttached()) {
+            fmsConnected = true;
+            String mode;
+            if(DriverStation.getInstance().isAutonomous()) {
+                mode = "autonomous";
+            }
+            else if(DriverStation.getInstance().isOperatorControl()) {
+                mode = "teleop";
+            }
+            else {
+                mode = "disabled";
+            }
+            NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("match").setString("Worlds" + "/" + "0" + "-" + "0" + "-" + mode);
+        }
+        
         byte[] a = NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value").getRaw(new byte[0]);
         byte[] b = out.toByteArray();
         
@@ -284,6 +306,20 @@ public class Log {
                 // We don't want to throw an exception here, but we
                 // report the exception to any registered ErrorManager.
                 reportError(null, ex, ErrorManager.WRITE_FAILURE);
+            }
+        }
+    }
+    
+    private static boolean firstDisable = true;
+    
+    public static void save() {
+        if(DriverStation.getInstance().isFMSAttached()) {
+            if(!firstDisable) {
+                NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("save").setBoolean(true);
+            }
+            
+            if(firstDisable) {
+                firstDisable = false; 
             }
         }
     }

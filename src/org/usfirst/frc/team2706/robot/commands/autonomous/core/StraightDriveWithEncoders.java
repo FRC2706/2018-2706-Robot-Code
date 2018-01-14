@@ -51,7 +51,8 @@ public class StraightDriveWithEncoders extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Log.d("StraightDrive", "Initialize");
+        Log.d(this, "Driving " + distance + " feet at a speed of " + speed);
+        
         Robot.driveTrain.reset();
 
         Robot.driveTrain.brakeMode(true);
@@ -96,14 +97,13 @@ public class StraightDriveWithEncoders extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Log.d("StraightDrive", "ending");
         Robot.driveTrain.brakeMode(false);
 
         // Disable PID output and stop robot to be safe
         PID.disable();
         Robot.driveTrain.drive(0, 0);
 
-        Log.d("StraightDriveWithEncoders", "Ended");
+        Log.d(this, "Done driving");
     }
 
     // Called when another command which requires one or more of the same

@@ -3,6 +3,7 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
 
@@ -35,6 +36,8 @@ public class StraightDriveWithTime extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        Log.d(this, "Driving for " + time / 1000 + " seconds");
+        
         // Creates task to stop robot after time
         CommandTimerTask interrupt = new CommandTimerTask();
         new Timer().schedule(interrupt, time);
@@ -56,6 +59,7 @@ public class StraightDriveWithTime extends Command {
     // Called once after isFinished returns true
     protected void end() {
         Robot.driveTrain.drive(0, 0);
+        Log.d(this, "Done driving");
     }
 
     // Called when another command which requires one or more of the same

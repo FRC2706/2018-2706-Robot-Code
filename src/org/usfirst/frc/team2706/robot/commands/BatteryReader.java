@@ -42,8 +42,7 @@ public class BatteryReader extends Command {
          * don't want to spam the bling system.
          */
         if (batteryPercent <= 0.2 && !batCritical) {
-            DriverStation.reportWarning("Battery low. " + (batteryPercent * 100) + "% remaining.",
-                            false);
+            DriverStation.reportWarning("Battery low. " + (batteryPercent * 100) + "% remaining.", false);
             batCritical = true;
         }
         if (batteryPercent > 0.2 && batCritical)

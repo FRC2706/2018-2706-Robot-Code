@@ -120,6 +120,8 @@ public class DriveTrain extends Subsystem {
             getDefaultCommand();
         }
         setDefaultCommand(defaultCommand);
+        
+        Log.d("Drive Train Command", defaultCommand);
     }
 
     public Command getDefaultCommand() {
@@ -187,7 +189,7 @@ public class DriveTrain extends Subsystem {
      * @param rotate Joystick to rotate the robot with
      */
     public void headlessDrive(GenericHID joy) {
-        Log.d("HeadlessDrive", joy.getRawAxis(5) + "," + joy.getRawAxis(4));
+        Log.d("HeadlessDrive", "X: " + joy.getRawAxis(5) + ", Y: " + joy.getRawAxis(4));
         double raw5 = joy.getRawAxis(5);
         double raw4 = joy.getRawAxis(4);
         double angle = normalize(Math.toDegrees(Math.atan(raw5 / raw4)));
@@ -197,10 +199,10 @@ public class DriveTrain extends Subsystem {
             speed = 0;
             angle = Robot.driveTrain.getHeading();
         }
-        Log.d("HeadlessDrive", "Angle: " + angle + ", Speed: " + speed);
+        Log.d("Headless Drive", "Angle: " + angle + ", Speed: " + speed);
         double gyroAngle;
         gyroAngle = normalize(Robot.driveTrain.getHeading());
-        Log.d("HeadlessDrive", (angle - gyroAngle * 0.1) * speed);
+        Log.d("Headless Drive", "Output: " + (angle - gyroAngle * 0.1) * speed);
         drive.arcadeDrive(-speed, -(angle - gyroAngle * 0.1) * speed, true);
     }
 
@@ -211,6 +213,8 @@ public class DriveTrain extends Subsystem {
         resetEncoders();
         resetGyro();
         resetDisplacement();
+        
+        Log.d("Drive Train", "Resetting sensors");
     }
 
     /**
@@ -278,10 +282,14 @@ public class DriveTrain extends Subsystem {
      * @param on Set to brake when true and coast when false
      */
     public void brakeMode(boolean on) {
-        front_left_motor.setNeutralMode(on ? NeutralMode.Brake : NeutralMode.Coast);
-        back_left_motor.setNeutralMode(on ? NeutralMode.Brake : NeutralMode.Coast);
-        front_right_motor.setNeutralMode(on ? NeutralMode.Brake : NeutralMode.Coast);
-        back_right_motor.setNeutralMode(on ? NeutralMode.Brake : NeutralMode.Coast);
+        NeutralMode mode = on ? NeutralMode.Brake : NeutralMode.Coast;
+        
+        Log.d("Brake Mode", mode);
+        
+        front_left_motor.setNeutralMode(mode);
+        back_left_motor.setNeutralMode(mode);
+        front_right_motor.setNeutralMode(mode);
+        back_right_motor.setNeutralMode(mode);
     }
 
     /**
@@ -413,7 +421,7 @@ public class DriveTrain extends Subsystem {
 
         @Override
         public double pidGet() {
-            Log.d("DriveTrain", "Got encoder input of " + right.getDistance());
+            Log.d("Encoder PID", right.getDistance());
 
             return right.getDistance();
         }
@@ -446,7 +454,7 @@ public class DriveTrain extends Subsystem {
             if (heading > 358.0)
                 heading = 0;
 
-            Log.d("DriveTrain", "Got gyro input of " + (invert ? -heading : heading));
+            Log.d("Gyro PID", (invert ? -heading : heading));
 
             return invert ? -heading : heading;
         }
@@ -479,7 +487,7 @@ public class DriveTrain extends Subsystem {
         public void pidWrite(double output) {
 
 
-            Log.d("DriveTrain", "Driving at a speed of " + output);
+            Log.d("Drive PID", output);
 
             double rotateVal;
             if (useCamera) {

@@ -50,6 +50,8 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         Log.setUpLogging();
 
+        Log.i("Robot", "Starting robot code");
+        
         RobotMap.log();
 
         // Instantiate the robot subsystems
@@ -81,10 +83,14 @@ public class Robot extends IterativeRobot {
      * This function is called once each time the robot enters Disabled mode. You can use it to
      * reset any subsystem information you want to clear when the robot is disabled.
      */
-    public void disabledInit() {}
+    public void disabledInit() {
+        Log.i("Robot", "Disabled");
+        Log.save();
+    }
 
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+        log();
     }
 
     /**
@@ -98,6 +104,8 @@ public class Robot extends IterativeRobot {
      * additional strings & commands.
      */
     public void autonomousInit() {
+        Log.i("Robot", "Entering autonomous mode");
+        
         driveTrain.reset();
 
         // Great for safety just in case you set the wrong one in practice ;)
@@ -119,6 +127,8 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
+        Log.i("Robot", "Entering teleop mode");
+        
         /*
          * This makes sure that the autonomous stops running when teleop starts running. If you want
          * the autonomous to continue until interrupted by another command, remove this line or
@@ -144,8 +154,15 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         log();
+        
+        
     }
 
+    @Override
+    public void testInit() {
+        Log.i("Robot", "Entering test mode");
+    }
+    
     /**
      * This function is called periodically during test mode
      */

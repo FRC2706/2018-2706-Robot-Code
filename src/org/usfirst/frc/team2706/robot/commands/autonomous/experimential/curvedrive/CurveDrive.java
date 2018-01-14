@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
 
@@ -55,6 +56,8 @@ public class CurveDrive extends Command {
         // Creates the cubic equation that the robot follows
         eq = EquationCreator.MakeCubicEquation(xFeet, yFeet, endCurve, isRight);
 
+        Log.d(this, eq);
+        
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
 
