@@ -153,7 +153,8 @@ public class RecordableJoystick extends Joystick {
                                                 JoystickState[].class));
             }
         } else {
-            config = new JoystickConfig(joy.getAxisCount(), joy.getButtonCount(), joy.getPOVCount(), joy.getType().value, joy.getName());
+            config = new JoystickConfig(joy.getAxisCount(), joy.getButtonCount(), joy.getPOVCount(),
+                            joy.getType().value, joy.getName());
             states = new ArrayList<JoystickState>();
         }
 
@@ -196,7 +197,7 @@ public class RecordableJoystick extends Joystick {
     private boolean isValidReplayState() {
         return replay && config != null && states != null && index < states.size() && index != -1;
     }
-    
+
     @Override
     public int getAxisCount() {
         if (isValidReplayState())
@@ -244,7 +245,7 @@ public class RecordableJoystick extends Joystick {
         else
             return joy.getRawAxis(axis);
     }
-    
+
     @Override
     public boolean getRawButton(final int button) {
         if (isValidReplayState())
@@ -253,13 +254,13 @@ public class RecordableJoystick extends Joystick {
             return joy.getRawButton(button);
         }
     }
-    
+
     @Override
     public boolean getRawButtonPressed(final int button) {
         // TODO
         return false;
     }
-    
+
     @Override
     public boolean getRawButtonReleased(final int button) {
         // TODO
@@ -284,7 +285,8 @@ public class RecordableJoystick extends Joystick {
 
         private final String name;
 
-        private JoystickConfig(int axisCount, int buttonCount, int povCount, int type, String name) {
+        private JoystickConfig(int axisCount, int buttonCount, int povCount, int type,
+                        String name) {
             this.axisCount = axisCount;
             this.buttonCount = buttonCount;
             this.povCount = povCount;

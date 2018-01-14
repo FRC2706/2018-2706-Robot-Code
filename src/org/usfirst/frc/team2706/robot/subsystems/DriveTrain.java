@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * These include four drive motors, a left and right encoder and a gyro.
  */
 public class DriveTrain extends Subsystem {
-    private WPI_TalonSRX   front_left_motor, back_left_motor, front_right_motor, back_right_motor;
+    private WPI_TalonSRX front_left_motor, back_left_motor, front_right_motor, back_right_motor;
     private DifferentialDrive drive;
     private Encoder left_encoder, right_encoder;
     private Ultrasonic leftDistanceSensor, rightDistanceSensor;
@@ -42,6 +42,9 @@ public class DriveTrain extends Subsystem {
 
     private Command defaultCommand;
 
+    // The spinny dial on the robot that selects what autonomous mode we are going to do
+    private AutonomousSelector selectorSwitch;
+
     public DriveTrain() {
         super();
         front_left_motor = new WPI_TalonSRX(RobotMap.MOTOR_FRONT_LEFT);
@@ -54,7 +57,8 @@ public class DriveTrain extends Subsystem {
         front_right_motor.setInverted(RobotMap.MOTOR_FRONT_RIGHT_INVERTED);
         back_right_motor.setInverted(RobotMap.MOTOR_REAR_RIGHT_INVERTED);
 
-        drive = new DifferentialDrive(new SpeedControllerGroup(front_left_motor, back_left_motor), new SpeedControllerGroup(front_right_motor, back_right_motor));
+        drive = new DifferentialDrive(new SpeedControllerGroup(front_left_motor, back_left_motor),
+                        new SpeedControllerGroup(front_right_motor, back_right_motor));
 
         left_encoder = new Encoder(RobotMap.ENCODER_LEFT_A, RobotMap.ENCODER_LEFT_B);
         right_encoder = new Encoder(RobotMap.ENCODER_RIGHT_A, RobotMap.ENCODER_RIGHT_B);
@@ -93,7 +97,7 @@ public class DriveTrain extends Subsystem {
 
         reset();
 
-
+        selectorSwitch = new AutonomousSelector();
 
         // Let's show everything on the LiveWindow
         front_left_motor.setName("DriveTrain", "Front Left Motor");
@@ -105,6 +109,7 @@ public class DriveTrain extends Subsystem {
         leftDistanceSensor.setName("Drive Train", "Left Distance Sensor");
         rightDistanceSensor.setName("Drive Train", "Right Distance Sensor");
         gyro.setName("Drive Train", "Gyro");
+        selectorSwitch.setName("Drive Train", "Autonomous Selector");
     }
 
     /**
@@ -144,6 +149,7 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Left Distance Sensor", leftDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Right Distance Sensor", rightDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
+        SmartDashboard.putNumber("Autonomous Selector", selectorSwitch.getVoltageAsIndex());
     }
 
     /**
@@ -170,7 +176,7 @@ public class DriveTrain extends Subsystem {
         double YAxis = RobotMap.INVERT_JOYSTICK_Y ? -joy.getRawAxis(5) : joy.getRawAxis(5);
         double XAxis = RobotMap.INVERT_JOYSTICK_X ? -joy.getRawAxis(4) : joy.getRawAxis(4);
         drive.arcadeDrive(YAxis, XAxis, true);
-        
+
     }
 
     /**
@@ -183,19 +189,19 @@ public class DriveTrain extends Subsystem {
     public void headlessDrive(GenericHID joy) {
         Log.d("HeadlessDrive", joy.getRawAxis(5) + "," + joy.getRawAxis(4));
         double raw5 = joy.getRawAxis(5);
-       double raw4 = joy.getRawAxis(4);
+        double raw4 = joy.getRawAxis(4);
         double angle = normalize(Math.toDegrees(Math.atan(raw5 / raw4)));
-        
+
         double speed = (raw5 + raw4) / 2; // hyp
-        if(Math.abs(speed) < 0.1) {
+        if (Math.abs(speed) < 0.1) {
             speed = 0;
             angle = Robot.driveTrain.getHeading();
         }
         Log.d("HeadlessDrive", "Angle: " + angle + ", Speed: " + speed);
         double gyroAngle;
-            gyroAngle = normalize(Robot.driveTrain.getHeading());
+        gyroAngle = normalize(Robot.driveTrain.getHeading());
         Log.d("HeadlessDrive", (angle - gyroAngle * 0.1) * speed);
-        drive.arcadeDrive(-speed,- (angle - gyroAngle * 0.1) * speed,true);
+        drive.arcadeDrive(-speed, -(angle - gyroAngle * 0.1) * speed, true);
     }
 
     /**
@@ -227,6 +233,14 @@ public class DriveTrain extends Subsystem {
      */
     public double getHeading() {
         return gyro.getAngle();
+    }
+
+    public void setAutonomousCommandList(Command... commands) {
+        selectorSwitch.setCommands(commands);
+    }
+
+    public Command getAutonomousCommand() {
+        return selectorSwitch.getSelected();
     }
 
     /**
@@ -304,7 +318,7 @@ public class DriveTrain extends Subsystem {
         // Inverse tangent to take two sides of the triangle and get the angle
         double theta = Math.toDegrees(Math.atan2(opposite, adjacent));
         Log.d("Degree Sensor Angle", theta);
-        
+
         return theta;
     }
 
@@ -332,13 +346,13 @@ public class DriveTrain extends Subsystem {
         } else {
             return right_encoder;
         }
-       
+
     }
 
     public PIDSource getAverageEncoderPIDSource() {
         return encoderPIDSource;
     }
-    
+
     /**
      * @return The distance to the obstacle detected by the distance sensor.
      */
@@ -400,13 +414,13 @@ public class DriveTrain extends Subsystem {
         @Override
         public double pidGet() {
             Log.d("DriveTrain", "Got encoder input of " + right.getDistance());
-            
+
             return right.getDistance();
         }
 
     }
 
-    
+
     class GyroPIDSource implements PIDSource {
 
         private final DriveTrain driveTrain;
@@ -433,7 +447,7 @@ public class DriveTrain extends Subsystem {
                 heading = 0;
 
             Log.d("DriveTrain", "Got gyro input of " + (invert ? -heading : heading));
-            
+
             return invert ? -heading : heading;
         }
 
@@ -453,8 +467,8 @@ public class DriveTrain extends Subsystem {
 
         private final boolean useCamera;
 
-        public DrivePIDOutput(DifferentialDrive drive, boolean useGyroStraightening, boolean useCamera,
-                        boolean invert) {
+        public DrivePIDOutput(DifferentialDrive drive, boolean useGyroStraightening,
+                        boolean useCamera, boolean invert) {
             this.drive = drive;
             this.useGyroStraightening = useGyroStraightening;
             this.useCamera = useCamera;
@@ -466,7 +480,7 @@ public class DriveTrain extends Subsystem {
 
 
             Log.d("DriveTrain", "Driving at a speed of " + output);
-            
+
             double rotateVal;
             if (useCamera) {
                 // Checks if target is found, cuts off the edges, and then creates a rotation value

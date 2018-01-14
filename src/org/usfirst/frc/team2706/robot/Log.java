@@ -25,8 +25,14 @@ import edu.wpi.first.networktables.TableEntryListener;
  */
 public class Log {
 
+    /**
+     * The NetworkTables table where logs go
+     */
     public static final String LOGGER_TABLE = "logging-level";
     
+    /**
+     * The name of the JUL logger
+     */
     public static final String ROOT_LOGGER_NAME = "";
 
     private static final Logger logger = Logger.getLogger(ROOT_LOGGER_NAME);
@@ -48,7 +54,7 @@ public class Log {
         }
     };
 
-    public static String getCallerClassName() throws ClassNotFoundException {
+    private static String getCallerClassName() throws ClassNotFoundException {
         StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
         return Class.forName(stElements[4].getClassName()).getSimpleName() + "."
                         + stElements[4].getMethodName();
@@ -109,6 +115,9 @@ public class Log {
         NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).addEntryListener("level", updateListener, EntryListenerFlags.kUpdate);
     }
 
+    /**
+     * Updates the NetworkTables log with the latest logs
+     */
     public static void updateTableLog() {
         byte[] a = NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value").getRaw(new byte[0]);
         byte[] b = out.toByteArray();

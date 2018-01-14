@@ -32,8 +32,8 @@ public class StraightDriveWithEncoders extends Command {
      * @param error The range that the robot is happy ending the command in
      * @param name The name of the of the configuration properties to look for
      */
-    public StraightDriveWithEncoders(double speed, double distance, double error,
-                    int minDoneCycles, String name) {
+    public StraightDriveWithEncoders(double speed, double distance, double error, int minDoneCycles,
+                    String name) {
         super(name);
         requires(Robot.driveTrain);
 
@@ -66,9 +66,9 @@ public class StraightDriveWithEncoders extends Command {
             PID.setOutputRange(speed, -speed);
         }
 
-        
+
         PID.setInputRange(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-        
+
         Robot.driveTrain.initGyro = Robot.driveTrain.getHeading();
 
         PID.setSetpoint(distance);
@@ -85,7 +85,7 @@ public class StraightDriveWithEncoders extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        
+
         if (PID.onTarget())
             doneTicks++;
         else
@@ -98,8 +98,7 @@ public class StraightDriveWithEncoders extends Command {
     protected void end() {
         Log.d("StraightDrive", "ending");
         Robot.driveTrain.brakeMode(false);
-        // Robot.driveTrain.brakeMode(false);
-        
+
         // Disable PID output and stop robot to be safe
         PID.disable();
         Robot.driveTrain.drive(0, 0);

@@ -6,7 +6,6 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWith
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.controls.StickRumble;
-import org.usfirst.frc.team2706.robot.subsystems.AutonomousSelector;
 import org.usfirst.frc.team2706.robot.subsystems.Camera;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 
@@ -31,19 +30,15 @@ public class Robot extends IterativeRobot {
     // The robot's main drive train
     public static DriveTrain driveTrain;
 
-    // The spinny dial on the robot that selects what autonomous mode we are going to do
-    public static AutonomousSelector hardwareChooser;
-
     // Stores all of the joysticks, and returns them as read only.
     public static OI oi;
-
 
     // Which command is going to be ran based on the hardwareChooser
     Command autonomousCommand;
 
     // Records joystick states to file for later replaying
     RecordJoystick recordAJoystick;
-    
+
     // Rumbles joystick to tell drive team which mode we're in
     StickRumble rumbler;
 
@@ -54,32 +49,32 @@ public class Robot extends IterativeRobot {
     @SuppressWarnings("unused")
     public void robotInit() {
         Log.setUpLogging();
-        
+
         RobotMap.log();
-        
+
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
 
         camera = new Camera();
-        
+
         oi = new OI();
         // WARNING DO NOT AUTOFORMAT THIS OR BAD THINGS WILL HAPPEN TO YOU
         // Set up our autonomous modes with the hardware selector switch
-        hardwareChooser = new AutonomousSelector(
-                         /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
-                        /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
-             /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.7, 4, 1, 5, "AutoForwardFoot"),
-                                                     new RotateDriveWithGyro(0.5, 90, 5, "AutoTurn90")
-
+        driveTrain.setAutonomousCommandList(
+                        /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
+                       /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
+            /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.7, 4, 1, 5, "AutoForwardFoot"),
+                                                    new RotateDriveWithGyro(0.5, 90, 5, "AutoTurn90")
         );
 
         // Set up the Microsoft LifeCam and start streaming it to the Driver Station
         // TODO Do switching with cam switching or just get rid of the variable because unused
         UsbCamera forwardCamera = CameraServer.getInstance().startAutomaticCapture(0);
         UsbCamera rearCamera = CameraServer.getInstance().startAutomaticCapture(1);
-        
+
         recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
-                        () -> SmartDashboard.getString("record-joystick-name", "default"), "recordJoystick");        
+                        () -> SmartDashboard.getString("record-joystick-name", "default"),
+                        "recordJoystick");
     }
 
     /**
@@ -106,14 +101,14 @@ public class Robot extends IterativeRobot {
         driveTrain.reset();
 
         // Great for safety just in case you set the wrong one in practice ;)
-        Log.i("Autonomous Selector", "Running " + hardwareChooser.getSelected() + "...");
-        
-        autonomousCommand = hardwareChooser.getSelected();
+        Log.i("Autonomous Selector", "Running " + driveTrain.getAutonomousCommand() + "...");
+
+        autonomousCommand = driveTrain.getAutonomousCommand();
         Robot.driveTrain.brakeMode(true);
         // Schedule the autonomous command that was selected
         if (autonomousCommand != null)
             autonomousCommand.start();
-        }
+    }
 
     /**
      * This function is called periodically during autonomous
@@ -138,9 +133,9 @@ public class Robot extends IterativeRobot {
         // Tell drive team to drive
         rumbler = new StickRumble(0.4, 0.15, 1, 0, 1, 1.0, 1, "controllerStickRumble");
         rumbler.start();
-        
+
         // Deactivate the camera ring light
-       // camera.enableRingLight(false);
+        // camera.enableRingLight(false);
     }
 
     /**
@@ -158,9 +153,7 @@ public class Robot extends IterativeRobot {
 
     private void log() {
         driveTrain.log();
-        hardwareChooser.log();
 
-        
         Log.updateTableLog();
     }
 }

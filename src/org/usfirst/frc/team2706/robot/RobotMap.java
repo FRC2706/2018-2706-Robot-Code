@@ -63,20 +63,20 @@ public class RobotMap {
     public static final int MOTOR_CAMERA_TILT = getConstant("MOTOR_CAMERA_TILT");
 
     // XXX: Encoders got flipped
-    private static final int[] ENCODER_LEFT_A_VALS = {0, 1, 1};
+    private static final int[] ENCODER_LEFT_A_VALS = {3, 1, 1};
     public static final int ENCODER_LEFT_A = getConstant("ENCODER_LEFT_A");
 
-    private static final int[] ENCODER_LEFT_B_VALS = {1, 0, 0};
+    private static final int[] ENCODER_LEFT_B_VALS = {2, 0, 0};
     public static final int ENCODER_LEFT_B = getConstant("ENCODER_LEFT_B");
 
     private static final double[] ENCODER_LEFT_DPP_VALS = {5.0 / 1720, 6.0 / 2052.25, 1.0 / 264};
     public static final double ENCODER_LEFT_DPP = getConstant("ENCODER_LEFT_DPP");
 
 
-    private static final int[] ENCODER_RIGHT_A_VALS = {3, 2, 2};
+    private static final int[] ENCODER_RIGHT_A_VALS = {0, 2, 2};
     public static final int ENCODER_RIGHT_A = getConstant("ENCODER_RIGHT_A");
 
-    private static final int[] ENCODER_RIGHT_B_VALS = {2, 3, 3};
+    private static final int[] ENCODER_RIGHT_B_VALS = {1, 3, 3};
     public static final int ENCODER_RIGHT_B = getConstant("ENCODER_RIGHT_B");
 
     private static final double[] ENCODER_RIGHT_DPP_VALS = {5.0 / 1720, 6.0 / 2052.25, 1.0 / 264};
@@ -183,8 +183,8 @@ public class RobotMap {
     @SuppressWarnings("unchecked")
     private static <T> T getConstant(String constant) {
         try {
-            return RobotConfig.get("RobotMap." + constant, (T) getArray(RobotMap.class.getDeclaredField(constant + "_VALS")
-                            .get(null))[ROBOT_ID]);
+            return RobotConfig.get("RobotMap." + constant,
+                (T) getArray(RobotMap.class.getDeclaredField(constant + "_VALS").get(null))[ROBOT_ID]);
         } catch (Exception e) {
             e.printStackTrace();
         }

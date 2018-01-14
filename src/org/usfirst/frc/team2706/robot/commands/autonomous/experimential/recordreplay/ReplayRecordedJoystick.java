@@ -30,7 +30,9 @@ public class ReplayRecordedJoystick extends Command {
      */
     public ReplayRecordedJoystick(Joystick driverStick, Joystick operatorStick, String name,
                     boolean deserializeInConstructor, String joystickName) {
-        this(driverStick, operatorStick, () -> RobotConfig.get(name + ".joystickName", joystickName), deserializeInConstructor, name);
+        this(driverStick, operatorStick,
+                        () -> RobotConfig.get(name + ".joystickName", joystickName),
+                        deserializeInConstructor, name);
     }
 
     /**
@@ -49,7 +51,7 @@ public class ReplayRecordedJoystick extends Command {
     public ReplayRecordedJoystick(Joystick driverStick, Joystick operatorStick,
                     Supplier<String> nameSupplier, boolean deserializeInConstructor, String name) {
         super(name);
-        
+
         this.nameSupplier = nameSupplier;
 
         this.driverStick = driverStick;
@@ -115,7 +117,7 @@ public class ReplayRecordedJoystick extends Command {
     @Override
     public void end() {
         super.end();
-        
+
         ((RecordableJoystick) driverStick).end();
         ((RecordableJoystick) operatorStick).end();
 
@@ -125,18 +127,18 @@ public class ReplayRecordedJoystick extends Command {
         }
 
         Robot.oi.destroy();
-        
+
         Joystick driverStick = this.driverStick, operatorStick = this.operatorStick;
-        
+
         // Make sure that Oi receives a real joystick, not a RecordableJoystick
-        while(driverStick instanceof RecordableJoystick) {
+        while (driverStick instanceof RecordableJoystick) {
             driverStick = ((RecordableJoystick) driverStick).getRealJoystick();
         }
-        
-        while(operatorStick instanceof RecordableJoystick) {
+
+        while (operatorStick instanceof RecordableJoystick) {
             operatorStick = ((RecordableJoystick) operatorStick).getRealJoystick();
         }
-        
+
         Robot.oi = new OI(driverStick, operatorStick);
     }
 

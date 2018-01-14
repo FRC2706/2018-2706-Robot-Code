@@ -64,9 +64,9 @@ public class StraightDriveWithTime extends Command {
         end();
     }
 
-    public boolean done;
+    private boolean done;
 
-    class CommandTimerTask extends TimerTask {
+    private class CommandTimerTask extends TimerTask {
 
         public void run() {
             done = true;
