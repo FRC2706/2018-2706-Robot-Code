@@ -30,30 +30,31 @@ public class Log {
      * The NetworkTables table where logs go
      */
     public static final String LOGGER_TABLE = "/logging-level";
-    
+
     /**
      * The name of the JUL logger
      */
     public static final String ROOT_LOGGER_NAME = "";
 
     private static final Logger logger = Logger.getLogger(ROOT_LOGGER_NAME);
-    
+
     private static TableEntryListener updateListener;
-    
+
     private static ByteArrayOutputStream out;
-    
+
     private static boolean fmsConnected = false;
-    
+
     private static final Formatter formatter = new Formatter() {
         @Override
         public String format(LogRecord record) {
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
             Date dt = new Date(record.getMillis());
             String S = sdf.format(dt);
-            
-            return record.getLevel() + " " + S + "[" + DriverStation.getInstance().getMatchTime() + "] " + record.getSourceClassName() + "."
-                            + record.getSourceMethodName() + "() " + record.getLoggerName()
-                            + " " + record.getMessage() + "\n";
+
+            return record.getLevel() + " " + S + "[" + DriverStation.getInstance().getMatchTime()
+                            + "] " + record.getSourceClassName() + "."
+                            + record.getSourceMethodName() + "() " + record.getLoggerName() + " "
+                            + record.getMessage() + "\n";
         }
     };
 
@@ -70,7 +71,7 @@ public class Log {
         ConsoleHandler ch = new ConsoleHandler();
         out = new ByteArrayOutputStream();
         StreamHandler tableOut = new EStreamHandler(out, formatter);
-        
+
         try {
             logger.setUseParentHandlers(false);
             logger.setLevel(Level.ALL);
@@ -80,7 +81,7 @@ public class Log {
             }
 
             ch.setFormatter(formatter);
-            
+
 
             logger.addHandler(ch);
             logger.addHandler(tableOut);
@@ -93,7 +94,7 @@ public class Log {
                 public void run() {
                     ch.flush();
                     ch.close();
-                    
+
                     tableOut.flush();
                     tableOut.close();
                 }
@@ -101,68 +102,68 @@ public class Log {
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-        
+
         updateListener = new TableEntryListener() {
 
             @Override
-            public void valueChanged(NetworkTable source, String key,
-                            NetworkTableEntry entry, NetworkTableValue value, int flags) {
-                Level level = Level.parse(entry.getNumber(Level.ALL.intValue()).intValue()+"");
+            public void valueChanged(NetworkTable source, String key, NetworkTableEntry entry,
+                            NetworkTableValue value, int flags) {
+                Level level = Level.parse(entry.getNumber(Level.ALL.intValue()).intValue() + "");
                 ch.setLevel(level);
                 tableOut.setLevel(level);
                 logger.setLevel(level);
-                
+
             }
         };
-        
-        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).addEntryListener("level", updateListener, EntryListenerFlags.kUpdate);
+
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).addEntryListener("level",
+                        updateListener, EntryListenerFlags.kUpdate);
         NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("level").setNumber(0);
         NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("match").setString("");
         NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("save").setBoolean(false);
-        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value").setRaw(new byte[0]);
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value")
+                        .setRaw(new byte[0]);
     }
 
     /**
      * Updates the NetworkTables log with the latest logs
      */
     public static void updateTableLog() {
-        if(!fmsConnected && DriverStation.getInstance().isFMSAttached()) {
+        if (!fmsConnected && DriverStation.getInstance().isFMSAttached()) {
             fmsConnected = true;
             String mode;
-            if(DriverStation.getInstance().isAutonomous()) {
+            if (DriverStation.getInstance().isAutonomous()) {
                 mode = "autonomous";
-            }
-            else if(DriverStation.getInstance().isOperatorControl()) {
+            } else if (DriverStation.getInstance().isOperatorControl()) {
                 mode = "teleop";
-            }
-            else {
+            } else {
                 mode = "disabled";
             }
-            NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("match").setString("Worlds" + "/" + "0" + "-" + "0" + "-" + mode);
+            NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("match")
+                            .setString(DriverStation.getInstance().getEventName() + "/" + DriverStation.getInstance().getMatchNumber() + "-" + DriverStation.getInstance().getReplayNumber() + "-" + mode);
         }
-        
-        byte[] a = NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value").getRaw(new byte[0]);
+
+        byte[] a = NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value")
+                        .getRaw(new byte[0]);
         byte[] b = out.toByteArray();
-        
+
         byte[] results = new byte[0];
-        
-        if(a == new byte[0]) {
+
+        if (a == new byte[0]) {
             results = b;
-        }
-        else if(b.length == 0) {
+        } else if (b.length == 0) {
             return;
+        } else {
+            results = new byte[a.length + b.length];
+            System.arraycopy(a, 0, results, 0, a.length);
+            System.arraycopy(b, 0, results, a.length, b.length);
         }
-        else {
-            results = new byte[a.length + b.length]; 
-            System.arraycopy(a, 0, results, 0, a.length); 
-            System.arraycopy(b, 0, results, a.length, b.length); 
-        }
-        
+
         out.reset();
-        
+
         NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value").setRaw(results);
     }
-    
+
     /**
      * Debug log
      * 
@@ -279,14 +280,14 @@ public class Log {
             Logger.getLogger(name.toString()).logp(level, cm[0], cm[1], message.toString());
         }
     }
-    
+
     private static class EStreamHandler extends StreamHandler {
         public EStreamHandler(OutputStream out, Formatter formatter) {
             super(out, formatter);
         }
-        
+
         @Override
-        public synchronized void publish(LogRecord record) {       
+        public synchronized void publish(LogRecord record) {
             if (!isLoggable(record)) {
                 return;
             }
@@ -299,7 +300,7 @@ public class Log {
                 reportError(null, ex, ErrorManager.FORMAT_FAILURE);
                 return;
             }
-            
+
             try {
                 out.write(msg.getBytes());
             } catch (Exception ex) {
@@ -309,17 +310,21 @@ public class Log {
             }
         }
     }
-    
+
     private static boolean firstDisable = true;
-    
+
+    /**
+     * Tells the RIOLogger client to save the log with a certain name
+     */
     public static void save() {
-        if(DriverStation.getInstance().isFMSAttached()) {
-            if(!firstDisable) {
-                NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("save").setBoolean(true);
+        if (DriverStation.getInstance().isFMSAttached()) {
+            if (!firstDisable) {
+                NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("save")
+                                .setBoolean(true);
             }
-            
-            if(firstDisable) {
-                firstDisable = false; 
+
+            if (firstDisable) {
+                firstDisable = false;
             }
         }
     }
