@@ -63,6 +63,9 @@ public class StraightDriveWithEncoders extends Command {
             PID.setOutputRange(speed, -speed);
         }
 
+        
+        PID.setInputRange(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        
         Robot.driveTrain.initGyro = Robot.driveTrain.getHeading();
 
         PID.setSetpoint(distance);
@@ -79,6 +82,7 @@ public class StraightDriveWithEncoders extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+        
         if (PID.onTarget())
             doneTicks++;
         else
