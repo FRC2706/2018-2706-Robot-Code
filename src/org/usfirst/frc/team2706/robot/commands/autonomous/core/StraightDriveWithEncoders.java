@@ -32,7 +32,7 @@ public class StraightDriveWithEncoders extends Command {
      */
     public StraightDriveWithEncoders(double speed, double distance, double error,
                     int minDoneCycles) {
-        requires(bot.driveTrain);
+        requires(Robot.driveTrain);
 
         this.speed = speed;
 
