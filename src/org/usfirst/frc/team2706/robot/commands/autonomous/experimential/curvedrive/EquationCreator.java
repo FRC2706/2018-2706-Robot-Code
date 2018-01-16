@@ -60,23 +60,29 @@ public class EquationCreator {
 
     
 
-    public static LinkedHashMap<Double, Double> createTangents(double tangentOffsetDegrees, double topLimit, CubicEquation eq) {
-    	LinkedHashMap<Double, Double> followTangents;
+    public static LinkedHashMap<Double, Double> createTangents(double distanceOffsetDegrees, double topLimit, CubicEquation eq) {
+        LinkedHashMap<Double, Double> followTangents;
         followTangents = new LinkedHashMap<Double, Double>();
         followTangents.put(0.0, 0.0);
         Double lastEntryKey = 0.0;
         double currentParse = 0.0;
-        for (; currentParse < topLimit; currentParse += 0.1) {
+        for (; currentParse < topLimit; currentParse += 0.01) {
             double tangent = (3 * eq.a * Math.pow(currentParse, 2)) + (2 * eq.b * currentParse);
             tangent = Math.toDegrees(Math.atan(tangent));
-            if (Math.abs(followTangents.get(lastEntryKey) - tangent) > tangentOffsetDegrees) {
+            if (Math.abs(Math.sqrt(Math.pow((Math.pow(eq.a * lastEntryKey, 3) + 
+                            Math.pow(eq.b * lastEntryKey, 2)) - (Math.pow(eq.a * currentParse, 3) + 
+                                    Math.pow(eq.b * currentParse, 2)), 2) + Math.pow(lastEntryKey - currentParse, 2)))
+                                        > distanceOffsetDegrees) {
                 followTangents.put(currentParse, tangent);
                 lastEntryKey = currentParse;
             }
         }
+        double tangent = (3 * eq.a * Math.pow(currentParse, 2)) + (2 * eq.b * currentParse);
+        tangent = Math.toDegrees(Math.atan(tangent));
+        followTangents.put(currentParse, tangent);
+        lastEntryKey = currentParse;
         for(Double keys : followTangents.keySet()) {
             Double value = followTangents.get(keys);
-            System.out.println(keys + "," + value);
         }
         return followTangents;
     }

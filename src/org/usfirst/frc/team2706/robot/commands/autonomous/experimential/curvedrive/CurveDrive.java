@@ -51,7 +51,7 @@ public class CurveDrive extends Command {
     protected void initialize() {
         // Creates the cubic equation that the robot follows
         eq = EquationCreator.MakeCubicEquation(xFeet, yFeet, endCurve, isRight);
-        tangents = EquationCreator.createTangents(2, yFeet, eq);
+        tangents = EquationCreator.createTangents(0.5, yFeet, eq);
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
 
@@ -60,7 +60,7 @@ public class CurveDrive extends Command {
 
     protected void execute() {
         findPosition();
-        followCurve();
+        followCurveRelational();
     }
 
     @Override
@@ -129,16 +129,18 @@ public class CurveDrive extends Command {
         double desiredAboveClosestDistance = Double.POSITIVE_INFINITY;
         for(Double key : tangents.keySet()) {
             Double value = tangents.get(key);
-            if(key < yPos) {
+            if(key <= yPos) {
                 if(Math.abs(key - yPos) < desiredBelowClosestDistance) {
                     desiredBelowY = key;
                     desiredBelowTangent = value;
+                    desiredBelowClosestDistance = Math.abs(key - yPos);
                 }
             }
             else {
                 if(Math.abs(key - yPos) < desiredAboveClosestDistance) {
                     desiredAboveY = key;
                     desiredAboveTangent = value;
+                    desiredAboveClosestDistance = Math.abs(key - yPos);
                     //TODO break right here lol
                 }
             }
@@ -151,10 +153,12 @@ public class CurveDrive extends Command {
        double distanceBelow = Math.sqrt(Math.pow(yPos - desiredBelowY, 2) + Math.pow(xPos - desiredBelowX, 2));
        double distanceAbove = Math.sqrt(Math.pow(yPos - desiredAboveY, 2) + Math.pow(xPos - desiredAboveX, 2));
        double total = distanceBelow + distanceAbove;
-       double proportionBelow = distanceBelow / total;
-       double proportionAbove = distanceAbove / total;
-       desiredTangent = desiredBelowTangent * proportionBelow + desiredAboveTangent * proportionAbove;
+       double proportionBelow = distanceAbove / total;
+       double proportionAbove = distanceBelow / total;
        
+       desiredTangent = desiredBelowTangent * proportionBelow + desiredAboveTangent * proportionAbove;
+       System.out.println(desiredTangent + "," + desiredBelowTangent + "," + desiredAboveTangent);
+      // System.out.println(desiredTangent + " : " + desiredBelowX + "," + desiredBelowTangent + "," + distanceBelow + " : " + desiredAboveY + "," + desiredAboveTangent + "," + distanceAbove);
        double rotateVal = desiredTangent - tangent;
        rotateVal /= 10;
 
