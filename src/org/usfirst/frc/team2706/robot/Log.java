@@ -20,6 +20,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.networktables.TableEntryListener;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * Logs to DriverStation at levels debug, info, warning, error
@@ -51,7 +52,28 @@ public class Log {
             Date dt = new Date(record.getMillis());
             String S = sdf.format(dt);
 
-            return record.getLevel() + " " + S + "[" + DriverStation.getInstance().getMatchTime()
+            String matchtime;
+            if(DriverStation.getInstance().isFMSAttached()) {
+                if(DriverStation.getInstance().isAutonomous()) {
+                    matchtime = "autonomous";
+                }
+                else if(DriverStation.getInstance().isOperatorControl()) {
+                    matchtime = "teleop";
+                }
+                else if(DriverStation.getInstance().isTest()) {
+                    matchtime = "test";
+                }
+                else {
+                    matchtime = "disabled";
+                }
+                
+                matchtime += "-" + DriverStation.getInstance().getMatchTime();
+            }
+            else {
+                matchtime = ""+Timer.getFPGATimestamp();
+            }
+            
+            return record.getLevel() + " " + S + "[" + matchtime
                             + "] " + record.getSourceClassName() + "."
                             + record.getSourceMethodName() + "() " + record.getLoggerName() + " "
                             + record.getMessage() + "\n";
