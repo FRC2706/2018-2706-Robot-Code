@@ -131,16 +131,11 @@ public class Log {
     public static void updateTableLog() {
         if (!fmsConnected && DriverStation.getInstance().isFMSAttached()) {
             fmsConnected = true;
-            String mode;
-            if (DriverStation.getInstance().isAutonomous()) {
-                mode = "autonomous";
-            } else if (DriverStation.getInstance().isOperatorControl()) {
-                mode = "teleop";
-            } else {
-                mode = "disabled";
-            }
             NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("match")
-                            .setString(DriverStation.getInstance().getEventName() + "/" + DriverStation.getInstance().getMatchNumber() + "-" + DriverStation.getInstance().getReplayNumber() + "-" + mode);
+                            .setString(DriverStation.getInstance().getEventName() + "/"
+                                            + DriverStation.getInstance().getMatchType().name()
+                                            + "-" + DriverStation.getInstance().getMatchNumber()
+                                            + "-" + DriverStation.getInstance().getReplayNumber());
         }
 
         byte[] a = NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value")
@@ -311,21 +306,15 @@ public class Log {
         }
     }
 
-    private static boolean firstDisable = true;
+    private static int disableCount = 0;
 
     /**
      * Tells the RIOLogger client to save the log with a certain name
      */
     public static void save() {
-        if (DriverStation.getInstance().isFMSAttached()) {
-            if (!firstDisable) {
-                NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("save")
-                                .setBoolean(true);
-            }
-
-            if (firstDisable) {
-                firstDisable = false;
-            }
+        if (DriverStation.getInstance().isFMSAttached() && ++disableCount > 2) {
+            NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("save")
+                            .setBoolean(true);
         }
     }
 }

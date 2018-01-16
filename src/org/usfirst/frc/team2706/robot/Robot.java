@@ -84,13 +84,12 @@ public class Robot extends IterativeRobot {
      * reset any subsystem information you want to clear when the robot is disabled.
      */
     public void disabledInit() {
-        Log.i("Robot", "Disabled");
+        Log.updateTableLog();
         Log.save();
     }
 
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
-        log();
     }
 
     /**
@@ -170,7 +169,5 @@ public class Robot extends IterativeRobot {
 
     private void log() {
         driveTrain.log();
-
-        Log.updateTableLog();
     }
 }
