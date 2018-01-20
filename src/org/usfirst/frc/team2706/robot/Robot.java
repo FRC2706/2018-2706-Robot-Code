@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2706.robot;
 
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterAutoLeftSwitch;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive.CurveDrive;
@@ -71,7 +72,8 @@ public class Robot extends IterativeRobot {
                         /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
              /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.5, 3, 1, 5),
                                                      new RotateDriveWithGyro(0.5, 90, 5),
-                                                     new CurveDrive(3, 6, 40, 0.8, false)
+                                                     new CenterAutoLeftSwitch(),
+                                                     new CurveDrive(6.395, 10.33, 0, 0.7, true)
         );
 
         // Set up the Microsoft LifeCam and start streaming it to the Driver Station
@@ -105,7 +107,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousInit() {
         driveTrain.reset();
-
+        
         // Great for safety just in case you set the wrong one in practice ;)
         Log.i("Autonomous Selector", "Running " + hardwareChooser.getSelected() + "...");
         
@@ -135,7 +137,6 @@ public class Robot extends IterativeRobot {
         Robot.driveTrain.brakeMode(false);
         if (SmartDashboard.getBoolean("record-joystick", false))
             recordAJoystick.start();
-
         // Tell drive team to drive
         rumbler = new StickRumble(0.4, 0.15, 1, 0, 1, 1.0, 1);
         rumbler.start();

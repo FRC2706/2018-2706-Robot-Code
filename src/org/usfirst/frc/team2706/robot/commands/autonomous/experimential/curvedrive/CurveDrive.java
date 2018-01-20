@@ -3,6 +3,9 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedr
 import java.util.LinkedHashMap;
 
 import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -54,7 +57,6 @@ public class CurveDrive extends Command {
         tangents = EquationCreator.createTangents(0.5, yFeet, eq);
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
-
         initHeading = Robot.driveTrain.getHeading();
     }
 
@@ -65,8 +67,9 @@ public class CurveDrive extends Command {
 
     @Override
     protected boolean isFinished() {
+        System.out.println(Math.abs(xPos - xFeet) + " , " +  Math.abs(yPos - yFeet));
         // Checks if the x is within 1.5 feet and the y within 0.2 feet
-        if (Math.abs(xPos - xFeet) < 1.5 && Math.abs(yPos - yFeet) < 0.2)
+        if (Math.abs(xPos - xFeet) < 10 && Math.abs(yPos - yFeet) < 1)
             return true;
         return false;
     }
@@ -78,6 +81,8 @@ public class CurveDrive extends Command {
         xPos = 0;
         yPos = 0;
         Robot.driveTrain.reset();
+        Robot.driveTrain.brakeMode(true);
+        //new StraightDriveWithEncoders(0.5, 0.0, 0.1, 10).start();
         lastEncoderAv = 0;
     }
 
@@ -102,7 +107,7 @@ public class CurveDrive extends Command {
 
         // Figures out how far you should rotate based on offset and gyro pos
         double rotateVal = tangent - (Robot.driveTrain.getHeading() - initHeading);
-        rotateVal /= 10;
+        rotateVal /= 9;
 
         // Calculates your tank drive speeds based on the base speed and the rotation
         double leftSpeed = (speed + rotateVal);
@@ -162,16 +167,7 @@ public class CurveDrive extends Command {
        double rotateVal = desiredTangent - tangent;
        rotateVal /= 10;
 
-       // Calculates your tank drive speeds based on the base speed and the rotation
-       double leftSpeed = (speed + rotateVal);
-       double rightSpeed = (speed - rotateVal);
-
-       if (Math.abs(leftSpeed - rightSpeed) > 0.4) {
-           leftSpeed /= 2;
-           rightSpeed /= 2;
-       }
-       // Tank Drives according to the above factors
-       Robot.driveTrain.drive(-leftSpeed, -rightSpeed);
+       Robot.driveTrain.arcadeDrive(-speed, -rotateVal);
     }
     public void followCurveArcade() {
         // Figures out the angle that you are currently on
@@ -185,7 +181,7 @@ public class CurveDrive extends Command {
 
         // Figures out how far you should rotate based on offset and gyro pos
         double rotateVal = tangent - (Robot.driveTrain.getHeading() - initHeading);
-        rotateVal /= 10;
+        rotateVal /= 5;
         // Tank Drives according to the above factors
         Robot.driveTrain.arcadeDrive(speed, rotateVal);
     }
