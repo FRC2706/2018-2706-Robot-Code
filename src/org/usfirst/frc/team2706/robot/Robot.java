@@ -67,7 +67,7 @@ public class Robot extends IterativeRobot {
         driveTrain.setAutonomousCommandList(
                         /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
                        /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
-            /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.7, 4, 1, 5, "AutoForwardFoot"),
+            /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.5, 2, 1, 5, "AutoForwardFoot"),
                                                     new RotateDriveWithGyro(0.5, 90, 5, "AutoTurn90"),
                                                     new ReplayRecordedJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(), false, "2018", "replay")
         );
