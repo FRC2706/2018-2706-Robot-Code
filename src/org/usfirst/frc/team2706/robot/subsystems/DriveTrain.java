@@ -5,6 +5,7 @@ import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.controls.TalonEncoder;
+import org.usfirst.frc.team2706.robot.controls.TalonPID;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -37,6 +38,7 @@ public class DriveTrain extends Subsystem {
     private GyroPIDSource gyroPIDSource;
     private AverageEncoderPIDSource encoderPIDSource;
     private UltrasonicPIDSource ultrasonicPIDSource;
+    private TalonPID talonPID;
 
     public double initGyro;
 
@@ -86,6 +88,10 @@ public class DriveTrain extends Subsystem {
 
         encoderPIDSource = new AverageEncoderPIDSource(left_encoder, right_encoder);
         ultrasonicPIDSource = new UltrasonicPIDSource(leftDistanceSensor, rightDistanceSensor);
+        
+        talonPID = new TalonPID(front_left_motor, back_left_motor, front_right_motor, back_right_motor);
+        talonPID.setLeftDPP(left_encoder.getDistancePerPulse());
+        talonPID.setRightDPP(right_encoder.getDistancePerPulse());
 
         // Set up navX gyro
         gyro = new AHRS(SPI.Port.kMXP);
@@ -300,6 +306,15 @@ public class DriveTrain extends Subsystem {
     public PIDOutput getDrivePIDOutput(boolean useGyroStraightening, boolean useCamera,
                     boolean invert) {
         return new DrivePIDOutput(drive, useGyroStraightening, useCamera, invert);
+    }
+    
+    /**
+     * @param useGyroStraightening True to invert second motor direction for rotating
+     * 
+     * @return The robot's drive PIDOutput
+     */
+    public TalonPID getTalonPID() {
+        return talonPID;
     }
 
     /**
