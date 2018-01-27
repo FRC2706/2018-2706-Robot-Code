@@ -32,6 +32,7 @@ public class TalonEncoder extends SensorBase implements PIDSource, Sendable {
 
   public TalonEncoder(TalonSRX controller) {
       this.controller = controller;
+      this.m_pidSource = PIDSourceType.kDisplacement;
   }
   
   /**
