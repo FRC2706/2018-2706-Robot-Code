@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2706.robot.commands.teleop;
 
 import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.RobotConfig;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -13,9 +14,12 @@ public class HandBrake extends Command {
      * Puts robot into brake mode and can disable driving if wanted
      * 
      * @param stopDriving Whether to disable driving
+     * @param name The name of the of the configuration properties to look for
      */
-    public HandBrake(boolean stopDriving) {
-        if (stopDriving)
+    public HandBrake(boolean stopDriving, String name) {
+        super(name);
+        
+        if (RobotConfig.get(name + ".stopDriving", stopDriving))
             requires(Robot.driveTrain);
     }
 

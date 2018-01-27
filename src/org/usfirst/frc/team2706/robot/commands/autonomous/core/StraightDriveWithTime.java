@@ -4,6 +4,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.RobotConfig;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -20,14 +22,15 @@ public class StraightDriveWithTime extends Command {
      * 
      * @param speed Speed in range [-1,1]
      * @param time Time in milliseconds to drive
+     * @param name The name of the of the configuration properties to look for
      */
-    public StraightDriveWithTime(double speed, long time) {
-        super("StraightDriveWithTime");
+    public StraightDriveWithTime(double speed, long time, String name) {
+        super(name);
         requires(Robot.driveTrain);
 
-        this.speed = -speed;
+        this.speed = -RobotConfig.get(name + ".speed", speed);
 
-        this.time = time;
+        this.time = RobotConfig.get(name + ".time", time);
     }
 
     // Called just before this Command runs the first time

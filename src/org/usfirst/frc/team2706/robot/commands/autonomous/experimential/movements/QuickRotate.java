@@ -2,6 +2,7 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.movemen
 
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.RobotConfig;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -38,13 +39,14 @@ public class QuickRotate extends Command {
      * Rotates by the specified angle
      * 
      * @param targetHeading The angle the robot will rotate to (-360 to 360)
+     * @param name The name of the of the configuration properties to look for
      */
-    public QuickRotate(double targetHeading) {
-        super("QuickRotate");
+    public QuickRotate(double targetHeading, String name) {
+        super(name);
 
         requires(Robot.driveTrain);
 
-        this.targetHeading = normalize(targetHeading);
+        this.targetHeading = RobotConfig.get(name + ".targetHeading", normalize(targetHeading));
     }
 
     // Called just before this Command runs the first time

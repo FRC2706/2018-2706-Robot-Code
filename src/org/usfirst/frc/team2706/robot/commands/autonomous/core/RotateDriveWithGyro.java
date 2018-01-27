@@ -2,6 +2,7 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.RobotConfig;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
@@ -30,15 +31,17 @@ public class RotateDriveWithGyro extends Command {
      * 
      * @param speed Speed in range [-1,1]
      * @param angle The angle to rotate to
+     * @param name The name of the of the configuration properties to look for
      */
-    public RotateDriveWithGyro(double speed, double angle, int minDonecycles) {
+    public RotateDriveWithGyro(double speed, double angle, int minDonecycles, String name) {
+        super(name);
         requires(Robot.driveTrain);
 
-        this.speed = speed;
+        this.speed = RobotConfig.get(name + ".speed", speed);
 
-        this.angle = angle;
+        this.angle = RobotConfig.get(name + ".angle", angle);
 
-        this.minDoneCycles = minDonecycles;
+        this.minDoneCycles = RobotConfig.get(name + ".minDoneCycles", minDonecycles);
 
         PID = new PIDController(P, I, D, F, Robot.driveTrain.getGyroPIDSource(false),
                         Robot.driveTrain.getDrivePIDOutput(false, false, true));

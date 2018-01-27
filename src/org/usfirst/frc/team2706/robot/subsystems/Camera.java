@@ -3,7 +3,6 @@ package org.usfirst.frc.team2706.robot.subsystems;
 import java.util.ArrayList;
 
 import org.usfirst.frc.team2706.robot.Log;
-import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.subsystems.TrackerBox2.TargetObject;
 
