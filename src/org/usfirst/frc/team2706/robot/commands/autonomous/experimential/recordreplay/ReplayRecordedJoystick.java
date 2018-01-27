@@ -28,9 +28,11 @@ public class ReplayRecordedJoystick extends Command {
      * 
      * @see #ReplayRecordableJoystick(Joystick, Joystick, Supplier) The main constructor
      */
-    public ReplayRecordedJoystick(Joystick driverStick, Joystick operatorStick, String name,
-                    boolean deserializeInConstructor, String joystickName) {
-        this(driverStick, operatorStick, () -> RobotConfig.get(name + ".joystickName", joystickName), deserializeInConstructor, name);
+    public ReplayRecordedJoystick(Joystick driverStick, Joystick operatorStick,
+                    boolean deserializeInConstructor, String joystickName, String name) {
+        this(driverStick, operatorStick,
+                        () -> RobotConfig.get(name + ".joystickName", joystickName),
+                        deserializeInConstructor, name);
     }
 
     /**
@@ -49,7 +51,7 @@ public class ReplayRecordedJoystick extends Command {
     public ReplayRecordedJoystick(Joystick driverStick, Joystick operatorStick,
                     Supplier<String> nameSupplier, boolean deserializeInConstructor, String name) {
         super(name);
-        
+
         this.nameSupplier = nameSupplier;
 
         this.driverStick = driverStick;
@@ -77,6 +79,8 @@ public class ReplayRecordedJoystick extends Command {
         String name = nameSupplier.get();
         String folder = "/home/lvuser/joystick-recordings/" + name + "/";
 
+        Log.i("Record and Replay", "Replaying joystick from folder " + folder);
+        
         if (!deserializeInConstructor) {
             String driverLoc = folder + name + "-driver";
             String operatorLoc = folder + name + "-operator";
@@ -95,8 +99,6 @@ public class ReplayRecordedJoystick extends Command {
 
         Robot.oi.destroy();
         Robot.oi = new OI(driverStick, operatorStick);
-
-        Log.i("Record and Replay", "Replaying joystick from folder " + folder);
     }
 
     @Override
@@ -115,7 +117,7 @@ public class ReplayRecordedJoystick extends Command {
     @Override
     public void end() {
         super.end();
-        
+
         ((RecordableJoystick) driverStick).end();
         ((RecordableJoystick) operatorStick).end();
 
@@ -125,19 +127,22 @@ public class ReplayRecordedJoystick extends Command {
         }
 
         Robot.oi.destroy();
-        
+
         Joystick driverStick = this.driverStick, operatorStick = this.operatorStick;
-        
+
         // Make sure that Oi receives a real joystick, not a RecordableJoystick
-        while(driverStick instanceof RecordableJoystick) {
+        while (driverStick instanceof RecordableJoystick) {
             driverStick = ((RecordableJoystick) driverStick).getRealJoystick();
         }
-        
-        while(operatorStick instanceof RecordableJoystick) {
+
+        while (operatorStick instanceof RecordableJoystick) {
             operatorStick = ((RecordableJoystick) operatorStick).getRealJoystick();
         }
-        
+
         Robot.oi = new OI(driverStick, operatorStick);
+        
+        // Just in case they were driving when disabling
+        Robot.driveTrain.drive(0, 0);
     }
 
     @Override

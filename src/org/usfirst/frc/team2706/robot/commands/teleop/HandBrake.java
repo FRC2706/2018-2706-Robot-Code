@@ -18,7 +18,7 @@ public class HandBrake extends Command {
      */
     public HandBrake(boolean stopDriving, String name) {
         super(name);
-        
+
         if (RobotConfig.get(name + ".stopDriving", stopDriving))
             requires(Robot.driveTrain);
     }

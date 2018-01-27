@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
 
@@ -29,6 +30,7 @@ public class CurveDrive extends Command {
     private double initHeading;
 
     private final boolean isRight;
+
     /**
      * Drives to a specified point and ends at a specified angle.
      * 
@@ -38,7 +40,8 @@ public class CurveDrive extends Command {
      * @param speed Base speed the robot drives (-1.0 to 1.0)
      * @param name The name of the of the configuration properties to look for
      */
-    public CurveDrive(double xFeet, double yFeet, double endCurve, double speed, boolean isRight, String name) {
+    public CurveDrive(double xFeet, double yFeet, double endCurve, double speed, boolean isRight,
+                    String name) {
         super(name);
         requires(Robot.driveTrain);
 
@@ -53,6 +56,8 @@ public class CurveDrive extends Command {
         // Creates the cubic equation that the robot follows
         eq = EquationCreator.MakeCubicEquation(xFeet, yFeet, endCurve, isRight);
 
+        Log.d(this, eq);
+        
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
 
@@ -96,7 +101,8 @@ public class CurveDrive extends Command {
         double tangent = (3 * eq.a * Math.pow(yPos, 2)) + (2 * eq.b * yPos);
         tangent = Math.toDegrees(Math.atan(tangent));
 
-        // Finds out what x position you should be at, and compares it with what you are currently at
+        // Finds out what x position you should be at, and compares it with what you are currently
+        // at
         double wantedX = (eq.a * Math.pow(yPos, 3)) + (eq.b * Math.pow(xPos, 2));
 
         double offset = xPos - wantedX;
@@ -122,7 +128,8 @@ public class CurveDrive extends Command {
         double tangent = (3 * eq.a * Math.pow(yPos, 2)) + (2 * eq.b * yPos);
         tangent = Math.toDegrees(Math.atan(tangent));
 
-        // Finds out what x position you should be at, and compares it with what you are currently at
+        // Finds out what x position you should be at, and compares it with what you are currently
+        // at
         double wantedX = (eq.a * Math.pow(yPos, 3)) + (eq.b * Math.pow(xPos, 2));
 
         @SuppressWarnings("unused")
@@ -134,6 +141,7 @@ public class CurveDrive extends Command {
         // Tank Drives according to the above factors
         Robot.driveTrain.arcadeDrive(speed, rotateVal);
     }
+
     private double xPos = 0;
 
     private double yPos = 0;
