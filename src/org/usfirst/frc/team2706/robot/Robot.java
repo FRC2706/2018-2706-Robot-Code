@@ -115,7 +115,7 @@ public class Robot extends IterativeRobot {
         Log.i("Autonomous Selector", "Running " + driveTrain.getAutonomousCommand() + "...");
 
         autonomousCommand = driveTrain.getAutonomousCommand();
-       // Robot.driveTrain.brakeMode(true);
+        Robot.driveTrain.brakeMode(true);
         // Schedule the autonomous command that was selected
         if (autonomousCommand != null)
             autonomousCommand.start();
@@ -139,7 +139,7 @@ public class Robot extends IterativeRobot {
          */
         if (autonomousCommand != null)
             autonomousCommand.cancel();
-       // Robot.driveTrain.brakeMode(false);
+        Robot.driveTrain.brakeMode(false);
         if (SmartDashboard.getBoolean("record-joystick", false))
             recordAJoystick.start();
 
