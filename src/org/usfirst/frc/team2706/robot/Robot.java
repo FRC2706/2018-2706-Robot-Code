@@ -4,6 +4,7 @@ package org.usfirst.frc.team2706.robot;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
+import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.ReplayRecordedJoystick;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.controls.StickRumble;
 import org.usfirst.frc.team2706.robot.subsystems.Camera;
@@ -11,6 +12,7 @@ import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -66,7 +68,8 @@ public class Robot extends IterativeRobot {
                         /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
                        /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
             /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.7, 4, 1, 5, "AutoForwardFoot"),
-                                                    new RotateDriveWithGyro(0.5, 90, 5, "AutoTurn90")
+                                                    new RotateDriveWithGyro(0.5, 90, 5, "AutoTurn90"),
+                                                    new ReplayRecordedJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(), false, "2018", "replay")
         );
 
         // Set up the Microsoft LifeCam and start streaming it to the Driver Station
@@ -90,6 +93,7 @@ public class Robot extends IterativeRobot {
 
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+        log();
     }
 
     /**
@@ -111,7 +115,7 @@ public class Robot extends IterativeRobot {
         Log.i("Autonomous Selector", "Running " + driveTrain.getAutonomousCommand() + "...");
 
         autonomousCommand = driveTrain.getAutonomousCommand();
-        Robot.driveTrain.brakeMode(true);
+       // Robot.driveTrain.brakeMode(true);
         // Schedule the autonomous command that was selected
         if (autonomousCommand != null)
             autonomousCommand.start();
@@ -135,7 +139,7 @@ public class Robot extends IterativeRobot {
          */
         if (autonomousCommand != null)
             autonomousCommand.cancel();
-        Robot.driveTrain.brakeMode(false);
+       // Robot.driveTrain.brakeMode(false);
         if (SmartDashboard.getBoolean("record-joystick", false))
             recordAJoystick.start();
 
@@ -153,8 +157,6 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         log();
-        
-        
     }
 
     @Override
@@ -168,6 +170,9 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() {}
 
     private void log() {
-        driveTrain.log();
+        // Don't use unecessary bandwidth at competition
+        if(!DriverStation.getInstance().isFMSAttached()) {
+            driveTrain.log();
+        }
     }
 }

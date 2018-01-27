@@ -4,12 +4,12 @@ import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
+import org.usfirst.frc.team2706.robot.controls.TalonEncoder;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTrain extends Subsystem {
     private WPI_TalonSRX front_left_motor, back_left_motor, front_right_motor, back_right_motor;
     private DifferentialDrive drive;
-    private Encoder left_encoder, right_encoder;
+    private TalonEncoder left_encoder, right_encoder;
     private Ultrasonic leftDistanceSensor, rightDistanceSensor;
     private AHRS gyro;
 
@@ -60,8 +60,8 @@ public class DriveTrain extends Subsystem {
         drive = new DifferentialDrive(new SpeedControllerGroup(front_left_motor, back_left_motor),
                         new SpeedControllerGroup(front_right_motor, back_right_motor));
 
-        left_encoder = new Encoder(RobotMap.ENCODER_LEFT_A, RobotMap.ENCODER_LEFT_B);
-        right_encoder = new Encoder(RobotMap.ENCODER_RIGHT_A, RobotMap.ENCODER_RIGHT_B);
+        left_encoder = new TalonEncoder(front_left_motor);
+        right_encoder = new TalonEncoder(front_left_motor);
 
         // Encoders may measure differently in the real world and in
         // simulation. In this example the robot move at some random value
@@ -401,9 +401,9 @@ public class DriveTrain extends Subsystem {
 
     class AverageEncoderPIDSource implements PIDSource {
 
-        private final Encoder left, right;
+        private final TalonEncoder left, right;
 
-        public AverageEncoderPIDSource(Encoder left, Encoder right) {
+        public AverageEncoderPIDSource(TalonEncoder left, TalonEncoder right) {
             this.left = left;
             this.right = right;
         }

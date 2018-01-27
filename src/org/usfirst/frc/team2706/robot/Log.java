@@ -82,8 +82,8 @@ public class Log {
 
     private static String getCallerClassName() throws ClassNotFoundException {
         StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
-        return Class.forName(stElements[4].getClassName()).getSimpleName() + "."
-                        + stElements[4].getMethodName();
+        return Class.forName(stElements[5].getClassName()).getSimpleName() + "."
+                        + stElements[5].getMethodName();
     }
 
     /**

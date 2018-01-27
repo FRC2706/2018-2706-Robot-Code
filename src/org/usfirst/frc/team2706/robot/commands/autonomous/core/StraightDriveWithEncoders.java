@@ -57,18 +57,12 @@ public class StraightDriveWithEncoders extends Command {
 
         Robot.driveTrain.brakeMode(true);
 
-        // Make input infinite
-        PID.setContinuous();
-
         // Set output speed range
         if (speed > 0) {
             PID.setOutputRange(-speed, speed);
         } else {
             PID.setOutputRange(speed, -speed);
         }
-
-
-        PID.setInputRange(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 
         Robot.driveTrain.initGyro = Robot.driveTrain.getHeading();
 

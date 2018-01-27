@@ -28,8 +28,8 @@ public class ReplayRecordedJoystick extends Command {
      * 
      * @see #ReplayRecordableJoystick(Joystick, Joystick, Supplier) The main constructor
      */
-    public ReplayRecordedJoystick(Joystick driverStick, Joystick operatorStick, String name,
-                    boolean deserializeInConstructor, String joystickName) {
+    public ReplayRecordedJoystick(Joystick driverStick, Joystick operatorStick,
+                    boolean deserializeInConstructor, String joystickName, String name) {
         this(driverStick, operatorStick,
                         () -> RobotConfig.get(name + ".joystickName", joystickName),
                         deserializeInConstructor, name);
@@ -140,6 +140,9 @@ public class ReplayRecordedJoystick extends Command {
         }
 
         Robot.oi = new OI(driverStick, operatorStick);
+        
+        // Just in case they were driving when disabling
+        Robot.driveTrain.drive(0, 0);
     }
 
     @Override

@@ -62,24 +62,12 @@ public class RobotMap {
     private static final int[] MOTOR_CAMERA_TILT_VALS = {9, 9, 9};
     public static final int MOTOR_CAMERA_TILT = getConstant("MOTOR_CAMERA_TILT");
 
-    // XXX: Encoders got flipped
-    private static final int[] ENCODER_LEFT_A_VALS = {3, 1, 1};
-    public static final int ENCODER_LEFT_A = getConstant("ENCODER_LEFT_A");
-
-    private static final int[] ENCODER_LEFT_B_VALS = {2, 0, 0};
-    public static final int ENCODER_LEFT_B = getConstant("ENCODER_LEFT_B");
-
-    private static final double[] ENCODER_LEFT_DPP_VALS = {5.0 / 1720, 6.0 / 2052.25, 1.0 / 264};
+    
+    private static final double[] ENCODER_LEFT_DPP_VALS = {-79.0 / 36304.0, 6.0 / 2052.25, 1.0 / 264};
     public static final double ENCODER_LEFT_DPP = getConstant("ENCODER_LEFT_DPP");
+    
 
-
-    private static final int[] ENCODER_RIGHT_A_VALS = {0, 2, 2};
-    public static final int ENCODER_RIGHT_A = getConstant("ENCODER_RIGHT_A");
-
-    private static final int[] ENCODER_RIGHT_B_VALS = {1, 3, 3};
-    public static final int ENCODER_RIGHT_B = getConstant("ENCODER_RIGHT_B");
-
-    private static final double[] ENCODER_RIGHT_DPP_VALS = {5.0 / 1720, 6.0 / 2052.25, 1.0 / 264};
+    private static final double[] ENCODER_RIGHT_DPP_VALS = {-79.0 / 36304.0, 6.0 / 2052.25, 1.0 / 264};
     public static final double ENCODER_RIGHT_DPP = getConstant("ENCODER_RIGHT_DPP");
 
 
