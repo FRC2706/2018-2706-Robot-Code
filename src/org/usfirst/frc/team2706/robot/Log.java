@@ -13,25 +13,38 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.StreamHandler;
 
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.tables.ITable;
-import edu.wpi.first.wpilibj.tables.ITableListener;
+import edu.wpi.first.networktables.EntryListenerFlags;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
+import edu.wpi.first.networktables.TableEntryListener;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * Logs to DriverStation at levels debug, info, warning, error
  */
 public class Log {
 
-    public static final String LOGGER_TABLE = "logging-level";
-    
+    /**
+     * The NetworkTables table where logs go
+     */
+    public static final String LOGGER_TABLE = "/logging-level";
+
+    /**
+     * The name of the JUL logger
+     */
     public static final String ROOT_LOGGER_NAME = "";
 
     private static final Logger logger = Logger.getLogger(ROOT_LOGGER_NAME);
-    
-    private static ITableListener updateListener;
-    
+
+    private static TableEntryListener updateListener;
+
     private static ByteArrayOutputStream out;
-    
+
+    private static boolean fmsConnected = false;
+
     private static final Formatter formatter = new Formatter() {
         @Override
         public String format(LogRecord record) {
@@ -39,16 +52,38 @@ public class Log {
             Date dt = new Date(record.getMillis());
             String S = sdf.format(dt);
 
-            return record.getLevel() + " " + S + " " + record.getSourceClassName() + "."
-                            + record.getSourceMethodName() + "() " + record.getLoggerName()
-                            + " " + record.getMessage() + "\n";
+            String matchtime;
+            if(DriverStation.getInstance().isFMSAttached()) {
+                if(DriverStation.getInstance().isAutonomous()) {
+                    matchtime = "autonomous";
+                }
+                else if(DriverStation.getInstance().isOperatorControl()) {
+                    matchtime = "teleop";
+                }
+                else if(DriverStation.getInstance().isTest()) {
+                    matchtime = "test";
+                }
+                else {
+                    matchtime = "disabled";
+                }
+                
+                matchtime += "-" + DriverStation.getInstance().getMatchTime();
+            }
+            else {
+                matchtime = ""+Timer.getFPGATimestamp();
+            }
+            
+            return record.getLevel() + " " + S + "[" + matchtime
+                            + "] " + record.getSourceClassName() + "."
+                            + record.getSourceMethodName() + "() " + record.getLoggerName() + " "
+                            + record.getMessage() + "\n";
         }
     };
 
-    public static String getCallerClassName() throws ClassNotFoundException {
+    private static String getCallerClassName() throws ClassNotFoundException {
         StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
-        return Class.forName(stElements[4].getClassName()).getSimpleName() + "."
-                        + stElements[4].getMethodName();
+        return Class.forName(stElements[5].getClassName()).getSimpleName() + "."
+                        + stElements[5].getMethodName();
     }
 
     /**
@@ -58,7 +93,7 @@ public class Log {
         ConsoleHandler ch = new ConsoleHandler();
         out = new ByteArrayOutputStream();
         StreamHandler tableOut = new EStreamHandler(out, formatter);
-        
+
         try {
             logger.setUseParentHandlers(false);
             logger.setLevel(Level.ALL);
@@ -68,7 +103,7 @@ public class Log {
             }
 
             ch.setFormatter(formatter);
-            
+
 
             logger.addHandler(ch);
             logger.addHandler(tableOut);
@@ -81,7 +116,7 @@ public class Log {
                 public void run() {
                     ch.flush();
                     ch.close();
-                    
+
                     tableOut.flush();
                     tableOut.close();
                 }
@@ -89,45 +124,63 @@ public class Log {
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-        
-        updateListener = new ITableListener() {
+
+        updateListener = new TableEntryListener() {
+
             @Override
-            public void valueChanged(ITable source, String key, Object value, boolean isNew) {
-                if(key.equals("level")) {
-                    Level level = Level.parse(((int)source.getNumber(key, Level.ALL.intValue()))+"");
-                    ch.setLevel(level);
-                    tableOut.setLevel(level);
-                    logger.setLevel(level);
-                }
+            public void valueChanged(NetworkTable source, String key, NetworkTableEntry entry,
+                            NetworkTableValue value, int flags) {
+                Level level = Level.parse(entry.getNumber(Level.ALL.intValue()).intValue() + "");
+                ch.setLevel(level);
+                tableOut.setLevel(level);
+                logger.setLevel(level);
+
             }
         };
-        
-        NetworkTable.getTable(LOGGER_TABLE).addTableListener(updateListener);
+
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).addEntryListener("level",
+                        updateListener, EntryListenerFlags.kUpdate);
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("level").setNumber(0);
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("match").setString("");
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("save").setBoolean(false);
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value")
+                        .setRaw(new byte[0]);
     }
 
+    /**
+     * Updates the NetworkTables log with the latest logs
+     */
     public static void updateTableLog() {
-        byte[] a = NetworkTable.getTable(LOGGER_TABLE).getRaw("Value", new byte[0]);
+        if (!fmsConnected && DriverStation.getInstance().isFMSAttached()) {
+            fmsConnected = true;
+            NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("match")
+                            .setString(DriverStation.getInstance().getEventName() + "/"
+                                            + DriverStation.getInstance().getMatchType().name()
+                                            + "-" + DriverStation.getInstance().getMatchNumber()
+                                            + "-" + DriverStation.getInstance().getReplayNumber());
+        }
+
+        byte[] a = NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value")
+                        .getRaw(new byte[0]);
         byte[] b = out.toByteArray();
-        
+
         byte[] results = new byte[0];
-        
-        if(a == new byte[0]) {
+
+        if (a == new byte[0]) {
             results = b;
-        }
-        else if(b.length == 0) {
+        } else if (b.length == 0) {
             return;
+        } else {
+            results = new byte[a.length + b.length];
+            System.arraycopy(a, 0, results, 0, a.length);
+            System.arraycopy(b, 0, results, a.length, b.length);
         }
-        else {
-            results = new byte[a.length + b.length]; 
-            System.arraycopy(a, 0, results, 0, a.length); 
-            System.arraycopy(b, 0, results, a.length, b.length); 
-        }
-        
+
         out.reset();
-        
-        NetworkTable.getTable(LOGGER_TABLE).putRaw("Value", results);
+
+        NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("Value").setRaw(results);
     }
-    
+
     /**
      * Debug log
      * 
@@ -244,14 +297,14 @@ public class Log {
             Logger.getLogger(name.toString()).logp(level, cm[0], cm[1], message.toString());
         }
     }
-    
+
     private static class EStreamHandler extends StreamHandler {
         public EStreamHandler(OutputStream out, Formatter formatter) {
             super(out, formatter);
         }
-        
+
         @Override
-        public synchronized void publish(LogRecord record) {       
+        public synchronized void publish(LogRecord record) {
             if (!isLoggable(record)) {
                 return;
             }
@@ -264,7 +317,7 @@ public class Log {
                 reportError(null, ex, ErrorManager.FORMAT_FAILURE);
                 return;
             }
-            
+
             try {
                 out.write(msg.getBytes());
             } catch (Exception ex) {
@@ -272,6 +325,18 @@ public class Log {
                 // report the exception to any registered ErrorManager.
                 reportError(null, ex, ErrorManager.WRITE_FAILURE);
             }
+        }
+    }
+
+    private static int disableCount = 0;
+
+    /**
+     * Tells the RIOLogger client to save the log with a certain name
+     */
+    public static void save() {
+        if (DriverStation.getInstance().isFMSAttached() && ++disableCount > 2) {
+            NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("save")
+                            .setBoolean(true);
         }
     }
 }

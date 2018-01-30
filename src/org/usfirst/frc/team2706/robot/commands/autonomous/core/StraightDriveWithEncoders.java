@@ -2,6 +2,7 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.RobotConfig;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
@@ -29,18 +30,20 @@ public class StraightDriveWithEncoders extends Command {
      * @param speed Speed in range [-1,1]
      * @param distance The encoder distance to travel
      * @param error The range that the robot is happy ending the command in
+     * @param name The name of the of the configuration properties to look for
      */
-    public StraightDriveWithEncoders(double speed, double distance, double error,
-                    int minDoneCycles) {
+    public StraightDriveWithEncoders(double speed, double distance, double error, int minDoneCycles,
+                    String name) {
+        super(name);
         requires(Robot.driveTrain);
 
-        this.speed = speed;
+        this.speed = RobotConfig.get(name + ".speed", speed);
 
-        this.distance = distance;
+        this.distance = RobotConfig.get(name + ".distance", distance);
 
-        this.error = error / 12.0;
+        this.error = RobotConfig.get(name + ".error", error) / 12;
 
-        this.minDoneCycles = minDoneCycles;
+        this.minDoneCycles = RobotConfig.get(name + ".minDoneCycles", minDoneCycles);
 
         PID = new PIDController(P, I, D, F, Robot.driveTrain.getAverageEncoderPIDSource(),
                         Robot.driveTrain.getDrivePIDOutput(true, false, false));
@@ -48,13 +51,11 @@ public class StraightDriveWithEncoders extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Log.d("StraightDrive", "Initialize");
+        Log.d(this, "Driving " + distance + " feet at a speed of " + speed);
+        
         Robot.driveTrain.reset();
 
         Robot.driveTrain.brakeMode(true);
-
-        // Make input infinite
-        PID.setContinuous();
 
         // Set output speed range
         if (speed > 0) {
@@ -79,6 +80,7 @@ public class StraightDriveWithEncoders extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+
         if (PID.onTarget())
             doneTicks++;
         else
@@ -89,15 +91,11 @@ public class StraightDriveWithEncoders extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Log.d("StraightDrive", "ending");
-        Robot.driveTrain.brakeMode(false);
-        // Robot.driveTrain.brakeMode(false);
-        
         // Disable PID output and stop robot to be safe
         PID.disable();
         Robot.driveTrain.drive(0, 0);
 
-        Log.d("StraightDriveWithEncoders", "Ended");
+        Log.d(this, "Done driving");
     }
 
     // Called when another command which requires one or more of the same

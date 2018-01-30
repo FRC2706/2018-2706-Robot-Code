@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.OI;
 import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.RobotConfig;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -26,8 +27,8 @@ public class RecordJoystick extends Command {
      * 
      * @see #RecordJoystick(Joystick, Joystick, Supplier) The main constructor
      */
-    public RecordJoystick(Joystick driverStick, Joystick operatorStick, String name) {
-        this(driverStick, operatorStick, () -> name);
+    public RecordJoystick(Joystick driverStick, Joystick operatorStick, String joystickName, String name) {
+        this(driverStick, operatorStick, () -> RobotConfig.get(name + ".joystickName", joystickName), name);
     }
 
     /**
@@ -37,9 +38,12 @@ public class RecordJoystick extends Command {
      * @param operatorStick The operator Joystick to record
      * @param nameSupplier The Supplier that is used to find file locations when the command is
      *        enabled
+     * @param name The name of the of the configuration properties to look for
      */
     public RecordJoystick(Joystick driverStick, Joystick operatorStick,
-                    Supplier<String> nameSupplier) {
+                    Supplier<String> nameSupplier, String name) {
+        super(name);
+        
         this.nameSupplier = nameSupplier;
 
         this.driverStick = driverStick;
@@ -57,6 +61,8 @@ public class RecordJoystick extends Command {
         String name = nameSupplier.get();
         String folder = "/home/lvuser/joystick-recordings/" + name + "/";
 
+        Log.i("Record and Replay", "Recording joystick to folder " + folder);
+        
         String driverLoc = folder + name + "-driver";
         String operatorLoc = folder + name + "-operator";
 
@@ -73,8 +79,6 @@ public class RecordJoystick extends Command {
 
         Robot.oi.destroy();
         Robot.oi = new OI(driverStick, operatorStick);
-
-        Log.i("Record and Replay", "Recording joystick to folder " + folder);
     }
 
     @Override

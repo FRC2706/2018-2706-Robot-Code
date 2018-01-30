@@ -35,16 +35,14 @@ public class RecordableJoystick extends Joystick {
     private JoystickConfig config;
     private List<JoystickState> states;
 
-    private final IndexFinder indexFinder;
+    private boolean[] pressed, released;
 
     private volatile int index;
-    private double time;
+    private volatile double time;
 
     private Supplier<Double> timeSupplier;
 
     private final String loc;
-
-    private volatile boolean looping;
 
     /**
      * Sets up recording or replaying from or to a real Joystick
@@ -60,7 +58,6 @@ public class RecordableJoystick extends Joystick {
         this.replay = replay;
         this.joy = joy;
         this.loc = loc;
-        this.indexFinder = new IndexFinder();
     }
 
     /**
@@ -76,11 +73,11 @@ public class RecordableJoystick extends Joystick {
      * Stops recording or replaying and if recording, saves the values to files
      */
     public void end() {
-        looping = false;
-
         if (!replay) {
             saveFile(new Gson().toJson(config), new File(loc + "-config.json"));
             saveFile(new Gson().toJson(states), new File(loc + "-states.json"));
+            
+            this.states.clear();
         }
     }
 
@@ -143,6 +140,9 @@ public class RecordableJoystick extends Joystick {
                                 JoystickConfig.class);
                 states = Arrays.asList(new Gson().fromJson(loadFile(new File(loc + "-states.json")),
                                 JoystickState[].class));
+
+                pressed = new boolean[config.buttonCount];
+                released = new boolean[config.buttonCount];
             } else {
                 Log.e("Record and Replay", loc + "-config.json and/or " + loc
                                 + "-states.json do not exist...");
@@ -154,28 +154,20 @@ public class RecordableJoystick extends Joystick {
             }
         } else {
             config = new JoystickConfig(joy.getAxisCount(), joy.getButtonCount(), joy.getPOVCount(),
-                            joy.getIsXbox(), joy.getType().value, joy.getName());
+                            joy.getType().value, joy.getName());
             states = new ArrayList<JoystickState>();
         }
 
         this.timeSupplier = timeSupplier;
-        this.looping = true;
 
         reset();
-
-        Thread indexFinder = new Thread(this.indexFinder);
-        indexFinder.setDaemon(true);
-        indexFinder.start();
     }
 
     /**
      * If replaying, updates the values to be replayed
      */
     public void update() {
-        if (!replay) {
-            states.add(grabJoystickValues());
-            index++;
-        }
+        updateTick();
     }
 
     /**
@@ -197,7 +189,7 @@ public class RecordableJoystick extends Joystick {
     private boolean isValidReplayState() {
         return replay && config != null && states != null && index < states.size() && index != -1;
     }
-    
+
     @Override
     public int getAxisCount() {
         if (isValidReplayState())
@@ -212,14 +204,6 @@ public class RecordableJoystick extends Joystick {
             return config.buttonCount;
         else
             return joy.getButtonCount();
-    }
-
-    @Override
-    public boolean getIsXbox() {
-        if (isValidReplayState())
-            return config.isXbox;
-        else
-            return joy.getIsXbox();
     }
 
     @Override
@@ -264,6 +248,40 @@ public class RecordableJoystick extends Joystick {
     }
 
     @Override
+    public boolean getRawButtonPressed(final int button) {
+        if (isValidReplayState()) {
+            if (!getRawButton(button)) {
+                pressed[button - 1] = false;
+                return false;
+            } else if (!pressed[button - 1]) {
+                pressed[button - 1] = true;
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return joy.getRawButtonPressed(button);
+        }
+    }
+
+    @Override
+    public boolean getRawButtonReleased(final int button) {
+        if (isValidReplayState()) {
+            if (getRawButton(button)) {
+                released[button - 1] = false;
+                return false;
+            } else if (!released[button - 1]) {
+                released[button - 1] = true;
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return joy.getRawButtonReleased(button);
+        }
+    }
+
+    @Override
     public int getPOV(int pov) {
         if (isValidReplayState())
             return states.get(index).povs[pov];
@@ -277,20 +295,41 @@ public class RecordableJoystick extends Joystick {
         private final int buttonCount;
         private final int povCount;
 
-        private final boolean isXbox;
-
         private final int type;
 
         private final String name;
 
-        private JoystickConfig(int axisCount, int buttonCount, int povCount, boolean isXbox,
-                        int type, String name) {
+        private JoystickConfig(int axisCount, int buttonCount, int povCount, int type,
+                        String name) {
             this.axisCount = axisCount;
             this.buttonCount = buttonCount;
             this.povCount = povCount;
-            this.isXbox = isXbox;
             this.type = type;
             this.name = name;
+        }
+
+    }
+
+    private void updateTick() {
+        time = timeSupplier.get();
+
+        if (replay) {
+            double closest = Double.MAX_VALUE;
+
+            for (int i = index; i < states.size(); i++) {
+                double timeToIndex = Math.abs(time - states.get(i).time);
+
+                if (timeToIndex <= closest) {
+                    closest = timeToIndex;
+                } else {
+                    index = Math.max(i - 1, 0);
+                    break;
+                }
+            }
+        }
+        else {
+            states.add(grabJoystickValues());
+            index++;
         }
 
     }
@@ -307,35 +346,6 @@ public class RecordableJoystick extends Joystick {
             this.buttons = buttons;
             this.povs = povs;
             this.time = time;
-        }
-    }
-
-    private class IndexFinder implements Runnable {
-
-        @Override
-        public void run() {
-            while (looping && index != -1 && index < states.size()
-                            && time - 0.5 < states.get(states.size() - 1).time) {
-                time = timeSupplier.get();
-
-                if (replay) {
-                    double closest = Double.MAX_VALUE;
-
-                    for (int i = index; i < states.size(); i++) {
-                        double timeToIndex = Math.abs(time - states.get(i).time);
-
-                        if (timeToIndex <= closest) {
-                            closest = timeToIndex;
-                        } else {
-                            index = Math.max(i - 1, 0);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            looping = false;
-            index = -1;
         }
     }
 }

@@ -52,38 +52,16 @@ public class RobotMap {
     public static final boolean MOTOR_REAR_RIGHT_INVERTED =
                     getConstant("MOTOR_REAR_RIGHT_INVERTED");
 
-
-    // Motor for panning camera
-    private static final int[] MOTOR_CAMERA_PAN_VALS = {8, 8, 8};
-    public static final int MOTOR_CAMERA_PAN = getConstant("MOTOR_CAMERA_PAN");
-
-
-    // Motor for tilting camera
-    private static final int[] MOTOR_CAMERA_TILT_VALS = {9, 9, 9};
-    public static final int MOTOR_CAMERA_TILT = getConstant("MOTOR_CAMERA_TILT");
-
-    // XXX: Encoders got flipped
-    private static final int[] ENCODER_LEFT_A_VALS = {0, 1, 1};
-    public static final int ENCODER_LEFT_A = getConstant("ENCODER_LEFT_A");
-
-    private static final int[] ENCODER_LEFT_B_VALS = {1, 0, 0};
-    public static final int ENCODER_LEFT_B = getConstant("ENCODER_LEFT_B");
-
-    private static final double[] ENCODER_LEFT_DPP_VALS = {5.0 / 1720, 6.0 / 2052.25, 1.0 / 264};
+    
+    private static final double[] ENCODER_LEFT_DPP_VALS = {-79.0 / 36304.0, 6.0 / 2052.25, 1.0 / 264};
     public static final double ENCODER_LEFT_DPP = getConstant("ENCODER_LEFT_DPP");
+    
 
-
-    private static final int[] ENCODER_RIGHT_A_VALS = {3, 2, 2};
-    public static final int ENCODER_RIGHT_A = getConstant("ENCODER_RIGHT_A");
-
-    private static final int[] ENCODER_RIGHT_B_VALS = {2, 3, 3};
-    public static final int ENCODER_RIGHT_B = getConstant("ENCODER_RIGHT_B");
-
-    private static final double[] ENCODER_RIGHT_DPP_VALS = {5.0 / 1720, 6.0 / 2052.25, 1.0 / 264};
+    private static final double[] ENCODER_RIGHT_DPP_VALS = {-79.0 / 36304.0, 6.0 / 2052.25, 1.0 / 264};
     public static final double ENCODER_RIGHT_DPP = getConstant("ENCODER_RIGHT_DPP");
 
 
-    private static final boolean[] INVERT_JOYSTICK_X_VALS = {false, false, false};
+    private static final boolean[] INVERT_JOYSTICK_X_VALS = {true, true, true};
     public static final boolean INVERT_JOYSTICK_X = getConstant("INVERT_JOYSTICK_X");
 
     private static final boolean[] INVERT_JOYSTICK_Y_VALS = {false, false, false};
@@ -114,47 +92,8 @@ public class RobotMap {
     private static final double[] DISTANCE_SENSOR_SEPARATION_CM_VALS = {59.69, 59.69, 59.69};
     public static final double DISTANCE_SENSOR_SEPARATION_CM =
                     getConstant("DISTANCE_SENSOR_SEPARATION_CM");
-
-    // Gear handler Arms
-    private static final int[] SOLENOID_FORWARD_CHANNEL_VALS = {0, 0, 0};
-    public static final int SOLENOID_FORWARD_CHANNEL = getConstant("SOLENOID_FORWARD_CHANNEL");
-
-    private static final int[] SOLENOID_REVERSE_CHANNEL_VALS = {1, 1, 1};
-    public static final int SOLENOID_REVERSE_CHANNEL = getConstant("SOLENOID_REVERSE_CHANNEL");
-
-    // Gear sensor
-    private static final int[] INFRARED_SENSOR_GEAR_ANALOG_VALS = {1, 1, 1};
-    public static final int INFRARED_SENSOR_GEAR_ANALOG =
-                    getConstant("INFRARED_SENSOR_GEAR_ANALOG");
-
-    // IR Sensor to detect peg
-    private static final int[] INFRARED_SENSOR_PEG_ANALOG_VALS = {2, 2, 2};
-    public static final int INFRARED_SENSOR_PEG_ANALOG = getConstant("INFRARED_SENSOR_PEG_ANALOG");
-
-    // Limit switch left
-    private static final int[] LIMIT_SWITCH_LEFT_CHANNEL_VALS = {8, 8, 8};
-    public static final int LIMIT_SWITCH_LEFT_CHANNEL = getConstant("LIMIT_SWITCH_LEFT_CHANNEL");
-
-    // Limit switch right
-    private static final int[] LIMIT_SWITCH_RIGHT_CHANNEL_VALS = {9, 9, 9};
-    public static final int LIMIT_SWITCH_RIGHT_CHANNEL = getConstant("LIMIT_SWITCH_RIGHT_CHANNEL");
-
-    // Climber motor
-    private static final int[] CLIMBER_MOTOR_VALS = {5, 5, 5};
-    public static final int CLIMBER_MOTOR = getConstant("CLIMBER_MOTOR");
-
-    // Climber encoder
-    private static final double[] CLIMBER_ENCODER_DPP_VALS = {1.0 / 1075, 1.0 / 1075, 1.0 / 1960};
-    public static final double CLIMBER_ENCODER_DPP = getConstant("CLIMBER_ENCODER_DPP");
-
-    // Climber encoder
-    private static final int[] CLIMBER_ENCODER_A_VALS = {10, 10, 10};
-    public static final int CLIMBER_ENCODER_A = getConstant("CLIMBER_ENCODER_A");
-
-    // Climber encoder
-    private static final int[] CLIMBER_ENCODER_B_VALS = {11, 11, 11};
-    public static final int CLIMBER_ENCODER_B = getConstant("CLIMBER_ENCODER_B");
-
+    
+    
     // Raspberry Pi IP for vision *NOTE: Mikes laptop is 10.27.6.10, rPI is 10.27.6.240
     private static final String[] RPI_IPS_VALS = {"10.27.6.240", "10.27.6.240", "10.27.6.10"};
     public static final String RPI_IPS = getConstant("RPI_IPS");
@@ -163,7 +102,7 @@ public class RobotMap {
      * Prints which RobotMap is being used
      */
     public static void log() {
-        Log.d("RobotMap", "RobotMap ID is " + ROBOT_ID_LOC);
+        Log.d("RobotMap", "RobotMap ID is " + ROBOT_ID);
     }
     
     private static final String ROBOT_ID_LOC = "/home/lvuser/robot-type.conf";
@@ -183,8 +122,8 @@ public class RobotMap {
     @SuppressWarnings("unchecked")
     private static <T> T getConstant(String constant) {
         try {
-            return (T) getArray(RobotMap.class.getDeclaredField(constant + "_VALS")
-                            .get(null))[ROBOT_ID];
+            return RobotConfig.get("RobotMap." + constant,
+                (T) getArray(RobotMap.class.getDeclaredField(constant + "_VALS").get(null))[ROBOT_ID]);
         } catch (Exception e) {
             e.printStackTrace();
         }
