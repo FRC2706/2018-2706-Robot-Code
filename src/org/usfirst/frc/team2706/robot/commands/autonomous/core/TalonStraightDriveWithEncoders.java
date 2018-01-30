@@ -3,7 +3,7 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
-import org.usfirst.frc.team2706.robot.controls.TalonPID;
+import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -68,14 +68,20 @@ public class TalonStraightDriveWithEncoders extends Command {
 
         PID.setSetpoint(distance);
 
-
         // Will accept within 5 inch of target
         PID.setError(error);
 
         // Start going to location
         PID.enable();
+        
+        this.doneTicks = 0;
     }
 
+    @Override
+    public void execute() {
+        PID.update();
+    }
+    
     private int doneTicks;
 
     // Make this return true when this Command no longer needs to run execute()
