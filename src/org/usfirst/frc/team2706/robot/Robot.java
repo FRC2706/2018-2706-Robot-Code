@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2706.robot;
 
+import org.usfirst.frc.team2706.robot.commands.autonomous.DashboardAutoSelector;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
@@ -43,6 +44,8 @@ public class Robot extends IterativeRobot {
 
     // Rumbles joystick to tell drive team which mode we're in
     StickRumble rumbler;
+    
+    DashboardAutoSelector dashBoardAutoSelector;
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -62,6 +65,8 @@ public class Robot extends IterativeRobot {
         camera = new Camera();
 
         oi = new OI();
+        
+        dashBoardAutoSelector = new DashboardAutoSelector(new StraightDriveWithEncoders(0.5,2,1,5, "DriveToAutoLine"));
         // WARNING DO NOT AUTOFORMAT THIS OR BAD THINGS WILL HAPPEN TO YOU
         // Set up our autonomous modes with the hardware selector switch
         driveTrain.setAutonomousCommandList(
@@ -93,6 +98,7 @@ public class Robot extends IterativeRobot {
 
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+        dashBoardAutoSelector.getPositionAndRespond();
         log();
     }
 
@@ -115,6 +121,9 @@ public class Robot extends IterativeRobot {
         Log.i("Autonomous Selector", "Running " + driveTrain.getAutonomousCommand() + "...");
 
         autonomousCommand = driveTrain.getAutonomousCommand();
+        
+        Command c = dashBoardAutoSelector.chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());
+        System.out.println(c);
         Robot.driveTrain.brakeMode(true);
         // Schedule the autonomous command that was selected
         if (autonomousCommand != null)

@@ -12,6 +12,8 @@ import java.util.Scanner;
  * reduces the number of magic numbers floating around.
  */
 @SuppressWarnings("unused")
+
+
 public class RobotMap {
 
     private static final int ROBOT_ID = getRobotID();
