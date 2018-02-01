@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterAutoLeftSwitch;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterAutoRightSwitch;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftAutoLeftScale;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftAutoLeftSwitch;
 
 import com.google.gson.Gson;
 
@@ -17,12 +20,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DashboardAutoSelector {
     Command fallbackCommand;
 
-    Priority[] leftPriorities = {new Priority("left_switch", "Left Position", true, true,
-                    new CenterAutoLeftSwitch())};
-    Priority[] centerPriorities  = {new Priority("left_switch", "Center Position", true, true,
-                    new CenterAutoLeftSwitch())};
-    Priority[] rightPriorities  = {new Priority("left_switch", "Right Position", true, true,
-                    new CenterAutoLeftSwitch())};
+    Priority[] leftPriorities = {
+                    new Priority("left_left_switch", "Left Switch", true, true,
+                                    new LeftAutoLeftSwitch()),
+                    new Priority("left_left_scale", "Left Scale", false, true,
+                                    new LeftAutoLeftScale())};
+    Priority[] centerPriorities = {
+                    new Priority("center_left_switch", "Left Switch", true, true,
+                                    new CenterAutoLeftSwitch()),
+                    new Priority("center_right_switch", "Right Switch", true, false,
+                                    new CenterAutoRightSwitch())};
+    Priority[] rightPriorities = {
+                    new Priority("right_right_switch", "Right Switch", true, false,
+                                    new LeftAutoLeftSwitch()),
+                    new Priority("right_right_scale", "Right Scale", false, false,
+                                    new LeftAutoLeftScale())};
     String position = "";
 
     public DashboardAutoSelector(Command fallbackCommand) {
@@ -57,17 +69,19 @@ public class DashboardAutoSelector {
         String priorities = table.getEntry("autonomous/selected_modes").getString("");
         System.out.println("priorities" + priorities);
         if (priorities != "") {
-            ArrayList<String> priorityList = new Gson().fromJson(priorities, new ArrayList<String>().getClass());
+            ArrayList<String> priorityList =
+                            new Gson().fromJson(priorities, new ArrayList<String>().getClass());
             ArrayList<Priority> objectPriorityList = new ArrayList<Priority>();
             for (String priority : priorityList) {
-                if(position.equals("L")) {
-                    objectPriorityList.add(((UnselectedPriorityList) new ArrayList<Priority>(Arrays.asList(leftPriorities))).findPriority(priority));
-                }
-                else if(position.equals("C")) {
-                    objectPriorityList.add(((UnselectedPriorityList) new ArrayList<Priority>(Arrays.asList(centerPriorities))).findPriority(priority));
-                }
-                else if(position.equals("R")) {
-                    objectPriorityList.add(((UnselectedPriorityList) new ArrayList<Priority>(Arrays.asList(rightPriorities))).findPriority(priority));
+                if (position.equals("L")) {
+                    objectPriorityList.add(((UnselectedPriorityList) new ArrayList<Priority>(
+                                    Arrays.asList(leftPriorities))).findPriority(priority));
+                } else if (position.equals("C")) {
+                    objectPriorityList.add(((UnselectedPriorityList) new ArrayList<Priority>(
+                                    Arrays.asList(centerPriorities))).findPriority(priority));
+                } else if (position.equals("R")) {
+                    objectPriorityList.add(((UnselectedPriorityList) new ArrayList<Priority>(
+                                    Arrays.asList(rightPriorities))).findPriority(priority));
                 }
             }
         }
