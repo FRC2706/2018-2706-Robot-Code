@@ -17,7 +17,7 @@ public class Intake extends Subsystem{
     // Objects for inhaling and exhaling the cube
     private WPI_TalonSRX right_intake_motor;
     private WPI_TalonSRX left_intake_motor;
-    private AnalogInput IR_sensor;
+    //private AnalogInput IR_sensor;
     
     public Intake() {
         //TODO put TALON number assignments in robotmap 
@@ -29,8 +29,8 @@ public class Intake extends Subsystem{
         left_intake_motor = new WPI_TalonSRX(INTAKE_MOTOR_LEFT);
         
         //TODO analog define robot map
-        int channel = 0; 
-        IR_sensor = new AnalogInput(channel);
+      //  int channel = 0; 
+      //  IR_sensor = new AnalogInput(channel);
         
     }
     // Turns the robot motors on to suck in the cube
@@ -57,9 +57,9 @@ public class Intake extends Subsystem{
      * @return Whether the robot has a cube or not
      */
     public boolean cubeCaptured() {
-        if (IR_sensor.getVoltage() >= CUBE_CAPTURED) {
-            return true;
-        }
+       // if (IR_sensor.getVoltage() >= CUBE_CAPTURED) {
+       //     return true;
+       // }
         return false;
     }
 
