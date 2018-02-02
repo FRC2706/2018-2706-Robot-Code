@@ -3,7 +3,7 @@ The main robot code for the Merge Robotics (2706) robot.
 
 ## Want to help write robot code?
 
-We have a lot of programmers on the team this year, so we've split the code out into chunks so each group can be in charge of a piece. Talk to you group's mentor or project leader to see which chunk you can work on.
+We have a lot of programmers on the team this year, so we've split the code out into chunks so each group can be in charge of a piece. Talk to your group's mentor or project leader to see which chunk you can work on.
 
 ## Code Structure
 Code structure in general is subject to change, so feel free to add new subheadings and descriptions to the readme that cover your respective group's code.
