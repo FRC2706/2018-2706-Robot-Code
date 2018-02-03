@@ -8,6 +8,7 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordre
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.ReplayRecordedJoystick;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.controls.operatorFeedback.Rumbler;
+import org.usfirst.frc.team2706.robot.subsystems.Bling;
 import org.usfirst.frc.team2706.robot.subsystems.Camera;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 
@@ -35,6 +36,9 @@ public class Robot extends IterativeRobot {
 
     // Stores all of the joysticks, and returns them as read only.
     public static OI oi;
+    
+    // Bling Subsystem
+    public static Bling blingSystem;
 
     // Which command is going to be ran based on the hardwareChooser
     Command autonomousCommand;
