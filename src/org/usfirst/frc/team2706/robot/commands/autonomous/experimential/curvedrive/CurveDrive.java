@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
+import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.TalonStraightDriveWithEncoders;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -57,7 +58,7 @@ public class CurveDrive extends Command {
     protected void initialize() {
         // Creates the cubic equation that the robot follows
         eq = EquationCreator.MakeCubicEquation(xFeet, yFeet, endCurve, isRight);
-        tangents = EquationCreator.createTangents(0.25, yFeet, eq);
+        tangents = EquationCreator.createTangents(0.4, yFeet, eq);
         Log.d(this, eq);
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
@@ -86,7 +87,7 @@ public class CurveDrive extends Command {
         yPos = 0;
         Robot.driveTrain.reset();
         Robot.driveTrain.brakeMode(true);
-        new TalonStraightDriveWithEncoders(0.6, 0.0, 0.1, 10, "stop").start();
+        new CurveDriveStop(endCurve).start();
         lastEncoderAv = 0;
     }
 
