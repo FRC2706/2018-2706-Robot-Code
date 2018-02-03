@@ -163,24 +163,11 @@ public class Robot extends IterativeRobot {
         // Deactivate the camera ring light
         // camera.enableRingLight(false);
     }
-
-    private boolean wasConnected = true;
     
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        // Report warnings when a joystick disconnects
-        if(DriverStation.getInstance().getJoystickName(0).isEmpty() || DriverStation.getInstance().getJoystickName(1).isEmpty()) {
-            if(wasConnected) {
-                DriverStation.reportWarning("Joystick disconnected", false);
-                wasConnected = false;
-            }
-        }
-        else if(!wasConnected) {
-            wasConnected = false;
-        }
-        
         Scheduler.getInstance().run();
         log();
     }
