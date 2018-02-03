@@ -7,7 +7,7 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.core.TalonStraightDriv
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.ReplayRecordedJoystick;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
-import org.usfirst.frc.team2706.robot.controls.StickRumble;
+import org.usfirst.frc.team2706.robot.controls.operatorFeedback.Rumbler;
 import org.usfirst.frc.team2706.robot.subsystems.Camera;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 
@@ -42,8 +42,6 @@ public class Robot extends IterativeRobot {
     // Records joystick states to file for later replaying
     RecordJoystick recordAJoystick;
 
-    // Rumbles joystick to tell drive team which mode we're in
-    StickRumble rumbler;
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -146,8 +144,7 @@ public class Robot extends IterativeRobot {
             recordAJoystick.start();
 
         // Tell drive team to drive
-        rumbler = new StickRumble(0.4, 0.15, 1, 0, 1, 1.0, 1, "controllerStickRumble");
-        rumbler.start();
+        new Rumbler(0.5, 0.2, 3, Rumbler.BOTH_JOYSTICKS);
 
         // Deactivate the camera ring light
         // camera.enableRingLight(false);
