@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import org.usfirst.frc.team2706.robot.commands.teleop.HandBrake;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -54,8 +55,23 @@ public class OI {
         // Joystick for controlling the mechanisms of the robot
         this.controlStick = controlStick;
 
+        removeUnplugWarning();
     }
 
+    /**
+     * Makes the DriverStation not spam the console
+     */
+    private void removeUnplugWarning() {
+        try {
+            Field f = DriverStation.getInstance().getClass().getDeclaredField("m_nextMessageTime");
+            f.setAccessible(true);
+            f.set(DriverStation.getInstance(), Double.POSITIVE_INFINITY);
+            f.setAccessible(false);
+        } catch (IllegalAccessException | NoSuchFieldException | SecurityException e) {
+            Log.e("Oi", "Error occured trying to keep programmers sane", e);
+        }
+    }
+    
     /**
      * Removes ButtonSchedulers that run commands that were added in Oi
      */
