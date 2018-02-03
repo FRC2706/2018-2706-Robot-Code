@@ -84,7 +84,7 @@ public class Robot extends IterativeRobot {
                                                     new RotateDriveWithGyro(0.5, 90, 5, "AutoTurn900"),
                                                     new ReplayRecordedJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(), false, "2018", "replay"),
                                                     new TalonStraightDriveWithEncoders(0.3, 2, 1, 5, "AutoTalonForwardFoot"), 
-                                                    new CurveDrive(6.395, 10.33, 0, 0.75, true, "CurveToSwitch")
+                                                    new CurveDrive(6.395, 10.33, 0, 0.6, true, 0.25, "CurveToSwitch")
                                                     
         );
 

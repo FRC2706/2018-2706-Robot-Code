@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
@@ -58,8 +57,13 @@ public class EquationCreator {
 
     }
 
-    
-
+    /**
+     * Creates the tangents for the equation, effectively how the robot interpolates the curve
+     * @param distanceOffsetDegrees The distance between each tangent
+     * @param topLimit The furthest you want the tangents to generate
+     * @param eq The equation of the curve
+     * @return The tangents
+     */
     public static LinkedHashMap<Double, Double> createTangents(double distanceOffsetDegrees, double topLimit, CubicEquation eq) {
         LinkedHashMap<Double, Double> followTangents;
         followTangents = new LinkedHashMap<Double, Double>();
@@ -81,9 +85,6 @@ public class EquationCreator {
         tangent = Math.toDegrees(Math.atan(tangent));
         followTangents.put(currentParse, tangent);
         lastEntryKey = currentParse;
-        for(Double keys : followTangents.keySet()) {
-            Double value = followTangents.get(keys);
-        }
         return followTangents;
     }
 }
