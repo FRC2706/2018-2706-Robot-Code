@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
+import org.usfirst.frc.team2706.robot.commands.autonomous.core.TalonStraightDriveWithEncoders;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -56,11 +57,12 @@ public class CurveDrive extends Command {
     protected void initialize() {
         // Creates the cubic equation that the robot follows
         eq = EquationCreator.MakeCubicEquation(xFeet, yFeet, endCurve, isRight);
-        tangents = EquationCreator.createTangents(0.5, yFeet, eq);
+        tangents = EquationCreator.createTangents(0.25, yFeet, eq);
         Log.d(this, eq);
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
         initHeading = Robot.driveTrain.getHeading();
+        Log.d(this, Robot.driveTrain.getDistance());
     }
 
     protected void execute() {
@@ -70,9 +72,8 @@ public class CurveDrive extends Command {
 
     @Override
     protected boolean isFinished() {
-        System.out.println(Math.abs(xPos - xFeet) + " , " +  Math.abs(yPos - yFeet));
         // Checks if the x is within 1.5 feet and the y within 0.2 feet
-        if (Math.abs(xPos - xFeet) < 10 && Math.abs(yPos - yFeet) < 1)
+        if (Math.abs(yPos - yFeet) < 0.1)
             return true;
         return false;
     }
@@ -85,7 +86,7 @@ public class CurveDrive extends Command {
         yPos = 0;
         Robot.driveTrain.reset();
         Robot.driveTrain.brakeMode(true);
-        //new StraightDriveWithEncoders(0.5, 0.0, 0.1, 10).start();
+        new TalonStraightDriveWithEncoders(0.6, 0.0, 0.1, 10, "stop").start();
         lastEncoderAv = 0;
     }
 
@@ -165,8 +166,6 @@ public class CurveDrive extends Command {
        double proportionAbove = distanceBelow / total;
        
        desiredTangent = desiredBelowTangent * proportionBelow + desiredAboveTangent * proportionAbove;
-       System.out.println(desiredTangent + "," + desiredBelowTangent + "," + desiredAboveTangent);
-      // System.out.println(desiredTangent + " : " + desiredBelowX + "," + desiredBelowTangent + "," + distanceBelow + " : " + desiredAboveY + "," + desiredAboveTangent + "," + distanceAbove);
        double rotateVal = desiredTangent - tangent;
        rotateVal /= 10;
 
@@ -215,7 +214,8 @@ public class CurveDrive extends Command {
         // Adjusts your current position accordingly.
         xPos += changedXPos;
         yPos += changedYPos;
-
+        
+        //System.out.println(xPos + " " + yPos);
         // Saves your encoder distance so you can calculate how far youve went in the new tick
         lastEncoderAv = Robot.driveTrain.getDistance();
     }
