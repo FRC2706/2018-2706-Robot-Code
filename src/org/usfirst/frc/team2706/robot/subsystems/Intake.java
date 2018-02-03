@@ -35,14 +35,14 @@ public class Intake extends Subsystem{
     }
     // Turns the robot motors on to suck in the cube
     public void inhaleCube() {
-        left_intake_motor.set(-1.0);
-        right_intake_motor.set(1.0);
+        left_intake_motor.set(0.7);
+        right_intake_motor.set(0.7);
     }
     
     // Turns the robot motors on to fire out the cube
     public void exhaleCube() {
-        left_intake_motor.set(1.0);
-        right_intake_motor.set(-1.0);
+        left_intake_motor.set(-7.0);
+        right_intake_motor.set(-7.0);
     }
     
     // Stops both motors

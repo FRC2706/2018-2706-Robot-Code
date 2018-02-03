@@ -15,6 +15,7 @@ public class IntakeCube extends Command {
     public IntakeCube() {
         inhale = Robot.intake;
     }
+    
     /**
      * I don't believe initialization is required 
      */
