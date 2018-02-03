@@ -159,17 +159,15 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        if(DriverStation.getInstance().getJoystickName(0).isEmpty() || DriverStation.getInstance().getJoystickName(0).isEmpty()) {
+        // Report warnings when a joystick disconnects
+        if(DriverStation.getInstance().getJoystickName(0).isEmpty() || DriverStation.getInstance().getJoystickName(1).isEmpty()) {
             if(wasConnected) {
                 DriverStation.reportWarning("Joystick disconnected", false);
                 wasConnected = false;
             }
         }
-        else {
-            if(!wasConnected) {
-                DriverStation.reportWarning("Joystick conected", false);
-                wasConnected = false;
-            }
+        else if(!wasConnected) {
+            wasConnected = false;
         }
         
         Scheduler.getInstance().run();
