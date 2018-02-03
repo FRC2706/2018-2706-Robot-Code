@@ -67,7 +67,10 @@ public class Robot extends IterativeRobot {
 
         camera = new Camera();
         
+        //Make sure to initialize cube intake and eject
+        //mechanisms
         intake = new Intake();
+        exhale = new Intake();
 
         oi = new OI();
         // WARNING DO NOT AUTOFORMAT THIS OR BAD THINGS WILL HAPPEN TO YOU
