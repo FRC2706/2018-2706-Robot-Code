@@ -4,7 +4,9 @@ import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
-import org.usfirst.frc.team2706.robot.controls.TalonEncoder;
+import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
+import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
+import org.usfirst.frc.team2706.robot.controls.talon.TalonSensorGroup;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -37,6 +39,7 @@ public class DriveTrain extends Subsystem {
     private GyroPIDSource gyroPIDSource;
     private AverageEncoderPIDSource encoderPIDSource;
     private UltrasonicPIDSource ultrasonicPIDSource;
+    private TalonPID talonPID;
 
     public double initGyro;
 
@@ -61,7 +64,7 @@ public class DriveTrain extends Subsystem {
                         new SpeedControllerGroup(front_right_motor, back_right_motor));
 
         left_encoder = new TalonEncoder(front_left_motor);
-        right_encoder = new TalonEncoder(front_left_motor);
+        right_encoder = new TalonEncoder(front_right_motor);
 
         // Encoders may measure differently in the real world and in
         // simulation. In this example the robot move at some random value
@@ -86,6 +89,9 @@ public class DriveTrain extends Subsystem {
 
         encoderPIDSource = new AverageEncoderPIDSource(left_encoder, right_encoder);
         ultrasonicPIDSource = new UltrasonicPIDSource(leftDistanceSensor, rightDistanceSensor);
+        
+        talonPID = new TalonPID(new TalonSensorGroup(front_left_motor, drive::setSafetyEnabled, left_encoder, back_left_motor),
+                        new TalonSensorGroup(front_right_motor, drive::setSafetyEnabled, right_encoder, back_right_motor));
 
         // Set up navX gyro
         gyro = new AHRS(SPI.Port.kMXP);
@@ -300,6 +306,15 @@ public class DriveTrain extends Subsystem {
     public PIDOutput getDrivePIDOutput(boolean useGyroStraightening, boolean useCamera,
                     boolean invert) {
         return new DrivePIDOutput(drive, useGyroStraightening, useCamera, invert);
+    }
+    
+    /**
+     * @param useGyroStraightening True to invert second motor direction for rotating
+     * 
+     * @return The robot's drive PIDOutput
+     */
+    public TalonPID getTalonPID() {
+        return talonPID;
     }
 
     /**
@@ -532,7 +547,7 @@ public class DriveTrain extends Subsystem {
             this.invert = invert;
         }
     }
-
+    
     public double normalize(double input) {
         double normalizedValue = input;
         while (normalizedValue > 180)
