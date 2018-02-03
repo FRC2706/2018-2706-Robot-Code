@@ -40,12 +40,13 @@ public class DashboardAutoSelector {
     public DashboardAutoSelector(Command fallbackCommand) {
         this.fallbackCommand = fallbackCommand;
     }
-
+    String prevPosition = "";
     public void getPositionAndRespond() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("SmartDashboard");
         position = table.getEntry("autonomous/selected_position").getString("");
         System.out.println("position" + "," + position);
-        if (position != "") {
+        if (!position.equals(prevPosition)) {
+            prevPosition = position;
             if (position.equals("R")) {
                 SmartDashboard.putString("autonomous/auto_modes",
                                 new Gson().toJson(((UnselectedPriorityList) new ArrayList<Priority>(
