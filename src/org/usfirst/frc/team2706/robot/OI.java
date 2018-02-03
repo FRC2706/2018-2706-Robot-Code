@@ -2,6 +2,8 @@ package org.usfirst.frc.team2706.robot;
 
 import java.lang.reflect.Field;
 
+import org.usfirst.frc.team2706.robot.commands.EjectCube;
+import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.teleop.HandBrake;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 
@@ -50,7 +52,12 @@ public class OI {
 
         // Stop driving and go into brake mode, stopping the robot
         TriggerButtonJoystick driverBackLeftTrigger = new TriggerButtonJoystick(driverStick, 2);
-        driverBackLeftTrigger.runWhileHeld(new HandBrake(true, "DriverHandbrake"));
+       //driverBackLeftTrigger.runWhileHeld(new HandBrake(true, "DriverHandbrake"));
+        driverBackLeftTrigger.runWhileHeld(new EjectCube());
+        
+        TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, 3);
+        driverBackRightTrigger.runWhileHeld(new IntakeCube());
+
 
         // Joystick for controlling the mechanisms of the robot
         this.controlStick = controlStick;

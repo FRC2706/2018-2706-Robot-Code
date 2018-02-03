@@ -10,6 +10,7 @@ import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.controls.StickRumble;
 import org.usfirst.frc.team2706.robot.subsystems.Camera;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -32,6 +33,11 @@ public class Robot extends IterativeRobot {
 
     // The robot's main drive train
     public static DriveTrain driveTrain;
+    
+    //intake subsystem
+    public static Intake intake;
+    
+    public static Intake exhale;
 
     // Stores all of the joysticks, and returns them as read only.
     public static OI oi;
@@ -61,6 +67,11 @@ public class Robot extends IterativeRobot {
         driveTrain = new DriveTrain();
 
         camera = new Camera();
+        
+        //Make sure to initialize cube intake and eject
+        //mechanisms
+        intake = new Intake();
+        exhale = new Intake();
 
         oi = new OI();
         // WARNING DO NOT AUTOFORMAT THIS OR BAD THINGS WILL HAPPEN TO YOU
