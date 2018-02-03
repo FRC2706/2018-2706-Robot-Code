@@ -85,9 +85,10 @@ public class CurveDrive extends Command {
     protected void end() {
         xPos = 0;
         yPos = 0;
-        Robot.driveTrain.reset();
+        
         Robot.driveTrain.brakeMode(true);
         new CurveDriveStop(endCurve).start();
+       // Robot.driveTrain.reset();
         lastEncoderAv = 0;
     }
 
