@@ -3,7 +3,10 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.RobotConfig;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -20,18 +23,21 @@ public class StraightDriveWithTime extends Command {
      * 
      * @param speed Speed in range [-1,1]
      * @param time Time in milliseconds to drive
+     * @param name The name of the of the configuration properties to look for
      */
-    public StraightDriveWithTime(double speed, long time) {
-        super("StraightDriveWithTime");
+    public StraightDriveWithTime(double speed, long time, String name) {
+        super(name);
         requires(Robot.driveTrain);
 
-        this.speed = -speed;
+        this.speed = -RobotConfig.get(name + ".speed", speed);
 
-        this.time = time;
+        this.time = RobotConfig.get(name + ".time", time);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        Log.d(this, "Driving for " + time / 1000 + " seconds");
+        
         // Creates task to stop robot after time
         CommandTimerTask interrupt = new CommandTimerTask();
         new Timer().schedule(interrupt, time);
@@ -53,6 +59,7 @@ public class StraightDriveWithTime extends Command {
     // Called once after isFinished returns true
     protected void end() {
         Robot.driveTrain.drive(0, 0);
+        Log.d(this, "Done driving");
     }
 
     // Called when another command which requires one or more of the same
@@ -61,9 +68,9 @@ public class StraightDriveWithTime extends Command {
         end();
     }
 
-    public boolean done;
+    private boolean done;
 
-    class CommandTimerTask extends TimerTask {
+    private class CommandTimerTask extends TimerTask {
 
         public void run() {
             done = true;

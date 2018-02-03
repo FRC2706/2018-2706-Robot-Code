@@ -3,14 +3,14 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
+import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Have the robot drive certain distance
  */
-public class StraightDriveWithEncoders extends Command {
+public class TalonStraightDriveWithEncoders extends Command {
 
     private final double speed;
 
@@ -18,7 +18,7 @@ public class StraightDriveWithEncoders extends Command {
 
     private final double error;
 
-    private PIDController PID;
+    private TalonPID PID;
 
     private final int minDoneCycles;
 
@@ -32,8 +32,8 @@ public class StraightDriveWithEncoders extends Command {
      * @param error The range that the robot is happy ending the command in
      * @param name The name of the of the configuration properties to look for
      */
-    public StraightDriveWithEncoders(double speed, double distance, double error, int minDoneCycles,
-                    String name) {
+    public TalonStraightDriveWithEncoders(double speed, double distance, double error,
+                    int minDoneCycles, String name) {
         super(name);
         requires(Robot.driveTrain);
 
@@ -45,14 +45,14 @@ public class StraightDriveWithEncoders extends Command {
 
         this.minDoneCycles = RobotConfig.get(name + ".minDoneCycles", minDoneCycles);
 
-        PID = new PIDController(P, I, D, F, Robot.driveTrain.getAverageEncoderPIDSource(),
-                        Robot.driveTrain.getDrivePIDOutput(true, false, false));
+        PID = Robot.driveTrain.getTalonPID();
+        PID.setPID(P, I, D, F);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Log.d(this, "Driving " + distance + " feet at a speed of " + speed);
-        
+        Log.d(this, "Talon driving " + distance + " feet at a speed of " + speed);
+
         Robot.driveTrain.reset();
 
         Robot.driveTrain.brakeMode(true);
@@ -68,12 +68,13 @@ public class StraightDriveWithEncoders extends Command {
 
         PID.setSetpoint(distance);
 
-
         // Will accept within 5 inch of target
-        PID.setAbsoluteTolerance(error);
+        PID.setError(error);
 
         // Start going to location
         PID.enable();
+
+        this.doneTicks = 0;
     }
 
     private int doneTicks;
@@ -81,7 +82,7 @@ public class StraightDriveWithEncoders extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
 
-        if (PID.onTarget())
+        if (PID.isOnTarget())
             doneTicks++;
         else
             doneTicks = 0;

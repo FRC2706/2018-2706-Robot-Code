@@ -1,11 +1,9 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive;
-
 import java.util.LinkedHashMap;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
-import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
-
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import org.usfirst.frc.team2706.robot.RobotConfig;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -33,6 +31,7 @@ public class CurveDrive extends Command {
     private double initHeading;
 
     private final boolean isRight;
+
     /**
      * Drives to a specified point and ends at a specified angle.
      * 
@@ -40,21 +39,25 @@ public class CurveDrive extends Command {
      * @param yFeet Distance forward, in feet (preferably not negative)
      * @param endCurve Ending angle (-90 to 90 degrees, but only useful at -80 to 80)
      * @param speed Base speed the robot drives (-1.0 to 1.0)
+     * @param name The name of the of the configuration properties to look for
      */
-    public CurveDrive(double xFeet, double yFeet, double endCurve, double speed, boolean isRight) {
+    public CurveDrive(double xFeet, double yFeet, double endCurve, double speed, boolean isRight,
+                    String name) {
+        super(name);
         requires(Robot.driveTrain);
 
-        this.xFeet = xFeet;
-        this.yFeet = yFeet;
-        this.endCurve = endCurve;
-        this.speed = speed;
-        this.isRight = isRight;
+        this.xFeet = RobotConfig.get(name + ".xFeet", xFeet);
+        this.yFeet = RobotConfig.get(name + ".yFeet", yFeet);
+        this.endCurve = RobotConfig.get(name + ".endCurve", endCurve);
+        this.speed = RobotConfig.get(name + ".speed", speed);
+        this.isRight = RobotConfig.get(name + ".isRight", isRight);
     }
 
     protected void initialize() {
         // Creates the cubic equation that the robot follows
         eq = EquationCreator.MakeCubicEquation(xFeet, yFeet, endCurve, isRight);
         tangents = EquationCreator.createTangents(0.5, yFeet, eq);
+        Log.d(this, eq);
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
         initHeading = Robot.driveTrain.getHeading();
@@ -174,9 +177,11 @@ public class CurveDrive extends Command {
         double tangent = (3 * eq.a * Math.pow(yPos, 2)) + (2 * eq.b * yPos);
         tangent = Math.toDegrees(Math.atan(tangent));
 
-        // Finds out what x position you should be at, and compares it with what you are currently at
+        // Finds out what x position you should be at, and compares it with what you are currently
+        // at
         double wantedX = (eq.a * Math.pow(yPos, 3)) + (eq.b * Math.pow(xPos, 2));
 
+        @SuppressWarnings("unused")
         double offset = xPos - wantedX;
 
         // Figures out how far you should rotate based on offset and gyro pos
@@ -185,6 +190,7 @@ public class CurveDrive extends Command {
         // Tank Drives according to the above factors
         Robot.driveTrain.arcadeDrive(speed, rotateVal);
     }
+
     private double xPos = 0;
 
     private double yPos = 0;
