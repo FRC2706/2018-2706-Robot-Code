@@ -32,8 +32,8 @@ public class TalonStraightDriveWithEncoders extends Command {
      * @param error The range that the robot is happy ending the command in
      * @param name The name of the of the configuration properties to look for
      */
-    public TalonStraightDriveWithEncoders(double speed, double distance, double error, int minDoneCycles,
-                    String name) {
+    public TalonStraightDriveWithEncoders(double speed, double distance, double error,
+                    int minDoneCycles, String name) {
         super(name);
         requires(Robot.driveTrain);
 
@@ -52,7 +52,7 @@ public class TalonStraightDriveWithEncoders extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
         Log.d(this, "Talon driving " + distance + " feet at a speed of " + speed);
-        
+
         Robot.driveTrain.reset();
 
         Robot.driveTrain.brakeMode(true);
@@ -73,15 +73,10 @@ public class TalonStraightDriveWithEncoders extends Command {
 
         // Start going to location
         PID.enable();
-        
+
         this.doneTicks = 0;
     }
 
-    @Override
-    public void execute() {
-        PID.update();
-    }
-    
     private int doneTicks;
 
     // Make this return true when this Command no longer needs to run execute()

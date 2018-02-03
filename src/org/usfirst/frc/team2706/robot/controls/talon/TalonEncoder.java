@@ -25,13 +25,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  */
 public class TalonEncoder extends SensorBase implements PIDSource, Sendable {
 
+    /**
+     * The source type of the PID
+     */
     private PIDSourceType m_pidSource;
 
+    /**
+     * The motor controlling the PID
+     */
     private final TalonSRX controller;
 
-    private int resetTicks;
+    /**
+     * The scaling to turn ticks into distance
+     */
     private double dpp = 1;
 
+    /**
+     * Creates a new TalonEncoder from a talon
+     * 
+     * @param controller The talon with the encoder attached
+     */
     public TalonEncoder(TalonSRX controller) {
         this.controller = controller;
         this.m_pidSource = PIDSourceType.kDisplacement;
@@ -44,14 +57,14 @@ public class TalonEncoder extends SensorBase implements PIDSource, Sendable {
      * @return Current count from the Encoder adjusted for the 1x, 2x, or 4x scale factor.
      */
     public int get() {
-        return controller.getSelectedSensorPosition(0) - resetTicks;
+        return controller.getSelectedSensorPosition(0);
     }
 
     /**
      * Reset the Encoder distance to zero. Resets the current count to zero on the encoder.
      */
     public void reset() {
-        resetTicks = controller.getSelectedSensorPosition(0);
+        controller.setSelectedSensorPosition(0, 0, 0);
     }
 
     /**
@@ -134,14 +147,5 @@ public class TalonEncoder extends SensorBase implements PIDSource, Sendable {
         builder.addDoubleProperty("Speed", this::getRate, null);
         builder.addDoubleProperty("Distance", this::getDistance, null);
         builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse, null);
-    }
-
-    /**
-     * Gets the number of ticks when last reset
-     * 
-     * @return The number of ticks
-     */
-    public int getResetTicks() {
-        return resetTicks;
     }
 }

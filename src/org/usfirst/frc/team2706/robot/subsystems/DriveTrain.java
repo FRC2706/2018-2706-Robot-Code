@@ -90,8 +90,8 @@ public class DriveTrain extends Subsystem {
         encoderPIDSource = new AverageEncoderPIDSource(left_encoder, right_encoder);
         ultrasonicPIDSource = new UltrasonicPIDSource(leftDistanceSensor, rightDistanceSensor);
         
-        talonPID = new TalonPID(new TalonSensorGroup(front_left_motor, left_encoder, back_left_motor),
-                        new TalonSensorGroup(front_right_motor, right_encoder, back_right_motor));
+        talonPID = new TalonPID(new TalonSensorGroup(front_left_motor, drive::setSafetyEnabled, left_encoder, back_left_motor),
+                        new TalonSensorGroup(front_right_motor, drive::setSafetyEnabled, right_encoder, back_right_motor));
 
         // Set up navX gyro
         gyro = new AHRS(SPI.Port.kMXP);
@@ -547,7 +547,7 @@ public class DriveTrain extends Subsystem {
             this.invert = invert;
         }
     }
-
+    
     public double normalize(double input) {
         double normalizedValue = input;
         while (normalizedValue > 180)
