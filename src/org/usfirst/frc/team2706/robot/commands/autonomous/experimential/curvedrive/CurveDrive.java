@@ -73,7 +73,7 @@ public class CurveDrive extends Command {
 
     protected void execute() {
         findPosition();
-        followCurveRelational();
+        followCurveArcade();
     }
 
     @Override
@@ -191,16 +191,15 @@ public class CurveDrive extends Command {
 
         // Finds out what x position you should be at, and compares it with what you are currently
         // at
-        double wantedX = (eq.a * Math.pow(yPos, 3)) + (eq.b * Math.pow(xPos, 2));
+        double wantedX = (eq.a * Math.pow(yPos, 3)) + (eq.b * Math.pow(yPos, 2));
 
-        @SuppressWarnings("unused")
         double offset = xPos - wantedX;
 
         // Figures out how far you should rotate based on offset and gyro pos
-        double rotateVal = tangent - (Robot.driveTrain.getHeading() - initHeading);
-        rotateVal /= 5;
+        double rotateVal = offset * 10;
+        System.out.println(rotateVal);
         // Tank Drives according to the above factors
-        Robot.driveTrain.arcadeDrive(speed, rotateVal);
+        Robot.driveTrain.arcadeDrive(-speed, rotateVal);
     }
 
     private double xPos = 0;
@@ -220,7 +219,7 @@ public class CurveDrive extends Command {
         // Gets encoder average distance
         double encoderAv = Robot.driveTrain.getDistance() - lastEncoderAv;
 
-        // Uses trigonometry 'n stuff to figure out how far right and forward you travelled
+        // Uses trigonometry 'n stuff to figure out how far right and forward you traveled
         double changedXPos = Math.sin(Math.toRadians(gyroAngle)) * encoderAv;
         double changedYPos = Math.cos(Math.toRadians(gyroAngle)) * encoderAv;
 
