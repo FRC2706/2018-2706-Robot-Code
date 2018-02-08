@@ -8,6 +8,7 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordre
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.controls.StickRumble;
 import org.usfirst.frc.team2706.robot.subsystems.Camera;
+import org.usfirst.frc.team2706.robot.subsystems.Climber;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
@@ -37,6 +38,8 @@ public class Robot extends IterativeRobot {
     public static Intake intake;
     
     public static Intake exhale;
+    
+    public static Climber climb;
 
     // Stores all of the joysticks, and returns them as read only.
     public static OI oi;
@@ -71,6 +74,8 @@ public class Robot extends IterativeRobot {
         //mechanisms
         intake = new Intake();
         exhale = new Intake();
+        
+        climb = new Climber(); 
 
         oi = new OI();
         // WARNING DO NOT AUTOFORMAT THIS OR BAD THINGS WILL HAPPEN TO YOU
