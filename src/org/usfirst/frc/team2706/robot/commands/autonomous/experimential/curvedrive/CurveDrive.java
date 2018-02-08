@@ -7,6 +7,7 @@ import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Drives from one position to another and ends at a certain line based on a cubic equation creator.
@@ -73,7 +74,7 @@ public class CurveDrive extends Command {
 
     protected void execute() {
         findPosition();
-        followCurveArcade();
+        followCurveRelational();
     }
 
     @Override
@@ -110,7 +111,8 @@ public class CurveDrive extends Command {
         double tangent = (3 * eq.a * Math.pow(yPos, 2)) + (2 * eq.b * yPos);
         tangent = Math.toDegrees(Math.atan(tangent));
 
-        // Finds out what x position you should be at, and compares it with what you are currently at
+        // Finds out what x position you should be at, and compares it with what you are currently
+        // at
         double wantedX = (eq.a * Math.pow(yPos, 3)) + (eq.b * Math.pow(yPos, 2));
 
         double offset = xPos - wantedX;
@@ -181,7 +183,7 @@ public class CurveDrive extends Command {
         double rotateVal = desiredTangent - tangent;
         rotateVal /= 10;
 
-        Robot.driveTrain.arcadeDrive(-speed, -rotateVal);
+        Robot.driveTrain.arcadeDrive(-speed, -rotateVal + (rotateVal < 0 ? 0.22 : -0.22));
     }
 
     public void followCurveArcade() {
@@ -199,7 +201,7 @@ public class CurveDrive extends Command {
         double rotateVal = offset * 10;
         System.out.println(rotateVal);
         // Tank Drives according to the above factors
-        Robot.driveTrain.arcadeDrive(-speed, rotateVal);
+        Robot.driveTrain.arcadeDrive(-speed, rotateVal + (rotateVal > 0 ? 0.3 : -0.3));
     }
 
     private double xPos = 0;
@@ -215,20 +217,22 @@ public class CurveDrive extends Command {
     private void findPosition() {
         // Gets gyro angle
         double gyroAngle = Robot.driveTrain.getHeading() - initHeading;
-
+        double encoderAv = (Robot.driveTrain.getDistance() - lastEncoderAv);
         // Gets encoder average distance
-        double encoderAv = Robot.driveTrain.getDistance() - lastEncoderAv;
-
+        double arcLength = encoderAv / Math.toRadians(gyroAngle);
+        double c = Math.sqrt(Math.pow(2 * arcLength, 2) * (1 - Math.cos(Math.toRadians(gyroAngle))));
         // Uses trigonometry 'n stuff to figure out how far right and forward you traveled
-        double changedXPos = Math.sin(Math.toRadians(gyroAngle)) * encoderAv;
-        double changedYPos = Math.cos(Math.toRadians(gyroAngle)) * encoderAv;
+        double changedXPos = Math.sin(Math.toRadians(gyroAngle)) * c;
+        double changedYPos = Math.cos(Math.toRadians(gyroAngle)) * c;
 
         // Adjusts your current position accordingly.
         xPos += changedXPos;
         yPos += changedYPos;
 
+        SmartDashboard.putNumber("X Position", xPos);
+        SmartDashboard.putNumber("Y Position", yPos);
         // System.out.println(xPos + " " + yPos);
-        // Saves your encoder distance so you can calculate how far youve went in the new tick
+        // Saves your encoder distance so you can calculate how far you've went in the new tick
         lastEncoderAv = Robot.driveTrain.getDistance();
     }
 }
