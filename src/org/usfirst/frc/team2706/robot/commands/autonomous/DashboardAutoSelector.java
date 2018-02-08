@@ -43,22 +43,23 @@ public class DashboardAutoSelector {
     String prevPosition = "";
     public void getPositionAndRespond() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("SmartDashboard");
-        position = table.getEntry("autonomous/selected_position").getString("");
-        System.out.println("position" + "," + position);
+        position = table.getEntry("autonomous/selected_position").getString("c");
+        System.out.println("pos " + position);
         if (!position.equals(prevPosition)) {
-            prevPosition = position;
-            if (position.equals("R")) {
+            //prevPosition = position;
+            if (position.equals("r")) {
+                SmartDashboard.putString("SmartDashboard/autonomous/auto_modes",
+                                new Gson().toJson(listToMap(new ArrayList<Priority>(
+                                                Arrays.asList(rightPriorities)))));
+            } else if (position.equals("c")) {
+                System.out.println("SmartDashboard/autonomous/auto_modes");
                 SmartDashboard.putString("autonomous/auto_modes",
-                                new Gson().toJson(((UnselectedPriorityList) new ArrayList<Priority>(
-                                                Arrays.asList(rightPriorities))).listToMap()));
-            } else if (position.equals("C")) {
-                SmartDashboard.putString("autonomous/auto_modes",
-                                new Gson().toJson(((UnselectedPriorityList) new ArrayList<Priority>(
-                                                Arrays.asList(centerPriorities))).listToMap()));
-            } else if (position.equals("L")) {
-                SmartDashboard.putString("autonomous/auto_modes",
-                                new Gson().toJson(((UnselectedPriorityList) new ArrayList<Priority>(
-                                                Arrays.asList(leftPriorities))).listToMap()));
+                                new Gson().toJson(listToMap(new ArrayList<Priority>(
+                                                Arrays.asList(centerPriorities)))));
+            } else if (position.equals("l")) {
+                SmartDashboard.putString("SmartDashboard/autonomous/auto_modes",
+                                new Gson().toJson(listToMap(new ArrayList<Priority>(
+                                                Arrays.asList(leftPriorities)))));
             }
         }
 
@@ -75,14 +76,14 @@ public class DashboardAutoSelector {
             ArrayList<Priority> objectPriorityList = new ArrayList<Priority>();
             for (String priority : priorityList) {
                 if (position.equals("L")) {
-                    objectPriorityList.add(((UnselectedPriorityList) new ArrayList<Priority>(
-                                    Arrays.asList(leftPriorities))).findPriority(priority));
+                    objectPriorityList.add(findPriority(priority, new ArrayList<Priority>(
+                                    Arrays.asList(leftPriorities))));
                 } else if (position.equals("C")) {
-                    objectPriorityList.add(((UnselectedPriorityList) new ArrayList<Priority>(
-                                    Arrays.asList(centerPriorities))).findPriority(priority));
+                    objectPriorityList.add(findPriority(priority, new ArrayList<Priority>(
+                                    Arrays.asList(centerPriorities))));
                 } else if (position.equals("R")) {
-                    objectPriorityList.add(((UnselectedPriorityList) new ArrayList<Priority>(
-                                    Arrays.asList(rightPriorities))).findPriority(priority));
+                    objectPriorityList.add(findPriority(priority, new ArrayList<Priority>(
+                                    Arrays.asList(rightPriorities))));
                 }
             }
         }
@@ -154,24 +155,22 @@ public class DashboardAutoSelector {
             return linkedCommand;
         }
     }
-    class UnselectedPriorityList extends ArrayList<Priority> {
-        private static final long serialVersionUID = 1L;
 
-        public LinkedHashMap<String, String> listToMap() {
+        public LinkedHashMap<String, String> listToMap(ArrayList<Priority> pp) {
             LinkedHashMap<String, String> stringList = new LinkedHashMap<String, String>();
-            for (Priority p : this) {
+            for (Priority p : pp) {
                 stringList.put(p.id, p.name);
             }
             return stringList;
         }
 
-        public Priority findPriority(String id) {
-            for (Priority p : this) {
+        public Priority findPriority(String id, ArrayList<Priority> pp) {
+            for (Priority p : pp) {
                 if (p.id.equals(id)) {
                     return p;
                 }
             }
             return null;
-        }
+        
     }
 }
