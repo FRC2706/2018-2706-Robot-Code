@@ -220,7 +220,7 @@ public class CurveDrive extends Command {
         double encoderAv = (Robot.driveTrain.getDistance() - lastEncoderAv);
         // Gets encoder average distance
         double arcLength = encoderAv / Math.toRadians(gyroAngle);
-        double c = Math.sqrt(Math.pow(2 * arcLength, 2) * (1 - Math.cos(Math.toRadians(gyroAngle))));
+        double c = Math.sqrt((2 * Math.pow(arcLength, 2)) * (1 - Math.cos(Math.toRadians(gyroAngle))));
         // Uses trigonometry 'n stuff to figure out how far right and forward you traveled
         double changedXPos = Math.sin(Math.toRadians(gyroAngle)) * c;
         double changedYPos = Math.cos(Math.toRadians(gyroAngle)) * c;
