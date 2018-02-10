@@ -51,12 +51,24 @@ public class OI {
 
         // Stop driving and go into brake mode, stopping the robot
         TriggerButtonJoystick driverBackLeftTrigger = new TriggerButtonJoystick(driverStick, 2);
-       //driverBackLeftTrigger.runWhileHeld(new HandBrake(true, "DriverHandbrake"));
-        driverBackLeftTrigger.runWhileHeld(new EjectCube());
+        driverBackLeftTrigger.whenPressed(new EjectCube());
+        
+        //driverBackLeftTrigger.runWhileHeld(new HandBrake(true, "DriverHandbrake"));
+        // driverBackLeftTrigger.runWhileHeld(new EjectCube());
         
         TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, 3);
-        driverBackRightTrigger.runWhileHeld(new IntakeCube());
+        driverBackRightTrigger.whenPressed(new IntakeCube());
 
+      //  Joystick driverBackRightTrigger = new Joystick(3);
+     //   driverBackRightTrigger.
+        // TODO see if this works if not, fix this
+        // driverBackRightTrigger.getRawAxis(3);
+        
+       // Joystick driverBackLeftTrigger = new Joystick(2);
+        // TODO see if this works if not, fix this
+        // driverBackLeftTrigger.getRawAxis(2);
+        
+        
 
         // Joystick for controlling the mechanisms of the robot
         this.controlStick = controlStick;

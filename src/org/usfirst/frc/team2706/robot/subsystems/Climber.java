@@ -11,13 +11,14 @@ public class Climber extends Subsystem {
     
     public Climber() {
         // TODO Add TALON number assignments in robotmap 
-        int CLIMBER_MOTOR = 9; //Unknown exact number at the moment
+        int CLIMBER_MOTOR = 8; //Unknown exact number at the moment, Value clashes with lift motor (Used for testing) 
         climber_motor = new WPI_TalonSRX(CLIMBER_MOTOR);
     }
     
     // Tells the robot to start climbing
     public void climb() {
-        climber_motor.set(java.lang.Math.abs(0.75)); //Speed may change later
+        double power = 0.75;
+        climber_motor.set(java.lang.Math.abs(power)); //Speed may change later
     }
     
     // May not even be needed

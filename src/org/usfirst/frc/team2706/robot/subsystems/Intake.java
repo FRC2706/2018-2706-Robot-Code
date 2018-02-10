@@ -28,21 +28,22 @@ public class Intake extends Subsystem{
         right_intake_motor = new WPI_TalonSRX(INTAKE_MOTOR_RIGHT);
         left_intake_motor = new WPI_TalonSRX(INTAKE_MOTOR_LEFT);
         
+        right_intake_motor.setInverted(true);
         //TODO analog define robot map
       //  int channel = 0; 
       //  IR_sensor = new AnalogInput(channel);
         
     }
     // Turns the robot motors on to suck in the cube
-    public void inhaleCube() {
-        left_intake_motor.set(0.7);
-        right_intake_motor.set(0.7);
+    public void inhaleCube(double motorSpeed) {
+        left_intake_motor.set(motorSpeed);
+        right_intake_motor.set(motorSpeed*-1); 
     }
     
     // Turns the robot motors on to fire out the cube
-    public void exhaleCube() {
-        left_intake_motor.set(-0.7);
-        right_intake_motor.set(-0.7);
+    public void exhaleCube(double motorSpeed) {
+        left_intake_motor.set(motorSpeed*-1);
+        right_intake_motor.set(motorSpeed);
     }
     
     // Stops both motors

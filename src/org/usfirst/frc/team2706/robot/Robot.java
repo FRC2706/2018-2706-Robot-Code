@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot {
     //intake subsystem
     public static Intake intake;
     
-    public static Intake exhale;
+   // public static Intake exhale;
     
     public static Climber climb;
 
@@ -73,8 +73,9 @@ public class Robot extends IterativeRobot {
         //Make sure to initialize cube intake and eject
         //mechanisms
         intake = new Intake();
-        exhale = new Intake();
+       // exhale = new Intake();
         
+        //Climber initialization 
         climb = new Climber(); 
 
         oi = new OI();
