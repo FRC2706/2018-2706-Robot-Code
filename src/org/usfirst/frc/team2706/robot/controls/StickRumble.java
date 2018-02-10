@@ -4,6 +4,7 @@ import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -118,8 +119,21 @@ public class StickRumble extends Command {
         }
     }
 
+    private boolean wasConnected = true;
+    
     @Override
     public void execute() {
+        // Report warnings when a joystick disconnects
+        if(DriverStation.getInstance().getJoystickName(0).isEmpty() || DriverStation.getInstance().getJoystickName(1).isEmpty()) {
+            if(wasConnected) {
+                DriverStation.reportWarning("Joystick disconnected", false);
+                wasConnected = false;
+            }
+        }
+        else if(!wasConnected) {
+            wasConnected = false;
+        }
+        
         // Stop no matter what after 4 seconds.
         if (timeSinceInitialized() > 4) {
             end();

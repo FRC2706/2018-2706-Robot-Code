@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive;
 
+import java.util.LinkedHashMap;
+
 /**
  * Actually does the math to create the equation from two points and a tangent. Warning: Complicated
  */
@@ -53,5 +55,36 @@ public class EquationCreator {
             return new CubicEquation(-a, -b, 0, 0);
         }
 
+    }
+
+    /**
+     * Creates the tangents for the equation, effectively how the robot interpolates the curve
+     * @param distanceOffsetDegrees The distance between each tangent
+     * @param topLimit The furthest you want the tangents to generate
+     * @param eq The equation of the curve
+     * @return The tangents
+     */
+    public static LinkedHashMap<Double, Double> createTangents(double distanceOffsetDegrees, double topLimit, CubicEquation eq) {
+        LinkedHashMap<Double, Double> followTangents;
+        followTangents = new LinkedHashMap<Double, Double>();
+        followTangents.put(0.0, 0.0);
+        Double lastEntryKey = 0.0;
+        double currentParse = 0.0;
+        for (; currentParse < topLimit; currentParse += 0.01) {
+            double tangent = (3 * eq.a * Math.pow(currentParse, 2)) + (2 * eq.b * currentParse);
+            tangent = Math.toDegrees(Math.atan(tangent));
+            if (Math.abs(Math.sqrt(Math.pow((Math.pow(eq.a * lastEntryKey, 3) + 
+                            Math.pow(eq.b * lastEntryKey, 2)) - (Math.pow(eq.a * currentParse, 3) + 
+                                    Math.pow(eq.b * currentParse, 2)), 2) + Math.pow(lastEntryKey - currentParse, 2)))
+                                        > distanceOffsetDegrees) {
+                followTangents.put(currentParse, tangent);
+                lastEntryKey = currentParse;
+            }
+        }
+        double tangent = (3 * eq.a * Math.pow(currentParse, 2)) + (2 * eq.b * currentParse);
+        tangent = Math.toDegrees(Math.atan(tangent));
+        followTangents.put(currentParse, tangent);
+        lastEntryKey = currentParse;
+        return followTangents;
     }
 }

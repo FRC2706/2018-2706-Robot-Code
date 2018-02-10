@@ -5,6 +5,7 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.DashboardAutoSelector;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.TalonStraightDriveWithEncoders;
+import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive.CurveDrive;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.ReplayRecordedJoystick;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
@@ -87,7 +88,9 @@ public class Robot extends IterativeRobot {
             /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.3, 2, 1, 5, "AutoForwardFoot"),
                                                     new RotateDriveWithGyro(0.5, 90, 5, "AutoTurn90"),
                                                     new ReplayRecordedJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(), false, "2018", "replay"),
-                                                    new TalonStraightDriveWithEncoders(0.3, 2, 1, 5, "AutoTalonForwardFoot")
+                                                    new TalonStraightDriveWithEncoders(0.3, 2, 1, 5, "AutoTalonForwardFoot"), 
+                                                    new CurveDrive(6.395, 10.33, 0, 0.65, true, 0.25, "CurveToSwitch")
+                                                    
         );
 
         // Set up the Microsoft LifeCam and start streaming it to the Driver Station
@@ -129,7 +132,7 @@ public class Robot extends IterativeRobot {
         Log.i("Robot", "Entering autonomous mode");
         
         driveTrain.reset();
-
+        
         // Great for safety just in case you set the wrong one in practice ;)
         Log.i("Autonomous Selector", "Running " + driveTrain.getAutonomousCommand() + "...");
 
@@ -164,7 +167,6 @@ public class Robot extends IterativeRobot {
         Robot.driveTrain.brakeMode(false);
         if (SmartDashboard.getBoolean("record-joystick", false))
             recordAJoystick.start();
-
         // Tell drive team to drive
         rumbler = new StickRumble(0.4, 0.15, 1, 0, 1, 1.0, 1, "controllerStickRumble");
         rumbler.start();
@@ -172,7 +174,7 @@ public class Robot extends IterativeRobot {
         // Deactivate the camera ring light
         // camera.enableRingLight(false);
     }
-
+    
     /**
      * This function is called periodically during operator control
      */
