@@ -53,11 +53,11 @@ public class RobotMap {
                     getConstant("MOTOR_REAR_RIGHT_INVERTED");
 
     
-    private static final double[] ENCODER_LEFT_DPP_VALS = {-79.0 / 36304.0, 6.0 / 2052.25, 1.0 / 264};
+    private static final double[] ENCODER_LEFT_DPP_VALS = {-79.0 / 108800.0, 6.0 / 2052.25, 1.0 / 264};
     public static final double ENCODER_LEFT_DPP = getConstant("ENCODER_LEFT_DPP");
     
 
-    private static final double[] ENCODER_RIGHT_DPP_VALS = {-79.0 / 36304.0, 6.0 / 2052.25, 1.0 / 264};
+    private static final double[] ENCODER_RIGHT_DPP_VALS = {79.0 / 108800.0, 6.0 / 2052.25, 1.0 / 264};
     public static final double ENCODER_RIGHT_DPP = getConstant("ENCODER_RIGHT_DPP");
 
 
