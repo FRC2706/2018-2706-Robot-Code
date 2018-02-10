@@ -8,6 +8,8 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.Cen
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterAutoRightSwitch;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftAutoLeftScale;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftAutoLeftSwitch;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightAutoRightScale;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightAutoRightSwitch;
 
 import com.google.gson.Gson;
 
@@ -32,9 +34,9 @@ public class DashboardAutoSelector {
                                     new CenterAutoRightSwitch())};
     Priority[] rightPriorities = {
                     new Priority("right_right_switch", "Right Switch", true, false,
-                                    new LeftAutoLeftSwitch()),
+                                    new RightAutoRightSwitch()),
                     new Priority("right_right_scale", "Right Scale", false, false,
-                                    new LeftAutoLeftScale())};
+                                    new RightAutoRightScale())};
     String position = "";
 
     public DashboardAutoSelector(Command fallbackCommand) {
