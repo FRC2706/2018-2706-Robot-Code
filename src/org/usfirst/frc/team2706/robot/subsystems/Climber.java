@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2706.robot.subsystems;
-import edu.wpi.first.wpilibj.command.Subsystem; 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import java.lang.Math;
+
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 // This class is used for usage of the climber 
 public class Climber extends Subsystem {
@@ -26,11 +26,10 @@ public class Climber extends Subsystem {
         climber_motor.set(0);
     }
 
-    @Override
-    // I don't think this is needed...
+    /**
+     * This is needed by the Subsystem superclass...
+     */
     protected void initDefaultCommand() {
-        // TODO Auto-generated method stub
-        
     }
 
 }

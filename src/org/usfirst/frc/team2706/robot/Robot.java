@@ -39,8 +39,7 @@ public class Robot extends IterativeRobot {
     //intake subsystem
     public static Intake intake;
     
-   // public static Intake exhale;
-    
+    //climber code
     public static Climber climb;
 
     // Stores all of the joysticks, and returns them as read only.
@@ -75,7 +74,6 @@ public class Robot extends IterativeRobot {
         //Make sure to initialize cube intake and eject
         //mechanisms
         intake = new Intake();
-       // exhale = new Intake();
         
         //Climber initialization 
         climb = new Climber(); 
