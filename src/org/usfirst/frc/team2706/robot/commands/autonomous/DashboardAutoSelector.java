@@ -50,7 +50,7 @@ public class DashboardAutoSelector {
         if (!position.equals(prevPosition)) {
             //prevPosition = position;
             if (position.equals("r")) {
-                SmartDashboard.putString("SmartDashboard/autonomous/auto_modes",
+                SmartDashboard.putString("autonomous/auto_modes",
                                 new Gson().toJson(listToMap(new ArrayList<Priority>(
                                                 Arrays.asList(rightPriorities)))));
             } else if (position.equals("c")) {
@@ -59,7 +59,7 @@ public class DashboardAutoSelector {
                                 new Gson().toJson(listToMap(new ArrayList<Priority>(
                                                 Arrays.asList(centerPriorities)))));
             } else if (position.equals("l")) {
-                SmartDashboard.putString("SmartDashboard/autonomous/auto_modes",
+                SmartDashboard.putString("autonomous/auto_modes",
                                 new Gson().toJson(listToMap(new ArrayList<Priority>(
                                                 Arrays.asList(leftPriorities)))));
             }
