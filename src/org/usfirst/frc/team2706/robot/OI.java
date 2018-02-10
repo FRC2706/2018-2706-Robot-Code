@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
+import org.usfirst.frc.team2706.robot.commands.StartCimbing;
 import org.usfirst.frc.team2706.robot.commands.teleop.HandBrake;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 
@@ -49,28 +50,18 @@ public class OI {
         // Joystick for driving the robot around
         this.driverStick = driverStick;
 
-        // Stop driving and go into brake mode, stopping the robot
+        // Runs the code depending which button/trigger is pressed
         TriggerButtonJoystick driverBackLeftTrigger = new TriggerButtonJoystick(driverStick, 2);
-        driverBackLeftTrigger.whenPressed(new EjectCube());
-        
-        //driverBackLeftTrigger.runWhileHeld(new HandBrake(true, "DriverHandbrake"));
-        // driverBackLeftTrigger.runWhileHeld(new EjectCube());
+        driverBackLeftTrigger.runWhileHeld(new EjectCube());
         
         TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, 3);
-        driverBackRightTrigger.whenPressed(new IntakeCube());
-
-        //  Joystick driverBackRightTrigger = new Joystick(3);
-     //   driverBackRightTrigger.
-        // TODO see if this works if not, fix this
-        // driverBackRightTrigger.getRawAxis(3);
+        driverBackRightTrigger.runWhileHeld(new IntakeCube());
         
-       // Joystick driverBackLeftTrigger = new Joystick(2);
-        // TODO see if this works if not, fix this
-        // driverBackLeftTrigger.getRawAxis(2);
-        
+        EJoystickButton joybutten = new EJoystickButton(driverStick, 3);
+        joybutten.runWhileHeld(new StartCimbing());
         
 
-        // Joystick for controlling the mechanisms of the robot
+        // The Joystick for controlling the mechanisms of the robot
         this.controlStick = controlStick;
 
     }

@@ -1,10 +1,7 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
-import org.usfirst.frc.team2706.robot.RobotMap;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem; 
 
 // This class is used for the intake of the cube
@@ -36,17 +33,17 @@ public class Intake extends Subsystem{
     }
     // Turns the robot motors on to suck in the cube
     public void inhaleCube(double motorSpeed) {
-        left_intake_motor.set(motorSpeed);
+        left_intake_motor.set(motorSpeed*-1);
         right_intake_motor.set(motorSpeed*-1); 
     }
     
     // Turns the robot motors on to fire out the cube
     public void exhaleCube(double motorSpeed) {
-        left_intake_motor.set(motorSpeed*-1);
+        left_intake_motor.set(motorSpeed);
         right_intake_motor.set(motorSpeed);
     }
     
-    // Stops both motors
+    // Stops both motors instantly
     public void stopMotors() {
         left_intake_motor.set(0);
         right_intake_motor.set(0);

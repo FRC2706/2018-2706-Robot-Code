@@ -64,7 +64,7 @@ public class RobotMap {
     private static final boolean[] INVERT_JOYSTICK_X_VALS = {true, true, true};
     public static final boolean INVERT_JOYSTICK_X = getConstant("INVERT_JOYSTICK_X");
 
-    private static final boolean[] INVERT_JOYSTICK_Y_VALS = {false, false, false};
+    private static final boolean[] INVERT_JOYSTICK_Y_VALS = {true, false, false};
     public static final boolean INVERT_JOYSTICK_Y = getConstant("INVERT_JOYSTICK_Y");
 
     private static final int[] SELECTOR_CHANNEL_VALS = {0, 0, 0};

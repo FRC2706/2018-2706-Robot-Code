@@ -3,7 +3,6 @@ package org.usfirst.frc.team2706.robot.commands;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class EjectCube extends Command {
@@ -26,7 +25,7 @@ public class EjectCube extends Command {
      * Turns on the motors on to eject the cube
      */
     public void execute() {
-        exhale.exhaleCube(Robot.oi.getOperatorJoystick().getRawAxis(2)); //TODO check out if correct
+        exhale.exhaleCube(Robot.oi.getDriverJoystick().getRawAxis(2)); //TODO check out if correct
     }
     
     /**

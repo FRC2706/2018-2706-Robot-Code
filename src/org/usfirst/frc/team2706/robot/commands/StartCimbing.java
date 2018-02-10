@@ -12,6 +12,7 @@ private Climber climb;
 
     public StartCimbing() {
         // TODO Auto-generated constructor stub
+        climb = Robot.climb;
     }
     
     public void initialize() {}
