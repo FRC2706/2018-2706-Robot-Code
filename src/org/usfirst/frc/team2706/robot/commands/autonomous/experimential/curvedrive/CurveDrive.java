@@ -6,6 +6,9 @@ import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -36,6 +39,10 @@ public class CurveDrive extends Command {
     private double tangentOffset;
 
     private final boolean isRight;
+    
+    private final double P = 0.0, I = 0.0, D = 0.0, FF = 0.0;
+    
+    private final PIDController pid;
 
     /**
      * Drives to a specified point and ends at a specified angle.
@@ -59,6 +66,11 @@ public class CurveDrive extends Command {
         this.speed = RobotConfig.get(name + ".speed", speed);
         this.tangentOffset = tangentOffset;
         this.isRight = RobotConfig.get(name + ".isRight", isRight);
+        
+        this.pid = new PIDController(P, I, D, FF, new PIDInput(), (turn) -> Robot.driveTrain.arcadeDrive(-speed, turn));
+        SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+        SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+        SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
     }
 
     protected void initialize() {
@@ -70,67 +82,47 @@ public class CurveDrive extends Command {
         Robot.driveTrain.reset();
         initHeading = Robot.driveTrain.getHeading();
         Log.d(this, Robot.driveTrain.getDistance());
+        
+        pid.setPID(SmartDashboard.getNumber("P", P), SmartDashboard.getNumber("I", I), SmartDashboard.getNumber("D", D));
+        
+        pid.enable();
     }
 
     protected void execute() {
-        findPosition();
-        followCurveRelational();
+        
     }
 
     @Override
     protected boolean isFinished() {
         // Checks if the x is within 1.5 feet and the y within 0.2 feet
-        if (Math.abs(yPos - yFeet) < 0.1)
-            return true;
-        return false;
+        return yPos - yFeet > 0.0;
     }
 
     /**
      * Resets everything in the command so it can be reused
      */
     protected void end() {
+        pid.disable();
+        
         xPos = 0;
         yPos = 0;
 
         Robot.driveTrain.brakeMode(true);
         new CurveDriveStop(endCurve).start();
         lastEncoderAv = 0;
+        lastGyro = 0;
     }
 
     protected void interrupt() {
         end();
     }
-
-    /**
-     * Uses gyro and encoders along with the equation of the line to actually follow the curve with
-     * the robot. Uses tank drive.
-     */
-    @SuppressWarnings("unused")
-    private void followCurve() {
+    
+    private double getRotateVal() {
         // Figures out the angle that you are currently on
         double tangent = (3 * eq.a * Math.pow(yPos, 2)) + (2 * eq.b * yPos);
         tangent = Math.toDegrees(Math.atan(tangent));
-
-        // Finds out what x position you should be at, and compares it with what you are currently
-        // at
-        double wantedX = (eq.a * Math.pow(yPos, 3)) + (eq.b * Math.pow(yPos, 2));
-
-        double offset = xPos - wantedX;
-
-        // Figures out how far you should rotate based on offset and gyro pos
-        double rotateVal = tangent - (Robot.driveTrain.getHeading() - initHeading);
-        rotateVal /= 9;
-
-        // Calculates your tank drive speeds based on the base speed and the rotation
-        double leftSpeed = (speed + rotateVal);
-        double rightSpeed = (speed - rotateVal);
-
-        if (Math.abs(leftSpeed - rightSpeed) > 0.4) {
-            leftSpeed /= 2;
-            rightSpeed /= 2;
-        }
-        // Tank Drives according to the above factors
-        Robot.driveTrain.drive(-leftSpeed, -rightSpeed);
+        
+        return tangent - (Robot.driveTrain.getHeading() - initHeading);
     }
 
     LinkedHashMap<Double, Double> tangents;
@@ -181,9 +173,9 @@ public class CurveDrive extends Command {
         desiredTangent = desiredBelowTangent * proportionBelow
                         + desiredAboveTangent * proportionAbove;
         double rotateVal = desiredTangent - tangent;
-        rotateVal /= 10;
+        rotateVal /= 7;
 
-        Robot.driveTrain.arcadeDrive(-speed, -rotateVal + (rotateVal < 0 ? 0.22 : -0.22));
+        Robot.driveTrain.arcadeDrive(-speed, -rotateVal + (rotateVal < 0 ? 0 : -0));
     }
 
     public void followCurveArcade() {
@@ -209,6 +201,7 @@ public class CurveDrive extends Command {
     private double yPos = 0;
 
     private double lastEncoderAv = 0;
+    private double lastGyro = 0;
 
     /**
      * Called every tick to keep position, an x and y position, not always accurate due to a few
@@ -217,13 +210,25 @@ public class CurveDrive extends Command {
     private void findPosition() {
         // Gets gyro angle
         double gyroAngle = Robot.driveTrain.getHeading() - initHeading;
+        double changeInGyro = gyroAngle - lastGyro;
         double encoderAv = (Robot.driveTrain.getDistance() - lastEncoderAv);
-        // Gets encoder average distance
-        double arcLength = encoderAv / Math.toRadians(gyroAngle);
-        double c = Math.sqrt((2 * Math.pow(arcLength, 2)) * (1 - Math.cos(Math.toRadians(gyroAngle))));
+        // Gets the radius of the arc
+        double distance;
+        if(Math.abs(changeInGyro) > 0.001) {
+            double radius = encoderAv / Math.toRadians(changeInGyro);
+            
+            // Calculate distance based on arc lengths, and invert if driving backwards
+            distance = (encoderAv > 0 ? 1 : -1) * 
+                            Math.sqrt((2 * Math.pow(radius, 2))
+                                            * (1 - Math.cos(Math.toRadians(changeInGyro))));
+        }
+        else {
+            distance = encoderAv;
+        }
+        
         // Uses trigonometry 'n stuff to figure out how far right and forward you traveled
-        double changedXPos = Math.sin(Math.toRadians(gyroAngle)) * c;
-        double changedYPos = Math.cos(Math.toRadians(gyroAngle)) * c;
+        double changedXPos = Math.sin(Math.toRadians((lastGyro + gyroAngle) / 2.0)) * distance;        
+        double changedYPos = Math.cos(Math.toRadians((lastGyro + gyroAngle) / 2.0)) * distance;
 
         // Adjusts your current position accordingly.
         xPos += changedXPos;
@@ -234,5 +239,29 @@ public class CurveDrive extends Command {
         // System.out.println(xPos + " " + yPos);
         // Saves your encoder distance so you can calculate how far you've went in the new tick
         lastEncoderAv = Robot.driveTrain.getDistance();
+        lastGyro = gyroAngle;
+    }
+    
+    private class PIDInput implements PIDSource {
+
+        private PIDSourceType pidSource = PIDSourceType.kDisplacement;
+        
+        @Override
+        public void setPIDSourceType(PIDSourceType pidSource) {
+            this.pidSource = pidSource;
+            
+        }
+
+        @Override
+        public PIDSourceType getPIDSourceType() {
+            return pidSource;
+        }
+
+        @Override
+        public double pidGet() {
+            findPosition();
+            return getRotateVal();
+        }
+        
     }
 }

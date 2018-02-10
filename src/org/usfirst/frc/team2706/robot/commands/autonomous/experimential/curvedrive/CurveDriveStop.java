@@ -18,6 +18,6 @@ public class CurveDriveStop extends CommandGroup {
      */
     public CurveDriveStop(double endCurve) {
         this.addSequential(new TalonStraightDriveWithEncoders(0.6, 0.0, 0.1, 10, "stop"));
-        this.addSequential(new RotateDriveWithGyro(0.5, -(Robot.driveTrain.getHeading() - endCurve),10,"rot"));
+//        this.addSequential(new RotateDriveWithGyro(0.5, -(Robot.driveTrain.getHeading() - endCurve),10,"rot"));
     }
 }
