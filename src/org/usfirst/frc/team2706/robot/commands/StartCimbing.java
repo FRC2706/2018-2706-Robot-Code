@@ -1,28 +1,28 @@
 package org.usfirst.frc.team2706.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.subsystems.Climber;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 public class StartCimbing extends Command {
+
+private Climber climb;
 
     public StartCimbing() {
         // TODO Auto-generated constructor stub
     }
-
-    public StartCimbing(String name) {
-        super(name);
-        // TODO Auto-generated constructor stub
+    
+    public void initialize() {}
+    
+    public void execute() {
+        climb.climb();
     }
 
-    public StartCimbing(double timeout) {
-        super(timeout);
-        // TODO Auto-generated constructor stub
+    public void end() {
+        climb.stopClimberMotor();
     }
-
-    public StartCimbing(String name, double timeout) {
-        super(name, timeout);
-        // TODO Auto-generated constructor stub
-    }
-
     @Override
     protected boolean isFinished() {
         // TODO Auto-generated method stub

@@ -59,7 +59,7 @@ public class OI {
         TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, 3);
         driverBackRightTrigger.whenPressed(new IntakeCube());
 
-      //  Joystick driverBackRightTrigger = new Joystick(3);
+        //  Joystick driverBackRightTrigger = new Joystick(3);
      //   driverBackRightTrigger.
         // TODO see if this works if not, fix this
         // driverBackRightTrigger.getRawAxis(3);
