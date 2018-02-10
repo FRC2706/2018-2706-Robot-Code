@@ -40,7 +40,7 @@ public class CurveDrive extends Command {
 
     private final boolean isRight;
     
-    private final double P = 0.0, I = 0.0, D = 0.0, FF = 0.0;
+    private final double P = 0.0875, I = 0.002, D = 0.025, FF = 0.0;
     
     private final PIDController pid;
 
@@ -68,9 +68,6 @@ public class CurveDrive extends Command {
         this.isRight = RobotConfig.get(name + ".isRight", isRight);
         
         this.pid = new PIDController(P, I, D, FF, new PIDInput(), (turn) -> Robot.driveTrain.arcadeDrive(-speed, turn));
-        SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
-        SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
-        SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
     }
 
     protected void initialize() {
@@ -83,13 +80,7 @@ public class CurveDrive extends Command {
         initHeading = Robot.driveTrain.getHeading();
         Log.d(this, Robot.driveTrain.getDistance());
         
-        pid.setPID(SmartDashboard.getNumber("P", P), SmartDashboard.getNumber("I", I), SmartDashboard.getNumber("D", D));
-        
         pid.enable();
-    }
-
-    protected void execute() {
-        
     }
 
     @Override

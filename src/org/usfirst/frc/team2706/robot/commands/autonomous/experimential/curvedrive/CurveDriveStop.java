@@ -1,7 +1,5 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive;
 
-import org.usfirst.frc.team2706.robot.Robot;
-import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.TalonStraightDriveWithEncoders;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
