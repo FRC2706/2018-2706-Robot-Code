@@ -5,8 +5,8 @@ import java.lang.reflect.Field;
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
-import org.usfirst.frc.team2706.robot.commands.teleop.HandBrake;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
+import org.usfirst.frc.team2706.robot.vision.FollowCamera;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -57,6 +57,9 @@ public class OI {
         
         TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, 3);
         driverBackRightTrigger.runWhileHeld(new IntakeCube());
+        
+        EJoystickButton camera = new EJoystickButton(driverStick, 5);
+        camera.runWhileHeld(new FollowCamera());
         
         EJoystickButton joybutten = new EJoystickButton(driverStick, 3);
         joybutten.runWhileHeld(new StartCimbing());
