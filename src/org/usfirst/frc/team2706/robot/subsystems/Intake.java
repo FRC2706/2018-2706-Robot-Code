@@ -2,7 +2,9 @@ package org.usfirst.frc.team2706.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem; 
+
 
 // This class is used for the intake of the cube
 public class Intake extends Subsystem{ 
@@ -14,7 +16,7 @@ public class Intake extends Subsystem{
     // Objects for inhaling and exhaling the cube
     private WPI_TalonSRX right_intake_motor;
     private WPI_TalonSRX left_intake_motor;
-    //private AnalogInput IR_sensor;
+    private AnalogInput IR_sensor;
     
     public Intake() {
         //TODO put TALON number assignments in robotmap 
@@ -26,9 +28,10 @@ public class Intake extends Subsystem{
         left_intake_motor = new WPI_TalonSRX(INTAKE_MOTOR_LEFT);
         
         right_intake_motor.setInverted(true);
+        
         //TODO analog define robot map
-      //  int channel = 0; 
-      //  IR_sensor = new AnalogInput(channel);
+          int channel = 1; 
+          IR_sensor = new AnalogInput(channel);
         
     }
     // Turns the robot motors on to suck in the cube
@@ -55,9 +58,9 @@ public class Intake extends Subsystem{
      * @return Whether the robot has a cube or not
      */
     public boolean cubeCaptured() {
-       // if (IR_sensor.getVoltage() >= CUBE_CAPTURED) {
-       //     return true;
-       // }
+       if (IR_sensor.getVoltage() >= CUBE_CAPTURED) {
+            return true;
+       }
         return false;
     }
 

@@ -41,7 +41,7 @@ public class EjectCube extends Command {
      * Used to detect whether the motors should stop
      */
     protected boolean isFinished() {
-        if (exhale.cubeCaptured() == true) {
+        if (exhale.cubeCaptured() == false) {
             return true;
         }
         else {
