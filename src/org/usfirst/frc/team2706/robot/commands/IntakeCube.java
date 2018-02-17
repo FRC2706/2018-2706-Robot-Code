@@ -15,6 +15,7 @@ public class IntakeCube extends Command {
      */
     public IntakeCube() {
         inhale = Robot.intake;
+        this.requires(Robot.intake);
        
     }
     
@@ -28,7 +29,7 @@ public class IntakeCube extends Command {
      */
     public void execute() {
         System.out.println(inhale.readIRSensor());
-        if (inhale.readIRSensor() >= 0.5) {
+        if (inhale.readIRSensor() >= 0.26 && inhale.readIRSensor() < 0.5) {
             inhale.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(3)); 
             
         }
@@ -39,6 +40,7 @@ public class IntakeCube extends Command {
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
+        System.out.println("Ended IntakeCube command");
         inhale.stopMotors();
     }
     
@@ -48,12 +50,12 @@ public class IntakeCube extends Command {
      * Used to detect whether the motors should stop
      */
     protected boolean isFinished() {
-        if (inhale.cubeCaptured() == true) {
-            return true;
-        }
-        else {
+       // if (inhale.cubeCaptured() == true) {
+     //       return true;
+     //   }
+    //    else {
             return false;
-        }
+    //    }
         
     }
 
