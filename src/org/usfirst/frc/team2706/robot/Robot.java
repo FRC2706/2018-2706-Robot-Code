@@ -85,7 +85,7 @@ public class Robot extends IterativeRobot {
                         /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
                        /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
             /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.3, 2, 1, 5, "AutoForwardFoot"),
-                                                    new RotateDriveWithGyro(0.5, 90, 5, "AutoTurn90"),
+                                                    new RotateDriveWithGyro(0.65, 90, 5, "AutoTurn90"),
                                                     new ReplayRecordedJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(), false, "2018", "replay"),
                                                     new TalonStraightDriveWithEncoders(0.3, 2, 1, 5, "AutoTalonForwardFoot"), 
                                                     new CurveDrive(6.395, 10.33, 0, 0.65, true, 0.25, "CurveToSwitch")

@@ -4,9 +4,9 @@ import java.lang.reflect.Field;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
+import org.usfirst.frc.team2706.robot.commands.PickupCube;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
-import org.usfirst.frc.team2706.robot.vision.FollowCamera;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -53,13 +53,13 @@ public class OI {
 
         // Runs the code depending which button/trigger is pressed
         TriggerButtonJoystick driverBackLeftTrigger = new TriggerButtonJoystick(driverStick, 2);
-        driverBackLeftTrigger.runWhileHeld(new EjectCube());
+        driverBackLeftTrigger.runWhileHeld(new EjectCube(driverStick, 2));
         
         TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, 3);
-        driverBackRightTrigger.runWhileHeld(new IntakeCube());
+        driverBackRightTrigger.runWhileHeld(new IntakeCube(driverStick, 3));
         
         EJoystickButton camera = new EJoystickButton(driverStick, 5);
-        camera.runWhileHeld(new FollowCamera());
+        camera.runWhileHeld(new PickupCube());
         
         EJoystickButton joybutten = new EJoystickButton(driverStick, 3);
         joybutten.runWhileHeld(new StartCimbing());

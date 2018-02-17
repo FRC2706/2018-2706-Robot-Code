@@ -506,40 +506,28 @@ public class DriveTrain extends Subsystem {
 
             double rotateVal;
             if (useCamera) {
-                // Checks if target is found, cuts off the edges, and then creates a rotation value
-                if (Robot.camera.getTarget() != null) {
-                    if (Robot.camera.getTarget().ctrX > -0.8 && Robot.camera.getTarget().ctrX < 0.8
-                                    && Robot.camera.getTarget().ctrY > -0.8
-                                    && Robot.camera.getTarget().ctrY < 0.8) {
-                        rotateVal = Robot.camera.getTarget() != null
-                                        ? (Robot.camera.getTarget().ctrY + 0.05) * 1.7 : 0;
-                        if (rotateVal > 0.6) {
-                            rotateVal = 0.6;
-                        }
-                        if (rotateVal < -0.6) {
-                            rotateVal = -0.6;
-                        }
-                    } else {
-                        rotateVal = 0;
-                    }
+                if (invert) {
+                    drive.arcadeDrive(0.3, output, false);
                 } else {
-                    rotateVal = 0;
+                    drive.arcadeDrive(0.3, -output, false);
                 }
             } else {
                 rotateVal = normalize(getHeading() - initGyro) * 0.15;
-            }
+            
 
 
-            if (useGyroStraightening)
+            if (useGyroStraightening) {
                 if (invert) {
                     drive.arcadeDrive(output, -rotateVal);
                 } else {
                     drive.arcadeDrive(-output, rotateVal);
                 }
+            }
             else if (invert) {
                 drive.tankDrive(-output, output, false);
             } else {
                 drive.tankDrive(-output, -output, false);
+            }
             }
         }
 

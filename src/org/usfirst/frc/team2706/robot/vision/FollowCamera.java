@@ -30,7 +30,7 @@ public class FollowCamera extends Command {
     public FollowCamera() {
         requires(Robot.driveTrain);
         
-        rotatePID = new PIDController(P, I, D, new CameraPID(), Robot.driveTrain.getDrivePIDOutput(false, false, true));
+        rotatePID = new PIDController(P, I, D, new CameraPID(), Robot.driveTrain.getDrivePIDOutput(false, true, false));
         
         SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
         SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
@@ -61,7 +61,7 @@ public class FollowCamera extends Command {
 
         @Override
         public double pidGet() {
-            return ctrX.getDouble(0);
+            return -ctrX.getDouble(0);
         }
         
     }
@@ -72,7 +72,7 @@ public class FollowCamera extends Command {
         rotatePID.setI(SmartDashboard.getNumber("I", I));
         rotatePID.setD(SmartDashboard.getNumber("D", D));
         
-        rotatePID.setOutputRange(-0.3, 0.3);
+        rotatePID.setOutputRange(-0.5, 0.5);
         rotatePID.setSetpoint(0);
         rotatePID.enable();
     }
