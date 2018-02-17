@@ -58,6 +58,10 @@ public class Intake extends Subsystem{
         right_intake_motor.set(0);
     }
     
+    public double readIRSensor() {
+        return IR_sensor.getVoltage();
+    }
+    
     /**
      * Uses the IR sensor to detect whether the robot has a cube
      * 

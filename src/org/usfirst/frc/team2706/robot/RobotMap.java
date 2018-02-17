@@ -93,15 +93,15 @@ public class RobotMap {
     public static final double DISTANCE_SENSOR_SEPARATION_CM =
                     getConstant("DISTANCE_SENSOR_SEPARATION_CM");
     
-    private static final int[] INTAKE_MOTOR_LEFT_VAL = {6, 6, 6};
+    private static final int[] INTAKE_MOTOR_LEFT_VALS = {6, 6, 6};
     public static final int INTAKE_MOTOR_LEFT =
                     getConstant("INTAKE_MOTOR_LEFT");
     
-    private static final int[] INTAKE_MOTOR_RIGHT_VAL = {7, 7, 7};
+    private static final int[] INTAKE_MOTOR_RIGHT_VALS = {7, 7, 7};
     public static final int INTAKE_MOTOR_RIGHT =
                     getConstant("INTAKE_MOTOR_RIGHT");
     
-    private static final int[] IR_SENSOR_VAL = {2, 2, 2};
+    private static final int[] IR_SENSOR_VALS = {2, 2, 2};
     public static final int IR_SENSOR =
                     getConstant("IR_SENSOR");
     

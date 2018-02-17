@@ -15,6 +15,7 @@ public class IntakeCube extends Command {
      */
     public IntakeCube() {
         inhale = Robot.intake;
+       
     }
     
     /**
@@ -26,8 +27,8 @@ public class IntakeCube extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
-        System.out.println(IR_sensor.getVoltage());
-        if (IR_sensor.getVoltage() >= 0.5) {
+        System.out.println(inhale.readIRSensor());
+        if (inhale.readIRSensor() >= 0.5) {
             inhale.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(3)); 
             
         }
