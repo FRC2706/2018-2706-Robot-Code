@@ -93,6 +93,18 @@ public class RobotMap {
     public static final double DISTANCE_SENSOR_SEPARATION_CM =
                     getConstant("DISTANCE_SENSOR_SEPARATION_CM");
     
+    private static final int[] INTAKE_MOTOR_LEFT_VAL = {6, 6, 6};
+    public static final int INTAKE_MOTOR_LEFT =
+                    getConstant("INTAKE_MOTOR_LEFT");
+    
+    private static final int[] INTAKE_MOTOR_RIGHT_VAL = {7, 7, 7};
+    public static final int INTAKE_MOTOR_RIGHT =
+                    getConstant("INTAKE_MOTOR_RIGHT");
+    
+    private static final int[] IR_SENSOR_VAL = {2, 1, 2};
+    public static final int IR_SENSOR =
+                    getConstant("IR_SENSOR");
+    
     
     // Raspberry Pi IP for vision *NOTE: Mikes laptop is 10.27.6.10, rPI is 10.27.6.240
     private static final String[] RPI_IPS_VALS = {"10.27.6.240", "10.27.6.240", "10.27.6.10"};
@@ -132,7 +144,7 @@ public class RobotMap {
     }
 
     float boat; // must be a float or else it sinks
-
+ 
     private static Object[] getArray(Object val) {
         int arrlength = Array.getLength(val);
         Object[] outputArray = new Object[arrlength];
