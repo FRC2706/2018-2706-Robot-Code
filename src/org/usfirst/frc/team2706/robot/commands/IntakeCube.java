@@ -3,12 +3,13 @@ package org.usfirst.frc.team2706.robot.commands;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class IntakeCube extends Command {
 
     private Intake inhale;
-
+    private AnalogInput IR_sensor;
     /**
      * Allows us to use the methods in 'Intake'
      */
@@ -25,7 +26,11 @@ public class IntakeCube extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
-        inhale.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(3)); 
+        System.out.println(IR_sensor.getVoltage());
+        if (IR_sensor.getVoltage() >= 0.5) {
+            inhale.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(3)); 
+            
+        }
 
     }
     
