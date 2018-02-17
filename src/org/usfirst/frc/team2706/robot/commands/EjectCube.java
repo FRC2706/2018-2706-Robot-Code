@@ -14,6 +14,7 @@ public class EjectCube extends Command {
      */
     public EjectCube() {
         exhale = Robot.intake;
+        this.requires(Robot.intake);
     }
     
     /**
@@ -41,12 +42,12 @@ public class EjectCube extends Command {
      * Used to detect whether the motors should stop
      */
     protected boolean isFinished() {
-        if (exhale.cubeCaptured() == false) {
-            return true;
-        }
-        else {
+       // if (exhale.cubeCaptured() == false) {
+       //     return true;
+      //  }
+     //   else {
             return false;
-        }
+     //   }
         
     }
 

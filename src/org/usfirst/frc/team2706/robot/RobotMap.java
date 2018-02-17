@@ -101,7 +101,7 @@ public class RobotMap {
     public static final int INTAKE_MOTOR_RIGHT =
                     getConstant("INTAKE_MOTOR_RIGHT");
     
-    private static final int[] IR_SENSOR_VALS = {2, 2, 2};
+    private static final int[] IR_SENSOR_VALS = {2, 0, 2};
     public static final int IR_SENSOR =
                     getConstant("IR_SENSOR");
     

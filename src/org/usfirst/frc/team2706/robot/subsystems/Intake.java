@@ -33,7 +33,8 @@ public class Intake extends Subsystem{
         right_talon_encoder = new TalonEncoder(right_intake_motor);
         
         
-        right_intake_motor.setInverted(true);
+       // right_intake_motor.setInverted(true);
+        left_intake_motor.setInverted(true);
         
         //TODO analog define robot map
           int channel = 1; 
