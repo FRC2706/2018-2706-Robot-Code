@@ -70,6 +70,15 @@ public class RobotMap {
     private static final int[] SELECTOR_CHANNEL_VALS = {0, 0, 0};
     public static final int SELECTOR_CHANNEL = getConstant("SELECTOR_CHANNEL");
 
+    
+    // Climber
+    private static final int[] CLIMBER_MOTOR_VALS = {9, 9, 9};
+    public static final int CLIMBER_MOTOR = getConstant("CLIMBER_MOTOR");
+
+    private static final int[] CLIMBER_IR_SENSOR_VALS = {1, 1, 1};
+    public static final int CLIMBER_IR_SENSOR = getConstant("CLIMBER_IR_SENSOR");
+    
+    
     private static final int[] RING_LIGHT_VALS = {12, 12, 12};
     public static final int RING_LIGHT = getConstant("RING_LIGHT");
 
