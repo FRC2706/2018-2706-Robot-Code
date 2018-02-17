@@ -1,5 +1,8 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
+import org.usfirst.frc.team2706.robot.RobotMap;
+import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -16,16 +19,19 @@ public class Intake extends Subsystem{
     // Objects for inhaling and exhaling the cube
     private WPI_TalonSRX right_intake_motor;
     private WPI_TalonSRX left_intake_motor;
+    private TalonEncoder left_talon_encoder;
+    private TalonEncoder right_talon_encoder;
     private AnalogInput IR_sensor;
     
     public Intake() {
         //TODO put TALON number assignments in robotmap 
-        //RobotMap.INTAKE_MOTOR_RIGHT
-        //RobotMap.INTAKE_MOTOR_LEFT
-        int INTAKE_MOTOR_RIGHT = 6;
-        int INTAKE_MOTOR_LEFT = 7;
-        right_intake_motor = new WPI_TalonSRX(INTAKE_MOTOR_RIGHT);
-        left_intake_motor = new WPI_TalonSRX(INTAKE_MOTOR_LEFT);
+        
+        // Talon stuff
+        right_intake_motor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR_RIGHT);
+        left_intake_motor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR_LEFT);
+        left_talon_encoder = new TalonEncoder(left_intake_motor);
+        right_talon_encoder = new TalonEncoder(right_intake_motor);
+        
         
         right_intake_motor.setInverted(true);
         
@@ -52,6 +58,10 @@ public class Intake extends Subsystem{
         right_intake_motor.set(0);
     }
     
+    public double readIRSensor() {
+        return IR_sensor.getVoltage();
+    }
+    
     /**
      * Uses the IR sensor to detect whether the robot has a cube
      * 
@@ -69,7 +79,7 @@ public class Intake extends Subsystem{
     protected void initDefaultCommand() {
         // TODO Auto-generated method stub
         
-    }
+    } 
     
         
 }
