@@ -25,7 +25,8 @@ public class IntakeCube extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
-        inhale.inhaleCube();
+        inhale.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(3)); 
+
     }
     
     /**
