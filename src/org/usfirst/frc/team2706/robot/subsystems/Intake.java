@@ -1,48 +1,65 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
+import org.usfirst.frc.team2706.robot.RobotMap;
+import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem; 
+
 
 // This class is used for the intake of the cube
 public class Intake extends Subsystem{ 
     boolean cubeIn = false; 
     
+    private static final double CUBE_CAPTURED = 0.5;
+    
     // Objects for inhaling and exhaling the cube
     private WPI_TalonSRX right_intake_motor;
     private WPI_TalonSRX left_intake_motor;
-    //private AnalogInput IR_sensor;
+    private TalonEncoder left_talon_encoder;
+    private TalonEncoder right_talon_encoder;
+    private AnalogInput IR_sensor;
     
     public Intake() {
         //TODO put TALON number assignments in robotmap 
-        //RobotMap.INTAKE_MOTOR_RIGHT
-        //RobotMap.INTAKE_MOTOR_LEFT
-        int INTAKE_MOTOR_RIGHT = 6;
-        int INTAKE_MOTOR_LEFT = 7;
-        right_intake_motor = new WPI_TalonSRX(INTAKE_MOTOR_RIGHT);
-        left_intake_motor = new WPI_TalonSRX(INTAKE_MOTOR_LEFT);
+        
+        // Talon stuff
+        right_intake_motor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR_RIGHT);
+        left_intake_motor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR_LEFT);
+        left_talon_encoder = new TalonEncoder(left_intake_motor);
+        right_talon_encoder = new TalonEncoder(right_intake_motor);
+        
+        
+       // right_intake_motor.setInverted(true);
+        left_intake_motor.setInverted(true);
         
         //TODO analog define robot map
-      //  int channel = 0; 
-      //  IR_sensor = new AnalogInput(channel);
+          int channel = 1; 
+          IR_sensor = new AnalogInput(channel);
         
     }
     // Turns the robot motors on to suck in the cube
-    public void inhaleCube() {
-        left_intake_motor.set(0.7);
-        right_intake_motor.set(0.7);
+    public void inhaleCube(double motorSpeed) {
+        left_intake_motor.set(motorSpeed*-1);
+        right_intake_motor.set(motorSpeed*-1); 
     }
     
     // Turns the robot motors on to fire out the cube
-    public void exhaleCube() {
-        left_intake_motor.set(-7.0);
-        right_intake_motor.set(-7.0);
+    public void exhaleCube(double motorSpeed) {
+        left_intake_motor.set(motorSpeed);
+        right_intake_motor.set(motorSpeed);
     }
     
-    // Stops both motors
+    // Stops both motors instantly
     public void stopMotors() {
         left_intake_motor.set(0);
         right_intake_motor.set(0);
+    }
+    
+    public double readIRSensor() {
+        return IR_sensor.getVoltage();
     }
     
     /**
@@ -51,9 +68,9 @@ public class Intake extends Subsystem{
      * @return Whether the robot has a cube or not
      */
     public boolean cubeCaptured() {
-       // if (IR_sensor.getVoltage() >= CUBE_CAPTURED) {
-       //     return true;
-       // }
+       if (IR_sensor.getVoltage() >= CUBE_CAPTURED) {
+            return true;
+       }
         return false;
     }
 
@@ -62,7 +79,7 @@ public class Intake extends Subsystem{
     protected void initDefaultCommand() {
         // TODO Auto-generated method stub
         
-    }
+    } 
     
         
 }

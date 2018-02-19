@@ -13,7 +13,8 @@ public class EjectCube extends Command {
      * Allows us to use the methods in 'Intake'
      */
     public EjectCube() {
-        exhale = Robot.exhale;
+        exhale = Robot.intake;
+        this.requires(Robot.intake);
     }
     
     /**
@@ -25,7 +26,7 @@ public class EjectCube extends Command {
      * Turns on the motors on to eject the cube
      */
     public void execute() {
-        exhale.exhaleCube();
+        exhale.exhaleCube(Robot.oi.getDriverJoystick().getRawAxis(2)); //TODO check out if correct
     }
     
     /**
@@ -41,12 +42,12 @@ public class EjectCube extends Command {
      * Used to detect whether the motors should stop
      */
     protected boolean isFinished() {
-        if (exhale.cubeCaptured() == true) {
-            return true;
-        }
-        else {
+       // if (exhale.cubeCaptured() == false) {
+       //     return true;
+      //  }
+     //   else {
             return false;
-        }
+     //   }
         
     }
 

@@ -4,6 +4,7 @@ package org.usfirst.frc.team2706.robot;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
 import org.usfirst.frc.team2706.robot.controls.StickRumble;
 import org.usfirst.frc.team2706.robot.subsystems.Camera;
+import org.usfirst.frc.team2706.robot.subsystems.Climber;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
@@ -28,8 +29,9 @@ public class Robot extends IterativeRobot {
 
     // intake subsystem
     public static Intake intake;
-
-    public static Intake exhale;
+    
+    //climber code
+    public static Climber climb;
 
     // Stores all of the joysticks, and returns them as read only.
     public static OI oi;
@@ -61,7 +63,9 @@ public class Robot extends IterativeRobot {
         // Make sure to initialize cube intake and eject
         // mechanisms
         intake = new Intake();
-        exhale = new Intake();
+        
+        //Climber initialization 
+        climb = new Climber(); 
 
         oi = new OI();
 

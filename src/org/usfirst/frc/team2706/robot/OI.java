@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
+import org.usfirst.frc.team2706.robot.commands.StartCimbing;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -49,16 +50,18 @@ public class OI {
         // Joystick for driving the robot around
         this.driverStick = driverStick;
 
-        // Stop driving and go into brake mode, stopping the robot
+        // Runs the code depending which button/trigger is pressed
         TriggerButtonJoystick driverBackLeftTrigger = new TriggerButtonJoystick(driverStick, 2);
-       //driverBackLeftTrigger.runWhileHeld(new HandBrake(true, "DriverHandbrake"));
         driverBackLeftTrigger.runWhileHeld(new EjectCube());
         
         TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, 3);
         driverBackRightTrigger.runWhileHeld(new IntakeCube());
+        
+        EJoystickButton joybutten = new EJoystickButton(driverStick, 3);
+        joybutten.runWhileHeld(new StartCimbing());
+        
 
-
-        // Joystick for controlling the mechanisms of the robot
+        // The Joystick for controlling the mechanisms of the robot
         this.controlStick = controlStick;
 
         removeUnplugWarning();
