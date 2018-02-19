@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterStartLeftSwitch;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterStartRightSwitch;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftStartLeftScale;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftStartLeftSwitch;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightStartRightScale;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightStartRightSwitch;
-
 import com.google.gson.Gson;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
@@ -23,36 +16,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Communicates with the dashboard to send priorities and get selections, eventually getting one
- * autonomous mode chosen after using FMS. 
- * Falls back on two autonomous selector switches this year
+ * autonomous mode chosen after using FMS. Falls back on two autonomous selector switches this year
  *
  */
 public class DashboardAutoSelector implements TableEntryListener {
 
-    Priority[] leftPriorities = {
-                    new Priority("left_left_switch", "Left Switch", true, true,
-                                    new LeftStartLeftSwitch()),
-                    new Priority("left_left_scale", "Left Scale", false, true,
-                                    new LeftStartLeftScale())};
-    Priority[] centerPriorities = {
-                    new Priority("center_left_switch", "Left Switch", true, true,
-                                    new CenterStartLeftSwitch()),
-                    new Priority("center_right_switch", "Right Switch", true, false,
-                                    new CenterStartRightSwitch())};
-    Priority[] rightPriorities = {
-                    new Priority("right_right_switch", "Right Switch", true, false,
-                                    new RightStartRightSwitch()),
-                    new Priority("right_right_scale", "Right Scale", false, false,
-                                    new RightStartRightScale())};
+    Priority[] leftPriorities;
+    Priority[] centerPriorities;
+    Priority[] rightPriorities;
     String position = "";
 
     /**
-     * Instantiate
+     * Instantiate with sending values
      * 
      */
-    public DashboardAutoSelector() {
+    public DashboardAutoSelector(Priority[] leftPriorities, Priority[] centerPriorities,Priority[] rightPriorities) {
+        this.leftPriorities = leftPriorities;
+        this.centerPriorities = centerPriorities;
+        this.rightPriorities = rightPriorities;
     }
-    
+
     /**
      * Creates a table listener to see when the dashboard sends a position back to the user, and
      * responds
@@ -137,5 +120,5 @@ public class DashboardAutoSelector implements TableEntryListener {
         return null;
 
     }
-    
+
 }

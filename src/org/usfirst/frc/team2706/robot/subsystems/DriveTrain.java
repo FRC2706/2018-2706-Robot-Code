@@ -3,7 +3,6 @@ package org.usfirst.frc.team2706.robot.subsystems;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotMap;
-import org.usfirst.frc.team2706.robot.commands.autonomous.Priority;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
@@ -45,9 +44,6 @@ public class DriveTrain extends Subsystem {
     public double initGyro;
 
     private Command defaultCommand;
-
-    // The spinny dial on the robot that selects what autonomous mode we are going to do
-    private AutonomousSelector selectorSwitch;
 
     public DriveTrain() {
         super();
@@ -102,9 +98,7 @@ public class DriveTrain extends Subsystem {
 
         gyroPIDSource = new GyroPIDSource(this);
 
-        reset();
-
-        selectorSwitch = new AutonomousSelector();
+        reset(); 
 
         // Let's show everything on the LiveWindow
         front_left_motor.setName("DriveTrain", "Front Left Motor");
@@ -116,7 +110,7 @@ public class DriveTrain extends Subsystem {
         leftDistanceSensor.setName("Drive Train", "Left Distance Sensor");
         rightDistanceSensor.setName("Drive Train", "Right Distance Sensor");
         gyro.setName("Drive Train", "Gyro");
-        selectorSwitch.setName("Drive Train", "Autonomous Selector");
+        //selectorSwitch.setName("Drive Train", "Autonomous Selector");
     }
 
     /**
@@ -158,8 +152,8 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Left Distance Sensor", leftDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Right Distance Sensor", rightDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
-        SmartDashboard.putNumber("Autonomous Selector 1", selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1));
-        SmartDashboard.putNumber("Autonomous Selector 2", selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
+     //   SmartDashboard.putNumber("Autonomous Selector 1", selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1));
+     //   SmartDashboard.putNumber("Autonomous Selector 2", selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
     }
 
     /**
@@ -245,14 +239,6 @@ public class DriveTrain extends Subsystem {
      */
     public double getHeading() {
         return gyro.getAngle();
-    }
-
-    public void setAutonomousCommandList(Priority[][]... commands) {
-        selectorSwitch.setCommands(commands);
-    }
-
-    public Command getAutonomousCommand(Command fallbackCommand) {
-        return Priority.chooseCommandFromPriorityList(selectorSwitch.getSelected());
     }
 
     /**
