@@ -13,13 +13,17 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.Rig
 
 import com.google.gson.Gson;
 
+import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
+import edu.wpi.first.networktables.TableEntryListener;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DashboardAutoSelector {
+public class DashboardAutoSelector implements TableEntryListener {
     Command fallbackCommand;
 
     Priority[] leftPriorities = {
@@ -42,26 +46,14 @@ public class DashboardAutoSelector {
     public DashboardAutoSelector(Command fallbackCommand) {
         this.fallbackCommand = fallbackCommand;
     }
-    String prevPosition = "";
+
     public void getPositionAndRespond() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("SmartDashboard");
         position = table.getEntry("autonomous/selected_position").getString("");
-        if (!position.equals(prevPosition)) {
-            //prevPosition = position;
-            if (position.equals("r")) {
-                SmartDashboard.putString("autonomous/auto_modes",
-                                new Gson().toJson(listToMap(new ArrayList<Priority>(
-                                                Arrays.asList(rightPriorities)))));
-            } else if (position.equals("c")) {
-                SmartDashboard.putString("autonomous/auto_modes",
-                                new Gson().toJson(listToMap(new ArrayList<Priority>(
-                                                Arrays.asList(centerPriorities)))));
-            } else if (position.equals("l")) {
-                SmartDashboard.putString("autonomous/auto_modes",
-                                new Gson().toJson(listToMap(new ArrayList<Priority>(
-                                                Arrays.asList(leftPriorities)))));
-            }
-        }
+        if (!position.equals(""))
+            valueChanged(null, "", null, NetworkTableValue.makeString(position), 0);
+
+        table.addEntryListener("autonomous/selected_position", this, EntryListenerFlags.kUpdate);
 
     }
 
@@ -77,14 +69,14 @@ public class DashboardAutoSelector {
                 System.out.println("firstpri" + priority);
                 System.out.println(position);
                 if (position.equals("l")) {
-                    objectPriorityList.add(findPriority(priority, new ArrayList<Priority>(
-                                    Arrays.asList(leftPriorities))));
+                    objectPriorityList.add(findPriority(priority,
+                                    new ArrayList<Priority>(Arrays.asList(leftPriorities))));
                 } else if (position.equals("c")) {
-                    objectPriorityList.add(findPriority(priority, new ArrayList<Priority>(
-                                    Arrays.asList(centerPriorities))));
+                    objectPriorityList.add(findPriority(priority,
+                                    new ArrayList<Priority>(Arrays.asList(centerPriorities))));
                 } else if (position.equals("r")) {
-                    objectPriorityList.add(findPriority(priority, new ArrayList<Priority>(
-                                    Arrays.asList(rightPriorities))));
+                    objectPriorityList.add(findPriority(priority,
+                                    new ArrayList<Priority>(Arrays.asList(rightPriorities))));
                 }
             }
             return objectPriorityList.toArray(new Priority[0]);
@@ -99,7 +91,7 @@ public class DashboardAutoSelector {
                 System.out.println("Prio " + priority);
                 return priority.getCommand();
             }
-               
+
         }
         return fallbackCommand;
     }
@@ -162,21 +154,38 @@ public class DashboardAutoSelector {
         }
     }
 
-        public LinkedHashMap<String, String> listToMap(ArrayList<Priority> pp) {
-            LinkedHashMap<String, String> stringList = new LinkedHashMap<String, String>();
-            for (Priority p : pp) {
-                stringList.put(p.id, p.name);
-            }
-            return stringList;
+    public LinkedHashMap<String, String> listToMap(ArrayList<Priority> pp) {
+        LinkedHashMap<String, String> stringList = new LinkedHashMap<String, String>();
+        for (Priority p : pp) {
+            stringList.put(p.id, p.name);
         }
-
-        public Priority findPriority(String id, ArrayList<Priority> pp) {
-            for (Priority p : pp) {
-                if (p.id.equals(id)) {
-                    return p;
-                }
-            }
-            return null;
-        
+        return stringList;
     }
+
+    public Priority findPriority(String id, ArrayList<Priority> pp) {
+        for (Priority p : pp) {
+            if (p.id.equals(id)) {
+                return p;
+            }
+        }
+        return null;
+
+    }
+
+    @Override
+    public void valueChanged(NetworkTable table, String key, NetworkTableEntry entry,
+                    NetworkTableValue value, int flags) {
+        position = value.getString();
+        if (position.equals("r")) {
+            SmartDashboard.putString("autonomous/auto_modes", new Gson().toJson(
+                            listToMap(new ArrayList<Priority>(Arrays.asList(rightPriorities)))));
+        } else if (position.equals("c")) {
+            SmartDashboard.putString("autonomous/auto_modes", new Gson().toJson(
+                            listToMap(new ArrayList<Priority>(Arrays.asList(centerPriorities)))));
+        } else if (position.equals("l")) {
+            SmartDashboard.putString("autonomous/auto_modes", new Gson().toJson(
+                            listToMap(new ArrayList<Priority>(Arrays.asList(leftPriorities)))));
+        }
+    }
+
 }

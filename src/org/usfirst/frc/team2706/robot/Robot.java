@@ -80,6 +80,7 @@ public class Robot extends IterativeRobot {
         oi = new OI();
         
         dashBoardAutoSelector = new DashboardAutoSelector(new StraightDriveWithEncoders(0.5,2,1,5, "DriveToAutoLine"));
+        dashBoardAutoSelector.getPositionAndRespond();
         // WARNING DO NOT AUTOFORMAT THIS OR BAD THINGS WILL HAPPEN TO YOU
         // Set up our autonomous modes with the hardware selector switch
         driveTrain.setAutonomousCommandList(
@@ -114,7 +115,6 @@ public class Robot extends IterativeRobot {
 
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
-        dashBoardAutoSelector.getPositionAndRespond();
         log();
     }
 
