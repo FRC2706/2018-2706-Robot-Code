@@ -139,7 +139,7 @@ public class Robot extends IterativeRobot {
         autonomousCommand = driveTrain.getAutonomousCommand();
         
         Command c = dashBoardAutoSelector.chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());
-        System.out.println(c);
+        Log.d("Autonomous Initialization: Dasboard Command Selection is ", c);
         Robot.driveTrain.brakeMode(true);
         // Schedule the autonomous command that was selected
         if (autonomousCommand != null)

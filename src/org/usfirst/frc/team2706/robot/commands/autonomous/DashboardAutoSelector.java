@@ -45,8 +45,7 @@ public class DashboardAutoSelector {
     String prevPosition = "";
     public void getPositionAndRespond() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("SmartDashboard");
-        position = table.getEntry("autonomous/selected_position").getString("c");
-        System.out.println("pos " + position);
+        position = table.getEntry("autonomous/selected_position").getString("");
         if (!position.equals(prevPosition)) {
             //prevPosition = position;
             if (position.equals("r")) {
@@ -54,7 +53,6 @@ public class DashboardAutoSelector {
                                 new Gson().toJson(listToMap(new ArrayList<Priority>(
                                                 Arrays.asList(rightPriorities)))));
             } else if (position.equals("c")) {
-                System.out.println("SmartDashboard/autonomous/auto_modes");
                 SmartDashboard.putString("autonomous/auto_modes",
                                 new Gson().toJson(listToMap(new ArrayList<Priority>(
                                                 Arrays.asList(centerPriorities)))));
@@ -71,31 +69,37 @@ public class DashboardAutoSelector {
     public Priority[] getPriorityList() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("SmartDashboard");
         String priorities = table.getEntry("autonomous/selected_modes").getString("");
-        System.out.println("priorities" + priorities);
         if (priorities != "") {
             ArrayList<String> priorityList =
                             new Gson().fromJson(priorities, new ArrayList<String>().getClass());
             ArrayList<Priority> objectPriorityList = new ArrayList<Priority>();
             for (String priority : priorityList) {
-                if (position.equals("L")) {
+                System.out.println("firstpri" + priority);
+                System.out.println(position);
+                if (position.equals("l")) {
                     objectPriorityList.add(findPriority(priority, new ArrayList<Priority>(
                                     Arrays.asList(leftPriorities))));
-                } else if (position.equals("C")) {
+                } else if (position.equals("c")) {
                     objectPriorityList.add(findPriority(priority, new ArrayList<Priority>(
                                     Arrays.asList(centerPriorities))));
-                } else if (position.equals("R")) {
+                } else if (position.equals("r")) {
                     objectPriorityList.add(findPriority(priority, new ArrayList<Priority>(
                                     Arrays.asList(rightPriorities))));
                 }
             }
+            return objectPriorityList.toArray(new Priority[0]);
         }
         return null;
     }
 
     public Command chooseCommandFromPriorityList(Priority[] priorityList) {
         for (Priority priority : priorityList) {
-            if (priority.getPossible())
+            System.out.println(priority);
+            if (priority.getPossible()) {
+                System.out.println("Prio " + priority);
                 return priority.getCommand();
+            }
+               
         }
         return fallbackCommand;
     }
