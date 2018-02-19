@@ -2,12 +2,14 @@
 package org.usfirst.frc.team2706.robot;
 
 import org.usfirst.frc.team2706.robot.commands.autonomous.DashboardAutoSelector;
-import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterStartExchangeCube;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.DriveForward;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftStartLeftScale;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftStartLeftSwitch;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightStartRightScale;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightStartRightSwitch;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
-import org.usfirst.frc.team2706.robot.commands.autonomous.core.TalonStraightDriveWithEncoders;
-import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive.CurveDrive;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
-import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.ReplayRecordedJoystick;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.controls.StickRumble;
 import org.usfirst.frc.team2706.robot.subsystems.Camera;
@@ -88,13 +90,36 @@ public class Robot extends IterativeRobot {
                         new Command[] {
                             new ArcadeDriveWithJoystick()
                         },
-                        // position 1: do nothing
+                        // position 1: Do Nothing
                         new Command[] {
                             new ArcadeDriveWithJoystick()
                         },
-                        // position 2: drive forward
+                        // position 2: Drive Forward
                         new Command[] {
-                                        new StraightDriveWithEncoders(0.3, 2, 1, 5, "AutoForwardFoot")
+                                        new DriveForward()
+                        },
+                        // position 3: Center Position
+                        new Command[] {
+                                        new CenterStartExchangeCube()
+                                        // TODO: Either switch side
+                        },
+                        // position 4: Left Position
+                        new Command[] {
+                                        new LeftStartLeftSwitch(),
+                                        new LeftStartLeftScale()
+                                        //TODO: Left Switch -> Left Scale
+                                        //TODO: Left Scale -> Left Switch
+                                        //TODO: Left Switch -> Any Scale
+                                        //TODO: Left Start Any Scale
+                        },
+                        // position 5: Right Position
+                        new Command[] {
+                                        new RightStartRightSwitch(),
+                                        new RightStartRightScale()
+                                        //TODO: Right Switch -> Right Scale
+                                        //TODO: Right Scale -> Right Switch
+                                        //TODO: Right Switch -> Any Scale
+                                        //TODO: Right Start Any Scale
                         }
                         
 //                        /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
