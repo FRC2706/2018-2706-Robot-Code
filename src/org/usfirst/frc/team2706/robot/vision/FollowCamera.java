@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Drives the robot in a straight line towards the target found by the camera. Used for lining up
@@ -18,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class FollowCamera extends Command {
 
     private final PIDController rotatePID;
-    private final double P = 1, I = 0, D = 0;
+    private final double P = 0.75, I = 0.02, D = 0;
     
     /**
      * Drive at a specific speed based on camera
@@ -31,10 +30,10 @@ public class FollowCamera extends Command {
         requires(Robot.driveTrain);
         
         rotatePID = new PIDController(P, I, D, new CameraPID(), Robot.driveTrain.getDrivePIDOutput(false, true, false));
-        
-        SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
-        SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
-        SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
+//        
+//        SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+//        SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+//        SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
     }
 
     private class CameraPID implements PIDSource {
@@ -68,9 +67,9 @@ public class FollowCamera extends Command {
     
     // Called just before this Command runs the first time
     protected void initialize() {
-        rotatePID.setP(SmartDashboard.getNumber("P", P));
-        rotatePID.setI(SmartDashboard.getNumber("I", I));
-        rotatePID.setD(SmartDashboard.getNumber("D", D));
+//        rotatePID.setP(SmartDashboard.getNumber("P", P));
+//        rotatePID.setI(SmartDashboard.getNumber("I", I));
+//        rotatePID.setD(SmartDashboard.getNumber("D", D));
         
         rotatePID.setOutputRange(-0.5, 0.5);
         rotatePID.setSetpoint(0);
