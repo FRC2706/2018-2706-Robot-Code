@@ -70,6 +70,15 @@ public class RobotMap {
     private static final int[] SELECTOR_CHANNEL_VALS = {0, 0, 0};
     public static final int SELECTOR_CHANNEL = getConstant("SELECTOR_CHANNEL");
 
+    
+    // Climber
+    private static final int[] CLIMBER_MOTOR_VALS = {9, 9, 9};
+    public static final int CLIMBER_MOTOR = getConstant("CLIMBER_MOTOR");
+
+    private static final int[] CLIMBER_IR_SENSOR_VALS = {1, 1, 1};
+    public static final int CLIMBER_IR_SENSOR = getConstant("CLIMBER_IR_SENSOR");
+    
+    
     private static final int[] RING_LIGHT_VALS = {12, 12, 12};
     public static final int RING_LIGHT = getConstant("RING_LIGHT");
 
@@ -92,6 +101,18 @@ public class RobotMap {
     private static final double[] DISTANCE_SENSOR_SEPARATION_CM_VALS = {59.69, 59.69, 59.69};
     public static final double DISTANCE_SENSOR_SEPARATION_CM =
                     getConstant("DISTANCE_SENSOR_SEPARATION_CM");
+    
+    private static final int[] INTAKE_MOTOR_LEFT_VALS = {6, 6, 6};
+    public static final int INTAKE_MOTOR_LEFT =
+                    getConstant("INTAKE_MOTOR_LEFT");
+    
+    private static final int[] INTAKE_MOTOR_RIGHT_VALS = {7, 7, 7};
+    public static final int INTAKE_MOTOR_RIGHT =
+                    getConstant("INTAKE_MOTOR_RIGHT");
+    
+    private static final int[] IR_SENSOR_VALS = {2, 0, 2};
+    public static final int IR_SENSOR =
+                    getConstant("IR_SENSOR");
     
     
     // Raspberry Pi IP for vision *NOTE: Mikes laptop is 10.27.6.10, rPI is 10.27.6.240
@@ -132,7 +153,7 @@ public class RobotMap {
     }
 
     float boat; // must be a float or else it sinks
-
+ 
     private static Object[] getArray(Object val) {
         int arrlength = Array.getLength(val);
         Object[] outputArray = new Object[arrlength];
