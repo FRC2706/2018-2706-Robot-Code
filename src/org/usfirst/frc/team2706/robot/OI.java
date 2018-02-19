@@ -3,9 +3,9 @@ package org.usfirst.frc.team2706.robot;
 import java.lang.reflect.Field;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
+import org.usfirst.frc.team2706.robot.commands.EjectCubeTimed;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
-import org.usfirst.frc.team2706.robot.commands.teleop.HandBrake;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -61,6 +61,8 @@ public class OI {
         EJoystickButton joybutten = new EJoystickButton(driverStick, 3);
         joybutten.runWhileHeld(new StartCimbing());
         
+        EJoystickButton ejectTimed = new EJoystickButton(controlStick, 6);
+        ejectTimed.runWhileHeld(new EjectCubeTimed());
 
         // The Joystick for controlling the mechanisms of the robot
         this.controlStick = controlStick;
