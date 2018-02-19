@@ -19,8 +19,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.networktables.TableEntryListener;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -30,7 +28,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DashboardAutoSelector implements TableEntryListener {
-    Command fallbackCommand;
 
     Priority[] leftPriorities = {
                     new Priority("left_left_switch", "Left Switch", true, true,
@@ -50,14 +47,12 @@ public class DashboardAutoSelector implements TableEntryListener {
     String position = "";
 
     /**
-     * Instantiate with any backup command that runs upon no other options
+     * Instantiate
      * 
-     * @param fallbackCommand Normally driveStraight or doNothing
      */
-    public DashboardAutoSelector(Command fallbackCommand) {
-        this.fallbackCommand = fallbackCommand;
+    public DashboardAutoSelector() {
     }
-
+    
     /**
      * Creates a table listener to see when the dashboard sends a position back to the user, and
      * responds
@@ -106,22 +101,6 @@ public class DashboardAutoSelector implements TableEntryListener {
     }
 
     /**
-     * Finds the first command in the priority list that can actually be ran, and returns it
-     * 
-     * @param priorityList The priority list
-     * @return The chosen command
-     */
-    public Command chooseCommandFromPriorityList(Priority[] priorityList) {
-        for (Priority priority : priorityList) {
-            if (priority.getPossible()) {
-                return priority.getCommand();
-            }
-
-        }
-        return fallbackCommand;
-    }
-
-    /**
      * When the position value changes on the dashboard, send back a list of automodes from that
      * position
      */
@@ -138,78 +117,6 @@ public class DashboardAutoSelector implements TableEntryListener {
         } else if (position.equals("l")) {
             SmartDashboard.putString("autonomous/auto_modes", new Gson().toJson(
                             listToMap(new ArrayList<Priority>(Arrays.asList(leftPriorities)))));
-        }
-    }
-
-    /**
-     * Priority object for NetworkTable communications and seeing if it can run
-     *
-     */
-    class Priority {
-        String id;
-        String name;
-        boolean guarenteedPriority;
-        boolean isSwitch;
-        boolean isLeft;
-        Command linkedCommand;
-
-        /**
-         * Allows the priority to be checked to see if it is possible.
-         * 
-         * @param id Priority's ID
-         * @param name Display name of the priority
-         * @param isSwitch A switch-based command
-         * @param isLeft Goes to the left side of the switch/scale
-         * @param linkedCommand Command that the priority runs
-         */
-        public Priority(String id, String name, boolean isSwitch, boolean isLeft,
-                        Command linkedCommand) {
-            this.id = id;
-            this.name = name;
-            this.isSwitch = isSwitch;
-            this.isLeft = isLeft;
-            this.linkedCommand = linkedCommand;
-            guarenteedPriority = false;
-        }
-
-        /**
-         * In this constructor, the priority has no starting restrictions.
-         * 
-         * @param id Priority's ID
-         * @param name Display name of the priority
-         * @param linkedCommand Command that the priority runs
-         */
-        public Priority(String id, String name, Command linkedCommand) {
-            this.id = id;
-            this.name = name;
-            this.linkedCommand = linkedCommand;
-            guarenteedPriority = true;
-        }
-
-        /**
-         * Determines if it is possible for the priority to run. Assumes FMS actually gives a value
-         * 
-         * @return
-         */
-        public boolean getPossible() {
-            if (guarenteedPriority
-                            || DriverStation.getInstance().getGameSpecificMessage().equals(""))
-                return true;
-            if (isSwitch) {
-                if (isLeft && DriverStation.getInstance().getGameSpecificMessage()
-                                .toCharArray()[0] == 'L')
-                    return true;
-                return false;
-            } else {
-                if (isLeft && DriverStation.getInstance().getGameSpecificMessage()
-                                .toCharArray()[1] == 'L')
-                    return true;
-                return false;
-            }
-        }
-
-        public Command getCommand() {
-            return linkedCommand;
         }
     }
 

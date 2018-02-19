@@ -1,11 +1,11 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
 import org.usfirst.frc.team2706.robot.RobotMap;
+import org.usfirst.frc.team2706.robot.commands.autonomous.Priority;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.SensorBase;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
@@ -22,7 +22,7 @@ public class AutonomousSelector extends SensorBase implements Sendable {
                                                 new Range(4.2, 4.3), new Range(4.3, 4.4), new Range(4.4, 4.5),
                                                 new Range(4.5, 4.6), new Range(4.6, 5)};
 
-    private final Command[][] commands;
+    private final Priority[][][] commands;
     public final AnalogInput selector1;
     public final AnalogInput selector2;
 
@@ -33,8 +33,8 @@ public class AutonomousSelector extends SensorBase implements Sendable {
      * 
      * @param commands The commands to bind. The zeroth is default, one is the first notch
      */
-    public AutonomousSelector(Command[]... commands) {
-        this.commands = new Command[NUM_INDICES][NUM_INDICES];
+    public AutonomousSelector(Priority[][]... commands) {
+        this.commands = new Priority[NUM_INDICES][NUM_INDICES][8];
         this.selector1 = new AnalogInput(RobotMap.SELECTOR1_CHANNEL);
         this.selector2 = new AnalogInput(RobotMap.SELECTOR2_CHANNEL);
 
@@ -42,7 +42,7 @@ public class AutonomousSelector extends SensorBase implements Sendable {
         setCommands(commands);
     }
 
-    public void setCommands(Command[]... commands) {
+    public void setCommands(Priority[][]... commands) {
         for (int i = 0; i < NUM_INDICES; i++) {
             for(int j = 0; j < NUM_INDICES; j++) {
                 if (i < commands.length && j < commands[i].length) {
@@ -52,8 +52,6 @@ public class AutonomousSelector extends SensorBase implements Sendable {
                 }
             }
         }
-
-        //numCommands = Math.min(commands.length, NUM_INDICES);
     }
 
     /**
@@ -61,7 +59,7 @@ public class AutonomousSelector extends SensorBase implements Sendable {
      * 
      * @return The selected command
      */
-    public Command getSelected() {
+    public Priority[] getSelected() {
         int idx1 = getVoltageAsIndex(selector1);
         int idx2 = getVoltageAsIndex(selector2);
         if(commands[idx1] == null) {

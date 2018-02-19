@@ -3,6 +3,7 @@ package org.usfirst.frc.team2706.robot.subsystems;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotMap;
+import org.usfirst.frc.team2706.robot.commands.autonomous.Priority;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
@@ -246,12 +247,12 @@ public class DriveTrain extends Subsystem {
         return gyro.getAngle();
     }
 
-    public void setAutonomousCommandList(Command[]... commands) {
+    public void setAutonomousCommandList(Priority[][]... commands) {
         selectorSwitch.setCommands(commands);
     }
 
-    public Command getAutonomousCommand() {
-        return selectorSwitch.getSelected();
+    public Command getAutonomousCommand(Command fallbackCommand) {
+        return Priority.chooseCommandFromPriorityList(selectorSwitch.getSelected());
     }
 
     /**
