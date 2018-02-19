@@ -23,6 +23,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Communicates with the dashboard to send priorities and get selections, eventually getting one
+ * autonomous mode chosen after using FMS. 
+ * Falls back on two autonomous selector switches this year
+ *
+ */
 public class DashboardAutoSelector implements TableEntryListener {
     Command fallbackCommand;
 
@@ -43,10 +49,19 @@ public class DashboardAutoSelector implements TableEntryListener {
                                     new RightAutoRightScale())};
     String position = "";
 
+    /**
+     * Instantiate with any backup command that runs upon no other options
+     * 
+     * @param fallbackCommand Normally driveStraight or doNothing
+     */
     public DashboardAutoSelector(Command fallbackCommand) {
         this.fallbackCommand = fallbackCommand;
     }
 
+    /**
+     * Creates a table listener to see when the dashboard sends a position back to the user, and
+     * responds
+     */
     public void getPositionAndRespond() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("SmartDashboard");
         position = table.getEntry("autonomous/selected_position").getString("");
@@ -57,6 +72,12 @@ public class DashboardAutoSelector implements TableEntryListener {
 
     }
 
+    /**
+     * When auto starts, gets the priority list from NetworkTables, and returns them in a nice
+     * arraylist of objects
+     * 
+     * @return The priority list
+     */
     @SuppressWarnings("unchecked")
     public Priority[] getPriorityList() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("SmartDashboard");
@@ -84,11 +105,15 @@ public class DashboardAutoSelector implements TableEntryListener {
         return null;
     }
 
+    /**
+     * Finds the first command in the priority list that can actually be ran, and returns it
+     * 
+     * @param priorityList The priority list
+     * @return The chosen command
+     */
     public Command chooseCommandFromPriorityList(Priority[] priorityList) {
         for (Priority priority : priorityList) {
-            System.out.println(priority);
             if (priority.getPossible()) {
-                System.out.println("Prio " + priority);
                 return priority.getCommand();
             }
 
@@ -96,6 +121,30 @@ public class DashboardAutoSelector implements TableEntryListener {
         return fallbackCommand;
     }
 
+    /**
+     * When the position value changes on the dashboard, send back a list of automodes from that
+     * position
+     */
+    @Override
+    public void valueChanged(NetworkTable table, String key, NetworkTableEntry entry,
+                    NetworkTableValue value, int flags) {
+        position = value.getString();
+        if (position.equals("r")) {
+            SmartDashboard.putString("autonomous/auto_modes", new Gson().toJson(
+                            listToMap(new ArrayList<Priority>(Arrays.asList(rightPriorities)))));
+        } else if (position.equals("c")) {
+            SmartDashboard.putString("autonomous/auto_modes", new Gson().toJson(
+                            listToMap(new ArrayList<Priority>(Arrays.asList(centerPriorities)))));
+        } else if (position.equals("l")) {
+            SmartDashboard.putString("autonomous/auto_modes", new Gson().toJson(
+                            listToMap(new ArrayList<Priority>(Arrays.asList(leftPriorities)))));
+        }
+    }
+
+    /**
+     * Priority object for NetworkTable communications and seeing if it can run
+     *
+     */
     class Priority {
         String id;
         String name;
@@ -107,9 +156,11 @@ public class DashboardAutoSelector implements TableEntryListener {
         /**
          * Allows the priority to be checked to see if it is possible.
          * 
-         * @param id
-         * @param isSwitch
-         * @param isLeft
+         * @param id Priority's ID
+         * @param name Display name of the priority
+         * @param isSwitch A switch-based command
+         * @param isLeft Goes to the left side of the switch/scale
+         * @param linkedCommand Command that the priority runs
          */
         public Priority(String id, String name, boolean isSwitch, boolean isLeft,
                         Command linkedCommand) {
@@ -122,9 +173,11 @@ public class DashboardAutoSelector implements TableEntryListener {
         }
 
         /**
-         * The priority will always work on first try.
+         * In this constructor, the priority has no starting restrictions.
          * 
-         * @param id
+         * @param id Priority's ID
+         * @param name Display name of the priority
+         * @param linkedCommand Command that the priority runs
          */
         public Priority(String id, String name, Command linkedCommand) {
             this.id = id;
@@ -133,8 +186,14 @@ public class DashboardAutoSelector implements TableEntryListener {
             guarenteedPriority = true;
         }
 
+        /**
+         * Determines if it is possible for the priority to run. Assumes FMS actually gives a value
+         * 
+         * @return
+         */
         public boolean getPossible() {
-            if (guarenteedPriority)
+            if (guarenteedPriority
+                            || DriverStation.getInstance().getGameSpecificMessage().equals(""))
                 return true;
             if (isSwitch) {
                 if (isLeft && DriverStation.getInstance().getGameSpecificMessage()
@@ -171,21 +230,5 @@ public class DashboardAutoSelector implements TableEntryListener {
         return null;
 
     }
-
-    @Override
-    public void valueChanged(NetworkTable table, String key, NetworkTableEntry entry,
-                    NetworkTableValue value, int flags) {
-        position = value.getString();
-        if (position.equals("r")) {
-            SmartDashboard.putString("autonomous/auto_modes", new Gson().toJson(
-                            listToMap(new ArrayList<Priority>(Arrays.asList(rightPriorities)))));
-        } else if (position.equals("c")) {
-            SmartDashboard.putString("autonomous/auto_modes", new Gson().toJson(
-                            listToMap(new ArrayList<Priority>(Arrays.asList(centerPriorities)))));
-        } else if (position.equals("l")) {
-            SmartDashboard.putString("autonomous/auto_modes", new Gson().toJson(
-                            listToMap(new ArrayList<Priority>(Arrays.asList(leftPriorities)))));
-        }
-    }
-
+    
 }

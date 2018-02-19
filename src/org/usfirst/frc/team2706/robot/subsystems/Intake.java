@@ -1,18 +1,12 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
-import org.usfirst.frc.team2706.robot.RobotMap;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem; 
 
 // This class is used for the intake of the cube
 public class Intake extends Subsystem{ 
     boolean cubeIn = false; 
-    
-                  
-  private static final double CUBE_CAPTURED = 0.5;
     
     // Objects for inhaling and exhaling the cube
     private WPI_TalonSRX right_intake_motor;
