@@ -17,13 +17,18 @@ import org.usfirst.frc.team2706.robot.subsystems.AutonomousSelector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Where autonomous modes are set up, hardcoded, and ran
+ */
 public class AutoInit {
     
+    // The command that will be ran
     Command autonomousCommand;
     
     // The spinny dial on the robot that selects what autonomous mode we are going to do
     private AutonomousSelector selectorSwitch;
     
+    // Dashboard selection
     DashboardAutoSelector dashBoardAutoSelector;
     
     Priority doNothing = new Priority(new ArcadeDriveWithJoystick());
@@ -65,6 +70,10 @@ public class AutoInit {
         setDashboardPriorities();
         setSelectorPriorities();
     }
+    
+    /**
+     * Gets things ready to listen for a NetworkTables input from dashboard
+     */
     public void setDashboardPriorities() {
         // Dashboard Autonomous Mode List
         Priority[] leftPriorities = {
@@ -81,47 +90,68 @@ public class AutoInit {
         dashBoardAutoSelector = new DashboardAutoSelector(leftPriorities, centerPriorities, rightPriorities);
         dashBoardAutoSelector.getPositionAndRespond();
     }
+    
+    /**
+     * Sets up the auto selector to turn knobs into results
+     */
     public void setSelectorPriorities() {
         // WARNING DO NOT AUTOFORMAT THIS OR BAD THINGS WILL HAPPEN TO YOU
-        // Set up our autonomous modes with the hardware selector switch
+        // Set up our autonomous modes with the two hardware selector switches
         setAutonomousCommandList(
             // no switch: do nothing
             new Priority[][] {
                 new Priority[] {doNothing}
             },
-            // position 1: Do Nothing
+            // position 1: do Nothing
             new Priority[][] {
                 new Priority[] {doNothing}
             },
-            // position 2: Drive Forward
+            // position 2: drive forward
             new Priority[][] {
                 new Priority[] {driveForward}
             },
-            // position 3: Center Position
+            // position 3: center position
             new Priority[][] {
+                // position 1: exchange cube
                 new Priority[] {centerStartExchangeCube}, 
+                // position 2: do any switch
                 new Priority[] {centerStartLeftSwitch, centerStartRightSwitch}
             },
-            // position 4: Left Position
+            // position 4: left position
             new Priority[][] {
+                // position 1: do left switch
                 new Priority[] {leftStartLeftSwitch, driveForward},
+                // position 2: do left scale
                 new Priority[] {leftStartLeftScale, driveForward},
+                // position 3: try left switch, otherwise do left scale
                 new Priority[] {leftStartLeftSwitch, leftStartLeftScale, driveForward},
+                // position 4: try left scale, otherwise do left switch
                 new Priority[] {leftStartLeftScale, leftStartLeftSwitch, driveForward},
+                // position 5: try left switch, otherwise do scale
                 new Priority[] {leftStartLeftSwitch, leftStartLeftScale, leftStartRightScale},
+                // position 6: do scale
                 new Priority[] {leftStartLeftScale, leftStartRightScale}
             },
             // position 5: Right Position
             new Priority[][] {
+                // position 1: do right switch
                 new Priority[] {rightStartRightSwitch, driveForward},
+                // position 2: do right scale
                 new Priority[] {rightStartRightScale, driveForward},
+                // position 3: try right switch, otherwise do right scale
                 new Priority[] {rightStartRightSwitch, rightStartRightScale, driveForward},
+                // position 4: try right scale, otherwise do right switch
                 new Priority[] {rightStartRightScale, rightStartRightSwitch, driveForward},
+                // position 5: try right switch, otherwise do scale
                 new Priority[] {rightStartRightSwitch, rightStartRightScale, rightStartLeftScale},
+                // position 6: do scale
                 new Priority[] {rightStartRightScale, rightStartLeftScale}
             }
         );
     }
+    /**
+     * Call in Robot.autonomousInit()
+     */
     public void initialize() {
         
         // Great for safety just in case you set the wrong one in practice ;)
@@ -142,6 +172,9 @@ public class AutoInit {
             dashboardResponse.start();
         }
     }
+    /**
+     * Call in Robot.teleopInit();
+     */
     public void end() {
         /*
          * This makes sure that the autonomous stops running when teleop starts running. If you want
