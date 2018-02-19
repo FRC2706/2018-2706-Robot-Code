@@ -157,7 +157,8 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Left Distance Sensor", leftDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Right Distance Sensor", rightDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
-        SmartDashboard.putNumber("Autonomous Selector", selectorSwitch.getVoltageAsIndex());
+        SmartDashboard.putNumber("Autonomous Selector 1", selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1));
+        SmartDashboard.putNumber("Autonomous Selector 2", selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
     }
 
     /**
@@ -245,7 +246,7 @@ public class DriveTrain extends Subsystem {
         return gyro.getAngle();
     }
 
-    public void setAutonomousCommandList(Command... commands) {
+    public void setAutonomousCommandList(Command[]... commands) {
         selectorSwitch.setCommands(commands);
     }
 

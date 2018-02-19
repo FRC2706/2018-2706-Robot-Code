@@ -4,9 +4,9 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedri
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class LeftAutoLeftSwitch extends CommandGroup {
+public class LeftStartLeftSwitch extends CommandGroup {
     
-    public LeftAutoLeftSwitch() {
+    public LeftStartLeftSwitch() {
         this.addSequential(new CurveDrive(6.395, 10.33, 0, 0.65, true, 0.25, "CurveToSwitch"));
     }
     

@@ -5,9 +5,9 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWith
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class CenterAutoRightSwitch extends CommandGroup {
+public class CenterStartRightSwitch extends CommandGroup {
     
-    public CenterAutoRightSwitch() {
+    public CenterStartRightSwitch() {
         this.addSequential(new StraightDriveWithEncoders(0.8,24.0 / 12.0,1.0,3, "forwardFromStart"));
         this.addSequential(new RotateDriveWithGyro(0.5,31.17,2, "turnRightTowardsSwitch"));
         this.addSequential(new StraightDriveWithEncoders(0.8, 116.75 / 12.0,1.0, 3, "moveRightTowardsSwitch"));

@@ -84,13 +84,27 @@ public class Robot extends IterativeRobot {
         // WARNING DO NOT AUTOFORMAT THIS OR BAD THINGS WILL HAPPEN TO YOU
         // Set up our autonomous modes with the hardware selector switch
         driveTrain.setAutonomousCommandList(
-                        /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
-                       /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
-            /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.3, 2, 1, 5, "AutoForwardFoot"),
-                                                    new RotateDriveWithGyro(0.5, 90, 5, "AutoTurn90"),
-                                                    new ReplayRecordedJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(), false, "2018", "replay"),
-                                                    new TalonStraightDriveWithEncoders(0.3, 2, 1, 5, "AutoTalonForwardFoot"), 
-                                                    new CurveDrive(6.395, 10.33, 0, 0.65, true, 0.25, "CurveToSwitch")
+                        // no switch: do nothing
+                        new Command[] {
+                            new ArcadeDriveWithJoystick()
+                        },
+                        // position 1: do nothing
+                        new Command[] {
+                            new ArcadeDriveWithJoystick()
+                        },
+                        // position 2: drive forward
+                        new Command[] {
+                                        new StraightDriveWithEncoders(0.3, 2, 1, 5, "AutoForwardFoot")
+                        }
+                        
+//                        /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
+//                       /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
+//            /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.3, 2, 1, 5, "AutoForwardFoot"),
+//                                                    new RotateDriveWithGyro(0.5, 90, 5, "AutoTurn90"),
+//                                                    new ReplayRecordedJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(), false, "2018", "replay"),
+//                                                    new TalonStraightDriveWithEncoders(0.3, 2, 1, 5, "AutoTalonForwardFoot"), 
+//                                                    new CurveDrive(6.395, 10.33, 0, 0.65, true, 0.25, "CurveToSwitch")
+                                                    
                                                     
         );
 
@@ -139,11 +153,18 @@ public class Robot extends IterativeRobot {
         autonomousCommand = driveTrain.getAutonomousCommand();
         
         Command c = dashBoardAutoSelector.chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());
-        Log.d("Autonomous Initialization: Dasboard Command Selection is ", c);
+        Log.d("Autonomous Dashboard Selector", "Running " + c);
         Robot.driveTrain.brakeMode(true);
-        // Schedule the autonomous command that was selected
-        if (autonomousCommand != null)
-            autonomousCommand.start();
+        
+        // If no input falls back on the auto switches
+        if(c == null) {
+            // Schedule the autonomous command that was selected
+            if (autonomousCommand != null)
+                autonomousCommand.start();
+        }
+        else {
+            c.start();
+        }
     }
 
     /**

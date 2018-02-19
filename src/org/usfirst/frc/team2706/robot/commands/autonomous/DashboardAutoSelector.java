@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterAutoLeftSwitch;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterAutoRightSwitch;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftAutoLeftScale;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftAutoLeftSwitch;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightAutoRightScale;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightAutoRightSwitch;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterStartLeftSwitch;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterStartRightSwitch;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftStartLeftScale;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftStartLeftSwitch;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightStartRightScale;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightStartRightSwitch;
 
 import com.google.gson.Gson;
 
@@ -34,19 +34,19 @@ public class DashboardAutoSelector implements TableEntryListener {
 
     Priority[] leftPriorities = {
                     new Priority("left_left_switch", "Left Switch", true, true,
-                                    new LeftAutoLeftSwitch()),
+                                    new LeftStartLeftSwitch()),
                     new Priority("left_left_scale", "Left Scale", false, true,
-                                    new LeftAutoLeftScale())};
+                                    new LeftStartLeftScale())};
     Priority[] centerPriorities = {
                     new Priority("center_left_switch", "Left Switch", true, true,
-                                    new CenterAutoLeftSwitch()),
+                                    new CenterStartLeftSwitch()),
                     new Priority("center_right_switch", "Right Switch", true, false,
-                                    new CenterAutoRightSwitch())};
+                                    new CenterStartRightSwitch())};
     Priority[] rightPriorities = {
                     new Priority("right_right_switch", "Right Switch", true, false,
-                                    new RightAutoRightSwitch()),
+                                    new RightStartRightSwitch()),
                     new Priority("right_right_scale", "Right Scale", false, false,
-                                    new RightAutoRightScale())};
+                                    new RightStartRightScale())};
     String position = "";
 
     /**
