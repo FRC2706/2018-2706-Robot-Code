@@ -69,7 +69,6 @@ public class AutonomousSelector extends SensorBase implements Sendable {
             idx1 = 2;
             idx2 = 0;
         }
-            
 
         return commands[idx1][idx2];
     }

@@ -72,7 +72,7 @@ public class RobotMap {
     private static final int[] SELECTOR1_CHANNEL_VALS = {0, 0, 0};
     public static final int SELECTOR1_CHANNEL = getConstant("SELECTOR1_CHANNEL");
     
-    private static final int[] SELECTOR2_CHANNEL_VALS = {0, 0, 0};
+    private static final int[] SELECTOR2_CHANNEL_VALS = {3, 3, 3};
     public static final int SELECTOR2_CHANNEL = getConstant("SELECTOR2_CHANNEL");
 
     
