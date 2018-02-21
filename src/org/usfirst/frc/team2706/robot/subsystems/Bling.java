@@ -8,10 +8,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class Bling extends Subsystem{
-    
-    // Used to make sure we don't send the same pattern twice in a row
-    String lastPattern = "";
-
     // Bunch of colour presets.
     public static final long WHITE = 16777215;
     public static final long YELLOW = 16775680;
@@ -55,6 +51,13 @@ public class Bling extends Subsystem{
     
     
     private Command defaultCommand;
+    
+    // Used to make sure we don't run the same command twice in a row.
+    private int[] lastRGBArray = new int[3];
+    private int lastRepeat = -1;
+    private int lastWaitMs = -1;
+    private int lastLEDBrightness = -1;
+    private String lastCommand = "";
    
     /**
      * Class used as the basic part of handling bling commands. 
@@ -85,8 +88,17 @@ public class Bling extends Subsystem{
      * @param patternToShow The bling pattern object whose pattern to show.
      */
     @SuppressWarnings("deprecation")
-    public void Display(BlingPattern patternToShow) {        
-        // TODO  Send the pattern somehow.      
+    public void Display(BlingPattern patternToShow) {              
+        
+        // Don't spam the pi with the same command, so determine if this is the same as the last command
+        if (isSameAsLastCommandRun(patternToShow)) return;
+        
+        lastRepeat = patternToShow.getRepeatCount();
+        lastLEDBrightness = patternToShow.getBrightness();
+        lastWaitMs = patternToShow.getWaitMS();
+        lastCommand = patternToShow.getCommand();
+        lastRGBArray = patternToShow.getRGB();
+        
         
         int[] rgb = patternToShow.getRGB();
         blingTable.putNumber("red", rgb[0]);
@@ -97,8 +109,16 @@ public class Bling extends Subsystem{
         blingTable.putNumber("LED_BRIGHTNESS", patternToShow.getBrightness());
         blingTable.putString("command", patternToShow.getCommand());
         
+        patternToShow.runCommand();
+        
     }
     
+    private boolean isSameAsLastCommandRun(BlingPattern patternToShow) {
+        return patternToShow.getBrightness() == lastLEDBrightness && 
+                        patternToShow.getRepeatCount() == lastRepeat && patternToShow.getCommand().equals(lastCommand)
+                        && patternToShow.getRGB().equals(lastRGBArray) && lastWaitMs == patternToShow.getWaitMS();
+    }
+
     /**
      * Used to properly format patterns
      * @return The properly formatted string pattern code.

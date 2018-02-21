@@ -78,6 +78,14 @@ public abstract class BlingPattern {
     }
     
     /**
+     * If the command would like to run something while it is being displayed,
+     * it should be run here.
+     */
+    public void runCommand() {
+        
+    }
+    
+    /**
      * Function that resets the bling pattern after it is changed to.
      */
     public void reset() {

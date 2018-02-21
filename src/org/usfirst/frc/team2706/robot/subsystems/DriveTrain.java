@@ -349,7 +349,7 @@ public class DriveTrain extends Subsystem {
      * @return The distance driven (average of left and right encoders).
      */
     public double getDistance() {
-        return right_encoder.getDistance();
+        return (right_encoder.getDistance() + left_encoder.getDistance()) / 2;
     }
 
     public double getLeftDistanceToObstacle() {
@@ -436,9 +436,9 @@ public class DriveTrain extends Subsystem {
 
         @Override
         public double pidGet() {
-            Log.d("Encoder PID", right.getDistance());
-
-            return right.getDistance();
+            Log.d("DriveTrain", "Got encoder input of " + right.getDistance());
+            
+            return (right.getDistance() + left.getDistance()) / 2;
         }
 
     }
