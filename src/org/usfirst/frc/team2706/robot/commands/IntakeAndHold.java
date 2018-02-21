@@ -5,24 +5,20 @@ import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeCube extends Command {
+public class IntakeAndHold extends Command {
 
     private Intake inhale;
     private AnalogInput IR_sensor;
-    private Joystick m_joystick;
-    private int m_axis;
+    private double m_motorPower;
     /**
      * Allows us to use the methods in 'Intake'
      */
-    public IntakeCube(Joystick joystick, int axis) {
+    public IntakeAndHold(double motorPower) {
         inhale = Robot.intake;
         this.requires(Robot.intake);
-        m_joystick = joystick;
-        m_axis = axis;
-                        
+        m_motorPower = motorPower;
        
     }
     
@@ -35,7 +31,12 @@ public class IntakeCube extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
-           inhale.inhaleCube(m_joystick.getRawAxis(m_axis));
+        System.out.println(inhale.readIRSensor());
+        if (inhale.readIRSensor() >= 0.26 && inhale.readIRSensor() < 0.5) {
+            inhale.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_BACK_RIGHT_TRIGGER)); 
+            
+        }
+
     }
     
     /**
@@ -52,7 +53,13 @@ public class IntakeCube extends Command {
      * Used to detect whether the motors should stop
      */
     protected boolean isFinished() {
+       // if (inhale.cubeCaptured() == true) {
+     //       return true;
+     //   }
+    //    else {
             return false;
+    //    }
+        
     }
 
 }

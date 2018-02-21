@@ -3,6 +3,7 @@ package org.usfirst.frc.team2706.robot;
 import java.lang.reflect.Field;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
+import org.usfirst.frc.team2706.robot.commands.IntakeAndHold;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
 import org.usfirst.frc.team2706.robot.commands.teleop.HandBrake;
@@ -57,7 +58,10 @@ public class OI {
         driverBackLeftTrigger.runWhileHeld(new EjectCube());
         
         TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER);
-        driverBackRightTrigger.runWhileHeld(new IntakeCube());
+        driverBackRightTrigger.runWhileHeld(new IntakeCube(driverStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER));
+        
+        EJoystickButton holdCube = new EJoystickButton(driverStick, JoystickMap.XBOX_RB_BUTTON);
+        holdCube.runWhileHeld(new IntakeAndHold(0.5));
         
         EJoystickButton joybutten = new EJoystickButton(driverStick, JoystickMap.XBOX_X_BUTTON);
         joybutten.runWhileHeld(new StartCimbing());
