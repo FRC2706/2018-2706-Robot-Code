@@ -68,7 +68,7 @@ public class Robot extends IterativeRobot {
         climb = new Climber(); 
 
         oi = new OI();
-
+        
         autoInit = new AutoInit();
         
         recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
