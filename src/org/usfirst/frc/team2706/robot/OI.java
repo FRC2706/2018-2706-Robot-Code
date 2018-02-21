@@ -55,7 +55,7 @@ public class OI {
 
         // Runs the code depending which button/trigger is pressed
         TriggerButtonJoystick driverBackLeftTrigger = new TriggerButtonJoystick(driverStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER);
-        driverBackLeftTrigger.runWhileHeld(new EjectCube());
+        driverBackLeftTrigger.runWhileHeld(new EjectCube(driverStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER));
         
         TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER);
         driverBackRightTrigger.runWhileHeld(new IntakeCube(driverStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER));
