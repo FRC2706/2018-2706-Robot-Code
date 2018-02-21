@@ -1,6 +1,9 @@
 package org.usfirst.frc.team2706.robot.commands;
 
+
 import org.usfirst.frc.team2706.robot.JoystickMap;
+import java.util.function.Supplier;
+
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
@@ -9,18 +12,38 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class EjectCube extends Command {
 
-    private Intake exhale;
-    private Joystick m_joystick;
-    private int m_axis;
+    private Intake inhale;
+    private final Supplier<Double> speed;
+
+    /**
+     * Allows us to use the methods in 'Intake'
+     * 
+     * @param stick The joystick to use
+     * @param axis The axis to use
+     */
+    public EjectCube(Joystick stick, int axis) {
+        this(() -> stick.getRawAxis(axis));
+    }
     
     /**
      * Allows us to use the methods in 'Intake'
+     * 
+     * @param speed The the speed
      */
-    public EjectCube(Joystick joystick, int axis) {
-        exhale = Robot.intake;
-        this.requires(Robot.intake);
-        m_joystick = joystick;
-        m_axis = axis;
+
+    public EjectCube(double speed) {
+        this(() -> speed);
+    }
+    
+    /**
+     * Allows us to use the methods in 'Intake'
+     * 
+     * @param speed The supplier for the speed
+     */
+    public EjectCube(Supplier<Double> speed) {
+        inhale = Robot.intake;
+        
+        this.speed = speed;
     }
     
     /**
@@ -29,17 +52,17 @@ public class EjectCube extends Command {
     public void initialize() {}
     
     /**
-     * Turns on the motors on to eject the cube
+     * Turns the motors on to suck in the cube
      */
     public void execute() {
-        exhale.exhaleCube(m_joystick.getRawAxis(m_axis)); //TODO check out if correct
+        inhale.exhaleCube(speed.get()); 
     }
     
     /**
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
-        exhale.stopMotors();
+        inhale.stopMotors();
     }
     
 
