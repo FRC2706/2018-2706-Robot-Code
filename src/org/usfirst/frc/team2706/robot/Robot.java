@@ -84,6 +84,8 @@ public class Robot extends IterativeRobot {
         recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
                         () -> SmartDashboard.getString("record-joystick-name", "default"),
                         "recordJoystick");
+        
+        blingSystem = new Bling();
     }
 
     /**

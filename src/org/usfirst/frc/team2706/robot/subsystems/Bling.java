@@ -1,10 +1,11 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
-import org.usfirst.frc.team2706.robot.commands.bling.patterns.BlingPattern;
 import org.usfirst.frc.team2706.robot.commands.bling.BlingController;
+import org.usfirst.frc.team2706.robot.commands.bling.patterns.BlingPattern;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class Bling extends Subsystem{
     
@@ -50,6 +51,8 @@ public class Bling extends Subsystem{
     // Don't show the pattern at all if the distance is over this.
     public static final double irrelevanceDist = 40;
     
+    private NetworkTable blingTable;
+    
     
     private Command defaultCommand;
    
@@ -57,7 +60,10 @@ public class Bling extends Subsystem{
      * Class used as the basic part of handling bling commands. 
      */
     public Bling() {
+        // TODO remove this testing and remove debug prints
         
+//        blingTable = NetworkTableInstance.getDefault().getTable("blingTable"); 
+        blingTable = NetworkTable.getTable("blingTable");
     }
     
     @Override
@@ -78,12 +84,18 @@ public class Bling extends Subsystem{
      * The method used to display bling patterns.
      * @param patternToShow The bling pattern object whose pattern to show.
      */
+    @SuppressWarnings("deprecation")
     public void Display(BlingPattern patternToShow) {        
-        String patternString = patternToShow.getPattern();        
-        if (patternString == null || patternString.equals(lastPattern)) return;
+        // TODO  Send the pattern somehow.      
         
-        lastPattern = patternString;
-        // TODO  Send the pattern somehow.
+        int[] rgb = patternToShow.getRGB();
+        blingTable.putNumber("red", rgb[0]);
+        blingTable.putNumber("green", rgb[1]);
+        blingTable.putNumber("blue", rgb[2]);
+        blingTable.putNumber("repeat", patternToShow.getRepeatCount());
+        blingTable.putNumber("wait_ms", patternToShow.getWaitMS());
+        blingTable.putNumber("LED_BRIGHTNESS", patternToShow.getBrightness());
+        blingTable.putString("command", patternToShow.getCommand());
         
     }
     

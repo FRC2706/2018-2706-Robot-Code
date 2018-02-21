@@ -16,10 +16,18 @@ public abstract class BlingPattern {
     
     protected Bling blingSystem;
     protected DriveTrain driveTrain;
+    
+    protected int[] rgbColourCode = new int[3];
+    
+    protected int repeatCount = 10000;
+    protected int wait_ms = 50;
+    protected int LED_BRIGHTNESS = 255;
+    String command = "colorWipe";
    
     protected List<Integer> operationPeriod = new ArrayList<Integer>();
     
-    /* True if the pattern has already been run at least once
+    /* 
+     * True if the pattern has already been run at least once
      * and it was the last pattern to run.
      */
     protected boolean hasRun = false;
@@ -27,6 +35,11 @@ public abstract class BlingPattern {
     public BlingPattern() {        
         blingSystem = Robot.blingSystem;
         driveTrain = Robot.driveTrain;
+        
+        
+        rgbColourCode[0] = 255;
+        rgbColourCode[1] = 0;
+        rgbColourCode[2] = 0;
     }
     
     /**
@@ -40,8 +53,24 @@ public abstract class BlingPattern {
         return false;
     }
     
-    public String getPattern() {
-        return null;
+    public int[] getRGB() {
+        return rgbColourCode;
+    }
+    
+    public int getRepeatCount() {
+        return repeatCount;
+    }
+    
+    public int getBrightness() {
+        return LED_BRIGHTNESS;
+    }
+    
+    public String getCommand() {
+        return command;
+    }
+    
+    public int getWaitMS() {
+        return wait_ms;
     }
     
     public List<Integer> getPeriod() {
