@@ -13,8 +13,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Intake extends Subsystem{ 
     boolean cubeIn = false; 
     
-                  
-  private static final double CUBE_CAPTURED = 0.5;
+    private static final double CUBE_CAPTURED = 0.5;
     
     // Objects for inhaling and exhaling the cube
     private WPI_TalonSRX right_intake_motor;

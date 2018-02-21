@@ -45,9 +45,6 @@ public class DriveTrain extends Subsystem {
 
     private Command defaultCommand;
 
-    // The spinny dial on the robot that selects what autonomous mode we are going to do
-    private AutonomousSelector selectorSwitch;
-
     public DriveTrain() {
         super();
         front_left_motor = new WPI_TalonSRX(RobotMap.MOTOR_FRONT_LEFT);
@@ -101,9 +98,7 @@ public class DriveTrain extends Subsystem {
 
         gyroPIDSource = new GyroPIDSource(this);
 
-        reset();
-
-        selectorSwitch = new AutonomousSelector();
+        reset(); 
 
         // Let's show everything on the LiveWindow
         front_left_motor.setName("DriveTrain", "Front Left Motor");
@@ -115,7 +110,7 @@ public class DriveTrain extends Subsystem {
         leftDistanceSensor.setName("Drive Train", "Left Distance Sensor");
         rightDistanceSensor.setName("Drive Train", "Right Distance Sensor");
         gyro.setName("Drive Train", "Gyro");
-        selectorSwitch.setName("Drive Train", "Autonomous Selector");
+        //selectorSwitch.setName("Drive Train", "Autonomous Selector");
     }
 
     /**
@@ -157,7 +152,8 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Left Distance Sensor", leftDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Right Distance Sensor", rightDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
-        SmartDashboard.putNumber("Autonomous Selector", selectorSwitch.getVoltageAsIndex());
+     //   SmartDashboard.putNumber("Autonomous Selector 1", selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1));
+     //   SmartDashboard.putNumber("Autonomous Selector 2", selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
     }
 
     /**
@@ -243,14 +239,6 @@ public class DriveTrain extends Subsystem {
      */
     public double getHeading() {
         return gyro.getAngle();
-    }
-
-    public void setAutonomousCommandList(Command... commands) {
-        selectorSwitch.setCommands(commands);
-    }
-
-    public Command getAutonomousCommand() {
-        return selectorSwitch.getSelected();
     }
 
     /**
