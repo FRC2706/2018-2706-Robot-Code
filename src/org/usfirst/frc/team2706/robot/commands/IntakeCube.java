@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2706.robot.commands;
 
+import org.usfirst.frc.team2706.robot.JoystickMap;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
@@ -30,7 +31,7 @@ public class IntakeCube extends Command {
     public void execute() {
         System.out.println(inhale.readIRSensor());
         if (inhale.readIRSensor() >= 0.26 && inhale.readIRSensor() < 0.5) {
-            inhale.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(3)); 
+            inhale.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_BACK_RIGHT_TRIGGER)); 
             
         }
 

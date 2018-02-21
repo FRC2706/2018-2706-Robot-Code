@@ -114,7 +114,6 @@ public class RobotMap {
     public static final int IR_SENSOR =
                     getConstant("IR_SENSOR");
     
-    
     // Raspberry Pi IP for vision *NOTE: Mikes laptop is 10.27.6.10, rPI is 10.27.6.240
     private static final String[] RPI_IPS_VALS = {"10.27.6.240", "10.27.6.240", "10.27.6.10"};
     public static final String RPI_IPS = getConstant("RPI_IPS");

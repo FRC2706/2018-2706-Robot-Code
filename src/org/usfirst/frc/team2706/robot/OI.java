@@ -24,6 +24,7 @@ public class OI {
 
     // Joystick for controlling the mechanisms of the robot
     private final Joystick controlStick;
+    
 
     public Joystick getDriverJoystick() {
         return driverStick;
@@ -52,13 +53,13 @@ public class OI {
         this.driverStick = driverStick;
 
         // Runs the code depending which button/trigger is pressed
-        TriggerButtonJoystick driverBackLeftTrigger = new TriggerButtonJoystick(driverStick, 2);
+        TriggerButtonJoystick driverBackLeftTrigger = new TriggerButtonJoystick(driverStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER);
         driverBackLeftTrigger.runWhileHeld(new EjectCube());
         
-        TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, 3);
+        TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER);
         driverBackRightTrigger.runWhileHeld(new IntakeCube());
         
-        EJoystickButton joybutten = new EJoystickButton(driverStick, 3);
+        EJoystickButton joybutten = new EJoystickButton(driverStick, JoystickMap.XBOX_X_BUTTON);
         joybutten.runWhileHeld(new StartCimbing());
         
 
