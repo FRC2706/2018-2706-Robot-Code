@@ -16,7 +16,7 @@ public class ArcadeDriveWithJoystick extends Command {
      * Arcade drives with the driver joystick
      */
     public ArcadeDriveWithJoystick() {
-        this(Robot.oi.getDriverJoystick());
+        //this(Robot.oi.getDriverJoystick());
     }
 
     /**

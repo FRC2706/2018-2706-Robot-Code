@@ -53,27 +53,27 @@ public class Robot extends IterativeRobot {
 
         Log.i("Robot", "Starting robot code");
 
-        RobotMap.log();
+        //RobotMap.log();
 
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
 
-        camera = new Camera();
+       // camera = new Camera();
 
         // Make sure to initialize cube intake and eject
         // mechanisms
-        intake = new Intake();
-        
+        //intake = new Intake();
+        //
         //Climber initialization 
-        climb = new Climber(); 
+       // climb = new Climber(); 
 
-        oi = new OI();
+       // oi = new OI();
         
-        autoInit = new AutoInit();
+       // autoInit = new AutoInit();
         
-        recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
+      /*  recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
                         () -> SmartDashboard.getString("record-joystick-name", "default"),
-                        "recordJoystick");
+                        "recordJoystick");*/
     }
 
     /**
@@ -86,7 +86,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void disabledPeriodic() {
-        Scheduler.getInstance().run();
+       // Scheduler.getInstance().run();
         log();
     }
 
@@ -101,32 +101,32 @@ public class Robot extends IterativeRobot {
      * additional strings & commands.
      */
     public void autonomousInit() {
-        Log.i("Robot", "Entering autonomous mode");
+      //  Log.i("Robot", "Entering autonomous mode");
 
-        driveTrain.reset();
+       // driveTrain.reset();
         
-        autoInit.initialize();
+       // autoInit.initialize();
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-        log();
+      //  Scheduler.getInstance().run();
+      //  log();
     }
 
     public void teleopInit() {
-        Log.i("Robot", "Entering teleop mode");
+      //  Log.i("Robot", "Entering teleop mode");
 
-        autoInit.end();
+      //  autoInit.end();
         
-        Robot.driveTrain.brakeMode(false);
-        if (SmartDashboard.getBoolean("record-joystick", false))
-            recordAJoystick.start();
+      //  Robot.driveTrain.brakeMode(false);
+      //  if (SmartDashboard.getBoolean("record-joystick", false))
+      //      recordAJoystick.start();
         // Tell drive team to drive
-        rumbler = new StickRumble(0.4, 0.15, 1, 0, 1, 1.0, 1, "controllerStickRumble");
-        rumbler.start();
+      //  rumbler = new StickRumble(0.4, 0.15, 1, 0, 1, 1.0, 1, "controllerStickRumble");
+       // rumbler.start();
     }
 
     /**

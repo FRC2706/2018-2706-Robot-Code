@@ -66,7 +66,7 @@ public class AutoInit {
                     Priority.SCALE, Priority.LEFT, new RightStartLeftScale());
     
     public AutoInit() {
-        selectorSwitch = new AutonomousSelector();
+      //  selectorSwitch = new AutonomousSelector();
         setDashboardPriorities();
         setSelectorPriorities();
     }

@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -100,8 +101,23 @@ public class DriveTrain extends Subsystem {
 
         reset(); 
 
+        new WPI_TalonSRX(1).setName("Drive Train","Left Front Motor");
+        new WPI_TalonSRX(2).setName("Drive Train","Left Back Motor");
+        new WPI_TalonSRX(3).setName("Drive Train","Right Front Motor");
+        new WPI_TalonSRX(4).setName("Drive Train","Right Back Motor");
+        new WPI_TalonSRX(5).setName("Lift","Lift Motor");
+        new WPI_TalonSRX(6).setName("Intake","Intake Motor Left");
+        new WPI_TalonSRX(7).setName("Intake","Intake Motor Right");
+        new WPI_TalonSRX(8).setName("Climber","Climber Motor");
+        new AnalogInput(0).setName("Auto Selector","Selector 1");
+        new AnalogInput(3).setName("Auto Selector","Selector 2");
+        new AnalogInput(1).setName("IR Sensor","Climber IR");
+        new AnalogInput(2).setName("IR Sensor","Intake IR");
+        left_encoder.setName("Drive Train", "Left Encoder");
+        right_encoder.setName("Drive Train", "Right Encoder");
+        gyro.setName("Drive Train", "Gyro");
         // Let's show everything on the LiveWindow
-        front_left_motor.setName("DriveTrain", "Front Left Motor");
+        /*front_left_motor.setName("DriveTrain", "Front Left Motor");
         back_left_motor.setName("DriveTrain", "Back Left Motor");
         front_right_motor.setName("DriveTrain", "Front Right Motor");
         back_right_motor.setName("DriveTrain", "Back Right Motor");
@@ -109,7 +125,7 @@ public class DriveTrain extends Subsystem {
         right_encoder.setName("Drive Train", "Right Encoder");
         leftDistanceSensor.setName("Drive Train", "Left Distance Sensor");
         rightDistanceSensor.setName("Drive Train", "Right Distance Sensor");
-        gyro.setName("Drive Train", "Gyro");
+        gyro.setName("Drive Train", "Gyro");*/
         //selectorSwitch.setName("Drive Train", "Autonomous Selector");
     }
 
