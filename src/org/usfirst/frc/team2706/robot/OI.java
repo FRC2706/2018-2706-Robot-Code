@@ -58,24 +58,26 @@ public class OI {
 
         // Runs the code depending which button/trigger is pressed
 
-        TriggerButtonJoystick driverBackLeftTrigger = new TriggerButtonJoystick(driverStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER);
-        driverBackLeftTrigger.runWhileHeld(new EjectCube(driverStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER));
+        TriggerButtonJoystick intakeCube = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER);
+        intakeCube.runWhileHeld(new IntakeCube(controlStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER));
         
-        TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER);
-        driverBackRightTrigger.runWhileHeld(new IntakeCube(driverStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER));
+        TriggerButtonJoystick ejectCube = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER);
+        ejectCube.runWhileHeld(new EjectCube(controlStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER));
         
-        EJoystickButton holdCube = new EJoystickButton(driverStick, JoystickMap.XBOX_Y_BUTTON);
+        EJoystickButton holdCube = new EJoystickButton(controlStick, JoystickMap.XBOX_LB_BUTTON);
         holdCube.runWhileHeld(new IntakeAndHold(0.5));
 
-        EJoystickButton camera = new EJoystickButton(driverStick, JoystickMap.XBOX_LB_BUTTON);
-        camera.runWhileHeld(new PickupCube());
+        EJoystickButton cameraCube = new EJoystickButton(driverStick, 1);
+        cameraCube.runWhileHeld(new PickupCube());
         
-        EJoystickButton joybutten = new EJoystickButton(driverStick, JoystickMap.XBOX_X_BUTTON);
-        joybutten.runWhileHeld(new StartCimbing());
+        EJoystickButton climber = new EJoystickButton(controlStick, JoystickMap.XBOX_X_BUTTON);
+        climber.runWhileHeld(new StartCimbing());
         
         EJoystickButton ejectTimed = new EJoystickButton(controlStick, JoystickMap.XBOX_RB_BUTTON);
         ejectTimed.runWhileHeld(new EjectCubeTimed());
 
+        // Elevator on axis 1
+        
         // The Joystick for controlling the mechanisms of the robot
         this.controlStick = controlStick;
 
