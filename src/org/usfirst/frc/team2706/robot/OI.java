@@ -3,10 +3,13 @@ package org.usfirst.frc.team2706.robot;
 import java.lang.reflect.Field;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
+
 import org.usfirst.frc.team2706.robot.commands.IntakeAndHold;
+
+import org.usfirst.frc.team2706.robot.commands.EjectCubeTimed;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
+import org.usfirst.frc.team2706.robot.commands.PickupCube;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
-import org.usfirst.frc.team2706.robot.commands.teleop.HandBrake;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -54,18 +57,24 @@ public class OI {
         this.driverStick = driverStick;
 
         // Runs the code depending which button/trigger is pressed
+
         TriggerButtonJoystick driverBackLeftTrigger = new TriggerButtonJoystick(driverStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER);
         driverBackLeftTrigger.runWhileHeld(new EjectCube(driverStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER));
         
         TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER);
         driverBackRightTrigger.runWhileHeld(new IntakeCube(driverStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER));
         
-        EJoystickButton holdCube = new EJoystickButton(driverStick, JoystickMap.XBOX_RB_BUTTON);
+        EJoystickButton holdCube = new EJoystickButton(driverStick, JoystickMap.XBOX_Y_BUTTON);
         holdCube.runWhileHeld(new IntakeAndHold(0.5));
+
+        EJoystickButton camera = new EJoystickButton(driverStick, JoystickMap.XBOX_LB_BUTTON);
+        camera.runWhileHeld(new PickupCube());
         
         EJoystickButton joybutten = new EJoystickButton(driverStick, JoystickMap.XBOX_X_BUTTON);
         joybutten.runWhileHeld(new StartCimbing());
         
+        EJoystickButton ejectTimed = new EJoystickButton(controlStick, JoystickMap.XBOX_RB_BUTTON);
+        ejectTimed.runWhileHeld(new EjectCubeTimed());
 
         // The Joystick for controlling the mechanisms of the robot
         this.controlStick = controlStick;

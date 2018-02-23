@@ -12,6 +12,8 @@ import java.util.Scanner;
  * reduces the number of magic numbers floating around.
  */
 @SuppressWarnings("unused")
+
+
 public class RobotMap {
 
     private static final int ROBOT_ID = getRobotID();
@@ -67,8 +69,11 @@ public class RobotMap {
     private static final boolean[] INVERT_JOYSTICK_Y_VALS = {false, true, false};
     public static final boolean INVERT_JOYSTICK_Y = getConstant("INVERT_JOYSTICK_Y");
 
-    private static final int[] SELECTOR_CHANNEL_VALS = {0, 0, 0};
-    public static final int SELECTOR_CHANNEL = getConstant("SELECTOR_CHANNEL");
+    private static final int[] SELECTOR1_CHANNEL_VALS = {0, 0, 0};
+    public static final int SELECTOR1_CHANNEL = getConstant("SELECTOR1_CHANNEL");
+    
+    private static final int[] SELECTOR2_CHANNEL_VALS = {3, 3, 3};
+    public static final int SELECTOR2_CHANNEL = getConstant("SELECTOR2_CHANNEL");
 
     
     // Climber

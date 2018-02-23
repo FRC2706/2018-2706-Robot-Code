@@ -45,9 +45,6 @@ public class DriveTrain extends Subsystem {
 
     private Command defaultCommand;
 
-    // The spinny dial on the robot that selects what autonomous mode we are going to do
-    private AutonomousSelector selectorSwitch;
-
     public DriveTrain() {
         super();
         front_left_motor = new WPI_TalonSRX(RobotMap.MOTOR_FRONT_LEFT);
@@ -101,9 +98,7 @@ public class DriveTrain extends Subsystem {
 
         gyroPIDSource = new GyroPIDSource(this);
 
-        reset();
-
-        selectorSwitch = new AutonomousSelector();
+        reset(); 
 
         // Let's show everything on the LiveWindow
         front_left_motor.setName("DriveTrain", "Front Left Motor");
@@ -115,7 +110,7 @@ public class DriveTrain extends Subsystem {
         leftDistanceSensor.setName("Drive Train", "Left Distance Sensor");
         rightDistanceSensor.setName("Drive Train", "Right Distance Sensor");
         gyro.setName("Drive Train", "Gyro");
-        selectorSwitch.setName("Drive Train", "Autonomous Selector");
+        //selectorSwitch.setName("Drive Train", "Autonomous Selector");
     }
 
     /**
@@ -157,7 +152,8 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Left Distance Sensor", leftDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Right Distance Sensor", rightDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
-        SmartDashboard.putNumber("Autonomous Selector", selectorSwitch.getVoltageAsIndex());
+     //   SmartDashboard.putNumber("Autonomous Selector 1", selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1));
+     //   SmartDashboard.putNumber("Autonomous Selector 2", selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
     }
 
     /**
@@ -243,14 +239,6 @@ public class DriveTrain extends Subsystem {
      */
     public double getHeading() {
         return gyro.getAngle();
-    }
-
-    public void setAutonomousCommandList(Command... commands) {
-        selectorSwitch.setCommands(commands);
-    }
-
-    public Command getAutonomousCommand() {
-        return selectorSwitch.getSelected();
     }
 
     /**
@@ -506,40 +494,28 @@ public class DriveTrain extends Subsystem {
 
             double rotateVal;
             if (useCamera) {
-                // Checks if target is found, cuts off the edges, and then creates a rotation value
-                if (Robot.camera.getTarget() != null) {
-                    if (Robot.camera.getTarget().ctrX > -0.8 && Robot.camera.getTarget().ctrX < 0.8
-                                    && Robot.camera.getTarget().ctrY > -0.8
-                                    && Robot.camera.getTarget().ctrY < 0.8) {
-                        rotateVal = Robot.camera.getTarget() != null
-                                        ? (Robot.camera.getTarget().ctrY + 0.05) * 1.7 : 0;
-                        if (rotateVal > 0.6) {
-                            rotateVal = 0.6;
-                        }
-                        if (rotateVal < -0.6) {
-                            rotateVal = -0.6;
-                        }
-                    } else {
-                        rotateVal = 0;
-                    }
+                if (invert) {
+                    drive.arcadeDrive(0.3, output, false);
                 } else {
-                    rotateVal = 0;
+                    drive.arcadeDrive(0.3, -output, false);
                 }
             } else {
                 rotateVal = normalize(getHeading() - initGyro) * 0.15;
-            }
+            
 
 
-            if (useGyroStraightening)
+            if (useGyroStraightening) {
                 if (invert) {
                     drive.arcadeDrive(output, -rotateVal);
                 } else {
                     drive.arcadeDrive(-output, rotateVal);
                 }
+            }
             else if (invert) {
                 drive.tankDrive(-output, output, false);
             } else {
                 drive.tankDrive(-output, -output, false);
+            }
             }
         }
 
