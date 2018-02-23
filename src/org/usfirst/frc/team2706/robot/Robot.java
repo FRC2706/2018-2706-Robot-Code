@@ -7,6 +7,7 @@ import org.usfirst.frc.team2706.robot.subsystems.Camera;
 import org.usfirst.frc.team2706.robot.subsystems.Climber;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
+import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -29,6 +30,9 @@ public class Robot extends IterativeRobot {
 
     // intake subsystem
     public static Intake intake;
+    
+    // Lift subsystem
+    public static Lift lift;
     
     //climber code
     public static Climber climb;
@@ -63,6 +67,9 @@ public class Robot extends IterativeRobot {
         // Make sure to initialize cube intake and eject
         // mechanisms
         intake = new Intake();
+        
+        // Initialize lift
+        lift = new Lift();
         
         //Climber initialization 
         climb = new Climber(); 
