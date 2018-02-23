@@ -39,11 +39,5 @@ public class JoystickMap {
     public static final int XBOX_POV_DOWN_LEFT = 6;
     public static final int XBOX_POV_LEFT = 7;
     public static final int XBOX_POV_UP_LEFT = 8;
-    
-
-    public JoystickMap() {
-        
-        // TODO Auto-generated constructor stub
-    }
 
 }
