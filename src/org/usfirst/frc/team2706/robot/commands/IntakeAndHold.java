@@ -1,52 +1,26 @@
 package org.usfirst.frc.team2706.robot.commands;
 
 import org.usfirst.frc.team2706.robot.JoystickMap;
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import java.util.function.Supplier;
-
-import org.usfirst.frc.team2706.robot.Robot;
-import org.usfirst.frc.team2706.robot.subsystems.Intake;
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
-
-public class IntakeCube extends Command {
+public class IntakeAndHold extends Command {
 
     private Intake inhale;
-
-    private final Supplier<Double> speed;
+    private AnalogInput IR_sensor;
+    private double m_motorPower;
     /**
      * Allows us to use the methods in 'Intake'
-     * 
-     * @param stick The joystick to use
-     * @param axis The axis to use
      */
-    public IntakeCube(Joystick stick, int axis) {
-        this(() -> stick.getRawAxis(axis));
-    }
-    
-    /**
-     * Allows us to use the methods in 'Intake'
-     * 
-     * @param speed The the speed
-     */
-    public IntakeCube(double speed) {
-        this(() -> speed);
-    }
-    
-    /**
-     * Allows us to use the methods in 'Intake'
-     * 
-     * @param speed The supplier for the speed
-     */
-    public IntakeCube(Supplier<Double> speed) {
+    public IntakeAndHold(double motorPower) {
         inhale = Robot.intake;
-        this.speed = speed;
         this.requires(Robot.intake);
+        m_motorPower = motorPower;
+       
     }
     
     /**
@@ -58,7 +32,12 @@ public class IntakeCube extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
-            inhale.inhaleCube(speed.get());
+        Log.d(this, inhale.readIRSensor());
+        if (inhale.readIRSensor() >= 0.26 && inhale.readIRSensor() < 0.5) {
+            inhale.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_BACK_RIGHT_TRIGGER)); 
+            
+        }
+
     }
     
     /**
@@ -75,7 +54,13 @@ public class IntakeCube extends Command {
      * Used to detect whether the motors should stop
      */
     protected boolean isFinished() {
+       // if (inhale.cubeCaptured() == true) {
+     //       return true;
+     //   }
+    //    else {
             return false;
+    //    }
+        
     }
 
 }

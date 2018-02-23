@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2706.robot.commands;
 
+
+import org.usfirst.frc.team2706.robot.JoystickMap;
 import java.util.function.Supplier;
 
 import org.usfirst.frc.team2706.robot.Robot;
@@ -28,6 +30,7 @@ public class EjectCube extends Command {
      * 
      * @param speed The the speed
      */
+
     public EjectCube(double speed) {
         this(() -> speed);
     }
@@ -41,8 +44,6 @@ public class EjectCube extends Command {
         inhale = Robot.intake;
         
         this.speed = speed;
-        
-        this.requires(Robot.intake);
     }
     
     /**
@@ -70,13 +71,7 @@ public class EjectCube extends Command {
      * Used to detect whether the motors should stop
      */
     protected boolean isFinished() {
-       // if (exhale.cubeCaptured() == false) {
-       //     return true;
-      //  }
-     //   else {
-            return false;
-     //   }
-        
+            return false;     
     }
 
 }
