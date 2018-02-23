@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -116,6 +117,8 @@ public class DriveTrain extends Subsystem {
         left_encoder.setName("Drive Train", "Left Encoder");
         right_encoder.setName("Drive Train", "Right Encoder");
         gyro.setName("Drive Train", "Gyro");
+        new DigitalInput(0).setName("Limit Switch","Limit Switch Up");
+        new DigitalInput(1).setName("Limit Switch","Limit Switch Down");
         // Let's show everything on the LiveWindow
         /*front_left_motor.setName("DriveTrain", "Front Left Motor");
         back_left_motor.setName("DriveTrain", "Back Left Motor");
