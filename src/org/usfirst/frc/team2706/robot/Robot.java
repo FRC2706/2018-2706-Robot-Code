@@ -59,7 +59,7 @@ public class Robot extends IterativeRobot {
 
         RobotMap.log();
 
-        oi = new OI();
+        
         
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
@@ -77,7 +77,7 @@ public class Robot extends IterativeRobot {
         climb = new Climber(); 
 
         
-        
+        oi = new OI();
         autoInit = new AutoInit();
         
         recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
