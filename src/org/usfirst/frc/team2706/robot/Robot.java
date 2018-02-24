@@ -78,7 +78,7 @@ public class Robot extends IterativeRobot {
 
         
         oi = new OI();
-        autoInit = new AutoInit();
+       // autoInit = new AutoInit();
         
         recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
                         () -> SmartDashboard.getString("record-joystick-name", "default"),
@@ -128,7 +128,7 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
         Log.i("Robot", "Entering teleop mode");
 
-        autoInit.end();
+      //  autoInit.end();
         
         Robot.driveTrain.brakeMode(true);
         if (SmartDashboard.getBoolean("record-joystick", false))

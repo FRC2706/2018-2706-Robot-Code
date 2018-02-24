@@ -8,7 +8,8 @@ import org.usfirst.frc.team2706.robot.controls.talon.TalonSensorGroup;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
- // import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.DigitalInput;
+// import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Lift extends Subsystem{
@@ -19,10 +20,12 @@ public class Lift extends Subsystem{
     
     TalonPID liftPID = new TalonPID(new TalonSensorGroup(liftMotor,liftMotor::setSafetyEnabled, encoder));
     
+    DigitalInput liftDown;
     double speed = 0.3;
     
     public Lift() {
         liftMotor.setNeutralMode(NeutralMode.Brake);
+        liftDown = new DigitalInput(1);
     }
 
     public TalonPID getPID () {
@@ -30,7 +33,13 @@ public class Lift extends Subsystem{
     }
     
     public void move(double liftspeed) {
+        System.out.println(liftDown.get());
+        if(liftDown.get() || liftspeed < 0) {
         liftMotor.set(liftspeed);
+        }
+        else {
+            liftMotor.set(0);
+        }
     }
     
     public void moveUp () {
@@ -38,9 +47,11 @@ public class Lift extends Subsystem{
     } 
     
     public void moveDown () {
-        if()
-        liftMotor.set(-1*speed);
-    }  
+      
+            liftMotor.set(-1*speed);
+        }
+       
+    
     
     public void stop () {
         liftMotor.set(0.0);
