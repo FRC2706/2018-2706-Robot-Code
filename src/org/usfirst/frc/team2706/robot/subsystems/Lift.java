@@ -38,6 +38,7 @@ public class Lift extends Subsystem{
     } 
     
     public void moveDown () {
+        if()
         liftMotor.set(-1*speed);
     }  
     
