@@ -9,6 +9,7 @@ import org.usfirst.frc.team2706.robot.commands.IntakeAndHold;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCubeTimed;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
+import org.usfirst.frc.team2706.robot.commands.MoveLift;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftDown;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftUp;
 import org.usfirst.frc.team2706.robot.commands.PickupCube;
@@ -82,8 +83,12 @@ public class OI {
         EJoystickButton ejectTimed = new EJoystickButton(controlStick, JoystickMap.XBOX_RB_BUTTON);
         ejectTimed.runWhileHeld(new EjectCubeTimed());
         
-        // Currently lift is mapped to buttons
+        // Currently lift is mapped to buttons as well
         // Final: Elevator on axis 1
+        
+        TriggerButtonJoystick MoveLift = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y);
+        MoveLift.runWhileHeld(new MoveLift(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y));
+        
         EJoystickButton MoveLiftUp = new EJoystickButton(controlStick, JoystickMap.XBOX_Y_BUTTON);
         MoveLiftUp.runWhileHeld(new MoveLiftUp());
         

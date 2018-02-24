@@ -5,6 +5,7 @@ import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonSensorGroup;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
  // import edu.wpi.first.wpilibj.Encoder;
@@ -19,9 +20,17 @@ public class Lift extends Subsystem{
     TalonPID liftPID = new TalonPID(new TalonSensorGroup(liftMotor,liftMotor::setSafetyEnabled, encoder));
     
     double speed = 0.3;
+    
+    public Lift() {
+        liftMotor.setNeutralMode(NeutralMode.Brake);
+    }
 
     public TalonPID getPID () {
         return liftPID;
+    }
+    
+    public void move(double liftspeed) {
+        liftMotor.set(liftspeed);
     }
     
     public void moveUp () {
