@@ -59,6 +59,8 @@ public class Robot extends IterativeRobot {
 
         RobotMap.log();
 
+        oi = new OI();
+        
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
 
@@ -74,7 +76,7 @@ public class Robot extends IterativeRobot {
         //Climber initialization 
         climb = new Climber(); 
 
-        oi = new OI();
+        
         
         autoInit = new AutoInit();
         
