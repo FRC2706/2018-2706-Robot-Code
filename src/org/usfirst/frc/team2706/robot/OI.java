@@ -2,12 +2,15 @@ package org.usfirst.frc.team2706.robot;
 
 import java.lang.reflect.Field;
 
+import org.usfirst.frc.team2706.robot.commands.CheckLiftHeight;
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
 
 import org.usfirst.frc.team2706.robot.commands.IntakeAndHold;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCubeTimed;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
+import org.usfirst.frc.team2706.robot.commands.MoveLiftDown;
+import org.usfirst.frc.team2706.robot.commands.MoveLiftUp;
 import org.usfirst.frc.team2706.robot.commands.PickupCube;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
@@ -75,8 +78,18 @@ public class OI {
         
         EJoystickButton ejectTimed = new EJoystickButton(controlStick, JoystickMap.XBOX_RB_BUTTON);
         ejectTimed.runWhileHeld(new EjectCubeTimed());
-
-        // Elevator on axis 1
+        
+        // Currently lift is mapped to buttons
+        // Final: Elevator on axis 1
+        EJoystickButton MoveLiftUp = new EJoystickButton(controlStick, JoystickMap.XBOX_Y_BUTTON);
+        MoveLiftUp.runWhileHeld(new MoveLiftUp());
+        
+        EJoystickButton MoveLiftDown = new EJoystickButton(controlStick, JoystickMap.XBOX_A_BUTTON);
+        MoveLiftDown.runWhileHeld(new MoveLiftDown());
+        
+        // For testing only, to be removed later
+        EJoystickButton CheckLiftHeight = new EJoystickButton(controlStick, JoystickMap.XBOX_B_BUTTON);
+        CheckLiftHeight.runWhileHeld(new CheckLiftHeight());
         
         // The Joystick for controlling the mechanisms of the robot
         this.controlStick = controlStick;
