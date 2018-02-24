@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
         RobotMap.log();
 
         
-        
+       
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
 
@@ -78,8 +78,8 @@ public class Robot extends IterativeRobot {
 
         
         oi = new OI();
-       // autoInit = new AutoInit();
         
+        autoInit = new AutoInit();
         recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
                         () -> SmartDashboard.getString("record-joystick-name", "default"),
                         "recordJoystick");
@@ -128,7 +128,7 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
         Log.i("Robot", "Entering teleop mode");
 
-      //  autoInit.end();
+        autoInit.end();
         
         Robot.driveTrain.brakeMode(true);
         if (SmartDashboard.getBoolean("record-joystick", false))
@@ -160,6 +160,7 @@ public class Robot extends IterativeRobot {
         // Don't use unecessary bandwidth at competition
         if (!DriverStation.getInstance().isFMSAttached()) {
             driveTrain.log();
+            lift.log();
         }
     }
 }

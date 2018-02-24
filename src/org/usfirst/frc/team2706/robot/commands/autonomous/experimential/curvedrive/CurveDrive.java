@@ -40,7 +40,7 @@ public class CurveDrive extends Command {
 
     private final boolean isRight;
     
-    private final double P = 0.0875, I = 0.002, D = 0.025, FF = 0.0;
+    private final double P = 0.1, I = 0, D = 0, FF = 0.0;
     
     private final PIDController pid;
 
@@ -67,7 +67,7 @@ public class CurveDrive extends Command {
         this.tangentOffset = tangentOffset;
         this.isRight = RobotConfig.get(name + ".isRight", isRight);
         
-        this.pid = new PIDController(P, I, D, FF, new PIDInput(), (turn) -> Robot.driveTrain.arcadeDrive(-speed, turn));
+        this.pid = new PIDController(P, I, D, FF, new PIDInput(), (turn) -> Robot.driveTrain.arcadeDrive(speed, -turn));
     }
 
     protected void initialize() {

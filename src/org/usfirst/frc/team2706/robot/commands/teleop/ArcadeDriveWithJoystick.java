@@ -26,7 +26,7 @@ public class ArcadeDriveWithJoystick extends Command {
      */
     public ArcadeDriveWithJoystick(Joystick joystick) {
         requires(Robot.driveTrain);
-        tank2 = new Joystick(2);
+
         this.joystick = joystick;
     }
 
@@ -36,10 +36,9 @@ public class ArcadeDriveWithJoystick extends Command {
      * @param joystick The joystick to drive with
      */
     public void setJoystick(Joystick joystick) {
-      
         this.joystick = joystick;
     }
-Joystick tank2;
+
     // Called just before this Command runs the first time
     protected void initialize() {
         Robot.driveTrain.reset();
@@ -47,7 +46,7 @@ Joystick tank2;
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.driveTrain.drive(-Robot.oi.getDriverJoystick().getRawAxis(1), -tank2.getRawAxis(1));
+        Robot.driveTrain.drive(joystick);
     }
 
     // Make this return true when this Command no longer needs to run execute()

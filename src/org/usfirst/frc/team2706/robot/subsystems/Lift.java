@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 // import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lift extends Subsystem{
 
@@ -21,11 +22,13 @@ public class Lift extends Subsystem{
     TalonPID liftPID = new TalonPID(new TalonSensorGroup(liftMotor,liftMotor::setSafetyEnabled, encoder));
     
     DigitalInput liftDown;
-    double speed = 0.3;
+    double speed = 0.7;
     
     public Lift() {
         liftMotor.setNeutralMode(NeutralMode.Brake);
         liftDown = new DigitalInput(1);
+        encoder.setDistancePerPulse(1);
+        encoder.reset();
     }
 
     public TalonPID getPID () {
@@ -66,5 +69,9 @@ public class Lift extends Subsystem{
     protected void initDefaultCommand() {
         // TODO Auto-generated method stub
         
-    }   
+    }  
+    
+    public void log() {
+        SmartDashboard.putNumber("Lift Distance", encoder.getDistance());
+    }
 }

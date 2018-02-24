@@ -92,6 +92,7 @@ public class RotateDriveWithGyro extends Command {
 
         Robot.driveTrain.drive(0, 0);
         
+        Robot.driveTrain.reset();
         Log.d(this, "Done rotating");
     }
 

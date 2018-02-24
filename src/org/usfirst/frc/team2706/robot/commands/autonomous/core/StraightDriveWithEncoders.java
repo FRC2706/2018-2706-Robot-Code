@@ -22,7 +22,7 @@ public class StraightDriveWithEncoders extends Command {
 
     private final int minDoneCycles;
 
-    private final double P = 7.5, I = 2.0, D = 25, F = 0;
+    private final double P = 1, I = 0.1, D = 0, F = 0;
 
     /**
      * Drive at a specific speed for a certain amount of time
@@ -64,7 +64,7 @@ public class StraightDriveWithEncoders extends Command {
             PID.setOutputRange(speed, -speed);
         }
 
-        Robot.driveTrain.initGyro = Robot.driveTrain.getHeading();
+        Robot.driveTrain.initGyro = 0;
 
         PID.setSetpoint(distance);
 
