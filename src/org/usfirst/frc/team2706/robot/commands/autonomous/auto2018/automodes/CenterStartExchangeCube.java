@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class CenterStartExchangeCube extends CommandGroup {
     public CenterStartExchangeCube() {
+        //this.addSequential(new SetPosition(1));
         this.addSequential(new StraightDriveWithEncoders(0.5, 1, 0.1, 3, "DriveForward"));
         this.addSequential(new RotateDriveWithGyro(0.5,-90,3, "RotateLeft"));
         this.addSequential(new StraightDriveWithEncoders(0.5,1,0.1,3, "DriveLeft"));

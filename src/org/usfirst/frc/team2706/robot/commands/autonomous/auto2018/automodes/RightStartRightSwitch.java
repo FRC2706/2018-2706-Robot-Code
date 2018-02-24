@@ -9,9 +9,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class RightStartRightSwitch extends CommandGroup {
     
     public RightStartRightSwitch() {
+        //this.addSequential(new SetPosition(1));
         this.addSequential(new StraightDriveWithEncoders(0.5, 5, 1, 5, "ForwardToSwitch"));
         this.addSequential(new RotateDriveWithGyro(0.5,-90,3,"RotateToSwitch"));
         this.addSequential(new StraightDriveWithEncoders(0.5,5,1,5, "PressSwitch"));
+      //this.addSequential(new SetPosition(5ft));
         this.addSequential(new EjectCube(0.8),2);
     }
     
