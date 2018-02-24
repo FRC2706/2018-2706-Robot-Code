@@ -13,12 +13,7 @@ public class MoveLift extends Command {
     private Lift move;
     
     private final Supplier<Double> liftspeed;
-    /**
-     * Allows us to use the methods in 'Intake'
-     * 
-     * @param stick The joystick to use
-     * @param axis The axis to use
-     */
+
     public MoveLift(Joystick stick, int axis) {
         this(() -> stick.getRawAxis(axis));
     }
@@ -52,6 +47,7 @@ public class MoveLift extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
+        System.out.println(liftspeed.get());
             move.move(liftspeed.get());
     }
     

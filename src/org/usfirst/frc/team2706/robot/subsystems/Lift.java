@@ -30,7 +30,7 @@ public class Lift extends Subsystem{
     }
     
     public void move(double liftspeed) {
-        liftMotor.set(-1*liftspeed);
+        liftMotor.set(liftspeed);
     }
     
     public void moveUp () {
