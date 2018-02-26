@@ -1,4 +1,6 @@
 package org.usfirst.frc.team2706.robot.subsystems;
+import org.usfirst.frc.team2706.robot.RobotMap;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -10,8 +12,7 @@ public class Climber extends Subsystem {
     private WPI_TalonSRX climber_motor;
     
     public Climber() {
-        // TODO Add TALON number assignments in robotmap 
-        int CLIMBER_MOTOR = 8; //Unknown exact number at the moment, Value clashes with lift motor (Used for testing) 
+        int CLIMBER_MOTOR = RobotMap.CLIMBER_TALON_MOTOR; //Unknown exact number at the moment, Value clashes with lift motor (Used for testing) 
         climber_motor = new WPI_TalonSRX(CLIMBER_MOTOR);
     }
     

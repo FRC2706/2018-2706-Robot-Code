@@ -79,7 +79,10 @@ public class RobotMap {
     // Climber
     private static final int[] CLIMBER_MOTOR_VALS = {9, 9, 9};
     public static final int CLIMBER_MOTOR = getConstant("CLIMBER_MOTOR");
-
+    
+    private static final int[] CLIMBER_TALON_MOTOR_VALS = {9, 9, 9};
+    public static final int CLIMBER_TALON_MOTOR = getConstant("CLIMBER_TALON_MOTOR");
+    
     private static final int[] CLIMBER_IR_SENSOR_VALS = {1, 1, 1};
     public static final int CLIMBER_IR_SENSOR = getConstant("CLIMBER_IR_SENSOR");
     
