@@ -60,6 +60,9 @@ public class OI {
 
         // Joystick for driving the robot around
         this.driverStick = driverStick;
+        
+        // The Joystick for controlling the mechanisms of the robot
+        this.controlStick = controlStick;
 
         // Runs the code depending which button/trigger is pressed
 
@@ -100,9 +103,6 @@ public class OI {
         // For testing only, to be removed later
         EJoystickButton CheckLiftHeight = new EJoystickButton(controlStick, JoystickMap.XBOX_B_BUTTON);
         CheckLiftHeight.runWhileHeld(new CheckLiftHeight());
-        
-        // The Joystick for controlling the mechanisms of the robot
-        this.controlStick = controlStick;
 
         removeUnplugWarning();
     }

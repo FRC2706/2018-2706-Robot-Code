@@ -9,6 +9,8 @@ import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -59,6 +61,8 @@ public class Robot extends IterativeRobot {
 
         RobotMap.log();
 
+        UsbCamera c =  CameraServer.getInstance().startAutomaticCapture(0);
+       
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
 
@@ -74,10 +78,10 @@ public class Robot extends IterativeRobot {
         //Climber initialization 
         climb = new Climber(); 
 
+        
         oi = new OI();
         
         autoInit = new AutoInit();
-        
         recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
                         () -> SmartDashboard.getString("record-joystick-name", "default"),
                         "recordJoystick");
@@ -128,7 +132,7 @@ public class Robot extends IterativeRobot {
 
         autoInit.end();
         
-        Robot.driveTrain.brakeMode(false);
+        Robot.driveTrain.brakeMode(true);
         if (SmartDashboard.getBoolean("record-joystick", false))
             recordAJoystick.start();
         // Tell drive team to drive
@@ -158,6 +162,7 @@ public class Robot extends IterativeRobot {
         // Don't use unecessary bandwidth at competition
         if (!DriverStation.getInstance().isFMSAttached()) {
             driveTrain.log();
+            lift.log();
         }
     }
 }

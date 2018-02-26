@@ -17,7 +17,7 @@ public class Climber extends Subsystem {
     
     // Tells the robot to start climbing
     public void climb() {
-        double power = 0.3;
+        double power = 0.5;
         climber_motor.set(java.lang.Math.abs(power)); //Speed may change later
     }
     

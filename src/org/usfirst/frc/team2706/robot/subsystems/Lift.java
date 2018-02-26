@@ -8,8 +8,10 @@ import org.usfirst.frc.team2706.robot.controls.talon.TalonSensorGroup;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
- // import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.DigitalInput;
+// import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lift extends Subsystem{
 
@@ -19,10 +21,14 @@ public class Lift extends Subsystem{
     
     TalonPID liftPID = new TalonPID(new TalonSensorGroup(liftMotor,liftMotor::setSafetyEnabled, encoder));
     
-    public static final double speed = 0.3;
+    DigitalInput liftDown;
+    double speed = 1.0;
     
     public Lift() {
         liftMotor.setNeutralMode(NeutralMode.Brake);
+        liftDown = new DigitalInput(1);
+        encoder.setDistancePerPulse(1);
+        encoder.reset();
     }
 
     public TalonPID getPID () {
@@ -30,7 +36,13 @@ public class Lift extends Subsystem{
     }
     
     public void move(double liftspeed) {
+        System.out.println(liftDown.get());
+        if(liftDown.get() || liftspeed < 0) {
         liftMotor.set(liftspeed);
+        }
+        else {
+            liftMotor.set(0);
+        }
     }
     
     public void moveUp () {
@@ -38,8 +50,11 @@ public class Lift extends Subsystem{
     } 
     
     public void moveDown () {
-        liftMotor.set(-1*speed);
-    }  
+      
+            liftMotor.set(-1*speed);
+        }
+       
+    
     
     public void stop () {
         liftMotor.set(0.0);
@@ -54,5 +69,9 @@ public class Lift extends Subsystem{
     protected void initDefaultCommand() {
         // TODO Auto-generated method stub
         
-    }   
+    }  
+    
+    public void log() {
+        SmartDashboard.putNumber("Lift Distance", encoder.getDistance());
+    }
 }
