@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LeftStartLeftSwitch extends CommandGroup {
     
     public LeftStartLeftSwitch() {
-        this.addSequential(new MoveLiftDown(),0.25);
-        this.addSequential(new StraightDriveWithEncoders(0.5, 135 / 12.0, 1, 5, "FofToSwitch"));
-        this.addSequential(new RotateDriveWithGyro(0.35,90,2,"RotateTofitch"));
-        this.addSequential(new MoveLiftDown(),3);
-        this.addSequential(new StraightDriveWithEncoders(0.5,25 / 12.0,1,5, "Prefgfitch"),3);
+        this.addParallel(new MoveLiftDown(),0.25);
+        this.addSequential(new StraightDriveWithEncoders(0.8, 135 / 12.0, 3, 3, "FofToSwitch"));
+        this.addSequential(new RotateDriveWithGyro(0.6,90,5,2,"RotateTofitch"));
+        this.addParallel(new MoveLiftDown(),1);
+        this.addSequential(new StraightDriveWithEncoders(0.8,48 / 12.0,3,1, "Prefgfitch"),1);
      
-        this.addSequential(new EjectCube(0.6),2);
+        this.addSequential(new EjectCube(0.6),0.5);
     }
     
 }

@@ -22,7 +22,7 @@ public class StraightDriveWithEncoders extends Command {
 
     private final int minDoneCycles;
 
-    private final double P = 1, I = 0.1, D = 0, F = 0;
+    private final double P = 1.0, I = 0.0, D = 0.75, F = 0;
 
     /**
      * Drive at a specific speed for a certain amount of time
@@ -47,10 +47,18 @@ public class StraightDriveWithEncoders extends Command {
 
         PID = new PIDController(P, I, D, F, Robot.driveTrain.getAverageEncoderPIDSource(),
                         Robot.driveTrain.getDrivePIDOutput(true, false, false));
+        
+//        SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+//        SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+//        SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+//        PID.setP(SmartDashboard.getNumber("P", P));
+//        PID.setI(SmartDashboard.getNumber("I", I));
+//        PID.setD(SmartDashboard.getNumber("D", D));
+        
         Log.d(this, "Driving " + distance + " feet at a speed of " + speed);
         
         Robot.driveTrain.reset();

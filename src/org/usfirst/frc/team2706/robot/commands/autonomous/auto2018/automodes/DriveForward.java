@@ -9,6 +9,6 @@ public class DriveForward extends CommandGroup {
 
     public DriveForward() {
         this.addSequential(new MoveLiftDown(),0.25);
-        this.addSequential(new StraightDriveWithEncoders(0.5, 10.0, 1, 5, "AutoFfwgeshrykorwardFoot"));
+        this.addSequential(new StraightDriveWithEncoders(0.8, 12, 1, 5, "TestFoAAFWrward"));
     }
 }

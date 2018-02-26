@@ -24,8 +24,14 @@ public class RotateDriveWithGyro extends Command {
 
     private final int minDoneCycles;
 
-    private final double P = 0.0575, I = 0.02, D = 0.15, F = 0;
+    private final double P = 0.05, I = 0.0, D = 0.1, F = 0;
+    
+    private final double error;
 
+    public RotateDriveWithGyro(double speed, double angle, int minDonecycles, String name) {
+        this(speed, angle, 1, minDonecycles, name);
+    }
+    
     /**
      * Drive at a specific speed for a certain amount of time
      * 
@@ -33,7 +39,7 @@ public class RotateDriveWithGyro extends Command {
      * @param angle The angle to rotate to
      * @param name The name of the of the configuration properties to look for
      */
-    public RotateDriveWithGyro(double speed, double angle, int minDonecycles, String name) {
+    public RotateDriveWithGyro(double speed, double angle, double error, int minDonecycles, String name) {
         super(name);
         requires(Robot.driveTrain);
 
@@ -43,12 +49,22 @@ public class RotateDriveWithGyro extends Command {
 
         this.minDoneCycles = RobotConfig.get(name + ".minDoneCycles", minDonecycles);
 
+        this.error = RobotConfig.get(name + ".error", error);
+        
         PID = new PIDController(P, I, D, F, Robot.driveTrain.getGyroPIDSource(false),
                         Robot.driveTrain.getDrivePIDOutput(false, false, true));
-    }
+        
+//      SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+//      SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+//      SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
+  }
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
+  // Called just before this Command runs the first time
+  protected void initialize() {
+//      PID.setP(SmartDashboard.getNumber("P", P));
+//      PID.setI(SmartDashboard.getNumber("I", I));
+//      PID.setD(SmartDashboard.getNumber("D", D));
+      
         Log.d(this, "Rotating " + angle + " degrees at a speed of " + speed);
         
         Robot.driveTrain.reset();
@@ -64,8 +80,8 @@ public class RotateDriveWithGyro extends Command {
             PID.setOutputRange(speed, -speed);
         }
         
-        // Will accept within 1 degrees of target
-        PID.setAbsoluteTolerance(1);
+        // Set the tolerance in degrees
+        PID.setAbsoluteTolerance(error);
 
         PID.setSetpoint(angle);
 

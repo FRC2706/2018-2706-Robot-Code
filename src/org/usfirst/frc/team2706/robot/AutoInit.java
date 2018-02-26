@@ -2,7 +2,7 @@ package org.usfirst.frc.team2706.robot;
 
 import org.usfirst.frc.team2706.robot.commands.autonomous.DashboardAutoSelector;
 import org.usfirst.frc.team2706.robot.commands.autonomous.Priority;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightStartLeftScale;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterStartRightSwitch;
 import org.usfirst.frc.team2706.robot.subsystems.AutonomousSelector;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -170,7 +170,7 @@ public class AutoInit {
         // Great for safety just in case you set the wrong one in practice ;)
         //Log.i("Autonomous Selector", "Running " + getAutonomousCommand(new ArcadeDriveWithJoystick()) + "...");
 
-        autonomousCommand = new RightStartLeftScale();
+        autonomousCommand = new CenterStartRightSwitch();
 /*
         Command dashboardResponse = Priority.chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());
         Log.d("Autonomous Dashboard Selector", "Running " + dashboardResponse + ", " + "switch running " + autonomousCommand);
