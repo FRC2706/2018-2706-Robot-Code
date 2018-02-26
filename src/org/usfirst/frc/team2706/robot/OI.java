@@ -2,12 +2,17 @@ package org.usfirst.frc.team2706.robot;
 
 import java.lang.reflect.Field;
 
+import org.usfirst.frc.team2706.robot.commands.CheckLiftHeight;
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
 
 import org.usfirst.frc.team2706.robot.commands.IntakeAndHold;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCubeTimed;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
+import org.usfirst.frc.team2706.robot.commands.MoveLift;
+import org.usfirst.frc.team2706.robot.commands.MoveLiftDown;
+import org.usfirst.frc.team2706.robot.commands.MoveLiftToDestination;
+import org.usfirst.frc.team2706.robot.commands.MoveLiftUp;
 import org.usfirst.frc.team2706.robot.commands.PickupCube;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
@@ -55,29 +60,49 @@ public class OI {
 
         // Joystick for driving the robot around
         this.driverStick = driverStick;
+        
+        // The Joystick for controlling the mechanisms of the robot
+        this.controlStick = controlStick;
 
         // Runs the code depending which button/trigger is pressed
 
-        TriggerButtonJoystick driverBackLeftTrigger = new TriggerButtonJoystick(driverStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER);
-        driverBackLeftTrigger.runWhileHeld(new EjectCube(driverStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER));
+        TriggerButtonJoystick intakeCube = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER);
+        intakeCube.runWhileHeld(new IntakeCube(controlStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER));
         
-        TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER);
-        driverBackRightTrigger.runWhileHeld(new IntakeCube(driverStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER));
+        TriggerButtonJoystick ejectCube = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER);
+        ejectCube.runWhileHeld(new EjectCube(controlStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER));
         
-        EJoystickButton holdCube = new EJoystickButton(driverStick, JoystickMap.XBOX_Y_BUTTON);
+        EJoystickButton holdCube = new EJoystickButton(controlStick, JoystickMap.XBOX_LB_BUTTON);
         holdCube.runWhileHeld(new IntakeAndHold(0.5));
 
-        EJoystickButton camera = new EJoystickButton(driverStick, JoystickMap.XBOX_LB_BUTTON);
-        camera.runWhileHeld(new PickupCube());
+        EJoystickButton cameraCube = new EJoystickButton(driverStick, 1);
+        cameraCube.runWhileHeld(new PickupCube());
         
-        EJoystickButton joybutten = new EJoystickButton(driverStick, JoystickMap.XBOX_X_BUTTON);
-        joybutten.runWhileHeld(new StartCimbing());
+        EJoystickButton climber = new EJoystickButton(controlStick, JoystickMap.XBOX_X_BUTTON);
+        climber.runWhileHeld(new StartCimbing());
         
         EJoystickButton ejectTimed = new EJoystickButton(controlStick, JoystickMap.XBOX_RB_BUTTON);
         ejectTimed.runWhileHeld(new EjectCubeTimed());
+        
+        // Currently lift is mapped to buttons as well
+        // Final: Elevator on axis 1
+        TriggerButtonJoystick MoveLift = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y);
+        MoveLift.runWhileHeld(new MoveLift(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y));
+        
+        EJoystickButton MoveLiftUp = new EJoystickButton(controlStick, JoystickMap.XBOX_Y_BUTTON);
+        MoveLiftUp.runWhileHeld(new MoveLiftUp());
+        
+        EJoystickButton MoveLiftDown = new EJoystickButton(controlStick, JoystickMap.XBOX_A_BUTTON);
+        MoveLiftDown.runWhileHeld(new MoveLiftDown());
 
-        // The Joystick for controlling the mechanisms of the robot
-        this.controlStick = controlStick;
+        // Sending lift to fixed destinations
+        EJoystickButton MoveLiftToDestination = new EJoystickButton(controlStick, JoystickMap.XBOX_POV_UP);
+        MoveLiftToDestination.runWhileHeld(new MoveLiftToDestination(0));
+        
+        
+        // For testing only, to be removed later
+        EJoystickButton CheckLiftHeight = new EJoystickButton(controlStick, JoystickMap.XBOX_B_BUTTON);
+        CheckLiftHeight.runWhileHeld(new CheckLiftHeight());
 
         removeUnplugWarning();
     }

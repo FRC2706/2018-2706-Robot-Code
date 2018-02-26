@@ -24,7 +24,7 @@ public class RobotMap {
     private static final int[] MOTOR_FRONT_LEFT_VALS = {1, 1, 1};
     public static final int MOTOR_FRONT_LEFT = getConstant("MOTOR_FRONT_LEFT");
 
-    private static final boolean[] MOTOR_FRONT_LEFT_INVERTED_VALS = {true, true, false};
+    private static final boolean[] MOTOR_FRONT_LEFT_INVERTED_VALS = {false, false, false};
     public static final boolean MOTOR_FRONT_LEFT_INVERTED =
                     getConstant("MOTOR_FRONT_LEFT_INVERTED");
 
@@ -33,7 +33,7 @@ public class RobotMap {
     private static final int[] MOTOR_FRONT_RIGHT_VALS = {3, 3, 3};
     public static final int MOTOR_FRONT_RIGHT = getConstant("MOTOR_FRONT_RIGHT");
 
-    private static final boolean[] MOTOR_FRONT_RIGHT_INVERTED_VALS = {true, true, false};
+    private static final boolean[] MOTOR_FRONT_RIGHT_INVERTED_VALS = {false, false, false};
     public static final boolean MOTOR_FRONT_RIGHT_INVERTED =
                     getConstant("MOTOR_FRONT_RIGHT_INVERTED");
 
@@ -42,7 +42,7 @@ public class RobotMap {
     private static final int[] MOTOR_REAR_LEFT_VALS = {2, 2, 2};
     public static final int MOTOR_REAR_LEFT = getConstant("MOTOR_REAR_LEFT");
 
-    private static final boolean[] MOTOR_REAR_LEFT_INVERTED_VALS = {true, true, false};
+    private static final boolean[] MOTOR_REAR_LEFT_INVERTED_VALS = {false, false, false};
     public static final boolean MOTOR_REAR_LEFT_INVERTED = getConstant("MOTOR_REAR_LEFT_INVERTED");
 
 
@@ -50,23 +50,23 @@ public class RobotMap {
     private static final int[] MOTOR_REAR_RIGHT_VALS = {4, 4, 4};
     public static final int MOTOR_REAR_RIGHT = getConstant("MOTOR_REAR_RIGHT");
 
-    private static final boolean[] MOTOR_REAR_RIGHT_INVERTED_VALS = {true, true, false};
+    private static final boolean[] MOTOR_REAR_RIGHT_INVERTED_VALS = {false, false, false};
     public static final boolean MOTOR_REAR_RIGHT_INVERTED =
                     getConstant("MOTOR_REAR_RIGHT_INVERTED");
-
     
-    private static final double[] ENCODER_LEFT_DPP_VALS = {-79.0 / 108800.0, 6.0 / 2052.25, 1.0 / 264};
+    
+    private static final double[] ENCODER_LEFT_DPP_VALS = {5.0 / -12775.0, 1, 1.0 / 264};
     public static final double ENCODER_LEFT_DPP = getConstant("ENCODER_LEFT_DPP");
     
 
-    private static final double[] ENCODER_RIGHT_DPP_VALS = {79.0 / 108800.0, 6.0 / 2052.25, 1.0 / 264};
+    private static final double[] ENCODER_RIGHT_DPP_VALS = {5.0 / 12775.0,1, 1.0 / 264};
     public static final double ENCODER_RIGHT_DPP = getConstant("ENCODER_RIGHT_DPP");
 
 
-    private static final boolean[] INVERT_JOYSTICK_X_VALS = {true, true, true};
+    private static final boolean[] INVERT_JOYSTICK_X_VALS = {false, false, true};
     public static final boolean INVERT_JOYSTICK_X = getConstant("INVERT_JOYSTICK_X");
 
-    private static final boolean[] INVERT_JOYSTICK_Y_VALS = {false, true, false};
+    private static final boolean[] INVERT_JOYSTICK_Y_VALS = {true, true, false};
     public static final boolean INVERT_JOYSTICK_Y = getConstant("INVERT_JOYSTICK_Y");
 
     private static final int[] SELECTOR1_CHANNEL_VALS = {0, 0, 0};
@@ -85,6 +85,17 @@ public class RobotMap {
     
     private static final int[] CLIMBER_IR_SENSOR_VALS = {1, 1, 1};
     public static final int CLIMBER_IR_SENSOR = getConstant("CLIMBER_IR_SENSOR");
+    
+    
+    // Lift
+    private static final int[] MOTOR_LIFT_VALS = {5, 5, 5};
+    public static final int MOTOR_LIFT = getConstant("MOTOR_LIFT");
+
+    private static final int[] LIMIT_UP_VALS = {0, 0, 0};
+    public static final int LIMIT_UP = getConstant("LIMIT_UP");
+    
+    private static final int[] LIMIT_DOWN_VALS = {1, 1, 1};
+    public static final int LIMIT_DOWN = getConstant("LIMIT_DOWN");
     
     
     private static final int[] RING_LIGHT_VALS = {12, 12, 12};

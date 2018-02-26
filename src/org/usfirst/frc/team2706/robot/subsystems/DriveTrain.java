@@ -495,9 +495,9 @@ public class DriveTrain extends Subsystem {
             double rotateVal;
             if (useCamera) {
                 if (invert) {
-                    drive.arcadeDrive(0.3, output, false);
+                    drive.arcadeDrive(1.0 - Robot.oi.getDriverJoystick().getRawAxis(5), output, false);
                 } else {
-                    drive.arcadeDrive(0.3, -output, false);
+                    drive.arcadeDrive(1.0 - Robot.oi.getDriverJoystick().getRawAxis(5), -output, false);
                 }
             } else {
                 rotateVal = normalize(getHeading() - initGyro) * 0.15;
@@ -506,15 +506,16 @@ public class DriveTrain extends Subsystem {
 
             if (useGyroStraightening) {
                 if (invert) {
-                    drive.arcadeDrive(output, -rotateVal);
-                } else {
                     drive.arcadeDrive(-output, rotateVal);
+                } else {
+                    System.out.println(-output + " " + rotateVal);
+                    drive.arcadeDrive(output, -rotateVal);
                 }
             }
             else if (invert) {
-                drive.tankDrive(-output, output, false);
+                drive.tankDrive(output, -output, false);
             } else {
-                drive.tankDrive(-output, -output, false);
+                drive.tankDrive(output, output, false);
             }
             }
         }

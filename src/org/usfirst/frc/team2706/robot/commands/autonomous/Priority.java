@@ -20,7 +20,7 @@ public class Priority {
     boolean guaranteedPriority;
     boolean location;
     boolean side;
-    Command linkedCommand;
+    public Command linkedCommand;
 
     /**
      * Allows the priority to be checked to see if it is possible.
@@ -109,6 +109,10 @@ public class Priority {
             return null;
         }
         for (Priority priority : priorityList) {
+            System.out.println(priority);
+            if(priority == null) {
+                return null;
+            }
             if (priority.getPossible()) {
                 return priority.getCommand();
             }
