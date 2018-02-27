@@ -18,7 +18,7 @@ public class Intake extends Subsystem{
     // Objects for inhaling and exhaling the cube
     private WPI_TalonSRX right_intake_motor;
     private WPI_TalonSRX left_intake_motor;
-    private TalonEncoder left_talon_encoder;
+    private TalonEncoder left_talon_encoder; // these 2 are likely not needed
     private TalonEncoder right_talon_encoder;
     private AnalogInput IR_sensor;
     
@@ -36,7 +36,7 @@ public class Intake extends Subsystem{
         left_intake_motor.setInverted(true);
         
         //TODO analog define robot map
-          int channel = 1; 
+          int channel = RobotMap.INTAKE_IR_SENSOR; 
           IR_sensor = new AnalogInput(channel);
         
     }
@@ -58,8 +58,15 @@ public class Intake extends Subsystem{
         right_intake_motor.set(0);
     }
     
+    // Reads the climber IR sensor
     public double readIRSensor() {
         return IR_sensor.getVoltage();
+    }
+    
+    // Supposedly spins the cube in hand
+    public void spinCube(double motorSpeed) {
+        left_intake_motor.set(motorSpeed);
+        right_intake_motor.set(motorSpeed*-1);
     }
     
     /**
