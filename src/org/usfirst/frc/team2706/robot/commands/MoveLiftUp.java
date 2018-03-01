@@ -1,11 +1,14 @@
 package org.usfirst.frc.team2706.robot.commands;
 
 import org.usfirst.frc.team2706.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveLiftUp extends Command {
 
-    public MoveLiftUp() {}
+    public MoveLiftUp() {
+        this.requires(Robot.lift);
+    }
     
     
   public void initialize() {}
@@ -17,6 +20,7 @@ public class MoveLiftUp extends Command {
     
     public void end() {
         Robot.lift.stop();
+        Robot.lift.setHeight(Robot.lift.getEncoderHeight());
     }
     
 

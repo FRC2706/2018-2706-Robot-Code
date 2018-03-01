@@ -2,12 +2,9 @@ package org.usfirst.frc.team2706.robot;
 
 import java.lang.reflect.Field;
 
-import org.usfirst.frc.team2706.robot.commands.CheckLiftHeight;
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
-
-import org.usfirst.frc.team2706.robot.commands.IntakeAndHold;
-
 import org.usfirst.frc.team2706.robot.commands.EjectCubeTimed;
+import org.usfirst.frc.team2706.robot.commands.IntakeAndHold;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.MoveLift;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftDown;
@@ -87,7 +84,7 @@ public class OI {
         // Currently lift is mapped to buttons as well
         // Final: Elevator on axis 1
         TriggerButtonJoystick MoveLift = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y);
-        MoveLift.runWhileHeld(new MoveLift(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y));
+        MoveLift.runWhileHeld(new MoveLift(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, true));
         
         EJoystickButton MoveLiftUp = new EJoystickButton(controlStick, JoystickMap.XBOX_Y_BUTTON);
         MoveLiftUp.runWhileHeld(new MoveLiftUp());
@@ -96,13 +93,8 @@ public class OI {
         MoveLiftDown.runWhileHeld(new MoveLiftDown());
 
         // Sending lift to fixed destinations
-        EJoystickButton MoveLiftToDestination = new EJoystickButton(controlStick, JoystickMap.XBOX_POV_UP);
-        MoveLiftToDestination.runWhileHeld(new MoveLiftToDestination(0));
-        
-        
-        // For testing only, to be removed later
-        EJoystickButton CheckLiftHeight = new EJoystickButton(controlStick, JoystickMap.XBOX_B_BUTTON);
-        CheckLiftHeight.runWhileHeld(new CheckLiftHeight());
+        EJoystickButton MoveLiftToDestination = new EJoystickButton(controlStick, JoystickMap.XBOX_B_BUTTON);
+        MoveLiftToDestination.runWhileHeld(new MoveLiftToDestination(3.5));
 
         removeUnplugWarning();
     }

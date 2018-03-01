@@ -1,7 +1,10 @@
 package org.usfirst.frc.team2706.robot.controls.talon;
 
+import org.usfirst.frc.team2706.robot.Log;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
  * Handles driving with talon PIDs FIXME: Sometimes finished early when the error in the talons
@@ -28,6 +31,9 @@ public class TalonPID {
      * The location to go to
      */
     private double setpoint;
+    
+    private double setSetpoint;
+    public boolean enabled;
 
     /**
      * The minimum and maximum outputs
@@ -159,11 +165,10 @@ public class TalonPID {
                             (int) Math.abs(error / talon.getTalonEncoder().getDistancePerPulse()),
                             0);
 
-            // Reset so the PID knows how far it needs to travel
-            talon.getTalonEncoder().reset();
-
             // Disable safety stop
-            talon.getSafetySetter().accept(false);
+            if(talon.getSafetySetter() != null) {
+                talon.getSafetySetter().accept(false);
+            }
 
             // Set the motor to the desired position
             master.set(ControlMode.Position,
@@ -174,6 +179,8 @@ public class TalonPID {
                 slave.follow(talon.getMaster());
             }
         }
+        
+        enabled = true;
     }
 
     /**
@@ -199,19 +206,49 @@ public class TalonPID {
             // Reset the desired error
             master.configAllowableClosedloopError(0, 0, 0);
 
-            // Reset encoder count
-            talon.getTalonEncoder().reset();
-
             // Re-enable safety stop
-            talon.getSafetySetter().accept(true);
+            if(talon.getSafetySetter() != null) {
+                talon.getSafetySetter().accept(true);
+            }
 
+            // Make the master stop PIDing
+            if(master instanceof WPI_TalonSRX) {
+                ((WPI_TalonSRX)master).stopMotor();
+            }
+            else {
+                master.set(ControlMode.PercentOutput, 0.0);
+            }
+            
             // Make all followers stop following
             for (TalonSRX slave : talon.getSlaves()) {
-                slave.set(ControlMode.PercentOutput, 0.0);
+                if(slave instanceof WPI_TalonSRX) {
+                    ((WPI_TalonSRX)slave).stopMotor();
+                }
+                else {
+                    slave.set(ControlMode.PercentOutput, 0.0);
+                }
             }
         }
+        
+        enabled = false;
     }
 
+    public void update() {
+        Log.d("TalonPID", setpoint);
+        
+        if(setSetpoint != setpoint && enabled) {
+            Log.d("TalonPID", setpoint);
+            
+            for(TalonSensorGroup talon : talons) {
+                // Set the motor to the desired position
+                talon.getMaster().set(ControlMode.Position,
+                                setpoint / talon.getTalonEncoder().getDistancePerPulse());
+            }
+            
+            setpoint = setSetpoint;
+        }
+    }
+    
     /**
      * Checks if the talons are all on target
      * 

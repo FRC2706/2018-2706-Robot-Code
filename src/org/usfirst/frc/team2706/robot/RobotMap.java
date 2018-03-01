@@ -87,12 +87,15 @@ public class RobotMap {
     // Lift
     private static final int[] MOTOR_LIFT_VALS = {5, 5, 5};
     public static final int MOTOR_LIFT = getConstant("MOTOR_LIFT");
+    
+    private static final boolean[] MOTOR_LIFT_INVERTED_VALS = {true, true, true};
+    public static final boolean MOTOR_LIFT_INVERTED = getConstant("MOTOR_LIFT_INVERTED");
 
+    private static final double[] ENCODER_LIFT_DPP_VALS = {84.5 / (12 * -48720), 1, 1};
+    public static final double ENCODER_LIFT_DPP = getConstant("ENCODER_LIFT_DPP");
+    
     private static final int[] LIMIT_UP_VALS = {0, 0, 0};
     public static final int LIMIT_UP = getConstant("LIMIT_UP");
-    
-    private static final int[] LIMIT_DOWN_VALS = {1, 1, 1};
-    public static final int LIMIT_DOWN = getConstant("LIMIT_DOWN");
     
     
     private static final int[] RING_LIGHT_VALS = {12, 12, 12};

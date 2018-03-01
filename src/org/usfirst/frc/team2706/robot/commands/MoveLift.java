@@ -2,6 +2,7 @@ package org.usfirst.frc.team2706.robot.commands;
 
 import java.util.function.Supplier;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
@@ -15,7 +16,11 @@ public class MoveLift extends Command {
     private final Supplier<Double> liftspeed;
 
     public MoveLift(Joystick stick, int axis) {
-        this(() -> stick.getRawAxis(axis));
+        this(stick, axis, false);
+    }
+    
+    public MoveLift(Joystick stick, int axis, boolean invert) {
+        this(() -> (invert ? -1 : 1) * stick.getRawAxis(axis));
     }
     
     /**
@@ -47,16 +52,16 @@ public class MoveLift extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
-        System.out.println(liftspeed.get());
-            move.move(liftspeed.get());
+        move.move(liftspeed.get());
     }
     
     /**
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
-        System.out.println("Ended IntakeCube command");
+        Log.d(this, "Done");
         move.stop();
+        Robot.lift.setHeight(Robot.lift.getEncoderHeight());
     }
 
     protected boolean isFinished() {
