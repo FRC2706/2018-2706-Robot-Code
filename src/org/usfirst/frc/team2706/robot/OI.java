@@ -97,12 +97,12 @@ public class OI {
 
         // Sending lift to fixed destinations
         EJoystickButton MoveLiftToDestination = new EJoystickButton(controlStick, JoystickMap.XBOX_POV_UP);
-        MoveLiftToDestination.runWhileHeld(new MoveLiftToDestination(0));
+        MoveLiftToDestination.runWhileHeld(new MoveLiftToDestination());
         
         
         // For testing only, to be removed later
         EJoystickButton CheckLiftHeight = new EJoystickButton(controlStick, JoystickMap.XBOX_B_BUTTON);
-        CheckLiftHeight.runWhileHeld(new CheckLiftHeight());
+        CheckLiftHeight.toggleWhenPressed(new CheckLiftHeight());
 
         removeUnplugWarning();
     }

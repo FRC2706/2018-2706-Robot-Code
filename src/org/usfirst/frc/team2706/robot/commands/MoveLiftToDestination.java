@@ -9,23 +9,20 @@ import edu.wpi.first.wpilibj.command.Command;
 public class MoveLiftToDestination extends Command {
 
     TalonPID liftPID;
-    int liftDestination;
+   // int liftDestination;
     
-    public MoveLiftToDestination(int destination) {
+    public MoveLiftToDestination() {
         
         liftPID = Robot.lift.getPID();
      
         // Obviously not real values
         liftPID.setPID(1, 0, 0);
     }
-    
-  public void setDestination(int destination) {
-      liftDestination = destination;
-  }
+
     
   public void initialize() {
       liftPID.setOutputRange(-Lift.speed, Lift.speed);
-      liftPID.setSetpoint(liftDestination);
+      liftPID.setSetpoint(100);
       liftPID.enable();
       
   }
@@ -37,6 +34,7 @@ public class MoveLiftToDestination extends Command {
 
     public void end() {
         liftPID.disable();
+        System.out.println("Lift end");
     }
     
 

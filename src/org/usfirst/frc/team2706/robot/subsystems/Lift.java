@@ -22,7 +22,7 @@ public class Lift extends Subsystem{
     TalonPID liftPID = new TalonPID(new TalonSensorGroup(liftMotor,liftMotor::setSafetyEnabled, encoder));
     
     DigitalInput liftDown;
-    double speed = 1.0;
+    public static final double speed = 1.0;
     
     public Lift() {
         liftMotor.setNeutralMode(NeutralMode.Brake);
