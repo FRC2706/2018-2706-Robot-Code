@@ -41,13 +41,15 @@ public class MoveLift extends Command {
     /**
      * I don't believe initialization is required 
      */
-    public void initialize() {}
+    public void initialize() {
+        //System.out.println("LIFT INITIALIZED");
+    }
     
     /**
      * Turns the motors on to suck in the cube
      */
     public void execute() {
-        System.out.println(liftspeed.get());
+    //    System.out.println("LIFT RUNNING");
             move.move(liftspeed.get());
     }
     

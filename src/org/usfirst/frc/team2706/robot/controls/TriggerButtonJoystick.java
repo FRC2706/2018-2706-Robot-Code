@@ -27,7 +27,7 @@ public class TriggerButtonJoystick extends EJoystickButton {
 
     @Override
     public boolean get() {
-        if (joystick.getRawAxis(axis) < 0.01 && joystick.getRawAxis(axis) > -0.01) {
+        if (joystick.getRawAxis(axis) < 0.1 && joystick.getRawAxis(axis) > -0.1) {
             return false;
         }
         return true;

@@ -24,7 +24,7 @@ public class MoveLiftToDestination extends Command {
   }
     
   public void initialize() {
-      liftPID.setOutputRange(-Lift.speed, Lift.speed);
+     // liftPID.setOutputRange(-Lift.speed, Lift.speed);
       liftPID.setSetpoint(liftDestination);
       liftPID.enable();
       
