@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2706.robot.controls.talon;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PIDSource;

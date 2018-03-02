@@ -1,7 +1,5 @@
 package org.usfirst.frc.team2706.robot.controls.talon;
 
-import org.usfirst.frc.team2706.robot.Log;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -234,11 +232,7 @@ public class TalonPID {
     }
 
     public void update() {
-        Log.d("TalonPID", setpoint);
-        
         if(setSetpoint != setpoint && enabled) {
-            Log.d("TalonPID", setpoint);
-            
             for(TalonSensorGroup talon : talons) {
                 // Set the motor to the desired position
                 talon.getMaster().set(ControlMode.Position,

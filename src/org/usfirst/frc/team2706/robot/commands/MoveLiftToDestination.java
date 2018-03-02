@@ -39,11 +39,13 @@ public class MoveLiftToDestination extends Command {
 public void setDestination(double destination) {
     liftDestination = destination;
     liftPID.setSetpoint(destination);
-    Log.d(this, destination);
+    
 }
 
     public void execute() {
         liftPID.update();
+        
+        Log.d(this, liftDestination);
     }
     
 

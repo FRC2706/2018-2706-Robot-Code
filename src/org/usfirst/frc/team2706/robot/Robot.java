@@ -132,7 +132,6 @@ public class Robot extends IterativeRobot {
         autoInit.end();
         
         Robot.driveTrain.brakeMode(true);
-        Robot.lift.reset();
         
         if (SmartDashboard.getBoolean("record-joystick", false))
             recordAJoystick.start();

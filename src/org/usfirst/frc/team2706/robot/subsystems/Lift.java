@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
-import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftToDestination;
 import org.usfirst.frc.team2706.robot.controls.LimitSwitch;
@@ -34,10 +33,18 @@ public class Lift extends Subsystem{
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
         liftMotor.setSensorPhase(true);
         
+        // Stop the lift from going too low or too high
+        liftMotor.configForwardSoftLimitThreshold((int) (maxHeight / encoder.getDistancePerPulse()), 0);
+        liftMotor.configForwardSoftLimitEnable(true, 0);
+        
+        liftMotor.configReverseSoftLimitThreshold(0, 0);
+        liftMotor.configReverseSoftLimitEnable(true, 0);
+        
+        
+        
         liftDown = new LimitSwitch(1);
-        liftDown.whileActive(new OneTimeCommand(this::reset));
+        liftDown.whileActive(new OneTimeCommand(encoder::reset));
         encoder.setDistancePerPulse(RobotMap.ENCODER_LIFT_DPP);
-        encoder.reset();
     }
 
     public TalonPID getPID () {
@@ -54,10 +61,9 @@ public class Lift extends Subsystem{
     }
     
     public void moveUp () {
-        Log.d(this, liftMotor.getControlMode() + " " + liftPID.enabled);
-        
-        if(encoder.getDistance() <= maxHeight)
+        if(encoder.getDistance() <= maxHeight) {
             liftMotor.set(SPEED);
+        }
     } 
     
     public void moveDown () {
@@ -87,8 +93,6 @@ public class Lift extends Subsystem{
             getDefaultCommand();
         }
         setDefaultCommand(defaultCommand);
-        
-        Log.d("Lift Command", defaultCommand);
     }
 
     public double getEncoderHeight() {
@@ -101,11 +105,9 @@ public class Lift extends Subsystem{
         }
         return defaultCommand;
     }
+    
     public void log() {
         SmartDashboard.putNumber("Lift Distance", encoder.getDistance());
-    }
-    
-    public void reset() {
-        encoder.reset();
+        SmartDashboard.putData("Talon Command", getCurrentCommand());
     }
 }
