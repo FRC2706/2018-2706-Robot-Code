@@ -1,6 +1,6 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
-import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftToDestination;
 import org.usfirst.frc.team2706.robot.controls.LimitSwitch;
@@ -18,6 +18,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lift extends Subsystem{
 
+    
+   private static final double DEADZONE = 3.0/12.0;
+    
+    private static final double[] HEIGHTS = new double[] {
+        0.0, // Bottom of lift
+        3.0, // Switch height
+        5.0, // Scale low height
+        6.0, // Scale mid height
+        7.0  // Scale high height/top of lift
+    };
+    
     private final double maxHeight = 7.0;
     
     WPI_TalonSRX liftMotor = new WPI_TalonSRX(RobotMap.MOTOR_LIFT);
@@ -27,21 +38,11 @@ public class Lift extends Subsystem{
     TalonPID liftPID = new TalonPID(new TalonSensorGroup(liftMotor, null, encoder));
     
     LimitSwitch liftDown;
-    public static final double SPEED = 0.3;
+    public static final double SPEED = 0.6;
     
     public Lift() {
         liftMotor.setNeutralMode(NeutralMode.Brake);
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
-        encoder.reset();
-        
-        // Stop the lift from going too low or too high
-       // liftMotor.configForwardSoftLimitThreshold((int) (maxHeight / encoder.getDistancePerPulse()), 0);
-        //liftMotor.configForwardSoftLimitEnable(true, 0);
-        
-       // liftMotor.configReverseSoftLimitThreshold(0, 0);
-       // liftMotor.configReverseSoftLimitEnable(true, 0);
-        
-        
         
         liftDown = new LimitSwitch(1);
         liftDown.whileActive(new OneTimeCommand(encoder::reset));
@@ -68,9 +69,10 @@ public class Lift extends Subsystem{
     } 
     
     public void moveDown () {
-        if(!liftDown.get())
+        if(!liftDown.get()) {
             liftMotor.set(-SPEED);
         }
+    }
        
     
     
@@ -79,9 +81,7 @@ public class Lift extends Subsystem{
     } 
     
     public void setHeight(double d) {
-        if(d >= 0 && d <= maxHeight) {
-            defaultCommand.setDestination(d);
-        }
+        defaultCommand.setDestination(Math.max(0, Math.min(maxHeight, d)));
     }
     
     private MoveLiftToDestination defaultCommand;
@@ -114,5 +114,58 @@ public class Lift extends Subsystem{
     
     public boolean bottomLimit() {
         return liftDown.get();
+    }
+    
+    public void levelUp() {
+        move(true);
+    }
+    
+    public void levelDown() {
+        move(false);
+    }
+    
+    private void move(boolean up) {
+        int newLevel = findNewLevel(up);
+        
+        if(newLevel != -1) {
+            Robot.lift.setHeight(HEIGHTS[newLevel]);
+        }
+    }
+    
+    private int findNewLevel(boolean up) {
+        double height = Robot.lift.getEncoderHeight();
+        
+        for(int i = 0; i < HEIGHTS.length; i++) {
+            double heightLevel = HEIGHTS[i];
+            if(height > heightLevel - DEADZONE && height < heightLevel + DEADZONE) {
+                if(up && i + 1 < HEIGHTS.length) {
+                    return i+1;
+                }
+                else if(i - 1 >= 0) {
+                    return i-1;
+                }
+                else {
+                    return -1;
+                }
+            }
+        }
+        
+        if(HEIGHTS.length > 1){
+            for(int i = 0; i < HEIGHTS.length - 1; i++) {
+                double bottomLevel = HEIGHTS[i];
+                double topLevel = HEIGHTS[i+1];
+                
+                if(height > bottomLevel && height < topLevel) {
+                    if(up) {
+                        return i+1;
+                    }
+                    else {
+                        return i;
+                    }
+                }
+            }
+        }
+        
+        return -1;
     }
 }

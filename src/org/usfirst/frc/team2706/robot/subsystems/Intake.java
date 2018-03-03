@@ -18,7 +18,9 @@ public class Intake extends Subsystem{
     // Objects for inhaling and exhaling the cube
     private WPI_TalonSRX right_intake_motor;
     private WPI_TalonSRX left_intake_motor;
+    @SuppressWarnings("unused")
     private TalonEncoder left_talon_encoder;
+    @SuppressWarnings("unused")
     private TalonEncoder right_talon_encoder;
     private AnalogInput IR_sensor;
     

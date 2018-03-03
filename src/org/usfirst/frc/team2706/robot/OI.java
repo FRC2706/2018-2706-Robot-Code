@@ -8,10 +8,11 @@ import org.usfirst.frc.team2706.robot.commands.EjectCubeTimed;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.MoveLift;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftDown;
-import org.usfirst.frc.team2706.robot.commands.MoveLiftToDestination;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftUp;
 import org.usfirst.frc.team2706.robot.commands.PickupCube;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
+import org.usfirst.frc.team2706.robot.controls.OneTimeCommand;
+import org.usfirst.frc.team2706.robot.controls.POVButtonJoystick;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -92,9 +93,12 @@ public class OI {
         EJoystickButton MoveLiftDown = new EJoystickButton(controlStick, JoystickMap.XBOX_A_BUTTON);
         MoveLiftDown.runWhileHeld(new MoveLiftDown());
 
-        // Sending lift to fixed destinations
-        EJoystickButton MoveLiftToDestination = new EJoystickButton(controlStick, JoystickMap.XBOX_B_BUTTON);
-        MoveLiftToDestination.runWhileHeld(new MoveLiftToDestination(3.5));
+        // Sending lift to fixed destinations   
+        POVButtonJoystick liftLevelUp = new POVButtonJoystick(controlStick, JoystickMap.XBOX_POV_UP);
+        liftLevelUp.whenPressed(new OneTimeCommand(Robot.lift::levelUp));
+        
+        POVButtonJoystick liftLevelDown = new POVButtonJoystick(controlStick, JoystickMap.XBOX_POV_DOWN);
+        liftLevelDown.whenPressed(new OneTimeCommand(Robot.lift::levelDown));
 
         removeUnplugWarning();
     }
