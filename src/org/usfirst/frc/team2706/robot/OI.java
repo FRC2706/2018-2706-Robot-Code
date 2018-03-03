@@ -2,9 +2,9 @@ package org.usfirst.frc.team2706.robot;
 
 import java.lang.reflect.Field;
 
+import org.usfirst.frc.team2706.robot.commands.DoubleIntake;
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
 import org.usfirst.frc.team2706.robot.commands.EjectCubeTimed;
-import org.usfirst.frc.team2706.robot.commands.IntakeAndHold;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.MoveLift;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftDown;
@@ -70,7 +70,7 @@ public class OI {
         ejectCube.runWhileHeld(new EjectCube(controlStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER));
         
         EJoystickButton holdCube = new EJoystickButton(controlStick, JoystickMap.XBOX_LB_BUTTON);
-        holdCube.runWhileHeld(new IntakeAndHold(0.5));
+        holdCube.runWhileHeld(new DoubleIntake());
 
         EJoystickButton cameraCube = new EJoystickButton(driverStick, 1);
         cameraCube.runWhileHeld(new PickupCube());

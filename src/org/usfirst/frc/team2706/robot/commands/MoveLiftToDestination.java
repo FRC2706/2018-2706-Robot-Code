@@ -26,11 +26,10 @@ public class MoveLiftToDestination extends Command {
       SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
       SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
   }
-
   protected void initialize() {
       liftPID.setPID(SmartDashboard.getNumber("P", P), SmartDashboard.getNumber("I", I), (SmartDashboard.getNumber("D", D)));
-      
       liftPID.setOutputRange(-Lift.SPEED, Lift.SPEED);
+
       liftPID.setSetpoint(liftDestination);
       liftPID.enable();
       
