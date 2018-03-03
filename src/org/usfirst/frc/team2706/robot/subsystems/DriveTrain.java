@@ -506,10 +506,10 @@ public class DriveTrain extends Subsystem {
             double rotateVal;
             if (useCamera) {
                 if (invert) {
-                    drive.arcadeDrive(1.0 - Robot.oi.getDriverJoystick().getRawAxis(5), output,
+                    drive.arcadeDrive(Robot.oi.getDriverJoystick().getRawAxis(5), output,
                                     false);
                 } else {
-                    drive.arcadeDrive(1.0 - Robot.oi.getDriverJoystick().getRawAxis(5), -output,
+                    drive.arcadeDrive(Robot.oi.getDriverJoystick().getRawAxis(5), -output,
                                     false);
                 }
             } else {

@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 
 import org.usfirst.frc.team2706.robot.commands.DoubleIntake;
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
-import org.usfirst.frc.team2706.robot.commands.EjectCubeTimed;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.MoveLift;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftDown;
@@ -16,6 +15,7 @@ import org.usfirst.frc.team2706.robot.commands.ZeroLift;
 import org.usfirst.frc.team2706.robot.controls.POVButtonJoystick;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
+import org.usfirst.frc.team2706.robot.vision.FollowCamera;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -81,8 +81,8 @@ public class OI {
         EJoystickButton climber = new EJoystickButton(controlStick, JoystickMap.XBOX_X_BUTTON);
         climber.runWhileHeld(new StartCimbing());
         
-        EJoystickButton ejectTimed = new EJoystickButton(controlStick, JoystickMap.XBOX_RB_BUTTON);
-        ejectTimed.runWhileHeld(new EjectCubeTimed());
+        EJoystickButton ejectTimed = new EJoystickButton(driverStick, JoystickMap.XBOX_RB_BUTTON);
+        ejectTimed.runWhileHeld(new PickupCube());
         
         // Currently lift is mapped to buttons as well
         // Final: Elevator on axis 1
