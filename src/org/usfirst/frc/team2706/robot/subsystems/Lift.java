@@ -6,18 +6,17 @@ import org.usfirst.frc.team2706.robot.commands.MoveLiftToDestination;
 import org.usfirst.frc.team2706.robot.controls.LimitSwitch;
 import org.usfirst.frc.team2706.robot.controls.OneTimeCommand;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
+import org.usfirst.frc.team2706.robot.controls.talon.TalonLimit;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonSensorGroup;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lift extends Subsystem{
-
     
    private static final double DEADZONE = 3.0/12.0;
     
@@ -31,22 +30,32 @@ public class Lift extends Subsystem{
     
     public static final double MAX_HEIGHT = 7.0;
     
-    WPI_TalonSRX liftMotor = new WPI_TalonSRX(RobotMap.MOTOR_LIFT);
+    TalonLimit liftMotor;
     
-    TalonEncoder encoder = new TalonEncoder(liftMotor);
-    
-    TalonPID liftPID = new TalonPID(new TalonSensorGroup(liftMotor, null, encoder));
+    TalonEncoder encoder;
+    TalonPID liftPID;
     
     LimitSwitch liftDown;
     public static final double SPEED = 1.0;
     
     public Lift() {
+        liftDown = new LimitSwitch(1);
+        liftMotor = new TalonLimit(RobotMap.MOTOR_LIFT, liftDown);
         liftMotor.setNeutralMode(NeutralMode.Brake);
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
         
-        liftDown = new LimitSwitch(1);
+        
+       
+        
+     
+       
+        liftMotor.setNeutralMode(NeutralMode.Brake);
+        encoder = new TalonEncoder(liftMotor);
         liftDown.whileActive(new OneTimeCommand(encoder::reset));
+        encoder.setDistancePerPulse(1);
+        liftPID = new TalonPID(new TalonSensorGroup(liftMotor, null, encoder));
         encoder.setDistancePerPulse(RobotMap.ENCODER_LIFT_DPP);
+        encoder.reset();
     }
 
     public TalonPID getPID () {

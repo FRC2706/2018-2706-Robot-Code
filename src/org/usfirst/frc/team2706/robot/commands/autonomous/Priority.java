@@ -10,16 +10,17 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class Priority {
-    
-    public static final boolean SWITCH = true;
-    public static final boolean SCALE = false;
+
+    public static final boolean IS_SWITCH = true;
+    public static final boolean IS_SCALE = true;
     public static final boolean LEFT = true;
     public static final boolean RIGHT = false;
     String id;
     String name;
     boolean guaranteedPriority;
     boolean location;
-    boolean side;
+    boolean isSwitch;
+    boolean isScale;
     public Command linkedCommand;
 
     /**
@@ -31,12 +32,13 @@ public class Priority {
      * @param side Goes to the left side of the switch/scale
      * @param linkedCommand Command that the priority runs
      */
-    public Priority(String id, String name, boolean location, boolean side,
+    public Priority(String id, String name, boolean location, boolean isSwitch, boolean isScale,
                     Command linkedCommand) {
         this.id = id;
         this.name = name;
         this.location = location;
-        this.side = side;
+        this.isSwitch = isSwitch;
+        this.isScale = isScale;
         this.linkedCommand = linkedCommand;
         guaranteedPriority = false;
     }
@@ -58,9 +60,10 @@ public class Priority {
     /**
      * Non-guaranteed no text priority
      */
-    public Priority(Command linkedCommand, boolean location, boolean side) {
+    public Priority(Command linkedCommand, boolean location, boolean isSwitch, boolean isScale) {
         this.location = location;
-        this.side = side;
+        this.isSwitch = isSwitch;
+        this.isScale = isScale;
         this.linkedCommand = linkedCommand;
         guaranteedPriority = false;
     }
@@ -81,14 +84,32 @@ public class Priority {
     public boolean getPossible() {
         if (guaranteedPriority || DriverStation.getInstance().getGameSpecificMessage().equals(""))
             return true;
-        if (location) {
-            if (side && DriverStation.getInstance().getGameSpecificMessage()
-                            .toCharArray()[0] == 'L')
+        if (location == LEFT) {
+            if (isSwitch == IS_SWITCH && isScale != IS_SCALE && DriverStation.getInstance()
+                            .getGameSpecificMessage().toCharArray()[0] == 'L')
+                return true;
+            else if (isSwitch != IS_SWITCH && isScale == IS_SCALE && DriverStation.getInstance()
+                            .getGameSpecificMessage().toCharArray()[1] == 'L')
+                return true;
+            else if (isSwitch == IS_SWITCH && isScale == IS_SCALE
+                            && DriverStation.getInstance().getGameSpecificMessage()
+                                            .toCharArray()[0] == 'L'
+                            && DriverStation.getInstance().getGameSpecificMessage()
+                                            .toCharArray()[1] == 'L')
                 return true;
             return false;
         } else {
-            if (side && DriverStation.getInstance().getGameSpecificMessage()
-                            .toCharArray()[1] == 'L')
+            if (isSwitch == IS_SWITCH && isScale != IS_SCALE && DriverStation.getInstance()
+                            .getGameSpecificMessage().toCharArray()[0] == 'R')
+                return true;
+            else if (isSwitch != IS_SWITCH && isScale == IS_SCALE && DriverStation.getInstance()
+                            .getGameSpecificMessage().toCharArray()[1] == 'R')
+                return true;
+            else if (isSwitch == IS_SWITCH && isScale == IS_SCALE
+                            && DriverStation.getInstance().getGameSpecificMessage()
+                                            .toCharArray()[0] == 'R'
+                            && DriverStation.getInstance().getGameSpecificMessage()
+                                            .toCharArray()[1] == 'R')
                 return true;
             return false;
         }
@@ -97,7 +118,7 @@ public class Priority {
     public Command getCommand() {
         return linkedCommand;
     }
-    
+
     /**
      * Finds the first command in the priority list that can actually be ran, and returns it
      * 
@@ -105,12 +126,12 @@ public class Priority {
      * @return The chosen command
      */
     public static Command chooseCommandFromPriorityList(Priority[] priorityList) {
-        if(priorityList == null) {
+        if (priorityList == null) {
             return null;
         }
         for (Priority priority : priorityList) {
             System.out.println(priority);
-            if(priority == null) {
+            if (priority == null) {
                 return null;
             }
             if (priority.getPossible()) {
