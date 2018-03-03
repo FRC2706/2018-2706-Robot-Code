@@ -49,7 +49,7 @@ public class MoveLift extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
-    //    System.out.println("LIFT RUNNING");
+        
             move.move(liftspeed.get());
     }
     
@@ -57,7 +57,7 @@ public class MoveLift extends Command {
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
-        System.out.println("Ended IntakeCube command");
+        //System.out.println("Ended IntakeCube command");
         move.stop();
     }
 

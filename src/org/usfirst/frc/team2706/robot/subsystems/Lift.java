@@ -2,6 +2,7 @@ package org.usfirst.frc.team2706.robot.subsystems;
 
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
+import org.usfirst.frc.team2706.robot.controls.talon.TalonLimit;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonSensorGroup;
 
@@ -15,19 +16,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lift extends Subsystem{
 
-    WPI_TalonSRX liftMotor = new WPI_TalonSRX(RobotMap.MOTOR_LIFT);
+    TalonLimit liftMotor;
     
-    TalonEncoder encoder = new TalonEncoder(liftMotor);
+    TalonEncoder encoder;
     
-    TalonPID liftPID = new TalonPID(new TalonSensorGroup(liftMotor,liftMotor::setSafetyEnabled, encoder));
+    TalonPID liftPID;
     
     DigitalInput liftDown;
     double speed = 1.0;
     
     public Lift() {
-        liftMotor.setNeutralMode(NeutralMode.Brake);
         liftDown = new DigitalInput(1);
+        liftMotor = new TalonLimit(RobotMap.MOTOR_LIFT, liftDown);
+        liftMotor.setNeutralMode(NeutralMode.Brake);
+        encoder = new TalonEncoder(liftMotor);
         encoder.setDistancePerPulse(1);
+        liftPID = new TalonPID(new TalonSensorGroup(liftMotor,liftMotor::setSafetyEnabled, encoder));
         encoder.reset();
     }
 
@@ -36,13 +40,7 @@ public class Lift extends Subsystem{
     }
     
     public void move(double liftspeed) {
-        System.out.println(liftDown.get());
-        if(liftDown.get() || liftspeed < 0) {
         liftMotor.set(liftspeed);
-        }
-        else {
-            liftMotor.set(0);
-        }
     }
     
     public void moveUp () {
@@ -50,7 +48,6 @@ public class Lift extends Subsystem{
     } 
     
     public void moveDown () {
-      
             liftMotor.set(-1*speed);
         }
        
