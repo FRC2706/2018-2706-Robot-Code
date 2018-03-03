@@ -188,8 +188,8 @@ public class DriveTrain extends Subsystem {
         double YAxis = RobotMap.INVERT_JOYSTICK_Y ? -joy.getRawAxis(5) : joy.getRawAxis(5);
         double XAxis = RobotMap.INVERT_JOYSTICK_X ? -joy.getRawAxis(4) : joy.getRawAxis(4);
         if (Robot.oi.getDriverJoystick().getRawButton(JoystickMap.XBOX_LB_BUTTON)) {
-            YAxis /= 2.0;
-            XAxis /= 2.0;
+            YAxis /= 1.85;
+            XAxis /= 1.5;
         }
         drive.arcadeDrive(YAxis, XAxis, true);
     }
