@@ -93,6 +93,9 @@ public class Robot extends IterativeRobot {
     public void disabledInit() {
         Log.updateTableLog();
         Log.save();
+        
+        // Stop timer on the dashboard
+        SmartDashboard.putBoolean("time_running", false);
     }
 
     public void disabledPeriodic() {
@@ -116,12 +119,16 @@ public class Robot extends IterativeRobot {
         driveTrain.reset();
         
         autoInit.initialize();
+        
+        // Start timer on the dashboard
+        SmartDashboard.putBoolean("time_running", true);
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+      //  System.out.println(intake.readIRSensor());
         Scheduler.getInstance().run();
         log();
     }
@@ -138,12 +145,14 @@ public class Robot extends IterativeRobot {
         // Tell drive team to drive
         rumbler = new StickRumble(0.4, 0.15, 1, 0, 1, 1.0, 1, "controllerStickRumble");
         rumbler.start();
+        
     }
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+      
         Scheduler.getInstance().run();
         log();
     }

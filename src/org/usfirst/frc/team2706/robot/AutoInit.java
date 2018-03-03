@@ -190,7 +190,7 @@ public class AutoInit {
 
         // If no input falls back on the auto switches if (dashboardResponse == null) { //
         // Schedule the autonomous command that was selected
-        autonomousCommand = new CenterStartLeftSwitchMultiCube();
+        autonomousCommand = new CenterStartRightSwitchMultiCube();
 
         Log.d("Autonomous Dashboard Selector", "Running " + dashboardResponse + ", "
                         + "switch running " + autonomousCommand);
