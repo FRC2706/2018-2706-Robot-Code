@@ -2,7 +2,6 @@ package org.usfirst.frc.team2706.robot.controls.talon;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
  * Handles driving with talon PIDs FIXME: Sometimes finished early when the error in the talons
@@ -210,21 +209,11 @@ public class TalonPID {
             }
 
             // Make the master stop PIDing
-            if(master instanceof WPI_TalonSRX) {
-                ((WPI_TalonSRX)master).stopMotor();
-            }
-            else {
-                master.set(ControlMode.PercentOutput, 0.0);
-            }
+            master.set(ControlMode.PercentOutput, 0.0);
             
             // Make all followers stop following
             for (TalonSRX slave : talon.getSlaves()) {
-                if(slave instanceof WPI_TalonSRX) {
-                    ((WPI_TalonSRX)slave).stopMotor();
-                }
-                else {
-                    slave.set(ControlMode.PercentOutput, 0.0);
-                }
+                slave.set(ControlMode.PercentOutput, 0.0);
             }
         }
         

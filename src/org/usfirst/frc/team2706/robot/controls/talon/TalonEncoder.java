@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2706.robot.controls.talon;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PIDSource;
@@ -98,7 +97,14 @@ public class TalonEncoder extends SensorBase implements PIDSource, Sendable {
      * @param distancePerPulse The scale factor that will be used to convert pulses to useful units.
      */
     public void setDistancePerPulse(double distancePerPulse) {
-        dpp = distancePerPulse;
+        if(distancePerPulse < 0) {
+            controller.setSensorPhase(true);
+        }
+        else {
+            controller.setSensorPhase(false);
+        }
+        
+        dpp = Math.abs(distancePerPulse);
     }
 
     /**

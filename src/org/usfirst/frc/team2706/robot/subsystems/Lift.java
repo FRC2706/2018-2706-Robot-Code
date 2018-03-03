@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftToDestination;
 import org.usfirst.frc.team2706.robot.controls.LimitSwitch;
@@ -26,19 +27,19 @@ public class Lift extends Subsystem{
     TalonPID liftPID = new TalonPID(new TalonSensorGroup(liftMotor, null, encoder));
     
     LimitSwitch liftDown;
-    public static final double SPEED = 0.6;
+    public static final double SPEED = 0.3;
     
     public Lift() {
         liftMotor.setNeutralMode(NeutralMode.Brake);
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
-        liftMotor.setSensorPhase(true);
+        encoder.reset();
         
         // Stop the lift from going too low or too high
-        liftMotor.configForwardSoftLimitThreshold((int) (maxHeight / encoder.getDistancePerPulse()), 0);
-        liftMotor.configForwardSoftLimitEnable(true, 0);
+       // liftMotor.configForwardSoftLimitThreshold((int) (maxHeight / encoder.getDistancePerPulse()), 0);
+        //liftMotor.configForwardSoftLimitEnable(true, 0);
         
-        liftMotor.configReverseSoftLimitThreshold(0, 0);
-        liftMotor.configReverseSoftLimitEnable(true, 0);
+       // liftMotor.configReverseSoftLimitThreshold(0, 0);
+       // liftMotor.configReverseSoftLimitEnable(true, 0);
         
         
         
@@ -108,6 +109,10 @@ public class Lift extends Subsystem{
     
     public void log() {
         SmartDashboard.putNumber("Lift Distance", encoder.getDistance());
-        SmartDashboard.putData("Talon Command", getCurrentCommand());
+        SmartDashboard.putString("Talon Command", getCurrentCommand().getName());
+    }
+    
+    public boolean bottomLimit() {
+        return liftDown.get();
     }
 }

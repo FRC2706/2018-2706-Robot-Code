@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class IntakeAndHold extends Command {
 
     private Intake inhale;
+    @SuppressWarnings("unused")
     private AnalogInput IR_sensor;
+    @SuppressWarnings("unused")
     private double m_motorPower;
     /**
      * Allows us to use the methods in 'Intake'
