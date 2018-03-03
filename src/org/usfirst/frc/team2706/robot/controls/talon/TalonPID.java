@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2706.robot.controls.talon;
 
+import org.usfirst.frc.team2706.robot.Log;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -105,6 +107,7 @@ public class TalonPID {
      * @param setpoint The location to go to
      */
     public void setSetpoint(double setpoint) {
+        Log.d("TalonPID", setpoint);
         this.setpoint = setpoint;
     }
 

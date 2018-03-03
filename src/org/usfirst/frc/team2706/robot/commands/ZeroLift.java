@@ -18,5 +18,11 @@ public class ZeroLift extends Command {
     protected boolean isFinished() {
         return Robot.lift.bottomLimit();
     }
+    
+    @Override
+    public void end() {
+        Robot.lift.stop();
+        Robot.lift.setHeight(Robot.lift.getEncoderHeight());
+    }
 
 }

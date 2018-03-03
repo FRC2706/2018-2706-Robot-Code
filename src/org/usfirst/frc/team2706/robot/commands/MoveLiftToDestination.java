@@ -5,7 +5,6 @@ import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MoveLiftToDestination extends Command {
 
@@ -21,12 +20,12 @@ public class MoveLiftToDestination extends Command {
      
         liftPID.setPID(P, I, D);
         
-      SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
-      SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
-      SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
+//      SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+//      SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+//      SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
   }
   protected void initialize() {
-      liftPID.setPID(SmartDashboard.getNumber("P", P), SmartDashboard.getNumber("I", I), (SmartDashboard.getNumber("D", D)));
+//      liftPID.setPID(SmartDashboard.getNumber("P", P), SmartDashboard.getNumber("I", I), (SmartDashboard.getNumber("D", D)));
       liftPID.setOutputRange(-Lift.SPEED, Lift.SPEED);
 
       liftPID.setSetpoint(liftDestination);

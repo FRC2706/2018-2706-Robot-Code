@@ -2,7 +2,6 @@ package org.usfirst.frc.team2706.robot.commands;
 
 import java.util.function.Supplier;
 
-import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
@@ -61,7 +60,6 @@ public class MoveLift extends Command {
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
-        Log.d(this, "Done");
         move.stop();
         Robot.lift.setHeight(Robot.lift.getEncoderHeight());
     }

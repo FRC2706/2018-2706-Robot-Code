@@ -22,14 +22,14 @@ public class Lift extends Subsystem{
    private static final double DEADZONE = 3.0/12.0;
     
     private static final double[] HEIGHTS = new double[] {
-        0.0, // Bottom of lift
+        Double.MIN_VALUE, // Bottom of lift
         3.0, // Switch height
         5.0, // Scale low height
         6.0, // Scale mid height
         7.0  // Scale high height/top of lift
     };
     
-    private final double maxHeight = 7.0;
+    public static final double MAX_HEIGHT = 7.0;
     
     WPI_TalonSRX liftMotor = new WPI_TalonSRX(RobotMap.MOTOR_LIFT);
     
@@ -38,7 +38,7 @@ public class Lift extends Subsystem{
     TalonPID liftPID = new TalonPID(new TalonSensorGroup(liftMotor, null, encoder));
     
     LimitSwitch liftDown;
-    public static final double SPEED = 0.6;
+    public static final double SPEED = 1.0;
     
     public Lift() {
         liftMotor.setNeutralMode(NeutralMode.Brake);
@@ -54,23 +54,29 @@ public class Lift extends Subsystem{
     }
     
     public void move(double liftspeed) {
-        if((liftspeed < 0 && !liftDown.get()) || (liftspeed > 0 && encoder.getDistance() <= maxHeight)) {
+        if((liftspeed < 0 && !liftDown.get()) || (liftspeed > 0 && encoder.getDistance() <= MAX_HEIGHT)) {
             liftMotor.set(liftspeed);
         }
         else {
-            liftMotor.set(0);
+            stop();
         }
     }
     
     public void moveUp () {
-        if(encoder.getDistance() <= maxHeight) {
+        if(encoder.getDistance() <= MAX_HEIGHT) {
             liftMotor.set(SPEED);
+        }
+        else {
+            stop();
         }
     } 
     
     public void moveDown () {
         if(!liftDown.get()) {
             liftMotor.set(-SPEED);
+        }
+        else {
+            stop();
         }
     }
        
@@ -81,7 +87,7 @@ public class Lift extends Subsystem{
     } 
     
     public void setHeight(double d) {
-        defaultCommand.setDestination(Math.max(0, Math.min(maxHeight, d)));
+        defaultCommand.setDestination(Math.max(0, Math.min(MAX_HEIGHT, d)));
     }
     
     private MoveLiftToDestination defaultCommand;
@@ -125,7 +131,7 @@ public class Lift extends Subsystem{
     }
     
     private void move(boolean up) {
-        int newLevel = findNewLevel(up);
+        int newLevel = findNewLevel(up);        
         
         if(newLevel != -1) {
             Robot.lift.setHeight(HEIGHTS[newLevel]);
