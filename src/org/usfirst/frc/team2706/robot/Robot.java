@@ -11,6 +11,8 @@ import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -85,6 +87,9 @@ public class Robot extends IterativeRobot {
                         "recordJoystick");
         
         blingSystem = new Bling();
+        
+        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+        camera.getPath();
     }
 
     /**
@@ -94,6 +99,9 @@ public class Robot extends IterativeRobot {
     public void disabledInit() {
         Log.updateTableLog();
         Log.save();
+        
+        // Stop timer.
+        SmartDashboard.putBoolean("time_running", false);
     }
 
     public void disabledPeriodic() {
@@ -112,6 +120,8 @@ public class Robot extends IterativeRobot {
      * additional strings & commands.
      */
     public void autonomousInit() {
+        // Begin timer.
+        SmartDashboard.putBoolean("time_running", true);
         Log.i("Robot", "Entering autonomous mode");
 
         driveTrain.reset();

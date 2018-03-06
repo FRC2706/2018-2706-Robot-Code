@@ -111,7 +111,7 @@ public class DriveTrain extends Subsystem {
         rightDistanceSensor.setName("Drive Train", "Right Distance Sensor");
         gyro.setName("Drive Train", "Gyro");
         //selectorSwitch.setName("Drive Train", "Autonomous Selector");
-    }
+        }
 
     /**
      * When no other command is running let the operator drive around using the Xbox joystick.
@@ -152,8 +152,18 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Left Distance Sensor", leftDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Right Distance Sensor", rightDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
+        SmartDashboard.putNumber("velocity", getSpeed());
+        
      //   SmartDashboard.putNumber("Autonomous Selector 1", selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1));
      //   SmartDashboard.putNumber("Autonomous Selector 2", selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
+    }
+    
+    /**
+     * Gets the current robot speed from the encoders.
+     * @return The robot's speed.
+     */
+    public double getSpeed() {
+        return (left_encoder.getRate() + right_encoder.getRate()) / 2;
     }
 
     /**

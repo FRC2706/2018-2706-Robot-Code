@@ -3,7 +3,7 @@ package org.usfirst.frc.team2706.robot.commands.bling;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.usfirst.frc.team2706.robot.Robot;
-import org.usfirst.frc.team2706.robot.commands.bling.patterns.BlingPattern;
+import org.usfirst.frc.team2706.robot.commands.bling.patterns.*;
 import org.usfirst.frc.team2706.robot.subsystems.Bling;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -41,6 +41,10 @@ public class BlingController extends Command {
          * Since patterns from different periods won't run at the same time, you only have to 
          * make sure you put patterns from the same period in proper order.
          */
+        Add(new IntakeSignaller());
+        
+        // Do blank as a last priority
+        Add(new Blank());
     }
     
     public void initialize() {
@@ -83,6 +87,8 @@ public class BlingController extends Command {
             
             // Break at the first positive return. 
             if (pattern.conditionsMet()) {
+                
+                System.out.println("pattern met conditions : " + pattern); // TODO remove
                 
                 // If it's the first time we're going to this pattern, reset it.
                 if (currentPattern != pattern) pattern.reset(); 

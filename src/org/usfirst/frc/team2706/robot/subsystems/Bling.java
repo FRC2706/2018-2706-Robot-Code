@@ -90,8 +90,11 @@ public class Bling extends Subsystem{
     @SuppressWarnings("deprecation")
     public void Display(BlingPattern patternToShow) {              
         
+        boolean isSameCommand = isSameAsLastCommandRun(patternToShow);
+        
+        System.out.println("IsSameCommand : " + isSameCommand + " Pattern to show : " + patternToShow);
         // Don't spam the pi with the same command, so determine if this is the same as the last command
-        if (isSameAsLastCommandRun(patternToShow)) return;
+        if (isSameCommand) return;
         
         lastRepeat = patternToShow.getRepeatCount();
         lastLEDBrightness = patternToShow.getBrightness();
