@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterStartRightSwitch extends CommandGroup {
     
     public CenterStartRightSwitch() {
-        CurveDrive c = new CurveDrive(35 / 12.0, 85 / 12.0, 0, 0.8, false, 0.25, "CuawfawfrveToSwitch");
+        CurveDrive c = new CurveDrive(35 / 12.0, 85 / 12.0, 0, 0.8, false, 0.25, this + ".curveToSwitch");
         this.addSequential(c);
         this.addParallel(new CurveDriveStop(c.endCurve));
         this.addSequential(new MoveLiftUp(),1.0);

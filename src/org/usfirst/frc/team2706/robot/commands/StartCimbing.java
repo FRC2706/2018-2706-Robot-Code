@@ -14,7 +14,11 @@ private Climber climb;
         climb = Robot.climb;
     }
     
-    public void initialize() {}
+    public void initialize() {
+        // Stop PID stuff when climbing so motors are fighting the lift
+        Robot.lift.getDefaultCommand().cancel();
+        Robot.lift.getCurrentCommand().cancel();
+    }
     
     public void execute() {
         climb.climb();

@@ -12,10 +12,10 @@ public class RightStartRightSwitch extends CommandGroup {
     
     public RightStartRightSwitch() {
         this.addSequential(new InitLift());
-        this.addSequential(new StraightDriveWithEncoders(0.5, 135 / 12.0, 1, 5, "FodfjkdrwardToSwitch"));
-        this.addSequential(new RotateDriveWithGyro(0.35,-90,2,"RotateToSfghjkldwitch"));
+        this.addSequential(new StraightDriveWithEncoders(0.5, 135 / 12.0, 1, 5, this + ".forwardToSwitch"));
+        this.addSequential(new RotateDriveWithGyro(0.35,-90,2, this + ".rotateToSwitch"));
         this.addSequential(new MoveLiftUp(),3);
-        this.addSequential(new StraightDriveWithEncoders(0.5,25 / 12.0,1,5, "Prefghjkl;ssSwitch"),3);
+        this.addSequential(new StraightDriveWithEncoders(0.5,25 / 12.0,1,5, this + ".pressSwitch"),3);
      
         this.addSequential(new EjectCube(0.6),2);
     }

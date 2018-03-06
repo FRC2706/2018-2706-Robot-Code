@@ -48,6 +48,11 @@ public class Lift extends Subsystem{
         
         encoder = new TalonEncoder(liftMotor);
         liftDown.whileActive(new OneTimeCommand(this::reset));
+        liftDown.whenActive(new OneTimeCommand(() -> {
+            this.reset();
+            this.resetSetpoint();
+        }));
+        
         liftPID = new TalonPID(new TalonSensorGroup(liftMotor, null, encoder));
         liftPID.setError(0);
         encoder.setDistancePerPulse(RobotMap.ENCODER_LIFT_DPP);

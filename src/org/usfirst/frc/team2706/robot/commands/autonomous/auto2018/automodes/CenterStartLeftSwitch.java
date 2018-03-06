@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterStartLeftSwitch extends CommandGroup {
     
     public CenterStartLeftSwitch() {
-        CurveDrive c = new CurveDrive(76 / 12.0, 94 / 12.0, 0, 0.6, true, 0.25, "CurveToSfawfawfwitch");
+        CurveDrive c = new CurveDrive(76 / 12.0, 94 / 12.0, 0, 0.6, true, 0.25, this + ".curveToSwitch");
         this.addSequential(c);
         this.addParallel(new CurveDriveStop(c.endCurve));
         this.addParallel(new MoveLiftUp(),1.0);
-        this.addSequential(new StraightDriveWithEncoders(0.5, 1, 1, 3, "lul"));
+        this.addSequential(new StraightDriveWithEncoders(0.5, 1, 1, 3, this + ".forwardToSwitch"));
         this.addSequential(new EjectCube(0.6),0.5);
     }
     

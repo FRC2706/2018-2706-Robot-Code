@@ -12,10 +12,10 @@ public class LeftStartLeftSwitch extends CommandGroup {
     
     public LeftStartLeftSwitch() {
         this.addSequential(new InitLift());
-        this.addSequential(new StraightDriveWithEncoders(0.8, 135 / 12.0, 3, 3, "FofToSwitch"));
-        this.addSequential(new RotateDriveWithGyro(0.6,90,5,2,"RotateTofitch"));
+        this.addSequential(new StraightDriveWithEncoders(0.8, 135 / 12.0, 3, 3, this + ".forwardToSwitch"));
+        this.addSequential(new RotateDriveWithGyro(0.6,90,5,2, this + ".rotateToSwitch"));
         this.addParallel(new MoveLiftUp(),1);
-        this.addSequential(new StraightDriveWithEncoders(0.8,48 / 12.0,3,1, "Prefgfitch"),1);
+        this.addSequential(new StraightDriveWithEncoders(0.8,48 / 12.0,3,1, this + ".hitSwitch"),1);
      
         this.addSequential(new EjectCube(0.6),0.5);
     }

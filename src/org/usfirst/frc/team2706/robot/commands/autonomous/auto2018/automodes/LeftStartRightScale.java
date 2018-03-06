@@ -12,11 +12,11 @@ public class LeftStartRightScale extends CommandGroup{
 
     public LeftStartRightScale() {
         this.addSequential(new InitLift());
-        this.addSequential(new StraightDriveWithEncoders(0.5, 232 / 12.0, 1, 5, "awfawfFdghorwardToSwitch"));
-        this.addSequential(new RotateDriveWithGyro(0.35,90,3,"RotateToSwitchawf"));
-        this.addSequential(new StraightDriveWithEncoders(0.5,148 / 12.0,1,5, "PressSwifawtch"));
-        this.addSequential(new RotateDriveWithGyro(0.35,-90,3,"RotateToSwitcfh"));
-        this.addSequential(new StraightDriveWithEncoders(0.5,37 / 12.0,1,5, "PressSwfawawfawfawfitch"));
+        this.addSequential(new StraightDriveWithEncoders(0.5, 232 / 12.0, 1, 5, this + ".forwardToSwitch"));
+        this.addSequential(new RotateDriveWithGyro(0.35,90,3, this + ".rotateToSwitch"));
+        this.addSequential(new StraightDriveWithEncoders(0.5,148 / 12.0,1,5, this + ".pressSwitch"));
+        this.addSequential(new RotateDriveWithGyro(0.35,-90,3, this + ".rotateToSwitch2"));
+        this.addSequential(new StraightDriveWithEncoders(0.5,37 / 12.0,1,5, this + ".pressSwitch2"));
         this.addSequential(new MoveLiftUp(),6);
         this.addSequential(new EjectCube(0.6),2);
     }
