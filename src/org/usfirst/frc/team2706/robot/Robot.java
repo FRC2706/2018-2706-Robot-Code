@@ -114,6 +114,7 @@ public class Robot extends IterativeRobot {
         Log.i("Robot", "Entering autonomous mode");
 
         driveTrain.reset();
+        lift.resetSetpoint();
         
         autoInit.initialize();
     }
@@ -129,6 +130,8 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
         Log.i("Robot", "Entering teleop mode");
 
+        Robot.lift.resetSetpoint();
+        
         autoInit.end();
         
         Robot.driveTrain.brakeMode(true);
@@ -151,6 +154,8 @@ public class Robot extends IterativeRobot {
     @Override
     public void testInit() {
         Log.i("Robot", "Entering test mode");
+        
+        Robot.lift.resetSetpoint();
     }
 
     /**

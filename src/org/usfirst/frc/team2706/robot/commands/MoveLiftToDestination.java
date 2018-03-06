@@ -12,10 +12,9 @@ public class MoveLiftToDestination extends Command {
     double liftDestination;
     
     
-    private double P = 1.0, I = 0.0, D = 0.0;
+    private double P = 0.5, I = 0.0, D = 0.0;
     
-    public MoveLiftToDestination(double destination) {
-        this.requires(Robot.lift);
+    public MoveLiftToDestination() {
         liftPID = Robot.lift.getPID();
      
         liftPID.setPID(P, I, D);
@@ -28,9 +27,8 @@ public class MoveLiftToDestination extends Command {
 //      liftPID.setPID(SmartDashboard.getNumber("P", P), SmartDashboard.getNumber("I", I), (SmartDashboard.getNumber("D", D)));
       liftPID.setOutputRange(-Lift.SPEED, Lift.SPEED);
 
-      liftPID.setSetpoint(liftDestination);
+      setDestination(Robot.lift.getEncoderHeight());
       liftPID.enable();
-      
   }
   
 public void setDestination(double destination) {

@@ -6,7 +6,6 @@ public class InitLift extends CommandGroup {
 
     public InitLift() {
         this.addSequential(new MoveLiftUp(),0.25);
-        this.addSequential(new ZeroLift());
     }
     
 }

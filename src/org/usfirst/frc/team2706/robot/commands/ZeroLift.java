@@ -4,6 +4,9 @@ import org.usfirst.frc.team2706.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * @deprecated Use {@link SetLiftHeight} instead
+ */
 public class ZeroLift extends Command {
 
     public ZeroLift() {

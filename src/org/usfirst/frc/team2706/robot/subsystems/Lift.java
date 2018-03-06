@@ -21,7 +21,7 @@ public class Lift extends Subsystem{
    private static final double DEADZONE = 3.0/12.0;
     
     private static final double[] HEIGHTS = new double[] {
-        Double.MIN_VALUE, // Bottom of lift
+        0.0, // Bottom of lift
         3.0, // Switch height
         5.0, // Scale low height
         6.0, // Scale mid height
@@ -32,28 +32,24 @@ public class Lift extends Subsystem{
     
     TalonLimit liftMotor;
     
-    TalonEncoder encoder;
+    private TalonEncoder encoder;
     TalonPID liftPID;
     
     LimitSwitch liftDown;
     public static final double SPEED = 1.0;
     
+    private boolean zeroedOnce = false;
+    
     public Lift() {
         liftDown = new LimitSwitch(1);
         liftMotor = new TalonLimit(RobotMap.MOTOR_LIFT, liftDown);
-        liftMotor.setNeutralMode(NeutralMode.Brake);
+        liftMotor.setNeutralMode(NeutralMode.Coast);
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
         
-        
-       
-        
-     
-       
-        liftMotor.setNeutralMode(NeutralMode.Brake);
         encoder = new TalonEncoder(liftMotor);
-        liftDown.whileActive(new OneTimeCommand(encoder::reset));
-        encoder.setDistancePerPulse(1);
+        liftDown.whileActive(new OneTimeCommand(this::reset));
         liftPID = new TalonPID(new TalonSensorGroup(liftMotor, null, encoder));
+        liftPID.setError(0);
         encoder.setDistancePerPulse(RobotMap.ENCODER_LIFT_DPP);
         encoder.reset();
     }
@@ -96,10 +92,19 @@ public class Lift extends Subsystem{
     } 
     
     public void setHeight(double d) {
-        defaultCommand.setDestination(Math.max(0, Math.min(MAX_HEIGHT, d)));
+        d = Math.min(MAX_HEIGHT, d);
+        if(bottomLimit()) {
+           d = Math.max(d, Double.MIN_VALUE); 
+        }
+        
+        defaultCommand.setDestination(d);
     }
     
     private MoveLiftToDestination defaultCommand;
+    
+    public void resetSetpoint() {
+        setHeight(encoder.getDistance());
+    }
     
     /**
      * When no other command is running use PID to hold position
@@ -117,14 +122,15 @@ public class Lift extends Subsystem{
     
     public Command getDefaultCommand() {
         if (defaultCommand == null) {
-            defaultCommand = new MoveLiftToDestination(0);
+            defaultCommand = new MoveLiftToDestination();
         }
         return defaultCommand;
     }
     
     public void log() {
         SmartDashboard.putNumber("Lift Distance", encoder.getDistance());
-        SmartDashboard.putString("Talon Command", getCurrentCommand().getName());
+        SmartDashboard.putNumber("Talon Speed", encoder.getRate());
+        SmartDashboard.putString("Talon Command", getCurrentCommand() != null ? getCurrentCommand().getName() : "None");
     }
     
     public boolean bottomLimit() {
@@ -182,5 +188,16 @@ public class Lift extends Subsystem{
         }
         
         return -1;
+    }
+    
+    private void reset() {
+        encoder.reset();
+        zeroedOnce = true;
+
+        liftPID.setSetpoint(0);
+    }
+    
+    public boolean zeroedOnce() {
+        return zeroedOnce;
     }
 }
