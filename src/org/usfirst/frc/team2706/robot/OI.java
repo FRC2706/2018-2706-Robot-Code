@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import org.usfirst.frc.team2706.robot.commands.DoubleIntake;
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
+import org.usfirst.frc.team2706.robot.commands.EjectCubeWithIR;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftDown;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftUp;
@@ -72,6 +73,9 @@ public class OI {
         
         EJoystickButton holdCube = new EJoystickButton(controlStick, JoystickMap.XBOX_LB_BUTTON);
         holdCube.runWhileHeld(new DoubleIntake());
+        
+        EJoystickButton ejectSmooth = new EJoystickButton(controlStick, JoystickMap.XBOX_RB_BUTTON);
+        ejectSmooth.runWhileHeld(new EjectCubeWithIR());
 
         EJoystickButton cameraCube = new EJoystickButton(driverStick, 1);
         cameraCube.runWhileHeld(new PickupCube());
