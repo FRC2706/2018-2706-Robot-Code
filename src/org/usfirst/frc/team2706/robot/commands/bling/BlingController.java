@@ -7,6 +7,7 @@ import org.usfirst.frc.team2706.robot.commands.bling.patterns.*;
 import org.usfirst.frc.team2706.robot.subsystems.Bling;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
 public class BlingController extends Command {
@@ -18,6 +19,8 @@ public class BlingController extends Command {
     public static final int AUTONOMOUS_PERIOD = 0;
     public static final int TELEOP_WITHOUT_CLIMB = 1;
     public static final int CLIMBING_PERIOD = 2; 
+    
+    boolean useMatchTime = false;
     
     HashMap<Integer, ArrayList<BlingPattern>> commands;
     
@@ -35,6 +38,7 @@ public class BlingController extends Command {
             }
         };
         
+        System.out.println("Going into bling controller"); // TODO remove
         /* Make and add the bling patterns. 
          * They need to be created in order of highest to lowest priority.
          * 
@@ -49,6 +53,11 @@ public class BlingController extends Command {
     
     public void initialize() {
         startTime = Timer.getFPGATimestamp();
+        // If it's already teleop when we start, just subtract 15 seconds to make it seem as though we're in teleop.
+        if (!DriverStation.getInstance().isOperatorControl()) startTime -= 15;
+        
+        // If the match time provided is not below 0, it's valid and we're in a game and use it.
+        useMatchTime = Timer.getMatchTime() >= 0;
     }
     
     /**
@@ -66,6 +75,8 @@ public class BlingController extends Command {
             int period = i;
             commands.get(period).add(commandToAdd);
         }
+        
+        System.out.println("Added command : " + commandToAdd + " New list is " + commands); // TODO remove debug print
        
     }
 
@@ -75,7 +86,6 @@ public class BlingController extends Command {
     }
     
     public void execute() {
-        
         // Get the current period
         int currentPeriod = getCurrentPeriod();
         
@@ -100,12 +110,21 @@ public class BlingController extends Command {
         // Now that we've selected the pattern, run it.
         runCurrentPattern();
     }
+    /**
+     * Called when the command is ended
+     */
+    public void end() {
+        // Just clear the strip at the end.
+        blingSystem.clearStrip();
+    }
     
     private int getCurrentPeriod() {
-        double timeSinceStart = Timer.getFPGATimestamp() - startTime;
         
-        if (timeSinceStart <= 15) return AUTONOMOUS_PERIOD;
-        else if (timeSinceStart <= 105) return TELEOP_WITHOUT_CLIMB;
+        if (DriverStation.getInstance().isAutonomous()) return AUTONOMOUS_PERIOD;        
+        // If we're using match time, use match time. Otherwise, use the other time.
+        double timeSinceStart = (useMatchTime) ? Timer.getMatchTime() : Timer.getFPGATimestamp() - startTime;
+        
+        if (timeSinceStart <= 105) return TELEOP_WITHOUT_CLIMB;
         else return CLIMBING_PERIOD;
         
     }

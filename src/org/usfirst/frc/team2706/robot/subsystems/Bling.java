@@ -25,18 +25,7 @@ public class Bling extends Subsystem{
     public static final long RED = 16711680;
     
     // All of the pattern numbers
-    public static final int COLOUR_WIPE = 1;
-    public static final int COLOUR_WIPE_WITH_BLANK = 2;
-    public static final int THEATRE_CHASE = 3;
-    public static final int RAINBOW = 4;
-    public static final int THEATRE_CHASE_RAINBOW = 5;
-    public static final int COLOUR_BAR = 6;
-    public static final int COLOUR_BAR_FLASH = 7;
-    public static final int BOUNCE = 8;
-    public static final int BOUNCE_WIPE = 9;
-    public static final int MULTI_BOUNCE = 10;
-    public static final int MULTI_BOUNCE_WIPE = 11;
-    public static final int MULTI_COLOUR_WIPE = 12;
+    public static final String COLOUR_WIPE = "color_Wipe";
     
     //  Too far if we're above this.
     public static final double tooFarDist = 20;
@@ -80,14 +69,12 @@ public class Bling extends Subsystem{
     @Override
     protected void initDefaultCommand() {
         setDefaultCommand(getDefaultCommand());
-        
     }
     
     /**
      * The method used to display bling patterns.
      * @param patternToShow The bling pattern object whose pattern to show.
      */
-    @SuppressWarnings("deprecation")
     public void Display(BlingPattern patternToShow) {              
         
         boolean isSameCommand = isSameAsLastCommandRun(patternToShow);
@@ -102,18 +89,31 @@ public class Bling extends Subsystem{
         lastCommand = patternToShow.getCommand();
         lastRGBArray = patternToShow.getRGB();
         
+        // Display pattern
+        Display(patternToShow.getBrightness(), patternToShow.getWaitMS(), patternToShow.getRGB(), patternToShow.getCommand(), patternToShow.getRepeatCount());
         
-        int[] rgb = patternToShow.getRGB();
+        // Run the command
+        patternToShow.runCommand();
+        
+    }
+    
+    /**
+     * Displays the given type of LED pattern on the LED strip.
+     * @param LEDbrightness The brightness, an integer between 0 and 255, 255 being full brightness
+     * @param waitMS The amount of miliseconds to delay between each pattern 
+     * @param rgb The RGB colour code (red, green, blue) to display
+     * @param command The type of pattern to display. Use one of the Bling class constants for patterns.
+     * @param repeatCount The number of times to repeat the pattern
+     */
+    @SuppressWarnings("deprecation")
+    public void Display(int LEDbrightness, int waitMS, int[] rgb, String command, int repeatCount) {
         blingTable.putNumber("red", rgb[0]);
         blingTable.putNumber("green", rgb[1]);
         blingTable.putNumber("blue", rgb[2]);
-        blingTable.putNumber("repeat", patternToShow.getRepeatCount());
-        blingTable.putNumber("wait_ms", patternToShow.getWaitMS());
-        blingTable.putNumber("LED_BRIGHTNESS", patternToShow.getBrightness());
-        blingTable.putString("command", patternToShow.getCommand());
-        
-        patternToShow.runCommand();
-        
+        blingTable.putNumber("repeat", repeatCount);
+        blingTable.putNumber("wait_ms", waitMS);
+        blingTable.putNumber("LED_BRIGHTNESS", LEDbrightness);
+        blingTable.putString("command", command);
     }
     
     private boolean isSameAsLastCommandRun(BlingPattern patternToShow) {
@@ -123,28 +123,11 @@ public class Bling extends Subsystem{
     }
 
     /**
-     * Used to properly format patterns
-     * @return The properly formatted string pattern code.
-     * @param colour The colour of the pattern in DEC
-     * @param patternType The pattern number, one of the following: <p>
-     * 1 : Colour wipe <p>
-     * 2 : Colour wipe with blank period <p>
-     * 3 : Theatre chase<p>
-     * 4 : Rainbow<p>
-     * 5 : Theatre chase rainbow<p>
-     * 6 : Color bar<p>
-     * 7 : Color bar flash<p>
-     * 8 : Bounce<p>
-     * 9 : Bounce wipe<p>
-     * 10: Multi bounce<p>
-     * 11: Multi bouce wipe<p>
-     * 12: Multi colour wipe<p>
-     * @param timeDelay The amount of delay between segments
-     * @param brightness 1 to 100 percentage brightness
+     * Clears the LED strip
      */
-    public static String formatPattern(long colour, int patternType, 
-                    double timeDelay, int brightness) {
-        return String.format("F%sC%sB%sD%sR1000E%sZ", patternType, colour, brightness, timeDelay, patternType);
+    public void clearStrip() {
+        int[] colour = new int[] {0, 0, 0};
+        Display(0, 0, colour, COLOUR_WIPE, 0);
     }
     
 }

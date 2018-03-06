@@ -22,7 +22,7 @@ public abstract class BlingPattern {
     protected int repeatCount = 10000;
     protected int wait_ms = 50;
     protected int LED_BRIGHTNESS = 255;
-    String command = "colorWipe";
+    String command = Bling.COLOUR_WIPE;
    
     protected List<Integer> operationPeriod = new ArrayList<Integer>();
     
