@@ -10,11 +10,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LeftStartLeftScale extends CommandGroup {
     
     public LeftStartLeftScale() {
-      //  this.addSequential(new InitLift());
-        this.addSequential(new StraightDriveWithEncoders(0.65,282 / 12.0 /*1/2robotlength*/,1,3, "startawfassdForwardToScale"));
+    //    this.addSequential(new SetLiftHeight(0.2));
+        this.addSequential(new StraightDriveWithEncoders(0.8,282 / 12.0 /*1/2robotlength*/,3,3, "startawfassdForwardToScale"));
         this.addSequential(new RotateDriveWithGyro(0.4,90.0,2, "turnRightTowardsSawfawffcale"));
-     //   this.addSequential(new StraightDriveWithEncoders(0.5,40 / 12.0,1.0, 3, "endForawfawfawwardToScale"));
-        this.addSequential(new MoveLiftUp(),6);
+        this.addSequential(new MoveLiftUp(), 5);
+       // this.addSequential(new StraightDriveWithEncoders(0.4,40 / 12.0,1.0, 3, "endForawfawfawwardToScale"));
+       
         this.addSequential(new EjectCube(0.6),2);
     }
     
