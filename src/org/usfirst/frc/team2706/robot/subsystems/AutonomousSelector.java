@@ -45,6 +45,7 @@ public class AutonomousSelector extends SensorBase implements Sendable {
     public void setCommands(Priority[][]... commands) {
         for (int i = 0; i < NUM_INDICES; i++) {
             for(int j = 0; j < NUM_INDICES; j++) {
+             
                 if (i < commands.length && j < commands[i].length) {
                     this.commands[i][j] = commands[i][j];
                 } else {
@@ -69,8 +70,11 @@ public class AutonomousSelector extends SensorBase implements Sendable {
             idx1 = 2;
             idx2 = 0;
         }
-
-        return commands[idx1][idx2];
+        if(idx2 == 0) {
+            idx2 = 1;
+        }
+        System.out.println(idx1 + "," + idx2);
+        return commands[idx1][idx2 - 1];
     }
 
     public int getVoltageAsIndex(AnalogInput selector) {

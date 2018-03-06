@@ -97,7 +97,14 @@ public class TalonEncoder extends SensorBase implements PIDSource, Sendable {
      * @param distancePerPulse The scale factor that will be used to convert pulses to useful units.
      */
     public void setDistancePerPulse(double distancePerPulse) {
-        dpp = distancePerPulse;
+        if(distancePerPulse < 0) {
+            controller.setSensorPhase(true);
+        }
+        else {
+            controller.setSensorPhase(false);
+        }
+        
+        dpp = Math.abs(distancePerPulse);
     }
 
     /**

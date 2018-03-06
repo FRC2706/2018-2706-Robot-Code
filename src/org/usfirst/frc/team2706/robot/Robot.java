@@ -2,7 +2,6 @@
 package org.usfirst.frc.team2706.robot;
 
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
-import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.ReplayRecordedJoystick;
 import org.usfirst.frc.team2706.robot.controls.operatorFeedback.Rumbler;
 import org.usfirst.frc.team2706.robot.subsystems.Bling;
 import org.usfirst.frc.team2706.robot.subsystems.Camera;
@@ -10,8 +9,6 @@ import org.usfirst.frc.team2706.robot.subsystems.Climber;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
-
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -63,6 +60,8 @@ public class Robot extends IterativeRobot {
 
         RobotMap.log();
 
+        CameraServer.getInstance().startAutomaticCapture(0);
+       
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
 
@@ -78,18 +77,15 @@ public class Robot extends IterativeRobot {
         //Climber initialization 
         climb = new Climber(); 
 
+        
         oi = new OI();
         
         autoInit = new AutoInit();
-        
         recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
                         () -> SmartDashboard.getString("record-joystick-name", "default"),
                         "recordJoystick");
         
         blingSystem = new Bling();
-        
-        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
-        camera.getPath();
     }
 
     /**
@@ -99,8 +95,7 @@ public class Robot extends IterativeRobot {
     public void disabledInit() {
         Log.updateTableLog();
         Log.save();
-        
-        // Stop timer.
+        // Stop timer on the dashboard
         SmartDashboard.putBoolean("time_running", false);
     }
 
@@ -127,12 +122,16 @@ public class Robot extends IterativeRobot {
         driveTrain.reset();
         
         autoInit.initialize();
+        
+        // Start timer on the dashboard
+        SmartDashboard.putBoolean("time_running", true);
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+      //  System.out.println(intake.readIRSensor());
         Scheduler.getInstance().run();
         log();
     }
@@ -142,20 +141,19 @@ public class Robot extends IterativeRobot {
 
         autoInit.end();
         
-        Robot.driveTrain.brakeMode(false);
+        Robot.driveTrain.brakeMode(true);
+        
         if (SmartDashboard.getBoolean("record-joystick", false))
             recordAJoystick.start();
         // Tell drive team to drive
         new Rumbler(0.5, 0.2, 3, Rumbler.BOTH_JOYSTICKS);
-
-        // Deactivate the camera ring light
-        // camera.enableRingLight(false);
     }
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+      
         Scheduler.getInstance().run();
         log();
     }
@@ -174,6 +172,7 @@ public class Robot extends IterativeRobot {
         // Don't use unecessary bandwidth at competition
         if (!DriverStation.getInstance().isFMSAttached()) {
             driveTrain.log();
+            lift.log();
         }
     }
 }

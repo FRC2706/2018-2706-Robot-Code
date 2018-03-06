@@ -30,14 +30,13 @@ public class JoystickMap {
     public static final int XBOX_RIGHT_AXIS_BUTTON = 10;
     
     // POV buttons
-    // TODO determine exact values
-    public static final int XBOX_POV_UP = 1;
-    public static final int XBOX_POV_UP_RIGHT = 2;
-    public static final int XBOX_POV_RIGHT = 3;
-    public static final int XBOX_POV_DOWN_RIGHT = 4;
-    public static final int XBOX_POV_DOWN = 5;
-    public static final int XBOX_POV_DOWN_LEFT = 6;
-    public static final int XBOX_POV_LEFT = 7;
-    public static final int XBOX_POV_UP_LEFT = 8;
+    public static final int XBOX_POV_UP = 0;
+    public static final int XBOX_POV_UP_RIGHT = 45;
+    public static final int XBOX_POV_RIGHT = 90;
+    public static final int XBOX_POV_DOWN_RIGHT = 135;
+    public static final int XBOX_POV_DOWN = 180;
+    public static final int XBOX_POV_DOWN_LEFT = 225;
+    public static final int XBOX_POV_LEFT = 270;
+    public static final int XBOX_POV_UP_LEFT = 315;
 
 }

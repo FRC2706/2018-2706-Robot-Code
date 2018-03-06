@@ -18,7 +18,9 @@ public class Intake extends Subsystem{
     // Objects for inhaling and exhaling the cube
     private WPI_TalonSRX right_intake_motor;
     private WPI_TalonSRX left_intake_motor;
+    @SuppressWarnings("unused")
     private TalonEncoder left_talon_encoder;
+    @SuppressWarnings("unused")
     private TalonEncoder right_talon_encoder;
     private AnalogInput IR_sensor;
     
@@ -41,13 +43,24 @@ public class Intake extends Subsystem{
         
     }
     // Turns the robot motors on to suck in the cube
-    public void inhaleCube(double motorSpeed) {
-        left_intake_motor.set(motorSpeed*-1);
+    public void leftCube(double motorSpeed) {
+        left_intake_motor.set( 0.3 * motorSpeed);
         right_intake_motor.set(motorSpeed*-1); 
     }
     
     // Turns the robot motors on to fire out the cube
-    public void exhaleCube(double motorSpeed) {
+    public void rightCube(double motorSpeed) {
+        left_intake_motor.set(motorSpeed * -1);
+        right_intake_motor.set(0.3 *motorSpeed);
+    }
+    // Turns the robot motors on to suck in the cube
+    public void inhaleCube(double motorSpeed) {
+        left_intake_motor.set(motorSpeed*-0.5);
+        right_intake_motor.set(motorSpeed*-0.25); 
+    }
+    
+    // Turns the robot motors on to fire out the cube
+    public void exhaleCube (double motorSpeed) {
         left_intake_motor.set(motorSpeed);
         right_intake_motor.set(motorSpeed);
     }
