@@ -15,7 +15,6 @@ import org.usfirst.frc.team2706.robot.commands.ZeroLift;
 import org.usfirst.frc.team2706.robot.controls.POVButtonJoystick;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
-import org.usfirst.frc.team2706.robot.vision.FollowCamera;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;

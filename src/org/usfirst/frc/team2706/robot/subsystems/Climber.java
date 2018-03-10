@@ -1,5 +1,4 @@
 package org.usfirst.frc.team2706.robot.subsystems;
-import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -10,7 +9,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 // This class is used for usage of the climber 
 public class Climber extends Subsystem {
     
-    // Defines stuff
     private WPI_TalonSRX climber_motor;
     private AnalogInput IR_sensor;
     

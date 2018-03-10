@@ -1,7 +1,5 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
-import java.awt.geom.Arc2D.Double;
-
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
 
