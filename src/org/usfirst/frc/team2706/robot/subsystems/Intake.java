@@ -25,17 +25,19 @@ public class Intake extends Subsystem {
     @SuppressWarnings("unused")
     private TalonEncoder right_talon_encoder;
     private AnalogInput IR_sensor;
-    private double m_leftPower;
-    private double m_rightPower;
+    private double m_leftIntakeMaxPower;
+    private double m_rightIntakeMaxPower;
+    private double m_ejectMaxPower;
     
-    public Intake(double leftPower, double rightPower) {
+    public Intake(double leftIntakePower, double rightIntakePower, double ejectPower) {
         // Talon definition stuff
         right_intake_motor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR_RIGHT);
         left_intake_motor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR_LEFT);
         left_talon_encoder = new TalonEncoder(left_intake_motor);
         right_talon_encoder = new TalonEncoder(right_intake_motor);
-        m_rightPower = rightPower;
-        m_leftPower = leftPower;
+        m_rightIntakeMaxPower = rightIntakePower;
+        m_leftIntakeMaxPower = leftIntakePower;
+        m_ejectMaxPower = ejectPower;
            
         // right_intake_motor.setInverted(true);
         left_intake_motor.setInverted(true);
@@ -46,26 +48,26 @@ public class Intake extends Subsystem {
     
     // Turns the robot motors on to suck in the cube on the left
     public void leftCube(double motorSpeed) {
-        left_intake_motor.set(m_leftPower * motorSpeed);
-        right_intake_motor.set(m_rightPower * -motorSpeed); 
+        left_intake_motor.set(m_leftIntakeMaxPower * motorSpeed);
+        right_intake_motor.set(m_rightIntakeMaxPower * -motorSpeed); 
     }
     
     // Turns the robot motors on to suck in the cube on the right
     public void rightCube(double motorSpeed) {
-        left_intake_motor.set(m_leftPower * -motorSpeed);
-        right_intake_motor.set(m_rightPower * motorSpeed);
+        left_intake_motor.set(m_leftIntakeMaxPower * -motorSpeed);
+        right_intake_motor.set(m_rightIntakeMaxPower * motorSpeed);
     }
     
     // Turns the robot motors on to suck in the cube normally 
     public void inhaleCube(double motorSpeed) {
-        left_intake_motor.set(-motorSpeed * m_leftPower);
-        right_intake_motor.set(-motorSpeed * m_rightPower); 
+        left_intake_motor.set(-motorSpeed * m_leftIntakeMaxPower);
+        right_intake_motor.set(-motorSpeed * m_rightIntakeMaxPower); 
     }
     
     // Turns the robot motors on to shoot out the cube
     public void exhaleCube (double motorSpeed) {
-        left_intake_motor.set(motorSpeed * m_leftPower);
-        right_intake_motor.set(motorSpeed * m_rightPower);
+        left_intake_motor.set(motorSpeed * m_ejectMaxPower);
+        right_intake_motor.set(motorSpeed * m_ejectMaxPower);
     }
     
     // Stops both motors instantly
