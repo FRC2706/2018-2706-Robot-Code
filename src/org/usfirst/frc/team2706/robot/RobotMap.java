@@ -77,12 +77,11 @@ public class RobotMap {
 
     
     // Climber
-    private static final int[] CLIMBER_MOTOR_VALS = {9, 9, 9};
+    private static final int[] CLIMBER_MOTOR_VALS = {8, 8, 8};
     public static final int CLIMBER_MOTOR = getConstant("CLIMBER_MOTOR");
 
     private static final int[] CLIMBER_IR_SENSOR_VALS = {1, 1, 1};
     public static final int CLIMBER_IR_SENSOR = getConstant("CLIMBER_IR_SENSOR");
-    
     
     // Lift
     private static final int[] MOTOR_LIFT_VALS = {5, 5, 5};
@@ -121,6 +120,7 @@ public class RobotMap {
     public static final double DISTANCE_SENSOR_SEPARATION_CM =
                     getConstant("DISTANCE_SENSOR_SEPARATION_CM");
     
+    // Intake
     private static final int[] INTAKE_MOTOR_LEFT_VALS = {6, 6, 6};
     public static final int INTAKE_MOTOR_LEFT =
                     getConstant("INTAKE_MOTOR_LEFT");
@@ -129,10 +129,13 @@ public class RobotMap {
     public static final int INTAKE_MOTOR_RIGHT =
                     getConstant("INTAKE_MOTOR_RIGHT");
     
-    private static final int[] IR_SENSOR_VALS = {2, 0, 2};
-    public static final int IR_SENSOR =
-                    getConstant("IR_SENSOR");
+    private static final int[] INTAKE_IR_SENSOR_VALS = {2, 2, 2};
+    public static final int INTAKE_IR_SENSOR = getConstant("INTAKE_IR_SENSOR");
     
+    public static final double INTAKE_LEFT_MOTOR_MAX_POWER = 0.8;
+    public static final double INTAKE_RIGHT_MOTOR_MAX_POWER = 0.4;
+    public static final double EJECT_MAX_POWER = 0.8;
+                    
     // Raspberry Pi IP for vision *NOTE: Mikes laptop is 10.27.6.10, rPI is 10.27.6.240
     private static final String[] RPI_IPS_VALS = {"10.27.6.240", "10.27.6.240", "10.27.6.10"};
     public static final String RPI_IPS = getConstant("RPI_IPS");
