@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
+import org.usfirst.frc.team2706.robot.controls.OneTimeCommand;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -18,6 +19,8 @@ public class MoveLiftWithPID extends Command {
 
     public static final double SPEED_UP_PER_SECOND = 2.2;
     public static final double SPEED_DOWN_PER_SECOND = 3.5;
+    
+    public static final double MIN_HEIGHT = 0.5;
     
     private double lastTime;
     
@@ -51,6 +54,7 @@ public class MoveLiftWithPID extends Command {
 
     public void initialize() {
        lastTime = Timer.getFPGATimestamp();
+       Robot.lift.resetPID();
        Robot.lift.resetSetpoint();
     }
     
@@ -68,6 +72,14 @@ public class MoveLiftWithPID extends Command {
         double speed;
         if(liftspeed.get() < 0) {
             speed = SPEED_DOWN_PER_SECOND;
+            
+            Log.d(this, Robot.lift.getEncoderHeight() + " " + Robot.lift.getPID().getSetpoint());
+            
+            if(Robot.lift.getEncoderHeight() < MIN_HEIGHT || Robot.lift.getPID().getSetpoint() < MIN_HEIGHT) {
+                Log.d(this, "Going to zero!");
+                OneTimeCommand.run(new SetLiftHeight(0));
+                return;
+            }
         }
         else {
             speed = SPEED_UP_PER_SECOND;

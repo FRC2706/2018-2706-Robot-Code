@@ -63,9 +63,9 @@ public class Robot extends IterativeRobot {
 
         // Make sure to initialize cube intake and eject
         // mechanisms
-//        intake = new Intake(RobotMap.INTAKE_LEFT_MOTOR_MAX_POWER, 
-//                            RobotMap.INTAKE_RIGHT_MOTOR_MAX_POWER,
-//                            RobotMap.EJECT_MAX_POWER);
+        intake = new Intake(RobotMap.INTAKE_LEFT_MOTOR_MAX_POWER, 
+                            RobotMap.INTAKE_RIGHT_MOTOR_MAX_POWER,
+                            RobotMap.EJECT_MAX_POWER);
         
         // Initialize lift
         lift = new Lift();

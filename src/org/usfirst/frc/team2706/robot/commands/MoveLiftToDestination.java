@@ -13,20 +13,15 @@ public class MoveLiftToDestination extends Command {
     double liftDestination;
     
     
-    private double P = 0.5, I = 0.0, D = 0.0;
+    private double P = 0.5, I = 0.0, D = 1;
     
     public MoveLiftToDestination() {
         liftPID = Robot.lift.getPID();
      
         Log.d(this, "Using PID values of " + P + " " + I + " " + D);
         liftPID.setPID(P, I, D);
-        
-//      SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
-//      SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
-//      SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
   }
   protected void initialize() {
-//      liftPID.setPID(SmartDashboard.getNumber("P", P), SmartDashboard.getNumber("I", I), (SmartDashboard.getNumber("D", D)));
       liftPID.setOutputRange(-Lift.SPEED, Lift.SPEED);
 
       setDestination(Robot.lift.getEncoderHeight());
@@ -34,15 +29,19 @@ public class MoveLiftToDestination extends Command {
   }
   
 public void setDestination(double destination) {
-    Log.d(this, "Setting destination to " + destination);
+//    Log.d(this, "Setting destination to " + destination);
     liftDestination = destination;
     liftPID.setSetpoint(destination);
     
 }
 
     public void execute() {
-        Log.d(this, "Current setpoint: " + liftPID.getSetpoint());
+//        Log.d(this, "Current setpoint: " + liftPID.getSetpoint());
         liftPID.update();
+        
+        if(Robot.lift.getEncoderHeight() < 0) {
+            Robot.lift.reset();
+        }
     }
     
 
@@ -62,6 +61,8 @@ public void setDestination(double destination) {
         return false;
     }
 
-    
+    public void resetPID() {
+        Robot.lift.setPID(P, I, D);
+    }
     
 }

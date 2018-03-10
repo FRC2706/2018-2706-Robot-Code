@@ -42,8 +42,8 @@ public class Lift extends Subsystem {
 
     public Lift() {
         liftDown = new LimitSwitch(1);
-        liftMotor = new TalonLimit(RobotMap.INTAKE_MOTOR_LEFT, liftDown);
-        liftMotor.setNeutralMode(NeutralMode.Coast);
+        liftMotor = new TalonLimit(RobotMap.MOTOR_LIFT, liftDown);
+        liftMotor.setNeutralMode(NeutralMode.Brake);
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
 
         encoder = new TalonEncoder(liftMotor);
@@ -104,12 +104,12 @@ public class Lift extends Subsystem {
 
         if (bottomLimit()) {
             Log.d("Lift", "Limit hit, height 0");
-            d = Math.max(d, Double.MIN_VALUE);
-        } else if(!override) {
-            Log.d("Lift", "Using safe height");
-            // TODO, make this not here
-            d = Math.max(d, 4.0 / 12);
+            d = Math.max(d, 0);
         }
+        else if(!override) {
+            d = Math.max(d, Double.MIN_VALUE);
+        }
+        
 
         defaultCommand.setDestination(d);
     }
@@ -148,6 +148,7 @@ public class Lift extends Subsystem {
         SmartDashboard.putNumber("Talon Speed", encoder.getRate());
         SmartDashboard.putString("Talon Command",
                         getCurrentCommand() != null ? getCurrentCommand().getName() : "None");
+        SmartDashboard.putNumber("Lift Current", liftMotor.getOutputCurrent());
     }
 
     public boolean bottomLimit() {
@@ -204,8 +205,8 @@ public class Lift extends Subsystem {
         return -1;
     }
 
-    private void reset() {
-        Log.d("Lift", "Resetting");
+    public void reset() {
+        Log.i("Lift", "Resetting");
         encoder.reset();
         zeroedOnce = true;
 
@@ -225,5 +226,13 @@ public class Lift extends Subsystem {
 
     public void setUnsafeCurrentLimit() {
         liftMotor.configPeakCurrentLimit(5, 0);
+    }
+    
+    public void resetPID() {
+        defaultCommand.resetPID();
+    }
+    
+    public void setPID(double P, double I, double D) {
+        liftPID.setPID(P, I, D);
     }
 }

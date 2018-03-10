@@ -16,8 +16,13 @@ private Climber climb;
     
     public void initialize() {
         // Stop PID stuff when climbing so motors are fighting the lift
-        Robot.lift.getDefaultCommand().cancel();
-        Robot.lift.getCurrentCommand().cancel();
+        if(Robot.lift.getDefaultCommand() != null) {
+            Robot.lift.getDefaultCommand().cancel();
+        }
+        
+        if(Robot.lift.getCurrentCommand() != null) {
+            Robot.lift.getCurrentCommand().cancel();
+        }
     }
     
     public void execute() {
