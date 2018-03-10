@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
+import java.awt.geom.Arc2D.Double;
+
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
 
@@ -10,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 
 // This class is used for the intake of the cube
-public class Intake extends Subsystem{ 
+public class Intake extends Subsystem { 
     boolean cubeIn = false; 
     
     private static final double CUBE_CAPTURED = 0.5;
@@ -23,46 +25,47 @@ public class Intake extends Subsystem{
     @SuppressWarnings("unused")
     private TalonEncoder right_talon_encoder;
     private AnalogInput IR_sensor;
+    private double m_leftPower;
+    private double m_rightPower;
     
-    public Intake() {
-        //TODO put TALON number assignments in robotmap 
-        
-        // Talon stuff
+    public Intake(double leftPower, double rightPower) {
+        // Talon definition stuff
         right_intake_motor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR_RIGHT);
         left_intake_motor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR_LEFT);
         left_talon_encoder = new TalonEncoder(left_intake_motor);
         right_talon_encoder = new TalonEncoder(right_intake_motor);
-        
-        
-       // right_intake_motor.setInverted(true);
+        m_rightPower = rightPower;
+        m_leftPower = leftPower;
+           
+        // right_intake_motor.setInverted(true);
         left_intake_motor.setInverted(true);
         
-        //TODO analog define robot map
-          int channel = 1; 
-          IR_sensor = new AnalogInput(channel);
-        
+        // IR sensor
+        IR_sensor = new AnalogInput(RobotMap.INTAKE_IR_SENSOR);
     }
-    // Turns the robot motors on to suck in the cube
+    
+    // Turns the robot motors on to suck in the cube on the left
     public void leftCube(double motorSpeed) {
-        left_intake_motor.set( 0.3 * motorSpeed);
-        right_intake_motor.set(motorSpeed*-1); 
+        left_intake_motor.set(m_leftPower * motorSpeed);
+        right_intake_motor.set(m_rightPower * -motorSpeed); 
     }
     
-    // Turns the robot motors on to fire out the cube
+    // Turns the robot motors on to suck in the cube on the right
     public void rightCube(double motorSpeed) {
-        left_intake_motor.set(motorSpeed * -1);
-        right_intake_motor.set(0.3 *motorSpeed);
-    }
-    // Turns the robot motors on to suck in the cube
-    public void inhaleCube(double motorSpeed) {
-        left_intake_motor.set(motorSpeed*-0.5);
-        right_intake_motor.set(motorSpeed*-0.25); 
+        left_intake_motor.set(m_leftPower * -motorSpeed);
+        right_intake_motor.set(m_rightPower * motorSpeed);
     }
     
-    // Turns the robot motors on to fire out the cube
+    // Turns the robot motors on to suck in the cube normally 
+    public void inhaleCube(double motorSpeed) {
+        left_intake_motor.set(-motorSpeed * m_leftPower);
+        right_intake_motor.set(-motorSpeed * m_rightPower); 
+    }
+    
+    // Turns the robot motors on to shoot out the cube
     public void exhaleCube (double motorSpeed) {
-        left_intake_motor.set(motorSpeed);
-        right_intake_motor.set(motorSpeed);
+        left_intake_motor.set(motorSpeed * m_leftPower);
+        right_intake_motor.set(motorSpeed * m_rightPower);
     }
     
     // Stops both motors instantly
@@ -71,6 +74,7 @@ public class Intake extends Subsystem{
         right_intake_motor.set(0);
     }
     
+    // Reads the intake IR sensor 
     public double readIRSensor() {
         return IR_sensor.getVoltage();
     }
@@ -88,7 +92,9 @@ public class Intake extends Subsystem{
     }
 
     @Override
-    // I don't think we need to do anything here...
+    /** I honestly don't think we need to do anything here... It's required by 
+     * the superclass. 
+     */
     protected void initDefaultCommand() {
         // TODO Auto-generated method stub
         

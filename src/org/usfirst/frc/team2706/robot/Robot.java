@@ -69,7 +69,7 @@ public class Robot extends IterativeRobot {
 
         // Make sure to initialize cube intake and eject
         // mechanisms
-        intake = new Intake();
+        intake = new Intake(0.8, 0.4);
         
         // Initialize lift
         lift = new Lift();
