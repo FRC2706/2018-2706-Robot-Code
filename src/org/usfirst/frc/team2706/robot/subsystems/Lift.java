@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftToDestination;
@@ -48,6 +49,7 @@ public class Lift extends Subsystem {
         encoder = new TalonEncoder(liftMotor);
         liftDown.whileActive(new OneTimeCommand(this::reset));
         liftDown.whenActive(new OneTimeCommand(() -> {
+            Log.d("Lift", "Hit limit switch");
             this.reset();
             this.setHeight(0, false);
         }));
@@ -101,8 +103,11 @@ public class Lift extends Subsystem {
         d = Math.min(MAX_HEIGHT, d);
 
         if (bottomLimit()) {
+            Log.d("Lift", "Limit hit, height 0");
             d = Math.max(d, Double.MIN_VALUE);
         } else if(!override) {
+            Log.d("Lift", "Using safe height");
+            // TODO, make this not here
             d = Math.max(d, 4.0 / 12);
         }
 
@@ -112,6 +117,7 @@ public class Lift extends Subsystem {
     private MoveLiftToDestination defaultCommand;
 
     public void resetSetpoint() {
+        Log.d("Lift", "Resetting setpoint");
         // Override in case it starts negative
         setHeight(encoder.getDistance(), true);
     }
@@ -199,11 +205,14 @@ public class Lift extends Subsystem {
     }
 
     private void reset() {
+        Log.d("Lift", "Resetting");
         encoder.reset();
         zeroedOnce = true;
 
-        if (liftPID.getSetpoint() < 0)
+        if (liftPID.getSetpoint() < 0) {
+            Log.d("Lift", "Setting height to zero");
             setHeight(0, false);
+        }
     }
 
     public boolean zeroedOnce() {

@@ -18,6 +18,7 @@ public class MoveLiftToDestination extends Command {
     public MoveLiftToDestination() {
         liftPID = Robot.lift.getPID();
      
+        Log.d(this, "Using PID values of " + P + " " + I + " " + D);
         liftPID.setPID(P, I, D);
         
 //      SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
@@ -33,18 +34,20 @@ public class MoveLiftToDestination extends Command {
   }
   
 public void setDestination(double destination) {
+    Log.d(this, "Setting destination to " + destination);
     liftDestination = destination;
     liftPID.setSetpoint(destination);
     
 }
 
     public void execute() {
-        Log.d(this, liftPID.getSetpoint());
+        Log.d(this, "Current setpoint: " + liftPID.getSetpoint());
         liftPID.update();
     }
     
 
     public void end() {
+        Log.d(this, "Ended");
         liftPID.disable();
     }
     
