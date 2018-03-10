@@ -73,7 +73,7 @@ public class AutonomousSelector extends SensorBase implements Sendable {
         if(idx2 == 0) {
             idx2 = 1;
         }
-        System.out.println(idx1 + "," + idx2);
+       
         return commands[idx1][idx2 - 1];
     }
 

@@ -14,7 +14,6 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.Rig
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightStartRightSwitch;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.CenterStartLeftSwitchMultiCube;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.CenterStartRightSwitchMultiCube;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.LeftStartLeftScaleMultiCube;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.subsystems.AutonomousSelector;
 
@@ -178,10 +177,6 @@ public class AutoInit {
      */
     public void initialize() {
 
-        // Great for safety just in case you set the wrong one in practice ;)
-        Log.i("Autonomous Selector",
-                        "Running " + getAutonomousCommand(new ArcadeDriveWithJoystick()) + "...");
-
         autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
 
         Command dashboardResponse = Priority
@@ -191,14 +186,14 @@ public class AutoInit {
 
         // If no input falls back on the auto switches if (dashboardResponse == null) { //
         // Schedule the autonomous command that was selected
-        autonomousCommand = new LeftStartLeftScaleMultiCube();
+       // autonomousCommand = new CenterStartLeftSwitchMultiCube();
 
-        Log.d("Autonomous Dashboard Selector", "Running " + dashboardResponse + ", "
+        System.out.println("Running " + dashboardResponse + ", "
                         + "switch running " + autonomousCommand);
-        if (autonomousCommand != null)
-            autonomousCommand.start();
-        else
-            dashboardResponse.start();
+   //     if (autonomousCommand != null)
+         //   autonomousCommand.start();
+   //     else
+          //  dashboardResponse.start();
 
     }
 
@@ -220,7 +215,6 @@ public class AutoInit {
     }
 
     public Command getAutonomousCommand(Command fallbackCommand) {
-        System.out.println(selectorSwitch.getSelected()[0].linkedCommand);
         return Priority.chooseCommandFromPriorityList(selectorSwitch.getSelected());
     }
 }
