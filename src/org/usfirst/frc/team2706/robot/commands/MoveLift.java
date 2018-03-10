@@ -61,7 +61,7 @@ public class MoveLift extends Command {
      */
     public void end() {
         move.stop();
-        Robot.lift.setHeight(Robot.lift.getEncoderHeight());
+        Robot.lift.resetSetpoint();
     }
 
     protected boolean isFinished() {

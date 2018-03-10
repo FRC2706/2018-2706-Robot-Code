@@ -5,12 +5,12 @@ import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
+import org.usfirst.frc.team2706.robot.controls.talon.EWPI_TalonSRX;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonSensorGroup;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -30,16 +30,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * These include four drive motors, a left and right encoder and a gyro.
  */
 public class DriveTrain extends Subsystem {
-    private WPI_TalonSRX front_left_motor, back_left_motor, front_right_motor, back_right_motor;
+    private EWPI_TalonSRX front_left_motor, back_left_motor, front_right_motor, back_right_motor;
     private DifferentialDrive drive;
     private TalonEncoder left_encoder, right_encoder;
-    private Ultrasonic leftDistanceSensor, rightDistanceSensor;
     private AHRS gyro;
 
     // TODO: maybe we don't need this
     private GyroPIDSource gyroPIDSource;
     private AverageEncoderPIDSource encoderPIDSource;
-    private UltrasonicPIDSource ultrasonicPIDSource;
     private TalonPID talonPID;
 
     public double initGyro;
@@ -48,16 +46,23 @@ public class DriveTrain extends Subsystem {
 
     public DriveTrain() {
         super();
-        front_left_motor = new WPI_TalonSRX(RobotMap.MOTOR_FRONT_LEFT);
-        back_left_motor = new WPI_TalonSRX(RobotMap.MOTOR_REAR_LEFT);
-        front_right_motor = new WPI_TalonSRX(RobotMap.MOTOR_FRONT_RIGHT);
-        back_right_motor = new WPI_TalonSRX(RobotMap.MOTOR_REAR_RIGHT);
+        front_left_motor = new EWPI_TalonSRX(RobotMap.MOTOR_FRONT_LEFT);
+        back_left_motor = new EWPI_TalonSRX(RobotMap.MOTOR_REAR_LEFT);
+        front_right_motor = new EWPI_TalonSRX(RobotMap.MOTOR_FRONT_RIGHT);
+        back_right_motor = new EWPI_TalonSRX(RobotMap.MOTOR_REAR_RIGHT);
 
         front_left_motor.setInverted(RobotMap.MOTOR_FRONT_LEFT_INVERTED);
         back_left_motor.setInverted(RobotMap.MOTOR_REAR_LEFT_INVERTED);
         front_right_motor.setInverted(RobotMap.MOTOR_FRONT_RIGHT_INVERTED);
         back_right_motor.setInverted(RobotMap.MOTOR_REAR_RIGHT_INVERTED);
-
+        
+        front_left_motor.configPeakCurrentLimit(2, 0);
+        back_left_motor.configPeakCurrentLimit(2, 0);
+        front_right_motor.configPeakCurrentLimit(2, 0);
+        back_right_motor.configPeakCurrentLimit(2, 0);
+        
+        setVoltageDrive(true);
+        
         drive = new DifferentialDrive(new SpeedControllerGroup(front_left_motor, back_left_motor),
                         new SpeedControllerGroup(front_right_motor, back_right_motor));
 
@@ -78,15 +83,7 @@ public class DriveTrain extends Subsystem {
             right_encoder.setDistancePerPulse((4.0 / 12.0 * Math.PI) / 360.0);
         }
 
-        leftDistanceSensor = new Ultrasonic(RobotMap.LEFT_ULTRASONIC_PING_CHANNEL,
-                        RobotMap.LEFT_ULTRASONIC_ECHO_CHANNEL);
-        rightDistanceSensor = new Ultrasonic(RobotMap.RIGHT_ULTRASONIC_PING_CHANNEL,
-                        RobotMap.RIGHT_ULTRASONIC_ECHO_CHANNEL);
-
-        leftDistanceSensor.setAutomaticMode(true);
-
         encoderPIDSource = new AverageEncoderPIDSource(left_encoder, right_encoder);
-        ultrasonicPIDSource = new UltrasonicPIDSource(leftDistanceSensor, rightDistanceSensor);
 
         talonPID = new TalonPID(
                         new TalonSensorGroup(front_left_motor, drive::setSafetyEnabled,
@@ -111,12 +108,17 @@ public class DriveTrain extends Subsystem {
         back_right_motor.setName("DriveTrain", "Back Right Motor");
         left_encoder.setName("Drive Train", "Left Encoder");
         right_encoder.setName("Drive Train", "Right Encoder");
-        leftDistanceSensor.setName("Drive Train", "Left Distance Sensor");
-        rightDistanceSensor.setName("Drive Train", "Right Distance Sensor");
         gyro.setName("Drive Train", "Gyro");
         // selectorSwitch.setName("Drive Train", "Autonomous Selector");
     }
 
+    public void setVoltageDrive(boolean voltage) {
+        front_left_motor.setUseVoltage(voltage);
+        back_left_motor.setUseVoltage(voltage);
+        front_right_motor.setUseVoltage(voltage);
+        back_right_motor.setUseVoltage(voltage);
+    }
+     
     /**
      * When no other command is running let the operator drive around using the Xbox joystick.
      */
@@ -153,8 +155,6 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Right Distance", right_encoder.getDistance());
         SmartDashboard.putNumber("Left Speed (RPM)", left_encoder.getRate());
         SmartDashboard.putNumber("Right Speed (RPM)", right_encoder.getRate());
-        SmartDashboard.putNumber("Left Distance Sensor", leftDistanceSensor.getRangeInches());
-        SmartDashboard.putNumber("Right Distance Sensor", rightDistanceSensor.getRangeInches());
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
         // SmartDashboard.putNumber("Autonomous Selector 1",
         // selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1));
@@ -191,6 +191,7 @@ public class DriveTrain extends Subsystem {
             YAxis /= 1.85;
             XAxis /= 1.5;
         }
+        
         drive.arcadeDrive(YAxis, XAxis, true);
     }
 
@@ -329,36 +330,12 @@ public class DriveTrain extends Subsystem {
     }
 
     /**
-     * Takes values of the two distance sensors and finds the angle the robot is on with the wall
-     * 
-     * @return -90 to 90 degrees
-     */
-    public double GetAngleWithDistanceSensors() {
-        double opposite = getRightDistanceToObstacle() - getLeftDistanceToObstacle();
-        // Converts centimeters to inches so the two measurements match up
-        double adjacent = RobotMap.DISTANCE_SENSOR_SEPARATION_CM / 2.54;
-        // Inverse tangent to take two sides of the triangle and get the angle
-        double theta = Math.toDegrees(Math.atan2(opposite, adjacent));
-        Log.d("Degree Sensor Angle", theta);
-
-        return theta;
-    }
-
-    /**
      * @return The distance driven (average of left and right encoders).
      */
     public double getDistance() {
         return (right_encoder.getDistance() + left_encoder.getDistance()) / 2;
     }
-
-    public double getLeftDistanceToObstacle() {
-        return leftDistanceSensor.getRangeInches();
-    }
-
-    public double getRightDistanceToObstacle() {
-        return rightDistanceSensor.getRangeInches();
-    }
-
+    
     /**
      * @return The robot's encoder PIDSource
      */
@@ -373,17 +350,6 @@ public class DriveTrain extends Subsystem {
 
     public PIDSource getAverageEncoderPIDSource() {
         return encoderPIDSource;
-    }
-
-    /**
-     * @return The distance to the obstacle detected by the distance sensor.
-     */
-    public double getDistanceToObstacle() {
-        return (leftDistanceSensor.getRangeInches() + rightDistanceSensor.getRangeInches()) / 2;
-    }
-
-    public PIDSource getDistanceSensorPIDSource() {
-        return ultrasonicPIDSource;
     }
 
     class UltrasonicPIDSource implements PIDSource {

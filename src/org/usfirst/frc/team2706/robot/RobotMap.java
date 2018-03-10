@@ -55,11 +55,11 @@ public class RobotMap {
                     getConstant("MOTOR_REAR_RIGHT_INVERTED");
     
     
-    private static final double[] ENCODER_LEFT_DPP_VALS = {5.0 / -12775.0, 1, 1.0 / 264};
+    private static final double[] ENCODER_LEFT_DPP_VALS = {-1.0 / 2555.0, -1.0 / 2555.0, 1.0 / 264};
     public static final double ENCODER_LEFT_DPP = getConstant("ENCODER_LEFT_DPP");
     
 
-    private static final double[] ENCODER_RIGHT_DPP_VALS = {5.0 / 12775.0,1, 1.0 / 264};
+    private static final double[] ENCODER_RIGHT_DPP_VALS = {1.0 / 2555, 1.0 / 2555, 1.0 / 264};
     public static final double ENCODER_RIGHT_DPP = getConstant("ENCODER_RIGHT_DPP");
 
 
@@ -91,35 +91,11 @@ public class RobotMap {
     private static final boolean[] MOTOR_LIFT_INVERTED_VALS = {true, true, true};
     public static final boolean MOTOR_LIFT_INVERTED = getConstant("MOTOR_LIFT_INVERTED");
 
-    private static final double[] ENCODER_LIFT_DPP_VALS = {-84.5 / (12 * 48720), 1, 1};
+    private static final double[] ENCODER_LIFT_DPP_VALS = {-169.0 / 1169280.0, -169.0 / 1169280.0, 1};
     public static final double ENCODER_LIFT_DPP = getConstant("ENCODER_LIFT_DPP");
     
     private static final int[] LIMIT_UP_VALS = {0, 0, 0};
     public static final int LIMIT_UP = getConstant("LIMIT_UP");
-    
-    
-    private static final int[] RING_LIGHT_VALS = {12, 12, 12};
-    public static final int RING_LIGHT = getConstant("RING_LIGHT");
-
-    private static final int[] LEFT_ULTRASONIC_PING_CHANNEL_VALS = {4, 4, 4};
-    public static final int LEFT_ULTRASONIC_PING_CHANNEL =
-                    getConstant("LEFT_ULTRASONIC_PING_CHANNEL");
-
-    private static final int[] LEFT_ULTRASONIC_ECHO_CHANNEL_VALS = {5, 5, 5};
-    public static final int LEFT_ULTRASONIC_ECHO_CHANNEL =
-                    getConstant("LEFT_ULTRASONIC_ECHO_CHANNEL");
-
-    private static final int[] RIGHT_ULTRASONIC_PING_CHANNEL_VALS = {6, 6, 6};
-    public static final int RIGHT_ULTRASONIC_PING_CHANNEL =
-                    getConstant("RIGHT_ULTRASONIC_PING_CHANNEL");
-
-    private static final int[] RIGHT_ULTRASONIC_ECHO_CHANNEL_VALS = {7, 7, 7};
-    public static final int RIGHT_ULTRASONIC_ECHO_CHANNEL =
-                    getConstant("RIGHT_ULTRASONIC_ECHO_CHANNEL");
-
-    private static final double[] DISTANCE_SENSOR_SEPARATION_CM_VALS = {59.69, 59.69, 59.69};
-    public static final double DISTANCE_SENSOR_SEPARATION_CM =
-                    getConstant("DISTANCE_SENSOR_SEPARATION_CM");
     
     private static final int[] INTAKE_MOTOR_LEFT_VALS = {6, 6, 6};
     public static final int INTAKE_MOTOR_LEFT =
@@ -128,14 +104,6 @@ public class RobotMap {
     private static final int[] INTAKE_MOTOR_RIGHT_VALS = {7, 7, 7};
     public static final int INTAKE_MOTOR_RIGHT =
                     getConstant("INTAKE_MOTOR_RIGHT");
-    
-    private static final int[] IR_SENSOR_VALS = {2, 0, 2};
-    public static final int IR_SENSOR =
-                    getConstant("IR_SENSOR");
-    
-    // Raspberry Pi IP for vision *NOTE: Mikes laptop is 10.27.6.10, rPI is 10.27.6.240
-    private static final String[] RPI_IPS_VALS = {"10.27.6.240", "10.27.6.240", "10.27.6.10"};
-    public static final String RPI_IPS = getConstant("RPI_IPS");
     
     /**
      * Prints which RobotMap is being used

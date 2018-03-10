@@ -16,101 +16,106 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Lift extends Subsystem{
-    
-   private static final double DEADZONE = 3.0/12.0;
-    
-    private static final double[] HEIGHTS = new double[] {
-        0.0, // Bottom of lift
-        3.0, // Switch height
-        5.0, // Scale low height
-        6.0, // Scale mid height
-        7.0  // Scale high height/top of lift
+public class Lift extends Subsystem {
+
+    private static final double DEADZONE = 3.0 / 12.0;
+
+    private static final double[] HEIGHTS = new double[] {0.0, // Bottom of lift
+                    3.0, // Switch height
+                    5.0, // Scale low height
+                    6.0, // Scale mid height
+                    7.0 // Scale high height/top of lift
     };
-    
+
     public static final double MAX_HEIGHT = 7.0;
-    
+
     TalonLimit liftMotor;
-    
+
     private TalonEncoder encoder;
     TalonPID liftPID;
-    
+
     LimitSwitch liftDown;
     public static final double SPEED = 1.0;
-    
+
     private boolean zeroedOnce = false;
-    
+
     public Lift() {
         liftDown = new LimitSwitch(1);
-        liftMotor = new TalonLimit(RobotMap.MOTOR_LIFT, liftDown);
+        liftMotor = new TalonLimit(RobotMap.INTAKE_MOTOR_LEFT, liftDown);
         liftMotor.setNeutralMode(NeutralMode.Coast);
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
-        
+
         encoder = new TalonEncoder(liftMotor);
         liftDown.whileActive(new OneTimeCommand(this::reset));
         liftDown.whenActive(new OneTimeCommand(() -> {
             this.reset();
-            this.resetSetpoint();
+            this.setHeight(0, false);
         }));
-        
+
         liftPID = new TalonPID(new TalonSensorGroup(liftMotor, null, encoder));
         liftPID.setError(0);
         encoder.setDistancePerPulse(RobotMap.ENCODER_LIFT_DPP);
         encoder.reset();
+
+        //liftMotor.enableCurrentLimit(true);
+        
+        setRegularCurrentLimit();
     }
 
-    public TalonPID getPID () {
+    public TalonPID getPID() {
         return liftPID;
     }
-    
+
     public void move(double liftspeed) {
-        if((liftspeed < 0 && !liftDown.get()) || (liftspeed > 0 && encoder.getDistance() <= MAX_HEIGHT)) {
+        if ((liftspeed < 0 && !liftDown.get())
+                        || (liftspeed > 0 && encoder.getDistance() <= MAX_HEIGHT)) {
             liftMotor.set(liftspeed);
-        }
-        else {
+        } else {
             stop();
         }
     }
-    
-    public void moveUp () {
-        if(encoder.getDistance() <= MAX_HEIGHT) {
+
+    public void moveUp() {
+        if (encoder.getDistance() <= MAX_HEIGHT) {
             liftMotor.set(SPEED);
-        }
-        else {
-            stop();
-        }
-    } 
-    
-    public void moveDown () {
-        if(!liftDown.get()) {
-            liftMotor.set(-SPEED);
-        }
-        else {
+        } else {
             stop();
         }
     }
-       
-    
-    
-    public void stop () {
-        liftMotor.set(0.0);
-    } 
-    
-    public void setHeight(double d) {
-        d = Math.min(MAX_HEIGHT, d);
-        if(bottomLimit()) {
-           d = Math.max(d, Double.MIN_VALUE); 
+
+    public void moveDown() {
+        if (!liftDown.get()) {
+            liftMotor.set(-SPEED);
+        } else {
+            stop();
         }
-        
+    }
+
+
+
+    public void stop() {
+        liftMotor.set(0.0);
+    }
+
+    public void setHeight(double d, boolean override) {
+        d = Math.min(MAX_HEIGHT, d);
+
+        if (bottomLimit()) {
+            d = Math.max(d, Double.MIN_VALUE);
+        } else if(!override) {
+            d = Math.max(d, 4.0 / 12);
+        }
+
         defaultCommand.setDestination(d);
     }
-    
+
     private MoveLiftToDestination defaultCommand;
-    
+
     public void resetSetpoint() {
-        setHeight(encoder.getDistance());
+        // Override in case it starts negative
+        setHeight(encoder.getDistance(), true);
     }
-    
+
     /**
      * When no other command is running use PID to hold position
      */
@@ -124,85 +129,92 @@ public class Lift extends Subsystem{
     public double getEncoderHeight() {
         return encoder.getDistance();
     }
-    
+
     public Command getDefaultCommand() {
         if (defaultCommand == null) {
             defaultCommand = new MoveLiftToDestination();
         }
         return defaultCommand;
     }
-    
+
     public void log() {
         SmartDashboard.putNumber("Lift Distance", encoder.getDistance());
         SmartDashboard.putNumber("Talon Speed", encoder.getRate());
-        SmartDashboard.putString("Talon Command", getCurrentCommand() != null ? getCurrentCommand().getName() : "None");
+        SmartDashboard.putString("Talon Command",
+                        getCurrentCommand() != null ? getCurrentCommand().getName() : "None");
     }
-    
+
     public boolean bottomLimit() {
         return liftDown.get();
     }
-    
+
     public void levelUp() {
         move(true);
     }
-    
+
     public void levelDown() {
         move(false);
     }
-    
+
     private void move(boolean up) {
-        int newLevel = findNewLevel(up);        
-        
-        if(newLevel != -1) {
-            Robot.lift.setHeight(HEIGHTS[newLevel]);
+        int newLevel = findNewLevel(up);
+
+        if (newLevel != -1) {
+            Robot.lift.setHeight(HEIGHTS[newLevel], false);
         }
     }
-    
+
     private int findNewLevel(boolean up) {
         double height = Robot.lift.getEncoderHeight();
-        
-        for(int i = 0; i < HEIGHTS.length; i++) {
+
+        for (int i = 0; i < HEIGHTS.length; i++) {
             double heightLevel = HEIGHTS[i];
-            if(height > heightLevel - DEADZONE && height < heightLevel + DEADZONE) {
-                if(up && i + 1 < HEIGHTS.length) {
-                    return i+1;
-                }
-                else if(i - 1 >= 0) {
-                    return i-1;
-                }
-                else {
+            if (height > heightLevel - DEADZONE && height < heightLevel + DEADZONE) {
+                if (up && i + 1 < HEIGHTS.length) {
+                    return i + 1;
+                } else if (i - 1 >= 0) {
+                    return i - 1;
+                } else {
                     return -1;
                 }
             }
         }
-        
-        if(HEIGHTS.length > 1){
-            for(int i = 0; i < HEIGHTS.length - 1; i++) {
+
+        if (HEIGHTS.length > 1) {
+            for (int i = 0; i < HEIGHTS.length - 1; i++) {
                 double bottomLevel = HEIGHTS[i];
-                double topLevel = HEIGHTS[i+1];
-                
-                if(height > bottomLevel && height < topLevel) {
-                    if(up) {
-                        return i+1;
-                    }
-                    else {
+                double topLevel = HEIGHTS[i + 1];
+
+                if (height > bottomLevel && height < topLevel) {
+                    if (up) {
+                        return i + 1;
+                    } else {
                         return i;
                     }
                 }
             }
         }
-        
+
         return -1;
     }
-    
+
     private void reset() {
         encoder.reset();
         zeroedOnce = true;
 
-        liftPID.setSetpoint(0);
+        if (liftPID.getSetpoint() < 0)
+            setHeight(0, false);
     }
-    
+
     public boolean zeroedOnce() {
         return zeroedOnce;
+    }
+
+    public void setRegularCurrentLimit() {
+        liftMotor.configPeakCurrentLimit(11, 0);
+    }
+
+    public void setUnsafeCurrentLimit() {
+        liftMotor.configPeakCurrentLimit(5, 0);
     }
 }

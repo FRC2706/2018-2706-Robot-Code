@@ -2,6 +2,7 @@ package org.usfirst.frc.team2706.robot.commands;
 
 import java.util.function.Supplier;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
@@ -50,7 +51,7 @@ public class MoveLiftWithPID extends Command {
 
     public void initialize() {
        lastTime = Timer.getFPGATimestamp();
-       Robot.lift.setHeight(Robot.lift.getEncoderHeight());
+       Robot.lift.resetSetpoint();
     }
     
     
@@ -59,6 +60,8 @@ public class MoveLiftWithPID extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
+        Log.d("Move", "Regular");
+        
         double current = Timer.getFPGATimestamp();
         double delta = current - lastTime;
         
@@ -72,7 +75,7 @@ public class MoveLiftWithPID extends Command {
         
         double position = speed * delta * liftspeed.get();
         
-        Robot.lift.setHeight(Robot.lift.getPID().getSetpoint() + position);
+        Robot.lift.setHeight(Robot.lift.getPID().getSetpoint() + position, false);
         
         lastTime = current;
     }
@@ -82,7 +85,7 @@ public class MoveLiftWithPID extends Command {
      */
     public void end() {
         move.stop();
-        Robot.lift.setHeight(Robot.lift.getEncoderHeight());
+        Robot.lift.resetSetpoint();
     }
 
     protected boolean isFinished() {

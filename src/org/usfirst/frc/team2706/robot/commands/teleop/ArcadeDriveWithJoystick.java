@@ -42,6 +42,7 @@ public class ArcadeDriveWithJoystick extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
         Robot.driveTrain.reset();
+        Robot.driveTrain.setVoltageDrive(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -58,6 +59,7 @@ public class ArcadeDriveWithJoystick extends Command {
     // Called once after isFinished returns true
     protected void end() {
         Robot.driveTrain.drive(0, 0);
+        Robot.driveTrain.setVoltageDrive(true);
     }
 
     // Called when another command which requires one or more of the same

@@ -3,7 +3,6 @@ package org.usfirst.frc.team2706.robot;
 
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
 import org.usfirst.frc.team2706.robot.controls.StickRumble;
-import org.usfirst.frc.team2706.robot.subsystems.Camera;
 import org.usfirst.frc.team2706.robot.subsystems.Climber;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
@@ -22,9 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * gatekeeper if you have no idea what you are doing :)
  */
 public class Robot extends IterativeRobot {
-
-    // Reference for the main vision camera on the robot
-    public static Camera camera;
 
     // The robot's main drive train
     public static DriveTrain driveTrain;
@@ -65,11 +61,9 @@ public class Robot extends IterativeRobot {
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
 
-        camera = new Camera();
-
         // Make sure to initialize cube intake and eject
         // mechanisms
-        intake = new Intake();
+       // intake = new Intake();
         
         // Initialize lift
         lift = new Lift();

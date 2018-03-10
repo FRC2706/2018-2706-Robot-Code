@@ -96,7 +96,7 @@ public class TalonPID {
      * @return The location to go to
      */
     public double getSetpoint() {
-        return setSetpoint;
+        return setpoint;
     }
 
     /**
