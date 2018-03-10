@@ -77,12 +77,11 @@ public class RobotMap {
 
     
     // Climber
-    private static final int[] CLIMBER_MOTOR_VALS = {9, 9, 9};
+    private static final int[] CLIMBER_MOTOR_VALS = {8, 8, 8};
     public static final int CLIMBER_MOTOR = getConstant("CLIMBER_MOTOR");
 
     private static final int[] CLIMBER_IR_SENSOR_VALS = {1, 1, 1};
     public static final int CLIMBER_IR_SENSOR = getConstant("CLIMBER_IR_SENSOR");
-    
     
     // Lift
     private static final int[] MOTOR_LIFT_VALS = {5, 5, 5};
@@ -97,6 +96,7 @@ public class RobotMap {
     private static final int[] LIMIT_UP_VALS = {0, 0, 0};
     public static final int LIMIT_UP = getConstant("LIMIT_UP");
     
+    // Intake
     private static final int[] INTAKE_MOTOR_LEFT_VALS = {6, 6, 6};
     public static final int INTAKE_MOTOR_LEFT =
                     getConstant("INTAKE_MOTOR_LEFT");
@@ -104,6 +104,13 @@ public class RobotMap {
     private static final int[] INTAKE_MOTOR_RIGHT_VALS = {7, 7, 7};
     public static final int INTAKE_MOTOR_RIGHT =
                     getConstant("INTAKE_MOTOR_RIGHT");
+    
+    private static final int[] INTAKE_IR_SENSOR_VALS = {2, 2, 2};
+    public static final int INTAKE_IR_SENSOR = getConstant("INTAKE_IR_SENSOR");
+    
+    public static final double INTAKE_LEFT_MOTOR_MAX_POWER = 0.8;
+    public static final double INTAKE_RIGHT_MOTOR_MAX_POWER = 0.4;
+    public static final double EJECT_MAX_POWER = 0.8;
     
     /**
      * Prints which RobotMap is being used

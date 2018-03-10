@@ -2,13 +2,8 @@ package org.usfirst.frc.team2706.robot;
 
 import java.lang.reflect.Field;
 
-import org.usfirst.frc.team2706.robot.commands.DoubleIntake;
-import org.usfirst.frc.team2706.robot.commands.EjectCube;
-import org.usfirst.frc.team2706.robot.commands.EjectCubeWithIR;
-import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftWithPID;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftWithPIDOverride;
-import org.usfirst.frc.team2706.robot.commands.PickupCube;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightUntilCancelled;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
 import org.usfirst.frc.team2706.robot.controls.POVButtonJoystick;
