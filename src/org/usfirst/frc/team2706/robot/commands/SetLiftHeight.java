@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2706.robot.commands;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.controls.OneTimeCommand;
 
@@ -19,7 +20,9 @@ public class SetLiftHeight extends OneTimeCommand {
                 Robot.lift.setHeight(height, false);
             }
         });
+       
         
+        Log.d(this, "Height: " + height);
 //        SmartDashboard.putNumber("P Down", SmartDashboard.getNumber("P Down", pDown));
 //        SmartDashboard.putNumber("I Down", SmartDashboard.getNumber("I Down", iDown));
 //        SmartDashboard.putNumber("D Down", SmartDashboard.getNumber("D Down", dDown));

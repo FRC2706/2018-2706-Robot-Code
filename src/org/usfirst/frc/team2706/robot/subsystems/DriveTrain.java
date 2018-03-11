@@ -173,7 +173,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public void curvatureDrive(double speed, double rotation, boolean override) {
-            drive.curvatureDrive(speed,(override ? rotation / 1.5 : rotation), override); 
+            drive.curvatureDrive(speed,(override ? rotation / 1.1 : rotation), override); 
     }
 
     /**

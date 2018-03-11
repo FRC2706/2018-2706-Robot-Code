@@ -108,8 +108,8 @@ public class RobotMap {
     private static final int[] INTAKE_IR_SENSOR_VALS = {2, 2, 2};
     public static final int INTAKE_IR_SENSOR = getConstant("INTAKE_IR_SENSOR");
     
-    public static final double INTAKE_LEFT_MOTOR_MAX_POWER = 0.8;
-    public static final double INTAKE_RIGHT_MOTOR_MAX_POWER = 0.4;
+    public static final double INTAKE_LEFT_MOTOR_MAX_POWER = 0.7;
+    public static final double INTAKE_RIGHT_MOTOR_MAX_POWER = 0.35;
     public static final double EJECT_MAX_POWER = 0.8;
     
     /**
