@@ -6,8 +6,8 @@ import org.usfirst.frc.team2706.robot.commands.DoubleIntake;
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
 import org.usfirst.frc.team2706.robot.commands.EjectCubeWithIR;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
+import org.usfirst.frc.team2706.robot.commands.MoveLift;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftWithPID;
-import org.usfirst.frc.team2706.robot.commands.MoveLiftWithPIDOverride;
 import org.usfirst.frc.team2706.robot.commands.PickupCube;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightUntilCancelled;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
@@ -87,10 +87,10 @@ public class OI {
         MoveLift.runWhileHeld(new MoveLiftWithPID (controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, true));
         
         EJoystickButton MoveLiftUp = new EJoystickButton(controlStick, JoystickMap.XBOX_Y_BUTTON);
-        MoveLiftUp.runWhileHeld(new MoveLiftWithPIDOverride(true));
+        MoveLiftUp.runWhileHeld(new MoveLift(0.3));
         
         EJoystickButton MoveLiftDown = new EJoystickButton(controlStick, JoystickMap.XBOX_A_BUTTON);
-        MoveLiftDown.runWhileHeld(new MoveLiftWithPIDOverride(false));
+        MoveLiftDown.runWhileHeld(new MoveLift(-0.3));
 
         // Sending lift to fixed destinations   
         POVButtonJoystick liftLevelRight = new POVButtonJoystick(controlStick, JoystickMap.XBOX_POV_RIGHT);
