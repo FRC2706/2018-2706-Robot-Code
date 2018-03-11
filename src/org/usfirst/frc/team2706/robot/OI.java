@@ -31,7 +31,6 @@ public class OI {
 
     // Joystick for controlling the mechanisms of the robot
     private final Joystick controlStick;
-    
 
     public Joystick getDriverJoystick() {
         return driverStick;

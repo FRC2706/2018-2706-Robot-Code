@@ -32,7 +32,7 @@ public class Priority {
      * @param side Goes to the left side of the switch/scale
      * @param linkedCommand Command that the priority runs
      */
-    public Priority(String id, String name, boolean location, boolean isSwitch, boolean isScale,
+    public Priority(String id, String name, boolean isSwitch, boolean isScale, boolean location,
                     Command linkedCommand) {
         this.id = id;
         this.name = name;
@@ -82,8 +82,11 @@ public class Priority {
      * @return
      */
     public boolean getPossible() {
-        if (guaranteedPriority || DriverStation.getInstance().getGameSpecificMessage().equals(""))
+        System.out.println(DriverStation.getInstance().getGameSpecificMessage() + "," + guaranteedPriority + "," + location + "," + isSwitch + "," + isScale);
+        if (guaranteedPriority || DriverStation.getInstance().getGameSpecificMessage().equals("")) {
             return true;
+        }
+          
         if (location == LEFT) {
             if (isSwitch == IS_SWITCH && isScale != IS_SCALE && DriverStation.getInstance()
                             .getGameSpecificMessage().toCharArray()[0] == 'L')
