@@ -59,9 +59,10 @@ public class Lift extends Subsystem {
         encoder.setDistancePerPulse(RobotMap.ENCODER_LIFT_DPP);
         encoder.reset();
 
-        //liftMotor.enableCurrentLimit(true);
-        
+        liftMotor.configPeakCurrentLimit(0, 0);
+        liftMotor.configPeakCurrentDuration(0, 0);
         setRegularCurrentLimit();
+        liftMotor.enableCurrentLimit(true);
     }
 
     public TalonPID getPID() {
@@ -221,11 +222,11 @@ public class Lift extends Subsystem {
     }
 
     public void setRegularCurrentLimit() {
-        liftMotor.configPeakCurrentLimit(11, 0);
+        liftMotor.configContinuousCurrentLimit(20, 0);
     }
 
     public void setUnsafeCurrentLimit() {
-        liftMotor.configPeakCurrentLimit(5, 0);
+        liftMotor.configContinuousCurrentLimit(5, 0);
     }
     
     public void resetPID() {
