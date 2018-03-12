@@ -8,6 +8,6 @@ public class PickupCube extends CommandGroup {
 
     public PickupCube() {
         this.addParallel(new FollowCamera());
-        this.addSequential(new IntakeCube(0.7));
+        this.addSequential(new IntakeCube(0.7, true));
     }
 }

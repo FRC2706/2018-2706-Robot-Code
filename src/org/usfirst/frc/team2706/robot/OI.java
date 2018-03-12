@@ -69,7 +69,7 @@ public class OI {
         ejectCube.runWhileHeld(new EjectCube(controlStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER));
         
         EJoystickButton holdCube = new EJoystickButton(controlStick, JoystickMap.XBOX_LB_BUTTON);
-        holdCube.runWhileHeld(new IntakeCube(1));
+        holdCube.runWhileHeld(new IntakeCube(1, false));
         
         EJoystickButton ejectSmooth = new EJoystickButton(controlStick, JoystickMap.XBOX_RB_BUTTON);
         ejectSmooth.runWhileHeld(new EjectCubeWithIR());

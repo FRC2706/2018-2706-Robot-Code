@@ -14,7 +14,7 @@ Command intakeCube;
         this.intakeSpeed = intakeSpeed;
     }
     public void initialize() {
-       intakeCube = new IntakeCube(intakeSpeed);
+       intakeCube = new IntakeCube(intakeSpeed, false);
        intakeCube.start();
     }
     public void execute() {

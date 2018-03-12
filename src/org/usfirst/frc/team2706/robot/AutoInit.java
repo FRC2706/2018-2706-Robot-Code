@@ -178,22 +178,21 @@ public class AutoInit {
      */
     public void initialize() {
 
-        //autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
+        autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
 
-       // Command dashboardResponse = Priority
-       //                 .chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());
-autonomousCommand = new LeftStartLeftScaleMultiCube();
+        Command dashboardResponse = Priority
+                        .chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());
         Robot.driveTrain.brakeMode(true);
 
         // If no input falls back on the auto switches if (dashboardResponse == null) { //
         // Schedule the autonomous command that was selected
         // autonomousCommand = new SetLiftHeightBlocking(1, 4, 0.1);
 
-       // System.out.println("Running " + dashboardResponse + ", " + "switch running "
-         //               + autonomousCommand);
-       // if (dashboardResponse != null)
-         //   dashboardResponse.start();
-        //else
+        System.out.println("Running " + dashboardResponse + ", " + "switch running "
+                        + autonomousCommand);
+        if (dashboardResponse != null)
+            dashboardResponse.start();
+        else
             autonomousCommand.start();
 
     }

@@ -32,8 +32,8 @@ public class IntakeCube extends Command {
      * 
      * @param speed The the speed
      */
-    public IntakeCube(double speed) {
-        this(() -> speed, false);
+    public IntakeCube(double speed, boolean sameRatio) {
+        this(() -> speed, sameRatio);
     }
     
     /**
