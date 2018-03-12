@@ -21,12 +21,22 @@ public class LimitSwitch extends Trigger {
     }
     
     public LimitSwitch(int channel) {
-        input = new DigitalInput(channel)::get;
+        final DigitalInput dio;
+        try {
+             dio = new DigitalInput(channel);
+        }
+        catch(RuntimeException e) {
+            input = () -> false;
+            return;
+        }
+        
+        input = () -> !dio.get();
+        
     }
     
     @Override
     public boolean get() {
-        return !input.get();
+        return input.get();
     }
 
 }

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 
 // This class is used for the intake of the cube
-public class Intake extends Subsystem{ 
+public class Intake extends Subsystem { 
     boolean cubeIn = false; 
     
     private static final double CUBE_CAPTURED = 0.5;
@@ -23,46 +23,55 @@ public class Intake extends Subsystem{
     @SuppressWarnings("unused")
     private TalonEncoder right_talon_encoder;
     private AnalogInput IR_sensor;
+    private double m_leftIntakeMaxPower;
+    private double m_rightIntakeMaxPower;
+    private double m_ejectMaxPower;
     
-    public Intake() {
-        //TODO put TALON number assignments in robotmap 
-        
-        // Talon stuff
+    public Intake(double leftIntakePower, double rightIntakePower, double ejectPower) {
+        // Talon definition stuff
         right_intake_motor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR_RIGHT);
         left_intake_motor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR_LEFT);
         left_talon_encoder = new TalonEncoder(left_intake_motor);
         right_talon_encoder = new TalonEncoder(right_intake_motor);
-        
-        
-       // right_intake_motor.setInverted(true);
+        m_rightIntakeMaxPower = rightIntakePower;
+        m_leftIntakeMaxPower = leftIntakePower;
+        m_ejectMaxPower = ejectPower;
+           
+        // right_intake_motor.setInverted(true);
         left_intake_motor.setInverted(true);
         
-        //TODO analog define robot map
-          int channel = 1; 
-          IR_sensor = new AnalogInput(channel);
-        
+        // IR sensor
+        IR_sensor = new AnalogInput(RobotMap.INTAKE_IR_SENSOR);
     }
-    // Turns the robot motors on to suck in the cube
+    
+    // Turns the robot motors on to suck in the cube on the left
     public void leftCube(double motorSpeed) {
-        left_intake_motor.set( 0.3 * motorSpeed);
-        right_intake_motor.set(motorSpeed*-1); 
+        left_intake_motor.set(m_leftIntakeMaxPower * motorSpeed);
+        right_intake_motor.set(m_rightIntakeMaxPower * -motorSpeed); 
     }
     
-    // Turns the robot motors on to fire out the cube
+    // Turns the robot motors on to suck in the cube on the right
     public void rightCube(double motorSpeed) {
-        left_intake_motor.set(motorSpeed * -1);
-        right_intake_motor.set(0.3 *motorSpeed);
-    }
-    // Turns the robot motors on to suck in the cube
-    public void inhaleCube(double motorSpeed) {
-        left_intake_motor.set(motorSpeed*-0.5);
-        right_intake_motor.set(motorSpeed*-0.25); 
+        left_intake_motor.set(m_leftIntakeMaxPower * -motorSpeed);
+        right_intake_motor.set(m_rightIntakeMaxPower * motorSpeed);
     }
     
-    // Turns the robot motors on to fire out the cube
+    // Turns the robot motors on to suck in the cube normally 
+    public void inhaleCube(double motorSpeed) {
+        left_intake_motor.set(-motorSpeed * m_leftIntakeMaxPower);
+        right_intake_motor.set(-motorSpeed * m_rightIntakeMaxPower); 
+    }
+    
+    // Turns the robot motors on to suck in the cube normally 
+    public void inhaleCubeStatic(double motorSpeed) {
+        left_intake_motor.set(-motorSpeed);
+        right_intake_motor.set(-motorSpeed); 
+    }
+    
+    // Turns the robot motors on to shoot out the cube
     public void exhaleCube (double motorSpeed) {
-        left_intake_motor.set(motorSpeed);
-        right_intake_motor.set(motorSpeed);
+        left_intake_motor.set(motorSpeed * m_ejectMaxPower);
+        right_intake_motor.set(motorSpeed * m_ejectMaxPower);
     }
     
     // Stops both motors instantly
@@ -71,6 +80,7 @@ public class Intake extends Subsystem{
         right_intake_motor.set(0);
     }
     
+    // Reads the intake IR sensor 
     public double readIRSensor() {
         return IR_sensor.getVoltage();
     }
@@ -88,7 +98,9 @@ public class Intake extends Subsystem{
     }
 
     @Override
-    // I don't think we need to do anything here...
+    /** I honestly don't think we need to do anything here... It's required by 
+     * the superclass. 
+     */
     protected void initDefaultCommand() {
         // TODO Auto-generated method stub
         

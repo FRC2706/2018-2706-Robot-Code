@@ -46,7 +46,7 @@ public class MoveLift extends Command {
      * I don't believe initialization is required 
      */
     public void initialize() {
-        //System.out.println("LIFT INITIALIZED");
+        move.setUnsafeCurrentLimit();
     }
     
     /**
@@ -60,8 +60,9 @@ public class MoveLift extends Command {
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
+        move.setRegularCurrentLimit();
         move.stop();
-        Robot.lift.setHeight(Robot.lift.getEncoderHeight());
+        Robot.lift.resetSetpoint();
     }
 
     protected boolean isFinished() {

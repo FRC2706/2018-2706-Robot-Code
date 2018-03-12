@@ -45,7 +45,6 @@ public class DashboardAutoSelector implements TableEntryListener {
         position = table.getEntry("autonomous/selected_position").getString("");
         if (!position.equals(""))
             valueChanged(null, "", null, NetworkTableValue.makeString(position), 0);
-
         table.addEntryListener("autonomous/selected_position", this, EntryListenerFlags.kUpdate);
 
     }

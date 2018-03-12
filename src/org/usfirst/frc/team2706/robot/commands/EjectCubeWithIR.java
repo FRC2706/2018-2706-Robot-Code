@@ -3,24 +3,18 @@ package org.usfirst.frc.team2706.robot.commands;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class EjectCubeTimed extends Command {
+public class EjectCubeWithIR extends Command {
 
     private Intake exhale;
-    private double time;
     
     /**
      * Allows us to use the methods in 'Intake'
      */
-    public EjectCubeTimed() {
+    public EjectCubeWithIR() {
         exhale = Robot.intake;
         this.requires(Robot.intake);
-    }
-    
-    public void initialize() {
-        time = Timer.getFPGATimestamp();
     }
     
     /**
@@ -43,7 +37,7 @@ public class EjectCubeTimed extends Command {
      * Used to detect whether the motors should stop
      */
     protected boolean isFinished() {
-        return Timer.getFPGATimestamp() - time > 0.135;
+        return !exhale.cubeCaptured();
     }
 
 }

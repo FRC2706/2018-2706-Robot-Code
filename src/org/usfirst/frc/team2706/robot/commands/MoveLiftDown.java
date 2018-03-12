@@ -19,7 +19,7 @@ public class MoveLiftDown extends Command {
       
       public void end() {
           Robot.lift.stop();
-          Robot.lift.setHeight(Robot.lift.getEncoderHeight());
+          Robot.lift.resetSetpoint();
       }
       
     

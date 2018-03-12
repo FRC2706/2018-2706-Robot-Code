@@ -4,7 +4,6 @@ package org.usfirst.frc.team2706.robot;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
 import org.usfirst.frc.team2706.robot.controls.operatorFeedback.Rumbler;
 import org.usfirst.frc.team2706.robot.subsystems.Bling;
-import org.usfirst.frc.team2706.robot.subsystems.Camera;
 import org.usfirst.frc.team2706.robot.subsystems.Climber;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
@@ -22,9 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * gatekeeper if you have no idea what you are doing :)
  */
 public class Robot extends IterativeRobot {
-
-    // Reference for the main vision camera on the robot
-    public static Camera camera;
 
     // The robot's main drive train
     public static DriveTrain driveTrain;
@@ -65,11 +61,11 @@ public class Robot extends IterativeRobot {
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
 
-        camera = new Camera();
-
         // Make sure to initialize cube intake and eject
         // mechanisms
-        intake = new Intake();
+        intake = new Intake(RobotMap.INTAKE_LEFT_MOTOR_MAX_POWER, 
+                            RobotMap.INTAKE_RIGHT_MOTOR_MAX_POWER,
+                            RobotMap.EJECT_MAX_POWER);
         
         // Initialize lift
         lift = new Lift();
@@ -120,6 +116,7 @@ public class Robot extends IterativeRobot {
         Log.i("Robot", "Entering autonomous mode");
 
         driveTrain.reset();
+        lift.resetSetpoint();
         
         autoInit.initialize();
         
@@ -139,6 +136,8 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
         Log.i("Robot", "Entering teleop mode");
 
+        Robot.lift.resetSetpoint();
+        
         autoInit.end();
         
         Robot.driveTrain.brakeMode(true);
@@ -161,6 +160,8 @@ public class Robot extends IterativeRobot {
     @Override
     public void testInit() {
         Log.i("Robot", "Entering test mode");
+        
+        Robot.lift.resetSetpoint();
     }
 
     /**

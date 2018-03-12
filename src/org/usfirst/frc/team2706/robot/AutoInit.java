@@ -3,8 +3,8 @@ package org.usfirst.frc.team2706.robot;
 import org.usfirst.frc.team2706.robot.commands.autonomous.DashboardAutoSelector;
 import org.usfirst.frc.team2706.robot.commands.autonomous.Priority;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterStartExchangeCube;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterStartLeftSwitchNoCurve;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterStartRightSwitchNoCurve;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterStartLeftSwitch;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.CenterStartRightSwitch;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.DriveForward;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftStartLeftScale;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.LeftStartLeftSwitch;
@@ -51,11 +51,11 @@ public class AutoInit {
 
         centerStartLeftSwitch = new Priority("center_left_switch", "Center Start Left Switch",
                         Priority.IS_SWITCH, !Priority.IS_SCALE, Priority.LEFT,
-                        new CenterStartLeftSwitchNoCurve());
+                        new CenterStartLeftSwitch());
 
         centerStartRightSwitch = new Priority("center_right_switch", "Center Start Right Switch",
                         Priority.IS_SWITCH, !Priority.IS_SCALE, Priority.RIGHT,
-                        new CenterStartRightSwitchNoCurve());
+                        new CenterStartRightSwitch());
 
         centerStartLeftSwitchMultiCube = new Priority("center_left_switch_multi",
                         "Center Start Left Switch Multi Cube", Priority.IS_SWITCH,
@@ -178,27 +178,23 @@ public class AutoInit {
      */
     public void initialize() {
 
-        // Great for safety just in case you set the wrong one in practice ;)
-        Log.i("Autonomous Selector",
-                        "Running " + getAutonomousCommand(new ArcadeDriveWithJoystick()) + "...");
+        //autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
 
-        autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
-
-        Command dashboardResponse = Priority
-                        .chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());
-
+       // Command dashboardResponse = Priority
+       //                 .chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());
+autonomousCommand = new LeftStartLeftScaleMultiCube();
         Robot.driveTrain.brakeMode(true);
 
         // If no input falls back on the auto switches if (dashboardResponse == null) { //
         // Schedule the autonomous command that was selected
-        autonomousCommand = new LeftStartLeftScaleMultiCube();
+        // autonomousCommand = new SetLiftHeightBlocking(1, 4, 0.1);
 
-        Log.d("Autonomous Dashboard Selector", "Running " + dashboardResponse + ", "
-                        + "switch running " + autonomousCommand);
-        if (autonomousCommand != null)
+       // System.out.println("Running " + dashboardResponse + ", " + "switch running "
+         //               + autonomousCommand);
+       // if (dashboardResponse != null)
+         //   dashboardResponse.start();
+        //else
             autonomousCommand.start();
-        else
-            dashboardResponse.start();
 
     }
 
@@ -220,7 +216,6 @@ public class AutoInit {
     }
 
     public Command getAutonomousCommand(Command fallbackCommand) {
-        System.out.println(selectorSwitch.getSelected()[0].linkedCommand);
         return Priority.chooseCommandFromPriorityList(selectorSwitch.getSelected());
     }
 }

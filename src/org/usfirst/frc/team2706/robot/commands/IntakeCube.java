@@ -14,14 +14,17 @@ public class IntakeCube extends Command {
     private Intake inhale;
 
     private final Supplier<Double> speed;
+    
+    private boolean sameRatio;
     /**
      * Allows us to use the methods in 'Intake'
      * 
      * @param stick The joystick to use
      * @param axis The axis to use
      */
-    public IntakeCube(Joystick stick, int axis) {
-        this(() -> stick.getRawAxis(axis));
+    public IntakeCube(Joystick stick, int axis, boolean sameRatio) {
+        this(() -> stick.getRawAxis(axis), sameRatio);
+        
     }
     
     /**
@@ -30,7 +33,7 @@ public class IntakeCube extends Command {
      * @param speed The the speed
      */
     public IntakeCube(double speed) {
-        this(() -> speed);
+        this(() -> speed, false);
     }
     
     /**
@@ -38,9 +41,10 @@ public class IntakeCube extends Command {
      * 
      * @param speed The supplier for the speed
      */
-    public IntakeCube(Supplier<Double> speed) {
+    public IntakeCube(Supplier<Double> speed, boolean sameRatio) {
         inhale = Robot.intake;
         this.speed = speed;
+        this.sameRatio = sameRatio;
         this.requires(Robot.intake);
     }
     
@@ -53,7 +57,13 @@ public class IntakeCube extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
+        if(sameRatio) {
+            inhale.inhaleCubeStatic(speed.get());
+        }
+        else {
             inhale.inhaleCube(speed.get());
+        }
+           
     }
     
     /**

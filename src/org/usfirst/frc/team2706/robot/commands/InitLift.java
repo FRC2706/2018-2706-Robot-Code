@@ -5,8 +5,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class InitLift extends CommandGroup {
 
     public InitLift() {
-        this.addSequential(new MoveLiftUp(),0.25);
-        this.addSequential(new ZeroLift());
+        this.addSequential(new SetLiftHeightBlocking(0.25,2,0.1),0.25);
     }
     
 }
