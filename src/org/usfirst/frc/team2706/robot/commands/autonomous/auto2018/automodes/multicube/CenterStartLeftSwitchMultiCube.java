@@ -23,15 +23,15 @@ public class CenterStartLeftSwitchMultiCube extends CommandGroup {
         this.addSequential(new EjectCube(0.5),0.5);
 
         this.addParallel(new SetLiftHeight(Double.MIN_VALUE));
-        this.addSequential(new StraightDriveWithEncoders(0.7, -43.0 / 12.0, 1, 1, "Back"), 2);
-        this.addSequential(new RotateDriveWithGyro(0.6, 45, 1, 1, "FFF"), 2);
+        this.addSequential(new StraightDriveWithEncoders(0.7, -43.0 / 12.0, 1, 1, "back"), 2);
+        this.addSequential(new RotateDriveWithGyro(0.6, 45, 1, 1, "turnToPile"), 2);
         IntakeUntilGrabbed g = new IntakeUntilGrabbed(0.55,0.6);
         this.addSequential(g,3);
         //this.addSequential(new StraightDriveWithEncoders(0.55, 3.0, 2, 3, "BBB"), 2.5);
-        this.addSequential(new StraightDriveFromCommand(0.75, g, 1, 1, "LLL"),2);
-        this.addSequential(new RotateDriveWithGyro(0.6, -45, 1, 1, "WWW"),2);
+        this.addSequential(new StraightDriveFromCommand(0.75, g, 1, 1, "backFromWall"),2);
+        this.addSequential(new RotateDriveWithGyro(0.6, -45, 1, 1, "turnForSecondCube"),2);
         this.addParallel(new SetLiftHeight(2.5));
-        this.addSequential(new StraightDriveWithEncoders(0.7, 45 / 12.0, 2, 3, "UHHHHHHHHH"), 2);
+        this.addSequential(new StraightDriveWithEncoders(0.7, 45 / 12.0, 2, 3, this + ".forwardToSwitch2"), 2);
         this.addSequential(new EjectCube(0.5), 0.5);
 
     }

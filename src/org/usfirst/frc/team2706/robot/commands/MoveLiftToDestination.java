@@ -12,14 +12,8 @@ public class MoveLiftToDestination extends Command {
     TalonPID liftPID;
     double liftDestination;
     
-    
-    private double P = 0.5, I = 0.0, D = 1;
-    
     public MoveLiftToDestination() {
         liftPID = Robot.lift.getPID();
-     
-        Log.d(this, "Using PID values of " + P + " " + I + " " + D);
-        liftPID.setPID(P, I, D);
   }
   protected void initialize() {
       liftPID.setOutputRange(-Lift.SPEED, Lift.SPEED);
@@ -60,9 +54,4 @@ public void setDestination(double destination) {
         // TODO Auto-generated method stub
         return false;
     }
-
-    public void resetPID() {
-        Robot.lift.setPID(P, I, D);
-    }
-    
 }

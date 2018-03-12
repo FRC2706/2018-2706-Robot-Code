@@ -39,9 +39,12 @@ public class Lift extends Subsystem {
     public static final double SPEED = 1.0;
 
     private boolean zeroedOnce = false;
+    
+    private static final double pDown = 0.5, iDown = 0, dDown = 100;
+    private static final double pUp = 0.5, iUp = 0, dUp = 0;
 
     public Lift() {
-        liftDown = new LimitSwitch(1);
+        liftDown = new LimitSwitch(RobotMap.LIMIT_DOWN);
         liftMotor = new TalonLimit(RobotMap.MOTOR_LIFT, liftDown);
         liftMotor.setNeutralMode(NeutralMode.Brake);
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
@@ -63,6 +66,16 @@ public class Lift extends Subsystem {
         liftMotor.configPeakCurrentDuration(0, 0);
         setRegularCurrentLimit();
         liftMotor.enableCurrentLimit(true);
+        
+//      SmartDashboard.putNumber("P Down", SmartDashboard.getNumber("P Down", pDown));
+//      SmartDashboard.putNumber("I Down", SmartDashboard.getNumber("I Down", iDown));
+//      SmartDashboard.putNumber("D Down", SmartDashboard.getNumber("D Down", dDown));
+//      
+//      SmartDashboard.putNumber("P Up", SmartDashboard.getNumber("P Up", pUp));
+//      SmartDashboard.putNumber("I Up", SmartDashboard.getNumber("I Up", iUp));
+//      SmartDashboard.putNumber("D Up", SmartDashboard.getNumber("D Up", dUp));
+        
+        useUpPID();
     }
 
     public TalonPID getPID() {
@@ -229,11 +242,15 @@ public class Lift extends Subsystem {
         liftMotor.configContinuousCurrentLimit(5, 0);
     }
     
-    public void resetPID() {
-        defaultCommand.resetPID();
-    }
-    
     public void setPID(double P, double I, double D) {
         liftPID.setPID(P, I, D);
+    }
+    
+    public void useUpPID() {
+        Robot.lift.setPID(pUp, iUp, dUp);
+    }
+    
+    public void useDownPID() {
+        Robot.lift.setPID(pDown, iDown, dDown);
     }
 }
