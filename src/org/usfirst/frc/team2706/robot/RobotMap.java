@@ -80,7 +80,7 @@ public class RobotMap {
     private static final int[] CLIMBER_MOTOR_VALS = {8, 8, 8};
     public static final int CLIMBER_MOTOR = getConstant("CLIMBER_MOTOR");
 
-    private static final int[] CLIMBER_IR_SENSOR_VALS = {1, 1, 1};
+    private static final int[] CLIMBER_IR_SENSOR_VALS = {2, 2, 2};
     public static final int CLIMBER_IR_SENSOR = getConstant("CLIMBER_IR_SENSOR");
     
     // Lift
@@ -105,7 +105,7 @@ public class RobotMap {
     public static final int INTAKE_MOTOR_RIGHT =
                     getConstant("INTAKE_MOTOR_RIGHT");
     
-    private static final int[] INTAKE_IR_SENSOR_VALS = {2, 2, 2};
+    private static final int[] INTAKE_IR_SENSOR_VALS = {1, 1, 1};
     public static final int INTAKE_IR_SENSOR = getConstant("INTAKE_IR_SENSOR");
     
     public static final double INTAKE_LEFT_MOTOR_MAX_POWER = 0.5;

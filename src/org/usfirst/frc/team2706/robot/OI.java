@@ -61,7 +61,6 @@ public class OI {
         this.controlStick = controlStick;
 
         // Runs the code depending which button/trigger is pressed
-
         TriggerButtonJoystick intakeCube = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER);
         intakeCube.runWhileHeld(new IntakeCube(controlStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER, true));
         
@@ -74,6 +73,7 @@ public class OI {
         EJoystickButton ejectSmooth = new EJoystickButton(controlStick, JoystickMap.XBOX_RB_BUTTON);
         ejectSmooth.runWhileHeld(new EjectCubeWithIR());
         
+
         EJoystickButton climber = new EJoystickButton(controlStick, JoystickMap.XBOX_X_BUTTON);
         climber.runWhileHeld(new StartCimbing());
         

@@ -6,7 +6,8 @@ import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.command.Subsystem; 
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; 
 
 
 // This class is used for the intake of the cube
@@ -42,6 +43,10 @@ public class Intake extends Subsystem {
         
         // IR sensor
         IR_sensor = new AnalogInput(RobotMap.INTAKE_IR_SENSOR);
+    }
+    
+    public void log() {
+        SmartDashboard.putNumber("Intake IR", readIRSensor());
     }
     
     // Turns the robot motors on to suck in the cube on the left

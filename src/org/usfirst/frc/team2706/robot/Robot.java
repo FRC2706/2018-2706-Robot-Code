@@ -169,10 +169,11 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() {}
 
     private void log() {
-        // Don't use unecessary bandwidth at competition
+        // Don't use unnecessary bandwidth at competition
         if (!DriverStation.getInstance().isFMSAttached()) {
             driveTrain.log();
             lift.log();
+            intake.log();
         }
     }
 }
