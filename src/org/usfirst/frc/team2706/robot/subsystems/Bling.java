@@ -5,7 +5,7 @@ import org.usfirst.frc.team2706.robot.commands.bling.patterns.BlingPattern;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.networktables.*;
 
 public class Bling extends Subsystem{
     // Bunch of colour presets.
@@ -27,14 +27,14 @@ public class Bling extends Subsystem{
     // All of the pattern numbers
     public static final String COLOUR_WIPE = "color_Wipe";
     
-    //  Too far if we're above this.
-    public static final double tooFarDist = 20;
+    /**
+     * The networktables key for the bling table.
+     */
+    private static final String NTKEY = "blingTable";
     
-    // Too close if we're lower than this
-    public static final double tooCloseDist = 11;
     
-    // Don't show the pattern at all if the distance is over this.
-    public static final double irrelevanceDist = 40;
+    // Networktables entries for bling
+    NetworkTableEntry waitMSNT, redNT, greenNT, blueNT, repeatNT, brightnessNT, commandNT;
     
     private NetworkTable blingTable;
     
@@ -52,7 +52,16 @@ public class Bling extends Subsystem{
      * Class used as the basic part of handling bling commands. 
      */
     public Bling() {        
-        blingTable = NetworkTable.getTable("blingTable");
+        blingTable = NetworkTableInstance.getDefault().getTable(NTKEY);
+        
+        // Declare all the necessary variables to work with for networktables setting
+        waitMSNT = blingTable.getEntry("wait_ms");
+        redNT = blingTable.getEntry("red");
+        greenNT = blingTable.getEntry("green");
+        blueNT = blingTable.getEntry("blue");
+        repeatNT = blingTable.getEntry("repeat");
+        brightnessNT = blingTable.getEntry("LED_BRIGHTNESS");
+        commandNT = blingTable.getEntry("command");
     }
     
     @Override
@@ -102,15 +111,15 @@ public class Bling extends Subsystem{
      * @param command The type of pattern to display. Use one of the Bling class constants for patterns.
      * @param repeatCount The number of times to repeat the pattern
      */
-    @SuppressWarnings("deprecation")
     public void Display(int LEDbrightness, int waitMS, int[] rgb, String command, int repeatCount) {
-        blingTable.putNumber("red", rgb[0]);
-        blingTable.putNumber("green", rgb[1]);
-        blingTable.putNumber("blue", rgb[2]);
-        blingTable.putNumber("repeat", repeatCount);
-        blingTable.putNumber("wait_ms", waitMS);
-        blingTable.putNumber("LED_BRIGHTNESS", LEDbrightness);
-        blingTable.putString("command", command);
+        // Send pattern parameters to Networktables. The command one must be sent last because that's the cue for the pi to display the pattern
+        redNT.setNumber(rgb[0]);
+        greenNT.setNumber(rgb[1]);
+        blueNT.setNumber(rgb[2]);
+        repeatNT.setNumber(repeatCount);
+        waitMSNT.setNumber(waitMS);
+        brightnessNT.setNumber(LEDbrightness);
+        commandNT.setString(command);
     }
     
     private boolean isSameAsLastCommandRun(BlingPattern patternToShow) {

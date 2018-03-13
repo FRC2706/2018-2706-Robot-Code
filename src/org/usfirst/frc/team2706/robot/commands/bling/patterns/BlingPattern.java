@@ -49,30 +49,51 @@ public abstract class BlingPattern {
      * @return True if this bling pattern's operating conditions are met, false
      * otherwise.
      */
-    public boolean conditionsMet() {
-        return false;
-    }
+    public abstract boolean conditionsMet();
     
+    /**
+     * Gets an integer array representation of the RGB colour code for the pattern
+     * @return The RGB array representation of the pattern's colour
+     */
     public int[] getRGB() {
         return rgbColourCode;
     }
     
+    /**
+     * Gets the repeat counnt for the pattern
+     * @return The repeat count (number of times to repeat) of the pattern
+     */
     public int getRepeatCount() {
         return repeatCount;
     }
     
+    /**
+     * 
+     * @return The brightness (from 0 to 255) of the LED strip when displaying this pattern
+     */
     public int getBrightness() {
         return LED_BRIGHTNESS;
     }
-    
+    /**
+     * Gets the string command type for the pattern. Should be one of the Bling subsystem's constants
+     * @return
+     */
     public String getCommand() {
         return command;
     }
     
+    /**
+     * Get the delay time between pattern segments
+     * @return The delay time between pattern segments in miliseconds
+     */
     public int getWaitMS() {
         return wait_ms;
     }
     
+    /**
+     * Gets the commands operation periods, which declare when the pattern is supposed to operate.
+     * @return A list of BlingController periods when this pattern is supposed to run, one of Teleop, Autonomous or Climb or a combination
+     */
     public List<Integer> getPeriod() {
         return operationPeriod;
     }

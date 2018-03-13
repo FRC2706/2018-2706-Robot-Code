@@ -156,7 +156,7 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Left Speed (RPM)", left_encoder.getRate());
         SmartDashboard.putNumber("Right Speed (RPM)", right_encoder.getRate());
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
-        SmartDashboard.putNumber("velocity", getSpeed());
+        SmartDashboard.putNumber("Velocity (ft/100ms)", getSpeed());
         // SmartDashboard.putNumber("Autonomous Selector 1",
         // selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1));
         // SmartDashboard.putNumber("Autonomous Selector 2",

@@ -61,11 +61,14 @@ public class Rumbler extends Command {
         
         this.controllerToRumble = controllerToRumble;
         
-        // Begin rumbling
-        rumble(true);
-        
         // Add this command to the scheduler.
         start();
+    }
+    
+    @Override
+    public void initialize() {
+        // Begin rumbling
+        rumble(true);
     }
     
     @Override
@@ -91,11 +94,6 @@ public class Rumbler extends Command {
     @Override
     protected void end() {
         rumble(false);
-    }
-    
-    @Override
-    protected void interrupted() {
-        end();
     }
     
     /**
