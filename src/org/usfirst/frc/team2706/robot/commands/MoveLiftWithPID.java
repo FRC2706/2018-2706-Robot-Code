@@ -54,7 +54,7 @@ public class MoveLiftWithPID extends Command {
 
     public void initialize() {
        lastTime = Timer.getFPGATimestamp();
-       Robot.lift.resetPID();
+       Robot.lift.useUpPID();
        Robot.lift.resetSetpoint();
     }
     

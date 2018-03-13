@@ -93,8 +93,8 @@ public class RobotMap {
     private static final double[] ENCODER_LIFT_DPP_VALS = {-169.0 / 1169280.0, -169.0 / 1169280.0, 1};
     public static final double ENCODER_LIFT_DPP = getConstant("ENCODER_LIFT_DPP");
     
-    private static final int[] LIMIT_UP_VALS = {0, 0, 0};
-    public static final int LIMIT_UP = getConstant("LIMIT_UP");
+    private static final int[] LIMIT_DOWN_VALS = {1, 1, 1};
+    public static final int LIMIT_DOWN = getConstant("LIMIT_DOWN");
     
     // Intake
     private static final int[] INTAKE_MOTOR_LEFT_VALS = {6, 6, 6};
