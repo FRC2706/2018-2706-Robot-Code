@@ -93,8 +93,8 @@ public class RobotMap {
     private static final double[] ENCODER_LIFT_DPP_VALS = {-169.0 / 1169280.0, -169.0 / 1169280.0, 1};
     public static final double ENCODER_LIFT_DPP = getConstant("ENCODER_LIFT_DPP");
     
-    private static final int[] LIMIT_UP_VALS = {0, 0, 0};
-    public static final int LIMIT_UP = getConstant("LIMIT_UP");
+    private static final int[] LIMIT_DOWN_VALS = {1, 1, 1};
+    public static final int LIMIT_DOWN = getConstant("LIMIT_DOWN");
     
     // Intake
     private static final int[] INTAKE_MOTOR_LEFT_VALS = {6, 6, 6};
@@ -108,8 +108,8 @@ public class RobotMap {
     private static final int[] INTAKE_IR_SENSOR_VALS = {2, 2, 2};
     public static final int INTAKE_IR_SENSOR = getConstant("INTAKE_IR_SENSOR");
     
-    public static final double INTAKE_LEFT_MOTOR_MAX_POWER = 0.7;
-    public static final double INTAKE_RIGHT_MOTOR_MAX_POWER = 0.35;
+    public static final double INTAKE_LEFT_MOTOR_MAX_POWER = 0.5;
+    public static final double INTAKE_RIGHT_MOTOR_MAX_POWER = 0.25;
     public static final double EJECT_MAX_POWER = 0.8;
     
     /**

@@ -14,7 +14,6 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.Rig
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightStartRightSwitch;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.CenterStartLeftSwitchMultiCube;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.CenterStartRightSwitchMultiCube;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.LeftStartLeftScaleMultiCube;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.subsystems.AutonomousSelector;
 
@@ -178,22 +177,21 @@ public class AutoInit {
      */
     public void initialize() {
 
-        //autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
+        autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
 
-       // Command dashboardResponse = Priority
-       //                 .chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());
-autonomousCommand = new LeftStartLeftScaleMultiCube();
+        Command dashboardResponse = Priority
+                        .chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());
         Robot.driveTrain.brakeMode(true);
 
         // If no input falls back on the auto switches if (dashboardResponse == null) { //
         // Schedule the autonomous command that was selected
         // autonomousCommand = new SetLiftHeightBlocking(1, 4, 0.1);
 
-       // System.out.println("Running " + dashboardResponse + ", " + "switch running "
-         //               + autonomousCommand);
-       // if (dashboardResponse != null)
-         //   dashboardResponse.start();
-        //else
+        System.out.println("Running " + dashboardResponse + ", " + "switch running "
+                        + autonomousCommand);
+        if (dashboardResponse != null)
+            dashboardResponse.start();
+        else
             autonomousCommand.start();
 
     }

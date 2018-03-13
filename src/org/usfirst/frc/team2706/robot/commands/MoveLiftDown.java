@@ -10,7 +10,9 @@ public class MoveLiftDown extends Command {
         this.requires(Robot.lift);
     }
     
-    public void initialize() {}
+    public void initialize() {
+        Robot.lift.setUnsafeCurrentLimit();
+    }
       
    
       public void execute() {
@@ -18,6 +20,7 @@ public class MoveLiftDown extends Command {
       }
       
       public void end() {
+          Robot.lift.setRegularCurrentLimit();
           Robot.lift.stop();
           Robot.lift.resetSetpoint();
       }

@@ -21,7 +21,7 @@ public class EjectCubeWithIR extends Command {
      * Turns on the motors on to eject the cube
      */
     public void execute() {
-        exhale.exhaleCube(1.0); //TODO check out if correct
+        exhale.exhaleCube(0.8);
     }
     
     /**
