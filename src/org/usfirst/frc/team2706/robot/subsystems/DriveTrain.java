@@ -173,8 +173,9 @@ public class DriveTrain extends Subsystem {
     }
 
     public void curvatureDrive(double speed, double rotation, boolean override) {
-            drive.curvatureDrive(speed,(override ? rotation / 1.1 : rotation), override); 
+            drive.curvatureDrive(speed,(override ? rotation / 2 : rotation), override); 
     }
+    
 
     /**
      * @param joy The Xbox style joystick to use to drive arcade style.
