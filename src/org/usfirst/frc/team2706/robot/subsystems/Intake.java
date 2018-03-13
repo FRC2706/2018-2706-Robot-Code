@@ -106,6 +106,11 @@ public class Intake extends Subsystem {
         
     } 
     
+    public void initTestMode() {
+        new WPI_TalonSRX(6).setName("Intake","Intake Motor Left");
+        new WPI_TalonSRX(7).setName("Intake","Intake Motor Right");
+        IR_sensor.setName("Intake","Intake IR");
+    }
         
 }
 

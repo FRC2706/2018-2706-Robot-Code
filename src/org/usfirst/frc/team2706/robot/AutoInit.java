@@ -209,6 +209,10 @@ public class AutoInit {
             autonomousCommand.cancel();
     }
 
+    public void initTestMode() {
+        selectorSwitch.selector1.setName("Auto Selector","Selector 1");
+        selectorSwitch.selector2.setName("Auto Selector","Selector 2");
+    }
     public void setAutonomousCommandList(Priority[][]... commands) {
         selectorSwitch.setCommands(commands);
     }
