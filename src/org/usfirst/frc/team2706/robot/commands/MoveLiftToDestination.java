@@ -19,6 +19,7 @@ public class MoveLiftToDestination extends Command {
       liftPID.setOutputRange(-Lift.SPEED, Lift.SPEED);
 
       setDestination(Robot.lift.getEncoderHeight());
+      Robot.lift.useUpPID();
       liftPID.enable();
   }
   

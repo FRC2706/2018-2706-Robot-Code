@@ -74,8 +74,6 @@ public class Lift extends Subsystem {
 //      SmartDashboard.putNumber("P Up", SmartDashboard.getNumber("P Up", pUp));
 //      SmartDashboard.putNumber("I Up", SmartDashboard.getNumber("I Up", iUp));
 //      SmartDashboard.putNumber("D Up", SmartDashboard.getNumber("D Up", dUp));
-        
-        useUpPID();
     }
 
     public TalonPID getPID() {
