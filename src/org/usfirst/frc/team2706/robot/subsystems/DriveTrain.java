@@ -173,8 +173,9 @@ public class DriveTrain extends Subsystem {
     }
 
     public void curvatureDrive(double speed, double rotation, boolean override) {
-            drive.curvatureDrive(speed,(override ? rotation / 1.1 : rotation), override); 
+            drive.curvatureDrive(speed,(override ? rotation / 2 : rotation), override); 
     }
+    
 
     /**
      * @param joy The Xbox style joystick to use to drive arcade style.
@@ -474,10 +475,10 @@ public class DriveTrain extends Subsystem {
             double rotateVal;
             if (useCamera) {
                 if (invert) {
-                    drive.arcadeDrive(Robot.oi.getDriverJoystick().getRawAxis(5), output,
+                    drive.arcadeDrive(-Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), -output,
                                     false);
                 } else {
-                    drive.arcadeDrive(Robot.oi.getDriverJoystick().getRawAxis(5), -output,
+                    drive.arcadeDrive(-Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), output,
                                     false);
                 }
             } else {
