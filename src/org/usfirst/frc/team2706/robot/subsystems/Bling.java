@@ -51,10 +51,7 @@ public class Bling extends Subsystem{
     /**
      * Class used as the basic part of handling bling commands. 
      */
-    public Bling() {
-        // TODO remove this testing and remove debug prints
-        
-//        blingTable = NetworkTableInstance.getDefault().getTable("blingTable"); 
+    public Bling() {        
         blingTable = NetworkTable.getTable("blingTable");
     }
     

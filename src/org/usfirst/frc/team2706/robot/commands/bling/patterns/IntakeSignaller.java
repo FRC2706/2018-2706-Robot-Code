@@ -47,8 +47,6 @@ public class IntakeSignaller extends BlingPattern {
         if (isCubeIn && !wasCubeJustIn) timePoint = Timer.getFPGATimestamp(); 
         double timePassed = Timer.getFPGATimestamp() - timePoint;
         
-        System.out.println("IntakeSignaller: timepassed : " + timePassed + " isCubeIn : " + isCubeIn); // TODO remove debug print
-        
         // Display if the timePassed is under 3 seconds. 
         return (isCubeIn && !wasCubeJustIn) || timePassed <= 3;
     }
