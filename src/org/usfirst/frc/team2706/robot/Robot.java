@@ -159,7 +159,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void testInit() {
         Log.i("Robot", "Entering test mode");
-        
+        initTestMode();
         Robot.lift.resetSetpoint();
     }
 
@@ -175,5 +175,12 @@ public class Robot extends IterativeRobot {
             lift.log();
             intake.log();
         }
+    }
+    public void initTestMode() {
+        driveTrain.initTestMode();
+        intake.initTestMode();
+        lift.initTestMode();
+        climb.initTestMode();
+        autoInit.initTestMode();
     }
 }
