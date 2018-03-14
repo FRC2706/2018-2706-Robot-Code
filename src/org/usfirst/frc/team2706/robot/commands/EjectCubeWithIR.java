@@ -37,7 +37,7 @@ public class EjectCubeWithIR extends Command {
      * Used to detect whether the motors should stop
      */
     protected boolean isFinished() {
-        return exhale.readIRSensor() <= 0.20;
+        return exhale.readIRSensor() <= 0.65;
     }
 
 }
