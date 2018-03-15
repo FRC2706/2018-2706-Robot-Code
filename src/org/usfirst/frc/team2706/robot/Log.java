@@ -319,7 +319,7 @@ public class Log {
             }
 
             try {
-                out.write(msg.getBytes());
+           //     out.write(msg.getBytes());
             } catch (Exception ex) {
                 // We don't want to throw an exception here, but we
                 // report the exception to any registered ErrorManager.

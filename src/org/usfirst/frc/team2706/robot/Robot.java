@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
 
         RobotMap.log();
 
-        CameraServer.getInstance().startAutomaticCapture(0);
+       // CameraServer.getInstance().startAutomaticCapture(0);
        
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
@@ -87,8 +87,8 @@ public class Robot extends IterativeRobot {
      * reset any subsystem information you want to clear when the robot is disabled.
      */
     public void disabledInit() {
-        Log.updateTableLog();
-        Log.save();
+        //Log.updateTableLog();
+       // Log.save();
         
         // Stop timer on the dashboard
         SmartDashboard.putBoolean("time_running", false);

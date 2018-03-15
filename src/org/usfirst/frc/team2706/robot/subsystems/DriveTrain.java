@@ -180,7 +180,13 @@ public class DriveTrain extends Subsystem {
     }
 
     public void curvatureDrive(double speed, double rotation, boolean override) {
+        if (Robot.oi.getDriverJoystick().getRawButton(JoystickMap.XBOX_LB_BUTTON)) {
+            drive.curvatureDrive(speed,(override ? rotation / 3.5 : rotation), override); 
+        }
+        else {
             drive.curvatureDrive(speed,(override ? rotation / 2 : rotation), override); 
+        }
+          
     }
     
 
@@ -489,7 +495,7 @@ public class DriveTrain extends Subsystem {
                                     false);
                 }
             } else {
-                rotateVal = normalize(getHeading() - initGyro) * 0.15;
+                rotateVal = normalize(getHeading() - initGyro) * 0.1;
 
 
 

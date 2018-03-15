@@ -6,6 +6,7 @@ import org.usfirst.frc.team2706.robot.RobotConfig;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This mostly works, but use the QuickRotate command instead. PID control using gyro heading is
@@ -24,7 +25,7 @@ public class RotateDriveWithGyro extends Command {
 
     private final int minDoneCycles;
 
-    private final double P = 0.05, I = 0.0, D = 0.1, F = 0;
+    private final double P = 0.022, I = 0.0, D = 0.01, F = 0;
     
     private final double error;
 

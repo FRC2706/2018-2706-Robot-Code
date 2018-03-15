@@ -177,7 +177,7 @@ public class AutoInit {
      */
     public void initialize() {
 
-        autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
+        autonomousCommand = new CenterStartLeftSwitchMultiCube();//= getAutonomousCommand(new ArcadeDriveWithJoystick());
 
         Command dashboardResponse = Priority
                         .chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());

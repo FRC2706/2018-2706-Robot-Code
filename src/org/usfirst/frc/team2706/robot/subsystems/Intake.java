@@ -3,6 +3,7 @@ package org.usfirst.frc.team2706.robot.subsystems;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -43,6 +44,9 @@ public class Intake extends Subsystem {
         
         // IR sensor
         IR_sensor = new AnalogInput(RobotMap.INTAKE_IR_SENSOR);
+        
+        left_intake_motor.setNeutralMode(NeutralMode.Brake);
+        right_intake_motor.setNeutralMode(NeutralMode.Brake);
     }
     
     public void log() {
@@ -69,8 +73,8 @@ public class Intake extends Subsystem {
     
     // Turns the robot motors on to suck in the cube normally 
     public void inhaleCubeStatic(double motorSpeed) {
-        left_intake_motor.set(-motorSpeed);
-        right_intake_motor.set(-motorSpeed); 
+        left_intake_motor.set(-motorSpeed * 0.75);
+        right_intake_motor.set(-motorSpeed * 0.75); 
     }
     
     // Turns the robot motors on to shoot out the cube
