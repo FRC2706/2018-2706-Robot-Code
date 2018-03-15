@@ -4,6 +4,7 @@ import org.usfirst.frc.team2706.robot.commands.EjectCube;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.MoveLift;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightBlocking;
+import org.usfirst.frc.team2706.robot.commands.autonomous.AutoConstants;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
 
@@ -12,27 +13,27 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LeftStartLeftScaleMultiCube extends CommandGroup {
     
     public LeftStartLeftScaleMultiCube() {
-        this.addParallel(new SetLiftHeightBlocking(5.25,2,0.2),5);
-        this.addSequential(new StraightDriveWithEncoders(0.8,18.795 /*1/2robotlength*/,1,1, this + ".startForwardToScale"));
+        this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT,2,0.2),5);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST,18.795 /*1/2robotlength*/,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".startForwardToScale"));
         
         //this.addSequential(new StraightDriveWithEncoders(0.6,8.795 /*1/2robotlength*/,2,3, this + ".startForwardToScale"));
-        this.addSequential(new RotateDriveWithGyro(0.5,36,2.5,3, this + ".turnRightTowardsScale"),2);
+        this.addSequential(new RotateDriveWithGyro(36, this + ".turnRightTowardsScale"),2);
        // this.addSequential(new MoveLiftUp(), 3.5);
         
-        this.addSequential(new StraightDriveWithEncoders(0.55,3.2,1.0, 3, this + ".endForwardToScale"),2);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_SLOW,3.2,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),2);
       
-        this.addSequential(new EjectCube(0.8),0.8);
+        this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED),0.8);
         
-        this.addParallel(new SetLiftHeightBlocking(0,2,0.2),5);
-        this.addSequential(new StraightDriveWithEncoders(0.55,-2.48,1.0, 3, this + ".endForwardToScale"),2);
+        this.addParallel(new SetLiftHeightBlocking(Double.MIN_VALUE,2,0.2),5);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST,-2.48,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),2);
         
         this.addParallel(new MoveLift(-0.3),0.25);
-        this.addSequential(new RotateDriveWithGyro(0.5,107,3,3, this + ".turnRightTowardsScale"));
+        this.addSequential(new RotateDriveWithGyro(107, this + ".turnRightTowardsScale"));
         this.addParallel(new IntakeCube(0.75, true),4);
-        this.addSequential(new StraightDriveWithEncoders(0.6,4.5,1.0, 3, this + ".endForwardToScale"),3);
-        this.addSequential(new SetLiftHeightBlocking(2.5,2,0.1),2);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_SLOW,4.5,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),3);
+        this.addSequential(new SetLiftHeightBlocking(AutoConstants.SWITCH_HEIGHT,2,0.1),2);
        // this.addSequential(new StraightDriveWithEncoders(0.5,20 / 12.0,1.0, 3, "endForawfawfawwardToScale"),2);
-        this.addSequential(new EjectCube(0.8),2);
+        this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED),2);
     }
     
 }
