@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterStartRightSwitchMultiCube extends CommandGroup {
 
     public CenterStartRightSwitchMultiCube() {
-        this.addParallel(new InitLift());
+        this.addParallel(new InitLift(), 1);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST, 1.02, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".awayFromWall"), 1);
         this.addSequential(new RotateDriveWithGyro(38.5, this + ".faceSwitch"), 2);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST, 5, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".driveToSwitch"), 5);

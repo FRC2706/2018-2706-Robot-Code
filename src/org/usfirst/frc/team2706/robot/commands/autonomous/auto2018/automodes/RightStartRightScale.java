@@ -12,7 +12,7 @@ public class RightStartRightScale extends CommandGroup {
     
     public RightStartRightScale() {
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT,2,0.2),5);
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST,18.795 /*1/2robotlength*/,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".startForwardToScale"));
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST,18.795 /*1/2robotlength*/,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".startForwardToScale"), 8);
         
         //this.addSequential(new StraightDriveWithEncoders(0.6,8.795 /*1/2robotlength*/,2,3, this + ".startForwardToScale"));
         this.addSequential(new RotateDriveWithGyro(-36, this + ".turnRightTowardsScale"),2);
