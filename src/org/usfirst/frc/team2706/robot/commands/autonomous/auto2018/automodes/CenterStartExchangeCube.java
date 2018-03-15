@@ -15,7 +15,8 @@ public class CenterStartExchangeCube extends CommandGroup {
         this.addSequential(new StraightDriveWithEncoders(0.5,62 / 12.0,0.1,3, this + ".driveLeft"),2);
         this.addSequential(new RotateDriveWithGyro(0.35,-90,3, this + ".rotateLeftAgain"),2);
         this.addSequential(new StraightDriveWithEncoders(0.5,46 / 12.0,0.1,3, this + ".driveBack"),2);
-        this.addSequential(new EjectCube(0.6),2);
-        this.addSequential(new StraightDriveWithEncoders(0.5,-10,0.1,3, this + ".backup"));
+        this.addSequential(new EjectCube(0.8),2);
+        this.addSequential(new RotateDriveWithGyro(0.35,-30,3, this + ".rotateLeft"),2);
+        this.addSequential(new StraightDriveWithEncoders(0.65,-12,0.1,3, this + ".backup"));
     }
 }

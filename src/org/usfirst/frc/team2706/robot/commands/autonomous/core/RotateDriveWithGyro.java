@@ -3,10 +3,10 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
+import org.usfirst.frc.team2706.robot.commands.autonomous.AutoConstants;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This mostly works, but use the QuickRotate command instead. PID control using gyro heading is
@@ -31,6 +31,9 @@ public class RotateDriveWithGyro extends Command {
 
     public RotateDriveWithGyro(double speed, double angle, int minDonecycles, String name) {
         this(speed, angle, 1, minDonecycles, name);
+    }
+    public RotateDriveWithGyro(double angle, String name) {
+        this(AutoConstants.ROTATE_SPEED, angle, AutoConstants.ROTATE_ERROR, AutoConstants.ROTATE_CYCLES,name);
     }
     
     /**
