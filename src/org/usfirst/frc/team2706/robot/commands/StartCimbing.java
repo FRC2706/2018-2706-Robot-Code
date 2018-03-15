@@ -23,6 +23,8 @@ private Climber climb;
         if(Robot.lift.getCurrentCommand() != null) {
             Robot.lift.getCurrentCommand().cancel();
         }
+        
+        Robot.lift.setBrakeMode(false);
     }
     
     public void execute() {

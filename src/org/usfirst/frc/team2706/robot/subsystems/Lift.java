@@ -47,7 +47,7 @@ public class Lift extends Subsystem {
     public Lift() {
         liftDown = new LimitSwitch(RobotMap.LIMIT_DOWN);
         liftMotor = new TalonLimit(RobotMap.MOTOR_LIFT, liftDown);
-        liftMotor.setNeutralMode(NeutralMode.Brake);
+        setBrakeMode(true);
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
 
         encoder = new TalonEncoder(liftMotor);
@@ -257,5 +257,14 @@ public class Lift extends Subsystem {
         
        new WPI_TalonSRX(5).setName("Lift","Lift Motor");
        liftDown.setName("Lift","Limit Switch Down");
+    }
+    
+    public void setBrakeMode(boolean brakeMode) {
+        if(brakeMode) {
+            liftMotor.setNeutralMode(NeutralMode.Brake);
+        }
+        else {
+            liftMotor.setNeutralMode(NeutralMode.Coast);
+        }
     }
 }
