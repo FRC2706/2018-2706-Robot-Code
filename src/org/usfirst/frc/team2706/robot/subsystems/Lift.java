@@ -42,7 +42,7 @@ public class Lift extends Subsystem {
     private boolean zeroedOnce = false;
     
     private static final double pDown = 0.5, iDown = 0, dDown = 100;
-    private static final double pUp = 0.5, iUp = 0, dUp = 0;
+    private static final double pUp = 0.5, iUp = 0, dUp = 50;
 
     public Lift() {
         liftDown = new LimitSwitch(RobotMap.LIMIT_DOWN);

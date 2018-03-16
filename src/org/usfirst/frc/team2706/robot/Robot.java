@@ -8,6 +8,7 @@ import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -56,8 +57,9 @@ public class Robot extends IterativeRobot {
 
         RobotMap.log();
 
-       // CameraServer.getInstance().startAutomaticCapture(0);
-       
+        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+        //Runtime.getRuntime().addShutdownHook(new Thread(camera::free));
+        
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
 
@@ -87,8 +89,8 @@ public class Robot extends IterativeRobot {
      * reset any subsystem information you want to clear when the robot is disabled.
      */
     public void disabledInit() {
-        //Log.updateTableLog();
-       // Log.save();
+        Log.updateTableLog();
+        Log.save();
         
         // Stop timer on the dashboard
         SmartDashboard.putBoolean("time_running", false);
@@ -170,8 +172,9 @@ public class Robot extends IterativeRobot {
 
     private void log() {
         // Don't use unnecessary bandwidth at competition
-        if (!DriverStation.getInstance().isFMSAttached()) {
+        if (!DriverStation.getInstance().isFMSAttached() || DriverStation.getInstance().isDisabled()) {
             driveTrain.log();
+            autoInit.selectorSwitch.log();
             lift.log();
             intake.log();
         }

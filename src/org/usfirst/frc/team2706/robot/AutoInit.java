@@ -16,6 +16,7 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.mul
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.CenterStartRightSwitchMultiCube;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.LeftStartLeftScaleMultiCube;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.RightStartRightScaleMultiCube;
+import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.subsystems.AutonomousSelector;
 
@@ -30,7 +31,7 @@ public class AutoInit {
     Command autonomousCommand;
 
     // The spinny dial on the robot that selects what autonomous mode we are going to do
-    private AutonomousSelector selectorSwitch;
+    public AutonomousSelector selectorSwitch;
 
     // Dashboard selection
     DashboardAutoSelector dashBoardAutoSelector;

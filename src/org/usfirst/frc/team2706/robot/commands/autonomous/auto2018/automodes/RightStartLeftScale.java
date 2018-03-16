@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class RightStartLeftScale extends CommandGroup {
     public RightStartLeftScale() {
         this.addSequential(new InitLift());
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST, 229 / 12.0, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".forwardToSwitch"), 8);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST, 223 / 12.0, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".forwardToSwitch"), 8);
         this.addSequential(new RotateDriveWithGyro(-90, this + ".rotateToSwitch"), 3);
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST,195 / 12.0,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".pressSwitch"), 10);
-        this.addSequential(new RotateDriveWithGyro(90, this + ".rotateToSwitch2"), 3);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST,180 / 12.0,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".pressSwitch"), 10);
+        this.addSequential(new RotateDriveWithGyro(135, this + ".rotateToSwitch2"), 3);
         this.addParallel(new StraightDriveWithEncoders(AutoConstants.SPEED_SLOW,37 / 12.0,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".pressSwitch2"), 5);
         this.addSequential(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT,2,0.2), 5);
         

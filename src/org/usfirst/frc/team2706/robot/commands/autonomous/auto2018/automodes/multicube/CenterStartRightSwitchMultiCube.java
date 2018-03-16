@@ -21,8 +21,8 @@ public class CenterStartRightSwitchMultiCube extends CommandGroup {
         this.addSequential(new RotateDriveWithGyro(38.5, this + ".faceSwitch"), 2);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST, 5, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".driveToSwitch"), 5);
         this.addSequential(new RotateDriveWithGyro(-38.5, this + ".turnInFrontOfSwitch"), 2);
-        this.addParallel(new SetLiftHeightBlocking(AutoConstants.SWITCH_HEIGHT,2,0.2),2);
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED, 2.5, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".forwardToSwitch"), 2);
+        this.addSequential(new SetLiftHeightBlocking(AutoConstants.SWITCH_HEIGHT,2,0.2),3);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED, 3.5, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".forwardToSwitch"), 3);
 
         // this.addSequential(new StraightDriveWithEncoders(0.5, 1.325, 1, 3, "lTYUul"),1);
         this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED), 0.8);
@@ -37,7 +37,7 @@ public class CenterStartRightSwitchMultiCube extends CommandGroup {
        // this.addParallel(new IntakeCube(0.6), 2);
         this.addSequential(new StraightDriveFromCommand(AutoConstants.SPEED_FAST, g, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".backFromWall"),2);
         this.addSequential(new RotateDriveWithGyro(44, this + ".turnForSecondCube"), 2);
-        this.addParallel(new SetLiftHeight(AutoConstants.SWITCH_HEIGHT));
+        this.addParallel(new SetLiftHeightBlocking(AutoConstants.SWITCH_HEIGHT,2,0.2),2);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST,3, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".forwardToSwitch2"), 2);
         this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED), 0.8);
 
