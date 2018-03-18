@@ -3,9 +3,16 @@ package org.usfirst.frc.team2706.robot;
 import java.lang.reflect.Field;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
+import org.usfirst.frc.team2706.robot.commands.EjectCubeWithIR;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
-import org.usfirst.frc.team2706.robot.commands.teleop.HandBrake;
+import org.usfirst.frc.team2706.robot.commands.MoveLift;
+import org.usfirst.frc.team2706.robot.commands.MoveLiftWithPID;
+import org.usfirst.frc.team2706.robot.commands.PickupCube;
+import org.usfirst.frc.team2706.robot.commands.SetLiftHeightUntilCancelled;
+import org.usfirst.frc.team2706.robot.commands.StartCimbing;
+import org.usfirst.frc.team2706.robot.controls.StickQuadrantButtonJoystick;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
+import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -49,18 +56,53 @@ public class OI {
 
         // Joystick for driving the robot around
         this.driverStick = driverStick;
-
-        // Stop driving and go into brake mode, stopping the robot
-        TriggerButtonJoystick driverBackLeftTrigger = new TriggerButtonJoystick(driverStick, 2);
-       //driverBackLeftTrigger.runWhileHeld(new HandBrake(true, "DriverHandbrake"));
-        driverBackLeftTrigger.runWhileHeld(new EjectCube());
         
-        TriggerButtonJoystick driverBackRightTrigger = new TriggerButtonJoystick(driverStick, 3);
-        driverBackRightTrigger.runWhileHeld(new IntakeCube());
-
-
-        // Joystick for controlling the mechanisms of the robot
+        // The Joystick for controlling the mechanisms of the robot
         this.controlStick = controlStick;
+
+        // Runs the code depending which button/trigger is pressed
+        TriggerButtonJoystick intakeCube = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER);
+        intakeCube.runWhileHeld(new IntakeCube(controlStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER, true));
+        
+        TriggerButtonJoystick ejectCube = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER);
+        ejectCube.runWhileHeld(new EjectCube(controlStick, JoystickMap.XBOX_BACK_RIGHT_TRIGGER));
+        
+        EJoystickButton holdCube = new EJoystickButton(controlStick, JoystickMap.XBOX_LB_BUTTON);
+        holdCube.runWhileHeld(new IntakeCube(1, false));
+        
+        EJoystickButton ejectSmooth = new EJoystickButton(controlStick, JoystickMap.XBOX_RB_BUTTON);
+        ejectSmooth.runWhileHeld(new EjectCubeWithIR());
+        
+
+        EJoystickButton climber = new EJoystickButton(controlStick, JoystickMap.XBOX_X_BUTTON);
+        climber.runWhileHeld(new StartCimbing());
+        
+        EJoystickButton ejectTimed = new EJoystickButton(driverStick, JoystickMap.XBOX_RB_BUTTON);
+        ejectTimed.runWhileHeld(new PickupCube());
+        
+        // Currently lift is mapped to buttons as well
+        // Final: Elevator on axis 1
+        TriggerButtonJoystick MoveLift = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, 0.25);
+        MoveLift.runWhileHeld(new MoveLiftWithPID (controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, true));
+        
+        EJoystickButton MoveLiftUp = new EJoystickButton(controlStick, JoystickMap.XBOX_Y_BUTTON);
+        MoveLiftUp.runWhileHeld(new MoveLift(0.3));
+        
+        EJoystickButton MoveLiftDown = new EJoystickButton(controlStick, JoystickMap.XBOX_A_BUTTON);
+        MoveLiftDown.runWhileHeld(new MoveLift(-0.3));
+
+        // Sending lift to fixed destinations   
+        StickQuadrantButtonJoystick liftLevelRight = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.RIGHT, 0.2);
+        liftLevelRight.runWhileHeld(new SetLiftHeightUntilCancelled(5.55));
+        
+        StickQuadrantButtonJoystick liftLevelUp = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.DOWN, 0.2);
+        liftLevelUp.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT * 0.8));
+        
+        StickQuadrantButtonJoystick liftLevelLeft = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.LEFT, 0.2);
+        liftLevelLeft.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT * 0.5));
+        
+        StickQuadrantButtonJoystick liftLevelDown = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.UP, 0.2);
+        liftLevelDown.runWhileHeld(new SetLiftHeightUntilCancelled(0));
 
         removeUnplugWarning();
     }

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2706.robot.commands.autonomous.core;
+package org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes;
 
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Have the robot drive certain distance
  */
-public class StraightDriveWithEncoders extends Command {
+public class StraightDriveFromCommand extends Command {
 
     private final double speed;
 
-    private final double distance;
+    private double distance;
 
     private final double error;
 
@@ -22,6 +22,7 @@ public class StraightDriveWithEncoders extends Command {
 
     private final int minDoneCycles;
 
+    private final IntakeUntilGrabbed intake;
     private final double P = 1.0, I = 0.0, D = 1.5, F = 0;
 
     /**
@@ -32,14 +33,14 @@ public class StraightDriveWithEncoders extends Command {
      * @param error The range that the robot is happy ending the command in
      * @param name The name of the of the configuration properties to look for
      */
-    public StraightDriveWithEncoders(double speed, double distance, double error, int minDoneCycles,
+    public StraightDriveFromCommand(double speed, IntakeUntilGrabbed intake, double error, int minDoneCycles,
                     String name) {
         super(name);
         requires(Robot.driveTrain);
 
         this.speed = RobotConfig.get(name + ".speed", speed);
 
-        this.distance = RobotConfig.get(name + ".distance", distance);
+        this.intake = intake;
 
         this.error = RobotConfig.get(name + ".error", error) / 12;
 
@@ -74,7 +75,7 @@ public class StraightDriveWithEncoders extends Command {
 
         Robot.driveTrain.initGyro = 0;
 
-        PID.setSetpoint(distance);
+        PID.setSetpoint(-intake.distance);
 
 
         // Will accept within 5 inch of target

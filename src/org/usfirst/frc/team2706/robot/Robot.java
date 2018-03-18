@@ -1,23 +1,17 @@
 
 package org.usfirst.frc.team2706.robot;
 
-import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
-import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
-import org.usfirst.frc.team2706.robot.commands.autonomous.core.TalonStraightDriveWithEncoders;
-import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive.CurveDrive;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
-import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.ReplayRecordedJoystick;
-import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.controls.StickRumble;
-import org.usfirst.frc.team2706.robot.subsystems.Camera;
+import org.usfirst.frc.team2706.robot.subsystems.Climber;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
+import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,70 +23,62 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-    // Reference for the main vision camera on the robot
-    public static Camera camera;
-
     // The robot's main drive train
     public static DriveTrain driveTrain;
-    
-    //intake subsystem
+
+    // intake subsystem
     public static Intake intake;
     
-    public static Intake exhale;
+    // Lift subsystem
+    public static Lift lift;
+    
+    //climber code
+    public static Climber climb;
 
     // Stores all of the joysticks, and returns them as read only.
     public static OI oi;
-
-    // Which command is going to be ran based on the hardwareChooser
-    Command autonomousCommand;
 
     // Records joystick states to file for later replaying
     RecordJoystick recordAJoystick;
 
     // Rumbles joystick to tell drive team which mode we're in
     StickRumble rumbler;
+    
+    AutoInit autoInit;
 
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
      */
-    @SuppressWarnings("unused")
     public void robotInit() {
         Log.setUpLogging();
 
         Log.i("Robot", "Starting robot code");
-        
+
         RobotMap.log();
 
+        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+        //Runtime.getRuntime().addShutdownHook(new Thread(camera::free));
+        
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
 
-        camera = new Camera();
+        // Make sure to initialize cube intake and eject
+        // mechanisms
+        intake = new Intake(RobotMap.INTAKE_LEFT_MOTOR_MAX_POWER, 
+                            RobotMap.INTAKE_RIGHT_MOTOR_MAX_POWER,
+                            RobotMap.EJECT_MAX_POWER);
         
-        //Make sure to initialize cube intake and eject
-        //mechanisms
-        intake = new Intake();
-        exhale = new Intake();
+        // Initialize lift
+        lift = new Lift();
+        
+        //Climber initialization 
+        climb = new Climber(); 
 
+        
         oi = new OI();
-        // WARNING DO NOT AUTOFORMAT THIS OR BAD THINGS WILL HAPPEN TO YOU
-        // Set up our autonomous modes with the hardware selector switch
-        driveTrain.setAutonomousCommandList(
-                        /* no switch: do nothing */ new ArcadeDriveWithJoystick(),
-                       /* position 1: do nothing */ new ArcadeDriveWithJoystick(),
-            /* position 2: Move Forward one foot */ new StraightDriveWithEncoders(0.3, 2, 1, 5, "AutoForwardFoot"),
-                                                    new RotateDriveWithGyro(0.5, 90, 5, "AutoTurn90"),
-                                                    new ReplayRecordedJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(), false, "2018", "replay"),
-                                                    new TalonStraightDriveWithEncoders(0.3, 2, 1, 5, "AutoTalonForwardFoot"), 
-                                                    new CurveDrive(6.395, 10.33, 0, 0.65, true, 0.25, "CurveToSwitch")
-                                                    
-        );
-
-        // Set up the Microsoft LifeCam and start streaming it to the Driver Station
-        // TODO Do switching with cam switching or just get rid of the variable because unused
-        UsbCamera forwardCamera = CameraServer.getInstance().startAutomaticCapture(0);
-        UsbCamera rearCamera = CameraServer.getInstance().startAutomaticCapture(1);
-
+        
+        autoInit = new AutoInit();
         recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
                         () -> SmartDashboard.getString("record-joystick-name", "default"),
                         "recordJoystick");
@@ -105,6 +91,9 @@ public class Robot extends IterativeRobot {
     public void disabledInit() {
         Log.updateTableLog();
         Log.save();
+        
+        // Stop timer on the dashboard
+        SmartDashboard.putBoolean("time_running", false);
     }
 
     public void disabledPeriodic() {
@@ -124,52 +113,47 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousInit() {
         Log.i("Robot", "Entering autonomous mode");
-        
-        driveTrain.reset();
-        
-        // Great for safety just in case you set the wrong one in practice ;)
-        Log.i("Autonomous Selector", "Running " + driveTrain.getAutonomousCommand() + "...");
 
-        autonomousCommand = driveTrain.getAutonomousCommand();
-        Robot.driveTrain.brakeMode(true);
-        // Schedule the autonomous command that was selected
-        if (autonomousCommand != null)
-            autonomousCommand.start();
+        driveTrain.reset();
+        lift.resetSetpoint();
+        
+        autoInit.initialize();
+        
+        // Start timer on the dashboard
+        SmartDashboard.putBoolean("time_running", true);
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+      //  System.out.println(intake.readIRSensor());
         Scheduler.getInstance().run();
         log();
     }
 
     public void teleopInit() {
         Log.i("Robot", "Entering teleop mode");
+
+        Robot.lift.resetSetpoint();
         
-        /*
-         * This makes sure that the autonomous stops running when teleop starts running. If you want
-         * the autonomous to continue until interrupted by another command, remove this line or
-         * comment it out.
-         */
-        if (autonomousCommand != null)
-            autonomousCommand.cancel();
-        Robot.driveTrain.brakeMode(false);
+        autoInit.end();
+        
+        Robot.driveTrain.brakeMode(true);
+        
         if (SmartDashboard.getBoolean("record-joystick", false))
             recordAJoystick.start();
         // Tell drive team to drive
         rumbler = new StickRumble(0.4, 0.15, 1, 0, 1, 1.0, 1, "controllerStickRumble");
         rumbler.start();
-
-        // Deactivate the camera ring light
-        // camera.enableRingLight(false);
+        
     }
-    
+
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+      
         Scheduler.getInstance().run();
         log();
     }
@@ -177,17 +161,29 @@ public class Robot extends IterativeRobot {
     @Override
     public void testInit() {
         Log.i("Robot", "Entering test mode");
+        initTestMode();
+        Robot.lift.resetSetpoint();
     }
-    
+
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {}
 
     private void log() {
-        // Don't use unecessary bandwidth at competition
-        if(!DriverStation.getInstance().isFMSAttached()) {
+        // Don't use unnecessary bandwidth at competition
+        if (!DriverStation.getInstance().isFMSAttached() || DriverStation.getInstance().isDisabled()) {
             driveTrain.log();
+            autoInit.selectorSwitch.log();
+            lift.log();
+            intake.log();
         }
+    }
+    public void initTestMode() {
+        driveTrain.initTestMode();
+        intake.initTestMode();
+        lift.initTestMode();
+        climb.initTestMode();
+        autoInit.initTestMode();
     }
 }
