@@ -64,7 +64,7 @@ public class MoveLiftWithPID extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
-        Log.d("Move", "Regular");
+      //  Log.d("Move", "Regular");
         
         double current = Timer.getFPGATimestamp();
         double delta = current - lastTime;
@@ -73,10 +73,10 @@ public class MoveLiftWithPID extends Command {
         if(liftspeed.get() < 0) {
             speed = SPEED_DOWN_PER_SECOND;
             
-            Log.d(this, Robot.lift.getEncoderHeight() + " " + Robot.lift.getPID().getSetpoint());
+         //   Log.d(this, Robot.lift.getEncoderHeight() + " " + Robot.lift.getPID().getSetpoint());
             
             if(Robot.lift.getEncoderHeight() < MIN_HEIGHT || Robot.lift.getPID().getSetpoint() < MIN_HEIGHT) {
-                Log.d(this, "Going to zero!");
+             //   Log.d(this, "Going to zero!");
                 OneTimeCommand.run(new SetLiftHeight(0));
                 return;
             }

@@ -130,7 +130,7 @@ public class Lift extends Subsystem {
     private MoveLiftToDestination defaultCommand;
 
     public void resetSetpoint() {
-        Log.d("Lift", "Resetting setpoint");
+      //  Log.d("Lift", "Resetting setpoint");
         // Override in case it starts negative
         setHeight(encoder.getDistance(), true);
     }
@@ -219,7 +219,7 @@ public class Lift extends Subsystem {
     }
 
     public void reset() {
-        Log.i("Lift", "Resetting");
+      //  Log.i("Lift", "Resetting");
         encoder.reset();
         zeroedOnce = true;
 

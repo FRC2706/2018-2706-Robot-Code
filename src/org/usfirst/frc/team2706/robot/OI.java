@@ -93,10 +93,10 @@ public class OI {
 
         // Sending lift to fixed destinations   
         StickQuadrantButtonJoystick liftLevelRight = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.RIGHT, 0.2);
-        liftLevelRight.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT));
+        liftLevelRight.runWhileHeld(new SetLiftHeightUntilCancelled(5.55));
         
         StickQuadrantButtonJoystick liftLevelUp = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.DOWN, 0.2);
-        liftLevelUp.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT * 0.75));
+        liftLevelUp.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT * 0.8));
         
         StickQuadrantButtonJoystick liftLevelLeft = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.LEFT, 0.2);
         liftLevelLeft.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT * 0.5));

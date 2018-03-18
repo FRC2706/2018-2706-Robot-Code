@@ -16,7 +16,6 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.mul
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.CenterStartRightSwitchMultiCube;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.LeftStartLeftScaleMultiCube;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.RightStartRightScaleMultiCube;
-import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.subsystems.AutonomousSelector;
 
@@ -206,7 +205,7 @@ public class AutoInit {
         // Schedule the autonomous command that was selected
         // autonomousCommand = new SetLiftHeightBlocking(1, 4, 0.1);
 
-        System.out.println("Running " + dashboardResponse + ", " + "switch running "
+        Log.d("Auto", "uRunning " + dashboardResponse + ", " + "switch running "
                         + autonomousCommand);
         if (dashboardResponse != null)
             dashboardResponse.start();
