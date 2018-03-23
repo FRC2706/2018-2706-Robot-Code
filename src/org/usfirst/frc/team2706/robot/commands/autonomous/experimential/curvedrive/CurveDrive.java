@@ -35,9 +35,6 @@ public class CurveDrive extends Command {
     // If you're not resetting before driving you need to remember where you started
     private double initHeading;
 
-    // Interpolation tangents
-    private double tangentOffset;
-
     private final boolean isRight;
     
     private final double P = 0.1, I = 0, D = 0, FF = 0.0;
@@ -56,7 +53,7 @@ public class CurveDrive extends Command {
      * @param name The name of the of the configuration properties to look for
      */
     public CurveDrive(double xFeet, double yFeet, double endCurve, double speed, boolean isRight,
-                    double tangentOffset, String name) {
+                     String name) {
         super(name);
         requires(Robot.driveTrain);
 
@@ -64,7 +61,6 @@ public class CurveDrive extends Command {
         this.yFeet = RobotConfig.get(name + ".yFeet", yFeet);
         this.endCurve = RobotConfig.get(name + ".endCurve", endCurve);
         this.speed = RobotConfig.get(name + ".speed", speed);
-        this.tangentOffset = tangentOffset;
         this.isRight = RobotConfig.get(name + ".isRight", isRight);
         
         this.PID = new PIDController(P, I, D, FF, new PIDInput(), (turn) -> Robot.driveTrain.arcadeDrive(speed, -turn));
@@ -80,7 +76,6 @@ public class CurveDrive extends Command {
 //      PID.setD(SmartDashboard.getNumber("D", D));
         // Creates the cubic equation that the robot follows
         eq = EquationCreator.MakeCubicEquation(xFeet, yFeet, endCurve, isRight);
-        tangents = EquationCreator.createTangents(tangentOffset, yFeet, eq);
         Log.d(this, eq);
         // Resets the gyro and encoders
         Robot.driveTrain.reset();

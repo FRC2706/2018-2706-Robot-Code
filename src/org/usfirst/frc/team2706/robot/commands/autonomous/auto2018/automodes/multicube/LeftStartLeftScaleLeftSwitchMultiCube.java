@@ -14,8 +14,6 @@ public class LeftStartLeftScaleLeftSwitchMultiCube extends CommandGroup {
     
     public LeftStartLeftScaleLeftSwitchMultiCube() {
         this.addSequential(new LeftStartLeftScale());
-        this.addParallel(new SetLiftHeightBlocking(Double.MIN_VALUE,2,0.2),5);
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST,-2.48,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),2);
         
       //  this.addParallel(new MoveLift(-0.3),0.25);
         this.addSequential(new RotateDriveWithGyro(100, this + ".turnRightTowardsScale"),3);

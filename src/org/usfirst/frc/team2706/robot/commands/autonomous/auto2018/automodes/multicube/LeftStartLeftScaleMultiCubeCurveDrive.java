@@ -15,7 +15,7 @@ public class LeftStartLeftScaleMultiCubeCurveDrive extends CommandGroup {
 
     public LeftStartLeftScaleMultiCubeCurveDrive() {
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT, 2, 0.2));
-        this.addSequential(new CurveDrive(2,22,15,0.8,false,1,"B"));
+        this.addSequential(new CurveDrive(2,22,15,0.8,false,"B"));
         this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED),0.5);
         
         this.addParallel(new SetLiftHeightBlocking(Double.MIN_VALUE,2,0.2),5);
