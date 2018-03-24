@@ -17,8 +17,8 @@ public class MoveLiftWithPID extends Command {
     
     private final Supplier<Double> liftspeed;
 
-    public static final double SPEED_UP_PER_SECOND = 2.2;
-    public static final double SPEED_DOWN_PER_SECOND = 3.5;
+    public static final double SPEED_UP_PER_SECOND = 7.0 / 2.5;
+    public static final double SPEED_DOWN_PER_SECOND = 7.0 / 1.8;
     
     public static final double MIN_HEIGHT = 0.5;
     
@@ -96,7 +96,7 @@ public class MoveLiftWithPID extends Command {
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
-        move.stop();
+     //   move.stop();
         Robot.lift.resetSetpoint();
     }
 

@@ -59,16 +59,16 @@ public class RotateDriveWithGyro extends Command {
         PID = new PIDController(P, I, D, F, Robot.driveTrain.getGyroPIDSource(false),
                         Robot.driveTrain.getDrivePIDOutput(false, false, true));
         
-      SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
-      SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
-      SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
+//      SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+//      SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+//      SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
   }
 
   // Called just before this Command runs the first time
   protected void initialize() {
-      PID.setP(SmartDashboard.getNumber("P", P));
-      PID.setI(SmartDashboard.getNumber("I", I));
-      PID.setD(SmartDashboard.getNumber("D", D));
+//      PID.setP(SmartDashboard.getNumber("P", P));
+//      PID.setI(SmartDashboard.getNumber("I", I));
+//      PID.setD(SmartDashboard.getNumber("D", D));
       
         Log.d(this, "Rotating " + angle + " degrees at a speed of " + speed);
         

@@ -15,7 +15,7 @@ public class RightStartRightScaleMultiCubeCurveDrive extends CommandGroup {
 
     public RightStartRightScaleMultiCubeCurveDrive() {
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT, 2, 0.2));
-        this.addSequential(new CurveDrive(2,22,15,0.8,true,1,"B"));
+        this.addSequential(new CurveDrive(2,22,15,0.8,true,"B"));
         this.addSequential(new EjectCube(0.6),0.5);
         
         this.addParallel(new SetLiftHeightBlocking(Double.MIN_VALUE,2,0.2),5);

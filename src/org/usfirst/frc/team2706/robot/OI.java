@@ -10,6 +10,7 @@ import org.usfirst.frc.team2706.robot.commands.MoveLiftWithPID;
 import org.usfirst.frc.team2706.robot.commands.PickupCube;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightUntilCancelled;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
+import org.usfirst.frc.team2706.robot.controls.SmoothedTriggerButtonJoystick;
 import org.usfirst.frc.team2706.robot.controls.StickQuadrantButtonJoystick;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
@@ -82,8 +83,8 @@ public class OI {
         
         // Currently lift is mapped to buttons as well
         // Final: Elevator on axis 1
-        TriggerButtonJoystick MoveLift = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, 0.25);
-        MoveLift.runWhileHeld(new MoveLiftWithPID (controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, true));
+        SmoothedTriggerButtonJoystick MoveLift = new SmoothedTriggerButtonJoystick(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, 0.15, 0.05);
+        MoveLift.runWhileHeld(new MoveLiftWithPID (() -> -MoveLift.getAxis()));
         
         EJoystickButton MoveLiftUp = new EJoystickButton(controlStick, JoystickMap.XBOX_Y_BUTTON);
         MoveLiftUp.runWhileHeld(new MoveLift(0.3));

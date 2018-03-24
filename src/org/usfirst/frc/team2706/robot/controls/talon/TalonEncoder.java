@@ -66,7 +66,6 @@ public class TalonEncoder extends SensorBase implements PIDSource, Sendable {
      * Reset the Encoder distance to zero. Resets the current count to zero on the encoder.
      */
     public void reset() {
-        Log.d("TalonEncoder", "Resetting");
         controller.setSelectedSensorPosition(0, 0, 0);
     }
 
