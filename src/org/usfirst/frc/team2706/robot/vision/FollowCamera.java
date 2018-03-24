@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class FollowCamera extends Command {
 
     private final PIDController rotatePID;
-    private final double P = 0.75, I = 0.02, D = 0;
+    private final double P = 0.75, I = 0.0, D = 0.0;
     
     /**
      * Drive at a specific speed based on camera
@@ -41,10 +41,12 @@ public class FollowCamera extends Command {
         private PIDSourceType pidSource = PIDSourceType.kDisplacement;
         
         private final NetworkTableEntry ctrX;
+        private final NetworkTableEntry numTargetsFound;
         
         {
             NetworkTable table = NetworkTableInstance.getDefault().getTable("vision");
             ctrX = table.getEntry("ctrX");
+            numTargetsFound = table.getEntry("numTargetsFound");
         }
         
         @Override
@@ -60,7 +62,7 @@ public class FollowCamera extends Command {
 
         @Override
         public double pidGet() {
-            return -ctrX.getDouble(0);
+            return numTargetsFound.getDouble(0) > 0 ? -ctrX.getDouble(0) : 0;
         }
         
     }

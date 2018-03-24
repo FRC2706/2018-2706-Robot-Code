@@ -55,11 +55,11 @@ public class RobotMap {
                     getConstant("MOTOR_REAR_RIGHT_INVERTED");
     
     
-    private static final double[] ENCODER_LEFT_DPP_VALS = {-1.0 / 2555.0, -1.0 / 2555.0, 1.0 / 264};
+    private static final double[] ENCODER_LEFT_DPP_VALS = {-1.0 / 2517.5, -1.0 / 2555.0, 1.0 / 264};
     public static final double ENCODER_LEFT_DPP = getConstant("ENCODER_LEFT_DPP");
     
 
-    private static final double[] ENCODER_RIGHT_DPP_VALS = {1.0 / 2555, 1.0 / 2555, 1.0 / 264};
+    private static final double[] ENCODER_RIGHT_DPP_VALS = {1.0 / 2517.5, 1.0 / 2555, 1.0 / 264};
     public static final double ENCODER_RIGHT_DPP = getConstant("ENCODER_RIGHT_DPP");
 
 
@@ -80,7 +80,7 @@ public class RobotMap {
     private static final int[] CLIMBER_MOTOR_VALS = {8, 8, 8};
     public static final int CLIMBER_MOTOR = getConstant("CLIMBER_MOTOR");
 
-    private static final int[] CLIMBER_IR_SENSOR_VALS = {1, 1, 1};
+    private static final int[] CLIMBER_IR_SENSOR_VALS = {2, 2, 2};
     public static final int CLIMBER_IR_SENSOR = getConstant("CLIMBER_IR_SENSOR");
     
     // Lift
@@ -90,7 +90,7 @@ public class RobotMap {
     private static final boolean[] MOTOR_LIFT_INVERTED_VALS = {true, true, true};
     public static final boolean MOTOR_LIFT_INVERTED = getConstant("MOTOR_LIFT_INVERTED");
 
-    private static final double[] ENCODER_LIFT_DPP_VALS = {-169.0 / 1169280.0, -169.0 / 1169280.0, 1};
+    private static final double[] ENCODER_LIFT_DPP_VALS = {169.0 / 1169280.0, -169.0 / 1169280.0, 1};
     public static final double ENCODER_LIFT_DPP = getConstant("ENCODER_LIFT_DPP");
     
     private static final int[] LIMIT_DOWN_VALS = {1, 1, 1};
@@ -105,12 +105,12 @@ public class RobotMap {
     public static final int INTAKE_MOTOR_RIGHT =
                     getConstant("INTAKE_MOTOR_RIGHT");
     
-    private static final int[] INTAKE_IR_SENSOR_VALS = {2, 2, 2};
+    private static final int[] INTAKE_IR_SENSOR_VALS = {1, 1, 1};
     public static final int INTAKE_IR_SENSOR = getConstant("INTAKE_IR_SENSOR");
     
-    public static final double INTAKE_LEFT_MOTOR_MAX_POWER = 0.5;
-    public static final double INTAKE_RIGHT_MOTOR_MAX_POWER = 0.25;
-    public static final double EJECT_MAX_POWER = 0.8;
+    public static final double INTAKE_LEFT_MOTOR_MAX_POWER = 0.25;
+    public static final double INTAKE_RIGHT_MOTOR_MAX_POWER = 0.5;
+    public static final double EJECT_MAX_POWER = 1;
     
     /**
      * Prints which RobotMap is being used

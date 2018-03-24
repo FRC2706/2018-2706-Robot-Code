@@ -3,6 +3,7 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
+import org.usfirst.frc.team2706.robot.commands.autonomous.AutoConstants;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
@@ -24,12 +25,15 @@ public class RotateDriveWithGyro extends Command {
 
     private final int minDoneCycles;
 
-    private final double P = 0.05, I = 0.0, D = 0.1, F = 0;
+    private final double P = 0.022, I = 0.0, D = 0.01, F = 0;
     
     private final double error;
 
     public RotateDriveWithGyro(double speed, double angle, int minDonecycles, String name) {
         this(speed, angle, 1, minDonecycles, name);
+    }
+    public RotateDriveWithGyro(double angle, String name) {
+        this(AutoConstants.ROTATE_SPEED, angle, AutoConstants.ROTATE_ERROR, AutoConstants.ROTATE_CYCLES,name);
     }
     
     /**

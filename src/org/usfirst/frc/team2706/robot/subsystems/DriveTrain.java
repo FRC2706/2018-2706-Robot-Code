@@ -11,6 +11,7 @@ import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonSensorGroup;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -101,14 +102,7 @@ public class DriveTrain extends Subsystem {
 
         reset();
 
-        // Let's show everything on the LiveWindow
-        front_left_motor.setName("DriveTrain", "Front Left Motor");
-        back_left_motor.setName("DriveTrain", "Back Left Motor");
-        front_right_motor.setName("DriveTrain", "Front Right Motor");
-        back_right_motor.setName("DriveTrain", "Back Right Motor");
-        left_encoder.setName("Drive Train", "Left Encoder");
-        right_encoder.setName("Drive Train", "Right Encoder");
-        gyro.setName("Drive Train", "Gyro");
+      
         // selectorSwitch.setName("Drive Train", "Autonomous Selector");
     }
 
@@ -119,6 +113,19 @@ public class DriveTrain extends Subsystem {
         back_right_motor.setUseVoltage(voltage);
     }
      
+    public void initTestMode() {
+        // Let's show everything on the LiveWindow
+        new WPI_TalonSRX(1).setName("Drive Train","Left Front Motor");
+        new WPI_TalonSRX(2).setName("Drive Train","Left Back Motor");
+        new WPI_TalonSRX(3).setName("Drive Train","Right Front Motor");
+        new WPI_TalonSRX(4).setName("Drive Train","Right Back Motor");
+        
+     
+        
+        left_encoder.setName("Drive Train", "Left Encoder");
+        right_encoder.setName("Drive Train", "Right Encoder");
+        gyro.setName("Drive Train", "Gyro");
+    }
     /**
      * When no other command is running let the operator drive around using the Xbox joystick.
      */
@@ -182,8 +189,15 @@ public class DriveTrain extends Subsystem {
     }
 
     public void curvatureDrive(double speed, double rotation, boolean override) {
-            drive.curvatureDrive(speed,(override ? rotation / 1.1 : rotation), override); 
+        if (Robot.oi.getDriverJoystick().getRawButton(JoystickMap.XBOX_LB_BUTTON)) {
+            drive.curvatureDrive(speed,(override ? rotation / 3.5 : rotation), override); 
+        }
+        else {
+            drive.curvatureDrive(speed,(override ? rotation / 2 : rotation), override); 
+        }
+          
     }
+    
 
     /**
      * @param joy The Xbox style joystick to use to drive arcade style.
@@ -483,14 +497,14 @@ public class DriveTrain extends Subsystem {
             double rotateVal;
             if (useCamera) {
                 if (invert) {
-                    drive.arcadeDrive(Robot.oi.getDriverJoystick().getRawAxis(5), output,
+                    drive.arcadeDrive(-Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), -output,
                                     false);
                 } else {
-                    drive.arcadeDrive(Robot.oi.getDriverJoystick().getRawAxis(5), -output,
+                    drive.arcadeDrive(-Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), output,
                                     false);
                 }
             } else {
-                rotateVal = normalize(getHeading() - initGyro) * 0.15;
+                rotateVal = normalize(getHeading() - initGyro) * 0.1;
 
 
 

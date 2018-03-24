@@ -14,6 +14,8 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.Rig
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightStartRightSwitch;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.CenterStartLeftSwitchMultiCube;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.CenterStartRightSwitchMultiCube;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.LeftStartLeftScaleMultiCube;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.RightStartRightScaleMultiCube;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.subsystems.AutonomousSelector;
 
@@ -37,7 +39,7 @@ public class AutoInit {
                     centerStartRightSwitch, centerStartLeftSwitchMultiCube,
                     centerStartRightSwitchMultiCube, leftStartLeftSwitch, rightStartRightSwitch,
                     leftStartLeftScale, rightStartRightScale, leftStartRightScale,
-                    rightStartLeftScale;
+                    rightStartLeftScale, leftStartLeftScaleMultiCube, rightStartRightScaleMultiCube;
 
     public AutoInit() {
 
@@ -87,6 +89,14 @@ public class AutoInit {
         rightStartLeftScale = new Priority("right_left_scale", "Right Start Left Scale",
                         !Priority.IS_SWITCH, Priority.IS_SCALE, Priority.LEFT,
                         new RightStartLeftScale());
+        
+        leftStartLeftScaleMultiCube = new Priority("left_left_scale_multi", "Left Start Left Scale to Left Switch",
+                        Priority.IS_SWITCH, Priority.IS_SCALE, Priority.LEFT,
+                        new LeftStartLeftScaleMultiCube());
+        
+        rightStartRightScaleMultiCube = new Priority("right_right_scale_multi", "Right Start Right Scale to Right Switch",
+                        Priority.IS_SWITCH, Priority.IS_SCALE, Priority.RIGHT,
+                        new RightStartRightScaleMultiCube());
 
         selectorSwitch = new AutonomousSelector();
         setDashboardPriorities();
@@ -99,14 +109,14 @@ public class AutoInit {
     public void setDashboardPriorities() {
         // Dashboard Autonomous Mode List
         Priority[] leftPriorities = {leftStartLeftSwitch, leftStartLeftScale, leftStartRightScale,
-                        driveForward, doNothing};
+                        driveForward, leftStartLeftScaleMultiCube, doNothing};
 
         Priority[] centerPriorities = {centerStartLeftSwitch, centerStartRightSwitch,
                         centerStartLeftSwitchMultiCube, centerStartRightSwitchMultiCube,
                         centerStartExchangeCube, driveForward, doNothing};
 
         Priority[] rightPriorities = {rightStartRightSwitch, rightStartRightScale,
-                        rightStartLeftScale, driveForward, doNothing};
+                        rightStartLeftScale, rightStartRightScaleMultiCube, driveForward, doNothing};
         dashBoardAutoSelector = new DashboardAutoSelector(leftPriorities, centerPriorities,
                         rightPriorities);
         dashBoardAutoSelector.getPositionAndRespond();
@@ -151,7 +161,11 @@ public class AutoInit {
                                         new Priority[] {leftStartLeftSwitch, leftStartLeftScale,
                                                         leftStartRightScale},
                                         // position 6: do scale
-                                        new Priority[] {leftStartLeftScale, leftStartRightScale}},
+                                        new Priority[] {leftStartLeftScale, leftStartRightScale},
+                                        // position 7: multi cube no fallback
+                                        new Priority[] {leftStartLeftScaleMultiCube, leftStartLeftScale, leftStartLeftSwitch, driveForward},
+                                        // position 6: multi cube right scale fallback
+                                        new Priority[] {leftStartLeftScaleMultiCube, leftStartLeftScale, leftStartLeftSwitch, leftStartRightScale}},
                         // position 5: Right Position
                         new Priority[][] {
                                         // position 1: do right switch
@@ -169,7 +183,11 @@ public class AutoInit {
                                                         rightStartLeftScale},
                                         // position 6: do scale
                                         new Priority[] {rightStartRightScale,
-                                                        rightStartLeftScale}});
+                                                        rightStartLeftScale},
+                                        // position 7: multi cube no fallback
+                                        new Priority[] {rightStartRightScaleMultiCube, rightStartRightScale, rightStartRightSwitch, driveForward},
+                                        // position 6: multi cube right scale fallback
+                                        new Priority[] {rightStartRightScaleMultiCube, rightStartRightScale, rightStartRightSwitch, rightStartLeftScale}});
     }
 
     /**
@@ -209,6 +227,10 @@ public class AutoInit {
             autonomousCommand.cancel();
     }
 
+    public void initTestMode() {
+        selectorSwitch.selector1.setName("Auto Selector","Selector 1");
+        selectorSwitch.selector2.setName("Auto Selector","Selector 2");
+    }
     public void setAutonomousCommandList(Priority[][]... commands) {
         selectorSwitch.setCommands(commands);
     }

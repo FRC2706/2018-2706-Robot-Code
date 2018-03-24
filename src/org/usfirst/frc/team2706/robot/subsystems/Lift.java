@@ -12,6 +12,7 @@ import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonSensorGroup;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -46,7 +47,7 @@ public class Lift extends Subsystem {
     public Lift() {
         liftDown = new LimitSwitch(RobotMap.LIMIT_DOWN);
         liftMotor = new TalonLimit(RobotMap.MOTOR_LIFT, liftDown);
-        liftMotor.setNeutralMode(NeutralMode.Brake);
+        setBrakeMode(true);
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
 
         encoder = new TalonEncoder(liftMotor);
@@ -250,5 +251,20 @@ public class Lift extends Subsystem {
     
     public void useDownPID() {
         Robot.lift.setPID(pDown, iDown, dDown);
+    }
+    
+    public void initTestMode() {
+        
+       new WPI_TalonSRX(5).setName("Lift","Lift Motor");
+       liftDown.setName("Lift","Limit Switch Down");
+    }
+    
+    public void setBrakeMode(boolean brakeMode) {
+        if(brakeMode) {
+            liftMotor.setNeutralMode(NeutralMode.Brake);
+        }
+        else {
+            liftMotor.setNeutralMode(NeutralMode.Coast);
+        }
     }
 }

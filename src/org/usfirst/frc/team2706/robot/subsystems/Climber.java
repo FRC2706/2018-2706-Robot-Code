@@ -20,7 +20,7 @@ public class Climber extends Subsystem {
     
     // Tells the robot to start climbing
     public void climb() {
-        double power = 0.5;
+        double power = 1.0;
         climber_motor.set(java.lang.Math.abs(power)); //Speed may change later
     }
     
@@ -40,5 +40,8 @@ public class Climber extends Subsystem {
      */
     protected void initDefaultCommand() {
     }
-
+    public void initTestMode() {
+        new WPI_TalonSRX(8).setName("Climber","Climber Motor");
+        IR_sensor.setName("Climber","Climber IR");
+    }
 }

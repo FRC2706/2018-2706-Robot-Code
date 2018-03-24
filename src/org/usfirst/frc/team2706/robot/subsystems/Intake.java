@@ -3,10 +3,12 @@ package org.usfirst.frc.team2706.robot.subsystems;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.command.Subsystem; 
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; 
 
 
 // This class is used for the intake of the cube
@@ -42,6 +44,13 @@ public class Intake extends Subsystem {
         
         // IR sensor
         IR_sensor = new AnalogInput(RobotMap.INTAKE_IR_SENSOR);
+        
+        left_intake_motor.setNeutralMode(NeutralMode.Brake);
+        right_intake_motor.setNeutralMode(NeutralMode.Brake);
+    }
+    
+    public void log() {
+        SmartDashboard.putNumber("Intake IR", readIRSensor());
     }
     
     // Turns the robot motors on to suck in the cube on the left
@@ -58,14 +67,14 @@ public class Intake extends Subsystem {
     
     // Turns the robot motors on to suck in the cube normally 
     public void inhaleCube(double motorSpeed) {
-        left_intake_motor.set(-motorSpeed * m_leftIntakeMaxPower);
-        right_intake_motor.set(-motorSpeed * m_rightIntakeMaxPower); 
+        right_intake_motor.set(-motorSpeed * m_leftIntakeMaxPower);
+        left_intake_motor.set(-motorSpeed * m_rightIntakeMaxPower); 
     }
     
     // Turns the robot motors on to suck in the cube normally 
     public void inhaleCubeStatic(double motorSpeed) {
-        left_intake_motor.set(-motorSpeed);
-        right_intake_motor.set(-motorSpeed); 
+        left_intake_motor.set(-motorSpeed * 0.75);
+        right_intake_motor.set(-motorSpeed * 0.75); 
     }
     
     // Turns the robot motors on to shoot out the cube
@@ -106,6 +115,11 @@ public class Intake extends Subsystem {
         
     } 
     
+    public void initTestMode() {
+        new WPI_TalonSRX(6).setName("Intake","Intake Motor Left");
+        new WPI_TalonSRX(7).setName("Intake","Intake Motor Right");
+        IR_sensor.setName("Intake","Intake IR");
+    }
         
 }
 

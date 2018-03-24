@@ -10,7 +10,7 @@ import org.usfirst.frc.team2706.robot.commands.MoveLiftWithPID;
 import org.usfirst.frc.team2706.robot.commands.PickupCube;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightUntilCancelled;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
-import org.usfirst.frc.team2706.robot.controls.POVButtonJoystick;
+import org.usfirst.frc.team2706.robot.controls.StickQuadrantButtonJoystick;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
@@ -61,7 +61,6 @@ public class OI {
         this.controlStick = controlStick;
 
         // Runs the code depending which button/trigger is pressed
-
         TriggerButtonJoystick intakeCube = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER);
         intakeCube.runWhileHeld(new IntakeCube(controlStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER, true));
         
@@ -74,6 +73,7 @@ public class OI {
         EJoystickButton ejectSmooth = new EJoystickButton(controlStick, JoystickMap.XBOX_RB_BUTTON);
         ejectSmooth.runWhileHeld(new EjectCubeWithIR());
         
+
         EJoystickButton climber = new EJoystickButton(controlStick, JoystickMap.XBOX_X_BUTTON);
         climber.runWhileHeld(new StartCimbing());
         
@@ -92,16 +92,16 @@ public class OI {
         MoveLiftDown.runWhileHeld(new MoveLift(-0.3));
 
         // Sending lift to fixed destinations   
-        POVButtonJoystick liftLevelRight = new POVButtonJoystick(controlStick, JoystickMap.XBOX_POV_RIGHT);
+        StickQuadrantButtonJoystick liftLevelRight = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.RIGHT, 0.2);
         liftLevelRight.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT));
         
-        POVButtonJoystick liftLevelUp = new POVButtonJoystick(controlStick, JoystickMap.XBOX_POV_UP);
+        StickQuadrantButtonJoystick liftLevelUp = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.UP, 0.2);
         liftLevelUp.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT * 0.75));
         
-        POVButtonJoystick liftLevelLeft = new POVButtonJoystick(controlStick, JoystickMap.XBOX_POV_LEFT);
+        StickQuadrantButtonJoystick liftLevelLeft = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.LEFT, 0.2);
         liftLevelLeft.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT * 0.5));
         
-        POVButtonJoystick liftLevelDown = new POVButtonJoystick(controlStick, JoystickMap.XBOX_POV_DOWN);
+        StickQuadrantButtonJoystick liftLevelDown = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.DOWN, 0.2);
         liftLevelDown.runWhileHeld(new SetLiftHeightUntilCancelled(0));
 
         removeUnplugWarning();

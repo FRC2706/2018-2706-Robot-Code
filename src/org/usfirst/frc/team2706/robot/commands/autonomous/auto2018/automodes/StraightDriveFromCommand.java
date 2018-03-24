@@ -23,7 +23,7 @@ public class StraightDriveFromCommand extends Command {
     private final int minDoneCycles;
 
     private final IntakeUntilGrabbed intake;
-    private final double P = 1.0, I = 0.0, D = 0.75, F = 0;
+    private final double P = 1.0, I = 0.0, D = 1.5, F = 0;
 
     /**
      * Drive at a specific speed for a certain amount of time

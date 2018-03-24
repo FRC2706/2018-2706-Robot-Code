@@ -49,7 +49,8 @@ public class ArcadeDriveWithJoystick extends Command {
     protected void execute() {
         //Robot.driveTrain.drive(joystick);
             double turn = joystick.getRawAxis(JoystickMap.XBOX_RIGHT_AXIS_X);
-            Robot.driveTrain.curvatureDrive(-joystick.getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), (turn > -0.05 && turn < 0.05) ? 0 : turn, joystick.getRawButton(5));
+            double speed =joystick.getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y);
+            Robot.driveTrain.curvatureDrive(-speed, (turn > -0.05 && turn < 0.05) ? 0 : turn, (speed > -0.25 && speed < 0.25));
             //Robot.driveTrain.setVoltageDrive(false);
     }
 

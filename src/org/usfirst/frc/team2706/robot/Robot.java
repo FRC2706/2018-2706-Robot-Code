@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
 
         RobotMap.log();
 
-        CameraServer.getInstance().startAutomaticCapture(0);
+       // CameraServer.getInstance().startAutomaticCapture(0);
        
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
@@ -89,8 +89,9 @@ public class Robot extends IterativeRobot {
      * reset any subsystem information you want to clear when the robot is disabled.
      */
     public void disabledInit() {
-        Log.updateTableLog();
-        Log.save();
+        //Log.updateTableLog();
+       // Log.save();
+
         // Stop timer on the dashboard
         SmartDashboard.putBoolean("time_running", false);
     }
@@ -160,7 +161,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void testInit() {
         Log.i("Robot", "Entering test mode");
-        
+        initTestMode();
         Robot.lift.resetSetpoint();
     }
 
@@ -170,10 +171,18 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() {}
 
     private void log() {
-        // Don't use unecessary bandwidth at competition
+        // Don't use unnecessary bandwidth at competition
         if (!DriverStation.getInstance().isFMSAttached()) {
             driveTrain.log();
             lift.log();
+            intake.log();
         }
+    }
+    public void initTestMode() {
+        driveTrain.initTestMode();
+        intake.initTestMode();
+        lift.initTestMode();
+        climb.initTestMode();
+        autoInit.initTestMode();
     }
 }

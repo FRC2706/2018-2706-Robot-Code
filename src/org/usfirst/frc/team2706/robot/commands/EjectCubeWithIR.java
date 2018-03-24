@@ -21,7 +21,7 @@ public class EjectCubeWithIR extends Command {
      * Turns on the motors on to eject the cube
      */
     public void execute() {
-        exhale.exhaleCube(0.8);
+        exhale.exhaleCube(1.0);
     }
     
     /**
@@ -37,7 +37,7 @@ public class EjectCubeWithIR extends Command {
      * Used to detect whether the motors should stop
      */
     protected boolean isFinished() {
-        return !exhale.cubeCaptured();
+        return exhale.readIRSensor() <= 0.65;
     }
 
 }
