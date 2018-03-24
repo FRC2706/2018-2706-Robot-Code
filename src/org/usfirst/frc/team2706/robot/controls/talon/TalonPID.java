@@ -58,7 +58,7 @@ public class TalonPID {
      * @param D The derivative value
      */
     public void setPID(double P, double I, double D) {
-        Log.d("TalonPID", P + " " + I + " " + D);
+       // Log.d("TalonPID", P + " " + I + " " + D);
         setPID(P, I, D, 0);
     }
 

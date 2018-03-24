@@ -12,13 +12,19 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LeftStartRightScale extends CommandGroup{
 
     public LeftStartRightScale() {
-        this.addSequential(new InitLift());
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST, 223 / 12.0, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".forwardToSwitch"), 8);
-        this.addSequential(new RotateDriveWithGyro(90,this + ".rotateToSwitch"), 3);
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST,180 / 12.0,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".pressSwitch"), 10);
-        this.addSequential(new RotateDriveWithGyro(-135, this + ".rotateToSwitch2"), 3);
-        this.addParallel(new StraightDriveWithEncoders(AutoConstants.SPEED_SLOW,30 / 12.0,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".pressSwitch2"),5);
-        this.addSequential(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT,2,0.2), 5);
-        this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED),2);
+        this.addParallel(new SetLiftHeightBlocking(0.7,5,0.15),0.5);
+        this.addSequential(new StraightDriveWithEncoders(0.8, 205 / 12.0, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".forwardToSwitch"), 6);
+        this.addSequential(new RotateDriveWithGyro(90,this + ".rotateToSwitch"), 2);
+        this.addSequential(new StraightDriveWithEncoders(0.8,240/ 12.0,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".pressSwitch"), 10);
+        this.addParallel(new SetLiftHeightBlocking(3,2,0.2), 5);
+        this.addSequential(new RotateDriveWithGyro(-110, this + ".rotateToSwitch2"), 2);
+        //this.addSequential(new IntakeCube(0.1, true),0.5);
+        this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT,2,0.2), 5);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED,63.25 / 12.0,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".pressSwitch2"),5);
+        
+        this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED),1);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_SLOW,-1.5,AutoConstants.ACCURATE_ERROR, 1, this + ".endForwardToScale"),2);
+        this.addParallel(new SetLiftHeightBlocking(Double.MIN_VALUE,5,0.2),5);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED,-1.48,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),2);
     }
 }

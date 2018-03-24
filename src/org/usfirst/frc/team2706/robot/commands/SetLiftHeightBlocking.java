@@ -8,14 +8,17 @@ public class SetLiftHeightBlocking extends SetLiftHeightUntilCancelled {
     private int minDoneCycles;
     private double error;
     private int currentCycles = 0;
+    private double height;
     public SetLiftHeightBlocking(double height, int minDoneCycles, double error) {
         super(height);
+        this.height = height;
         this.minDoneCycles = minDoneCycles;
         this.error = error;
     }
 
     @Override
     public void initialize() {
+        System.out.println("Blocking to: " + height);
         super.initialize();
         
         currentCycles = 0;
@@ -29,6 +32,7 @@ public class SetLiftHeightBlocking extends SetLiftHeightUntilCancelled {
     
     @Override
     public void end() {
+        Log.d(this,  "THE PROGRAM HAS ENDED");
         Robot.lift.resetSetpoint();
     }
     

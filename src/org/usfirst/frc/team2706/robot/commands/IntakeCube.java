@@ -45,7 +45,7 @@ public class IntakeCube extends Command {
         inhale = Robot.intake;
         this.speed = speed;
         this.sameRatio = sameRatio;
-        this.requires(Robot.intake);
+      //  this.requires(Robot.intake);
     }
     
     /**
