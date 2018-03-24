@@ -13,6 +13,8 @@ public class Rumbler extends Command {
     public static final int OPERATOR_JOYSTICK = 2;
     public static final int BOTH_JOYSTICKS = 3;
     
+    private boolean isFinished = false;
+    
     /* An integer which is one DRIVER_JOYSTICK, OPERATOR_JOYSTICK or BOTH_JOYSTICKS
      * values. Represents which controller to rumble
      */ 
@@ -47,7 +49,7 @@ public class Rumbler extends Command {
      * giving haptic feedback to the drivers for important events.<p>
      * @param timeOn How long to rumble <p>
      * @param timeOff How long to pause between rumbles <p>
-     * @param repeatCount How long to repeat the pattern <p>
+     * @param repeatCount How long to repeat the pattern. Enter a negative number for infinite, but DON'T FORGET TO CALL THE END() FUNCTION.<p>
      * @param controllerToRumble Which controller (one of
      * DRIVER_JOYSTICK, OPERATOR_JOYSTICK or BOTH_JOYSTICKS) to rumble.
      */
@@ -81,18 +83,22 @@ public class Rumbler extends Command {
         
         if (rumbleOver) {
             rumble(false);
-            repeatCount--;
+            if (repeatCount >= 0) repeatCount--;
         }
         else if (breakOver) rumble(true);
     }
     
     @Override
     protected boolean isFinished() {
-        return repeatCount <= 0;
+        return repeatCount == 0 || isFinished;
     }
     
     @Override
+    /**
+     * Ends the command nicely, removing it from the command group.
+     */
     protected void end() {
+        isFinished = true;
         rumble(false);
     }
     
