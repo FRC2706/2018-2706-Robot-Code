@@ -15,7 +15,6 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.Rig
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.CenterStartLeftSwitchMultiCube;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.CenterStartRightSwitchMultiCube;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.LeftStartLeftScaleLeftSwitchMultiCube;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.LeftStartLeftScaleMultiCubeCurveDrive;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.RightStartRightScaleRightSwitchMultiCube;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.subsystems.AutonomousSelector;
@@ -196,7 +195,7 @@ public class AutoInit {
      */
     public void initialize() {
 
-        autonomousCommand = new LeftStartLeftScaleMultiCubeCurveDrive();//getAutonomousCommand(new ArcadeDriveWithJoystick());
+        autonomousCommand = new CenterStartRightSwitchMultiCube();//getAutonomousCommand(new ArcadeDriveWithJoystick());
 
         Command dashboardResponse = Priority
                         .chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());

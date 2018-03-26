@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
+import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.MoveLift;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightBlocking;
 import org.usfirst.frc.team2706.robot.commands.autonomous.AutoConstants;
@@ -19,11 +20,11 @@ public class CenterStartLeftSwitchMultiCube extends CommandGroup {
 
         this.addParallel(new SetLiftHeightBlocking(Double.MIN_VALUE,2,0.2));
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST, -43.0 / 12.0, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, "back"), 2);
-        this.addParallel(new MoveLift(-0.3),0.25);
         this.addSequential(new RotateDriveWithGyro(45, "turnToPile"), 2);
         IntakeUntilGrabbed g = new IntakeUntilGrabbed(AutoConstants.SPEED_SLOW,1);
         this.addSequential(g,3);
         //this.addSequential(new StraightDriveWithEncoders(0.55, 3.0, 2, 3, "BBB"), 2.5);
+        this.addParallel(new IntakeCube(1,false),1);
         this.addSequential(new StraightDriveFromCommand(AutoConstants.SPEED_FAST, g, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, "backFromWall"),2);
         this.addSequential(new RotateDriveWithGyro(-45, "turnForSecondCube"),2);
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SWITCH_HEIGHT,2,0.2),2);

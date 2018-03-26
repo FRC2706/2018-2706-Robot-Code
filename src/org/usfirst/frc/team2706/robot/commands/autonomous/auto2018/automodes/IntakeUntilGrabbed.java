@@ -28,7 +28,7 @@ Command intakeCube;
     @Override
     protected boolean isFinished() {
         System.out.println(Robot.intake.readIRSensor());
-            return Robot.intake.readIRSensor() > 1.5;        // TODO Auto-generated method stub
+            return Robot.intake.readIRSensor() > 1.2;        // TODO Auto-generated method stub
     }
 
 }
