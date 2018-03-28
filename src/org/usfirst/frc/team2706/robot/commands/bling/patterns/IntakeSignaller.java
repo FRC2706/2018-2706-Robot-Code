@@ -41,14 +41,30 @@ public class IntakeSignaller extends BlingPattern {
         intakeSubsystem = Robot.intake;
     }
     
+    /**
+     * Set it to true when beginning to display the pattern.
+     */
+    boolean patternBeingDisplayed = false;
+    
     @Override
     public boolean conditionsMet() {
-        boolean isCubeIn = intakeSubsystem.cubeCaptured(); // TODO get actual value here.
-        if (isCubeIn && !wasCubeJustIn) timePoint = Timer.getFPGATimestamp(); 
+        boolean isCubeIn = intakeSubsystem.cubeCaptured();
+
+        // True if the cube was not in before but it is now in.
+        boolean cubeStateSwitched = isCubeIn && !wasCubeJustIn;
+        
+        wasCubeJustIn = isCubeIn; // Reset the status of this variable.
+        
+        if (cubeStateSwitched) timePoint = Timer.getFPGATimestamp(); 
         double timePassed = Timer.getFPGATimestamp() - timePoint;
         
+        // Update the patternBeingDisplayed boolean as needed
+        patternBeingDisplayed = cubeStateSwitched || (patternBeingDisplayed && timePassed <= 3);
+        
+        
+        System.out.println("Time passed : " + timePassed + " isCubeIn : " + isCubeIn); // TODO remove debug prints
         // Display if the timePassed is under 3 seconds. 
-        return (isCubeIn && !wasCubeJustIn) || timePassed <= 3;
+        return patternBeingDisplayed;
     }
     
     @Override

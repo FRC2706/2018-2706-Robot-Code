@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Controls the 12 switch dial on the robot to select an autonomous mode. The autonomous modes on
@@ -122,5 +123,9 @@ public class AutonomousSelector extends SensorBase implements Sendable {
             this.min = min;
             this.max = max;
         }
+    }
+    public void log() {
+        SmartDashboard.putNumber("selector1", getVoltageAsIndex(selector1));
+        SmartDashboard.putNumber("selector2", getVoltageAsIndex(selector2));
     }
 }

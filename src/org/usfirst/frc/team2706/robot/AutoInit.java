@@ -14,8 +14,8 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.Rig
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.RightStartRightSwitch;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.CenterStartLeftSwitchMultiCube;
 import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.CenterStartRightSwitchMultiCube;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.LeftStartLeftScaleMultiCube;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.RightStartRightScaleMultiCube;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.LeftStartLeftScaleLeftSwitchMultiCube;
+import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube.RightStartRightScaleRightSwitchMultiCube;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 import org.usfirst.frc.team2706.robot.subsystems.AutonomousSelector;
 
@@ -30,7 +30,7 @@ public class AutoInit {
     Command autonomousCommand;
 
     // The spinny dial on the robot that selects what autonomous mode we are going to do
-    private AutonomousSelector selectorSwitch;
+    public AutonomousSelector selectorSwitch;
 
     // Dashboard selection
     DashboardAutoSelector dashBoardAutoSelector;
@@ -92,11 +92,11 @@ public class AutoInit {
         
         leftStartLeftScaleMultiCube = new Priority("left_left_scale_multi", "Left Start Left Scale to Left Switch",
                         Priority.IS_SWITCH, Priority.IS_SCALE, Priority.LEFT,
-                        new LeftStartLeftScaleMultiCube());
+                        new LeftStartLeftScaleLeftSwitchMultiCube());
         
         rightStartRightScaleMultiCube = new Priority("right_right_scale_multi", "Right Start Right Scale to Right Switch",
                         Priority.IS_SWITCH, Priority.IS_SCALE, Priority.RIGHT,
-                        new RightStartRightScaleMultiCube());
+                        new RightStartRightScaleRightSwitchMultiCube());
 
         selectorSwitch = new AutonomousSelector();
         setDashboardPriorities();
@@ -195,7 +195,7 @@ public class AutoInit {
      */
     public void initialize() {
 
-        autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
+        autonomousCommand = new CenterStartRightSwitchMultiCube();//getAutonomousCommand(new ArcadeDriveWithJoystick());
 
         Command dashboardResponse = Priority
                         .chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());
@@ -205,7 +205,7 @@ public class AutoInit {
         // Schedule the autonomous command that was selected
         // autonomousCommand = new SetLiftHeightBlocking(1, 4, 0.1);
 
-        System.out.println("Running " + dashboardResponse + ", " + "switch running "
+        Log.d("Auto", "uRunning " + dashboardResponse + ", " + "switch running "
                         + autonomousCommand);
         if (dashboardResponse != null)
             dashboardResponse.start();

@@ -22,11 +22,11 @@ public abstract class BlingPattern {
     protected int repeatCount = 10000;
     protected int wait_ms = 50;
     protected int LED_BRIGHTNESS = 255;
-    String command = Bling.COLOUR_WIPE;
+    protected String command = Bling.COLOUR_WIPE;
    
     protected List<Integer> operationPeriod = new ArrayList<Integer>();
     
-    /* 
+    /** 
      * True if the pattern has already been run at least once
      * and it was the last pattern to run.
      */

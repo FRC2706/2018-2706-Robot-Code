@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class BlingController extends Command {
 
     private Bling blingSystem;
-    private BlingPattern currentPattern;
+    private BlingPattern currentPattern = null;
     private double startTime = 0;
     
     public static final int AUTONOMOUS_PERIOD = 0;
@@ -38,15 +38,17 @@ public class BlingController extends Command {
             }
         };
         
-        System.out.println("Going into bling controller"); // TODO remove
         /* Make and add the bling patterns. 
          * They need to be created in order of highest to lowest priority.
          * 
          * Since patterns from different periods won't run at the same time, you only have to 
          * make sure you put patterns from the same period in proper order.
          */
+        Add(new TipWarning());
         Add(new IntakeSignaller());
         
+        // Do fun in auto
+        Add(new FunDuringAuto());
         // Do blank as a last priority
         Add(new Blank());
     }
@@ -100,8 +102,11 @@ public class BlingController extends Command {
                 
                 System.out.println("pattern met conditions : " + pattern); // TODO remove
                 
-                // If it's the first time we're going to this pattern, reset it.
-                if (currentPattern != pattern) pattern.reset(); 
+                // Reset the pattern that we're no onger running
+                if (currentPattern != null && currentPattern != pattern) {
+                    System.out.println("Resetting last run pattern"); // TODO remove
+                    currentPattern.reset();
+                }
                 currentPattern = pattern;
                 break;
             }
@@ -116,6 +121,8 @@ public class BlingController extends Command {
     public void end() {
         // Just clear the strip at the end.
         blingSystem.clearStrip();
+        if (currentPattern != null) currentPattern.reset();
+        currentPattern = null;
     }
     
     private int getCurrentPeriod() {

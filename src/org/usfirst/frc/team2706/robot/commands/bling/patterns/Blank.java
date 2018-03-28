@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2706.robot.commands.bling.patterns;
 
 import org.usfirst.frc.team2706.robot.commands.bling.BlingController;
+import org.usfirst.frc.team2706.robot.subsystems.Bling;
 
 public class Blank extends BlingPattern {
     public Blank() {
@@ -11,6 +12,7 @@ public class Blank extends BlingPattern {
         operationPeriod.add(BlingController.TELEOP_WITHOUT_CLIMB);
         
         LED_BRIGHTNESS = 0;
+        command = Bling.CLEAR;
     }
     
     /**

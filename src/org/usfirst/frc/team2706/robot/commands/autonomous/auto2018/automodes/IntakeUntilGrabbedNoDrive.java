@@ -5,21 +5,18 @@ import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeUntilGrabbed extends Command {
-public double driveSpeed, intakeSpeed;
+public class IntakeUntilGrabbedNoDrive extends Command {
+public double intakeSpeed;
 public double distance;
 Command intakeCube;
-    public IntakeUntilGrabbed(double driveSpeed, double intakeSpeed) {
-        this.driveSpeed = driveSpeed;
+    public IntakeUntilGrabbedNoDrive(double intakeSpeed) {
         this.intakeSpeed = intakeSpeed;
     }
     public void initialize() {
        intakeCube = new IntakeCube(intakeSpeed, false);
        intakeCube.start();
     }
-    public void execute() {
-        Robot.driveTrain.drive(driveSpeed, driveSpeed);
-    }
+    
     public void end() {
         distance = Robot.driveTrain.getDistance();
         Robot.driveTrain.drive(0,0);
@@ -28,7 +25,7 @@ Command intakeCube;
     @Override
     protected boolean isFinished() {
         System.out.println(Robot.intake.readIRSensor());
-            return Robot.intake.readIRSensor() > 1.2;        // TODO Auto-generated method stub
+            return Robot.intake.readIRSensor() > 1.25;        // TODO Auto-generated method stub
     }
 
 }

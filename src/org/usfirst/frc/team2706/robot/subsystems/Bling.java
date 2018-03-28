@@ -25,7 +25,9 @@ public class Bling extends Subsystem{
     public static final long RED = 16711680;
     
     // All of the pattern numbers
-    public static final String COLOUR_WIPE = "color_Wipe";
+    public static final String COLOUR_WIPE = "colorWipe", THEATRE_CHASE = "theaterChase", SOLID = "solid", BLINK = "blink",
+                    RAINBOW = "rainbow", THEATRE_CHASE_RAINBOW = "theaterChaseRainbow", RAINBOW_CYCLE = "rainbowCycle",
+                    CLEAR = "clear";
     
     /**
      * The networktables key for the bling table.
@@ -133,7 +135,7 @@ public class Bling extends Subsystem{
      */
     public void clearStrip() {
         int[] colour = new int[] {0, 0, 0};
-        Display(0, 0, colour, COLOUR_WIPE, 0);
+        Display(0, 0, colour, CLEAR, 0);
     }
     
 }

@@ -3,6 +3,7 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
+import org.usfirst.frc.team2706.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,7 +23,10 @@ public class StraightDriveWithEncoders extends Command {
 
     private final int minDoneCycles;
 
-    private final double P = 1.0, I = 0.0, D = 1.5, F = 0;
+    private final double P = RobotMap.STRAIGHT_DRIVE_P,
+                         I = RobotMap.STRAIGHT_DRIVE_I,
+                         D = RobotMap.STRAIGHT_DRIVE_D,
+                         F = 0;
 
     /**
      * Drive at a specific speed for a certain amount of time
@@ -58,7 +62,7 @@ public class StraightDriveWithEncoders extends Command {
 //        PID.setP(SmartDashboard.getNumber("P", P));
 //        PID.setI(SmartDashboard.getNumber("I", I));
 //        PID.setD(SmartDashboard.getNumber("D", D));
-        
+
         Log.d(this, "Driving " + distance + " feet at a speed of " + speed);
         
         Robot.driveTrain.reset();

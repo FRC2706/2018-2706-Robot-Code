@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
+import java.util.function.Supplier;
+
 import org.usfirst.frc.team2706.robot.JoystickMap;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
@@ -330,7 +332,18 @@ public class DriveTrain extends Subsystem {
      */
     public PIDOutput getDrivePIDOutput(boolean useGyroStraightening, boolean useCamera,
                     boolean invert) {
-        return new DrivePIDOutput(drive, useGyroStraightening, useCamera, invert);
+        return new DrivePIDOutput(drive, useGyroStraightening, useCamera,
+                        () -> -Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), invert);
+    }
+    
+    /**
+     * @param useGyroStraightening True to invert second motor direction for rotating
+     * 
+     * @return The robot's drive PIDOutput
+     */
+    public PIDOutput getDrivePIDOutput(boolean useGyroStraightening, boolean useCamera,
+                    Supplier<Double> forward, boolean invert) {
+        return new DrivePIDOutput(drive, useGyroStraightening, useCamera, forward, invert);
     }
 
     /**
@@ -479,12 +492,14 @@ public class DriveTrain extends Subsystem {
         private final boolean useGyroStraightening;
 
         private final boolean useCamera;
+        private final Supplier<Double> forward;
 
         public DrivePIDOutput(DifferentialDrive drive, boolean useGyroStraightening,
-                        boolean useCamera, boolean invert) {
+                        boolean useCamera, Supplier<Double> forward, boolean invert) {
             this.drive = drive;
             this.useGyroStraightening = useGyroStraightening;
             this.useCamera = useCamera;
+            this.forward = forward;
             this.invert = invert;
         }
 
@@ -497,10 +512,10 @@ public class DriveTrain extends Subsystem {
             double rotateVal;
             if (useCamera) {
                 if (invert) {
-                    drive.arcadeDrive(-Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), -output,
+                    drive.arcadeDrive(forward.get(), -output,
                                     false);
                 } else {
-                    drive.arcadeDrive(-Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), output,
+                    drive.arcadeDrive(forward.get(), output,
                                     false);
                 }
             } else {

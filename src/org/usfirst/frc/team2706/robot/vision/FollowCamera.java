@@ -1,5 +1,8 @@
 package org.usfirst.frc.team2706.robot.vision;
 
+import java.util.function.Supplier;
+
+import org.usfirst.frc.team2706.robot.JoystickMap;
 import org.usfirst.frc.team2706.robot.Robot;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -27,15 +30,24 @@ public class FollowCamera extends Command {
      * @param error The range that the robot is happy ending the command in inches
      */
     public FollowCamera() {
-        requires(Robot.driveTrain);
+        this(() -> -Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y));
+    }
+
+    public FollowCamera(double speed) {
+        this(() -> speed);
+    }
+    
+    public FollowCamera(Supplier<Double> forwardSpeed) {
+       requires(Robot.driveTrain);
         
-        rotatePID = new PIDController(P, I, D, new CameraPID(), Robot.driveTrain.getDrivePIDOutput(false, true, false));
+        rotatePID = new PIDController(P, I, D, new CameraPID(),
+                        Robot.driveTrain.getDrivePIDOutput(false, true, forwardSpeed, false));
 //        
 //        SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
 //        SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
 //        SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
     }
-
+    
     private class CameraPID implements PIDSource {
 
         private PIDSourceType pidSource = PIDSourceType.kDisplacement;
