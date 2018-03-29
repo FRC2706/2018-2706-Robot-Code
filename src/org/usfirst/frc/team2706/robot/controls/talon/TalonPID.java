@@ -238,7 +238,7 @@ public class TalonPID {
             D = setD;
             FF = setFF;
             
-            Log.d("TalonPID", P + " " + I + " " + D + " " + FF);
+           // Log.d("TalonPID", P + " " + I + " " + D + " " + FF);
             
             for(TalonSensorGroup talon : talons) {
                 // Set the motor to the desired position

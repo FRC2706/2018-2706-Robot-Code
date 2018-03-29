@@ -18,7 +18,6 @@ public class SetLiftHeightBlocking extends SetLiftHeightUntilCancelled {
 
     @Override
     public void initialize() {
-        System.out.println("Blocking to: " + height);
         super.initialize();
         
         currentCycles = 0;
@@ -26,13 +25,13 @@ public class SetLiftHeightBlocking extends SetLiftHeightUntilCancelled {
     
     @Override
     public boolean isFinished() {
-        Log.d(this, Robot.lift.getPID().getSetpoint() + " " +  Robot.lift.getEncoderHeight());
+       // Log.d(this, Robot.lift.getPID().getSetpoint() + " " +  Robot.lift.getEncoderHeight());
         return Math.abs(Robot.lift.getPID().getSetpoint() - Robot.lift.getEncoderHeight()) < error && ++currentCycles >= minDoneCycles;
     }
     
     @Override
     public void end() {
-        Log.d(this,  "THE PROGRAM HAS ENDED");
+    //    Log.d(this,  "THE PROGRAM HAS ENDED");
         Robot.lift.resetSetpoint();
     }
     

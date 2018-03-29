@@ -1,19 +1,20 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes;
 
 import org.usfirst.frc.team2706.robot.Robot;
-import org.usfirst.frc.team2706.robot.commands.IntakeCube;
+import org.usfirst.frc.team2706.robot.commands.IntakeCubeCustom;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class IntakeUntilGrabbedNoDrive extends Command {
-public double intakeSpeed;
+public double leftSpeed, rightSpeed;
 public double distance;
 Command intakeCube;
-    public IntakeUntilGrabbedNoDrive(double intakeSpeed) {
-        this.intakeSpeed = intakeSpeed;
+    public IntakeUntilGrabbedNoDrive(double leftSpeed, double rightSpeed) {
+        this.leftSpeed = leftSpeed;
+        this.rightSpeed = rightSpeed;
     }
     public void initialize() {
-       intakeCube = new IntakeCube(intakeSpeed, false);
+       intakeCube = new IntakeCubeCustom(leftSpeed, rightSpeed);
        intakeCube.start();
     }
     
@@ -24,8 +25,7 @@ Command intakeCube;
     }
     @Override
     protected boolean isFinished() {
-        System.out.println(Robot.intake.readIRSensor());
-            return Robot.intake.readIRSensor() > 1.25;        // TODO Auto-generated method stub
+            return Robot.intake.readIRSensor() > 1.35;        // TODO Auto-generated method stub
     }
 
 }

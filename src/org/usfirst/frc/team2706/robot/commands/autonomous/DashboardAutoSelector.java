@@ -64,8 +64,6 @@ public class DashboardAutoSelector implements TableEntryListener {
                             new Gson().fromJson(priorities, new ArrayList<String>().getClass());
             ArrayList<Priority> objectPriorityList = new ArrayList<Priority>();
             for (String priority : priorityList) {
-                System.out.println("firstpri" + priority);
-                System.out.println(position);
                 if (position.equals("l")) {
                     objectPriorityList.add(findPriority(priority,
                                     new ArrayList<Priority>(Arrays.asList(leftPriorities))));

@@ -76,18 +76,18 @@ public class CurveDrive extends Command {
 //      PID.setD(SmartDashboard.getNumber("D", D));
         // Creates the cubic equation that the robot follows
         eq = EquationCreator.MakeCubicEquation(xFeet, yFeet, endCurve, isRight);
-        Log.d(this, eq);
+       // Log.d(this, eq);
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
         initHeading = Robot.driveTrain.getHeading();
-        Log.d(this, Robot.driveTrain.getDistance());
+        Log.d(this, "Current encoder ticks are " + Robot.driveTrain.getDistance());
         
         PID.enable();
     }
 
     @Override
     protected boolean isFinished() {
-        System.out.println("isF" + (yPos - yFeet));
+        //System.out.println("isF" + (yPos - yFeet));
         // Checks if the x is within 1.5 feet and the y within 0.2 feet
         return yPos - yFeet > 0.0;
     }
@@ -100,7 +100,7 @@ public class CurveDrive extends Command {
         
         xPos = 0;
         yPos = 0;
-
+        Log.d(this, "Finished with encoder ticks at " + Robot.driveTrain.getDistance());
         Robot.driveTrain.brakeMode(true);
         //new CurveDriveStop(endCurve).start();
         lastEncoderAv = 0;
@@ -185,7 +185,6 @@ public class CurveDrive extends Command {
 
         // Figures out how far you should rotate based on offset and gyro pos
         double rotateVal = offset * 10;
-        System.out.println(rotateVal);
         // Tank Drives according to the above factors
         Robot.driveTrain.arcadeDrive(-speed, rotateVal + (rotateVal > 0 ? 0.3 : -0.3));
     }

@@ -1,28 +1,31 @@
 package org.usfirst.frc.team2706.robot.commands;
 
-import org.usfirst.frc.team2706.robot.JoystickMap;
-import org.usfirst.frc.team2706.robot.Log;
+import java.util.function.Supplier;
+
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeAndHold extends Command {
+
+public class IntakeCubeCustom extends Command {
 
     private Intake inhale;
-    @SuppressWarnings("unused")
-    private AnalogInput IR_sensor;
-    @SuppressWarnings("unused")
-    private double m_motorPower;
+
+    private double leftSpeed;
+    
+    private double rightSpeed;
     /**
      * Allows us to use the methods in 'Intake'
+     * 
+     * @param stick The joystick to use
+     * @param axis The axis to use
      */
-    public IntakeAndHold(double motorPower) {
+    public IntakeCubeCustom(double leftSpeed, double rightSpeed) {
         inhale = Robot.intake;
-        this.requires(Robot.intake);
-        m_motorPower = motorPower;
-       
+        this.leftSpeed = leftSpeed;
+        this.rightSpeed = rightSpeed;
     }
     
     /**
@@ -34,11 +37,8 @@ public class IntakeAndHold extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
-        if (inhale.readIRSensor() >= 0.26 && inhale.readIRSensor() < 0.5) {
-            inhale.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_BACK_RIGHT_TRIGGER)); 
-            
-        }
-
+        inhale.inhaleCubeCustom(leftSpeed, rightSpeed);
+           
     }
     
     /**
@@ -54,13 +54,7 @@ public class IntakeAndHold extends Command {
      * Used to detect whether the motors should stop
      */
     protected boolean isFinished() {
-       // if (inhale.cubeCaptured() == true) {
-     //       return true;
-     //   }
-    //    else {
             return false;
-    //    }
-        
     }
 
 }

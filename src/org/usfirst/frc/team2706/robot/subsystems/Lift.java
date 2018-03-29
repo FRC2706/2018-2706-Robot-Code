@@ -53,7 +53,7 @@ public class Lift extends Subsystem {
         encoder = new TalonEncoder(liftMotor);
         liftDown.whileActive(new OneTimeCommand(this::reset));
         liftDown.whenActive(new OneTimeCommand(() -> {
-            Log.d("Lift", "Hit limit switch");
+           // Log.d("Lift", "Hit limit switch");
             this.reset();
             this.setHeight(0, false);
         }));
@@ -116,7 +116,7 @@ public class Lift extends Subsystem {
         d = Math.min(MAX_HEIGHT, d);
 
         if (bottomLimit()) {
-            Log.d("Lift", "Limit hit, height 0");
+          //  Log.d("Lift", "Limit hit, height 0");
             d = Math.max(d, 0);
         }
         else if(!override) {
@@ -224,7 +224,7 @@ public class Lift extends Subsystem {
         zeroedOnce = true;
 
         if (liftPID.getSetpoint() < 0) {
-            Log.d("Lift", "Setting height to zero");
+            //Log.d("Lift", "Setting height to zero");
             setHeight(0, false);
         }
     }

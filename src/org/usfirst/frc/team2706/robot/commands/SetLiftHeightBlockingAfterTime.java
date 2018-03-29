@@ -34,7 +34,7 @@ public class SetLiftHeightBlockingAfterTime extends SetLiftHeightUntilCancelled 
         if(System.currentTimeMillis() - currentMs < timeMs) {
             return false;
         }
-        Log.d(this, Robot.lift.getPID().getSetpoint() + " " +  Robot.lift.getEncoderHeight());
+        //Log.d(this, Robot.lift.getPID().getSetpoint() + " " +  Robot.lift.getEncoderHeight());
         return Math.abs(Robot.lift.getPID().getSetpoint() - Robot.lift.getEncoderHeight()) < error && ++currentCycles >= minDoneCycles;
     }
     

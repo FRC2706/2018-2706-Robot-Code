@@ -107,7 +107,7 @@ public class StraightDriveWithEncoders extends Command {
         PID.disable();
         Robot.driveTrain.drive(0, 0);
 
-        Log.d(this, "Done driving");
+        Log.d(this, "Done driving, drove " + Robot.driveTrain.getDistance());
     }
 
     // Called when another command which requires one or more of the same
