@@ -165,19 +165,10 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Left Speed (RPM)", left_encoder.getRate());
         SmartDashboard.putNumber("Right Speed (RPM)", right_encoder.getRate());
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
-        SmartDashboard.putNumber("Velocity (ft/100ms)", getSpeed());
         // SmartDashboard.putNumber("Autonomous Selector 1",
         // selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1));
         // SmartDashboard.putNumber("Autonomous Selector 2",
         // selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
-    }
-    
-    /**
-     * Gets the current robot speed from the encoders.
-     * @return The robot's speed.
-     */
-    public double getSpeed() {
-        return (left_encoder.getRate() + right_encoder.getRate()) / 2;
     }
 
     /**
