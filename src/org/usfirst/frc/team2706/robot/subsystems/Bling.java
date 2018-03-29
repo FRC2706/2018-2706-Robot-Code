@@ -87,7 +87,6 @@ public class Bling extends Subsystem{
         
         boolean isSameCommand = isSameAsLastCommandRun(patternToShow);
         
-        System.out.println("IsSameCommand : " + isSameCommand + " Pattern to show : " + patternToShow);
         // Don't spam the pi with the same command, so determine if this is the same as the last command
         if (isSameCommand) return;
         

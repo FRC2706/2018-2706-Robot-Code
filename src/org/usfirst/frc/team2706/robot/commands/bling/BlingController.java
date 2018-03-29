@@ -2,6 +2,8 @@ package org.usfirst.frc.team2706.robot.commands.bling;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.commands.bling.patterns.*;
 import org.usfirst.frc.team2706.robot.subsystems.Bling;
@@ -76,10 +78,7 @@ public class BlingController extends Command {
             // Add it to the periods it can be in
             int period = i;
             commands.get(period).add(commandToAdd);
-        }
-        
-        System.out.println("Added command : " + commandToAdd + " New list is " + commands); // TODO remove debug print
-       
+        }       
     }
 
     @Override
@@ -100,11 +99,10 @@ public class BlingController extends Command {
             // Break at the first positive return. 
             if (pattern.conditionsMet()) {
                 
-                System.out.println("pattern met conditions : " + pattern); // TODO remove
+                Log.d("BLING : ", "pattern met conditions : " + pattern);
                 
                 // Reset the pattern that we're no onger running
-                if (currentPattern != null && currentPattern != pattern) {
-                    System.out.println("Resetting last run pattern"); // TODO remove
+                if (currentPattern != null && !currentPattern.equals(pattern)) {
                     currentPattern.reset();
                 }
                 currentPattern = pattern;
