@@ -218,7 +218,9 @@ public class AutoInit {
      * Call in Robot.autonomousInit()
      */
     public void initialize() {
-
+        Log.d("Auto", "Switches set to " + selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1)
+        + " " + selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
+        
         autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
 
         Command dashboardResponse = Priority
@@ -229,7 +231,7 @@ public class AutoInit {
         // Schedule the autonomous command that was selected
         // autonomousCommand = new SetLiftHeightBlocking(1, 4, 0.1);
 
-        Log.d("Auto", "uRunning " + dashboardResponse + ", " + "switch running "
+        Log.d("Auto", "Running " + dashboardResponse + ", " + "switch running "
                         + autonomousCommand);
         if (dashboardResponse != null)
             dashboardResponse.start();

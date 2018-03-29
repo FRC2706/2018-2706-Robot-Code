@@ -41,7 +41,6 @@ public void setDestination(double destination) {
     
 
     public void end() {
-        Log.d(this, "Ended");
         liftPID.disable();
     }
     

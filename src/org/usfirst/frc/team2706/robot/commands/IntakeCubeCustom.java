@@ -45,7 +45,6 @@ public class IntakeCubeCustom extends Command {
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
-        System.out.println("Ended IntakeCube command");
         inhale.stopMotors();
     }
     

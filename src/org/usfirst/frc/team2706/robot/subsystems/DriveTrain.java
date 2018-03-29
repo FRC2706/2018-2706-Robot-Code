@@ -430,7 +430,7 @@ public class DriveTrain extends Subsystem {
 
         @Override
         public double pidGet() {
-            Log.d("DriveTrain", "Got encoder input of " + right.getDistance());
+           // Log.d("DriveTrain", "Got encoder input of " + right.getDistance());
 
             return (right.getDistance() + left.getDistance()) / 2;
         }
@@ -463,7 +463,7 @@ public class DriveTrain extends Subsystem {
             if (heading > 358.0)
                 heading = 0;
 
-            Log.d("Gyro PID", (invert ? -heading : heading));
+         //   Log.d("Gyro PID", (invert ? -heading : heading));
 
             return invert ? -heading : heading;
         }
@@ -498,7 +498,7 @@ public class DriveTrain extends Subsystem {
         public void pidWrite(double output) {
 
 
-            Log.d("Drive PID", output);
+           // Log.d("Drive PID", output);
 
             double rotateVal;
             if (useCamera) {
@@ -518,7 +518,6 @@ public class DriveTrain extends Subsystem {
                     if (invert) {
                         drive.arcadeDrive(-output, rotateVal);
                     } else {
-                        System.out.println(-output + " " + rotateVal);
                         drive.arcadeDrive(output, -rotateVal);
                     }
                 } else if (invert) {

@@ -56,7 +56,6 @@ public class SmoothedTriggerButtonJoystick extends EJoystickButton {
     }
     
     public double getAxis() {
-        System.out.println(last);
         return last;
     }
 }

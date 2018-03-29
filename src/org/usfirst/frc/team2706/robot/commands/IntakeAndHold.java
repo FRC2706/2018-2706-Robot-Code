@@ -34,7 +34,6 @@ public class IntakeAndHold extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
-        Log.d(this, inhale.readIRSensor());
         if (inhale.readIRSensor() >= 0.26 && inhale.readIRSensor() < 0.5) {
             inhale.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_BACK_RIGHT_TRIGGER)); 
             
@@ -46,7 +45,6 @@ public class IntakeAndHold extends Command {
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
-        System.out.println("Ended IntakeCube command");
         inhale.stopMotors();
     }
     

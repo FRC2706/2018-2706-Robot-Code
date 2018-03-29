@@ -114,11 +114,11 @@ public class RotateDriveWithGyro extends Command {
     protected void end() {
         // Disable PID output and stop robot to be safe
         PID.disable();
-
+        Log.d(this, "Done rotating, rotated " + Robot.driveTrain.getHeading());
         Robot.driveTrain.drive(0, 0);
         
         Robot.driveTrain.reset();
-        Log.d(this, "Done rotating");
+        
     }
 
     // Called when another command which requires one or more of the same

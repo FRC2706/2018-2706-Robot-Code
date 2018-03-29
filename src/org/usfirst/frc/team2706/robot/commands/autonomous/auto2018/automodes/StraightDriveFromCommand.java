@@ -60,8 +60,6 @@ public class StraightDriveFromCommand extends Command {
 //        PID.setI(SmartDashboard.getNumber("I", I));
 //        PID.setD(SmartDashboard.getNumber("D", D));
         
-        Log.d(this, "Driving " + distance + " feet at a speed of " + speed);
-        
         Robot.driveTrain.reset();
 
         Robot.driveTrain.brakeMode(true);
@@ -103,8 +101,6 @@ public class StraightDriveFromCommand extends Command {
         // Disable PID output and stop robot to be safe
         PID.disable();
         Robot.driveTrain.drive(0, 0);
-
-        Log.d(this, "Done driving");
     }
 
     // Called when another command which requires one or more of the same

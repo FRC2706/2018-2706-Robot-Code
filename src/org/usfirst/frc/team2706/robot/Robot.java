@@ -113,6 +113,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousInit() {
         Log.i("Robot", "Entering autonomous mode");
+        Log.d("Robot", "Autonomous game specific message: " + DriverStation.getInstance().getGameSpecificMessage());
 
         driveTrain.reset();
         lift.resetSetpoint();
@@ -134,6 +135,8 @@ public class Robot extends IterativeRobot {
 
     public void teleopInit() {
         Log.i("Robot", "Entering teleop mode");
+        
+        Log.d("Robot", "Teleop game specific message: " + DriverStation.getInstance().getGameSpecificMessage());
 
         Robot.lift.resetSetpoint();
         
@@ -153,7 +156,8 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-      
+      SmartDashboard.putBoolean("CubeCaptured", Robot.intake.cubeCaptured());
+        
         Scheduler.getInstance().run();
         log();
     }
