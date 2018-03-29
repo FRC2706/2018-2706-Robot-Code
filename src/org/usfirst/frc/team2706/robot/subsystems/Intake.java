@@ -77,6 +77,10 @@ public class Intake extends Subsystem {
         right_intake_motor.set(-motorSpeed * 0.75); 
     }
     
+    public void inhaleCubeCustom(double left, double right) {
+        left_intake_motor.set(-left);
+        right_intake_motor.set(-right);
+    }
     // Turns the robot motors on to shoot out the cube
     public void exhaleCube (double motorSpeed) {
         left_intake_motor.set(motorSpeed * m_ejectMaxPower);

@@ -8,10 +8,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class PickupCubeAuto extends CommandGroup {
     
     private final IntakeUntilGrabbedNoDrive grab;
-    
-    public PickupCubeAuto() {
-        this.addParallel(new FollowCamera(0.3));
-        grab = new IntakeUntilGrabbedNoDrive(1);
+    public PickupCubeAuto(double leftSpeed, double rightSpeed) {
+        this.addParallel(new FollowCamera(0.325));
+        grab = new IntakeUntilGrabbedNoDrive(leftSpeed, rightSpeed);
         this.addSequential(grab);
     }
     

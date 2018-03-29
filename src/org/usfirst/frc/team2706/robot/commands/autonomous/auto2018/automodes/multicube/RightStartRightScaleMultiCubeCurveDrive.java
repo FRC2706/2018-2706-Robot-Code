@@ -3,7 +3,6 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.mu
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
 import org.usfirst.frc.team2706.robot.commands.InitLift;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
-import org.usfirst.frc.team2706.robot.commands.MoveLift;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightBlocking;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightBlockingAfterTime;
 import org.usfirst.frc.team2706.robot.commands.autonomous.AutoConstants;
@@ -25,7 +24,7 @@ public class RightStartRightScaleMultiCubeCurveDrive extends CommandGroup {
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED,-2.48,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),2);
         this.addSequential(new RotateDriveWithGyro(-125, this + ".turnRightTowardsScale"),2);
         //this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_SLOW,4.5,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),3);
-        this.addSequential(new PickupCubeAuto(), 5);
+        this.addSequential(new PickupCubeAuto(0.9,0.2), 5);
        this.addParallel(new IntakeCube(1,false),1);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_SLOW,-1,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),3);
         this.addParallel(new SetLiftHeightBlocking(3,2,0.1),4);
