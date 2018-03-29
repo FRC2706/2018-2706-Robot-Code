@@ -2,12 +2,12 @@
 package org.usfirst.frc.team2706.robot;
 
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
-import org.usfirst.frc.team2706.robot.controls.StickRumble;
+import org.usfirst.frc.team2706.robot.controls.operatorFeedback.Rumbler;
+import org.usfirst.frc.team2706.robot.subsystems.Bling;
 import org.usfirst.frc.team2706.robot.subsystems.Climber;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
-
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -37,12 +37,12 @@ public class Robot extends IterativeRobot {
 
     // Stores all of the joysticks, and returns them as read only.
     public static OI oi;
+    
+    // Bling Subsystem
+    public static Bling blingSystem;
 
     // Records joystick states to file for later replaying
     RecordJoystick recordAJoystick;
-
-    // Rumbles joystick to tell drive team which mode we're in
-    StickRumble rumbler;
     
     AutoInit autoInit;
 
@@ -82,6 +82,8 @@ public class Robot extends IterativeRobot {
         recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
                         () -> SmartDashboard.getString("record-joystick-name", "default"),
                         "recordJoystick");
+        
+        blingSystem = new Bling();
     }
 
     /**
@@ -91,7 +93,6 @@ public class Robot extends IterativeRobot {
     public void disabledInit() {
         Log.updateTableLog();
         Log.save();
-        
         // Stop timer on the dashboard
         SmartDashboard.putBoolean("time_running", false);
     }
@@ -112,6 +113,8 @@ public class Robot extends IterativeRobot {
      * additional strings & commands.
      */
     public void autonomousInit() {
+        // Begin timer.
+        SmartDashboard.putBoolean("time_running", true);
         Log.i("Robot", "Entering autonomous mode");
         Log.d("Robot", "Autonomous game specific message: " + DriverStation.getInstance().getGameSpecificMessage());
 
@@ -147,9 +150,7 @@ public class Robot extends IterativeRobot {
         if (SmartDashboard.getBoolean("record-joystick", false))
             recordAJoystick.start();
         // Tell drive team to drive
-        rumbler = new StickRumble(0.4, 0.15, 1, 0, 1, 1.0, 1, "controllerStickRumble");
-        rumbler.start();
-        
+        new Rumbler(0.5, 0.2, 3, Rumbler.BOTH_JOYSTICKS);
     }
 
     /**

@@ -51,6 +51,7 @@ public class Intake extends Subsystem {
     
     public void log() {
         SmartDashboard.putNumber("Intake IR", readIRSensor());
+        SmartDashboard.putBoolean("CubeIn", cubeCaptured());
     }
     
     // Turns the robot motors on to suck in the cube on the left
