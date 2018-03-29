@@ -97,7 +97,7 @@ public class MoveLiftWithPID extends Command {
      */
     public void end() {
      //   move.stop();
-        Robot.lift.resetSetpoint();
+     //   Robot.lift.resetSetpoint();
     }
 
     protected boolean isFinished() {

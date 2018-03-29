@@ -41,7 +41,7 @@ public class Lift extends Subsystem {
 
     private boolean zeroedOnce = false;
     
-    private static final double pDown = 0.5, iDown = 0, dDown = 100;
+    private static final double pDown = 0.5, iDown = 0, dDown = 160;
     private static final double pUp = 0.5, iUp = 0, dUp = 50;
 
     public Lift() {
@@ -49,7 +49,7 @@ public class Lift extends Subsystem {
         liftMotor = new TalonLimit(RobotMap.MOTOR_LIFT, liftDown);
         setBrakeMode(true);
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
-
+        liftMotor.configClosedloopRamp(0.2, 0);
         encoder = new TalonEncoder(liftMotor);
         liftDown.whileActive(new OneTimeCommand(this::reset));
         liftDown.whenActive(new OneTimeCommand(() -> {
