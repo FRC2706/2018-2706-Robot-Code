@@ -83,8 +83,8 @@ public class OI {
         
         // Currently lift is mapped to buttons as well
         // Final: Elevator on axis 1
-        SmoothedTriggerButtonJoystick MoveLift = new SmoothedTriggerButtonJoystick(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, 0.15, 0.05);
-        MoveLift.runWhileHeld(new MoveLiftWithPID (() -> -MoveLift.getAxis()));
+        TriggerButtonJoystick MoveLift = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, 0.2);
+        MoveLift.runWhileHeld(new MoveLiftWithPID (controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, true));
         
         EJoystickButton MoveLiftUp = new EJoystickButton(controlStick, JoystickMap.XBOX_Y_BUTTON);
         MoveLiftUp.runWhileHeld(new MoveLift(0.3));
@@ -94,10 +94,10 @@ public class OI {
 
         // Sending lift to fixed destinations   
         StickQuadrantButtonJoystick liftLevelRight = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.RIGHT, 0.2);
-        liftLevelRight.runWhileHeld(new SetLiftHeightUntilCancelled(5.55));
+        liftLevelRight.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT));
         
         StickQuadrantButtonJoystick liftLevelUp = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.DOWN, 0.2);
-        liftLevelUp.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT * 0.8));
+        liftLevelUp.runWhileHeld(new SetLiftHeightUntilCancelled(5.55));
         
         StickQuadrantButtonJoystick liftLevelLeft = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.LEFT, 0.2);
         liftLevelLeft.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT * 0.5));
