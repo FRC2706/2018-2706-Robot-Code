@@ -156,7 +156,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-      SmartDashboard.putBoolean("CubeCaptured", Robot.intake.cubeCaptured());
+      SmartDashboard.putBoolean("CubeIn", Robot.intake.cubeCaptured());
         
         Scheduler.getInstance().run();
         log();

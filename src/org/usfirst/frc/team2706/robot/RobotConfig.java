@@ -28,7 +28,7 @@ public class RobotConfig {
      */
     @SuppressWarnings("unchecked")
     public static <T> T get(String name, T defaultValue) {
-        // Create JSON primitives depending on the type of T
+        /*// Create JSON primitives depending on the type of T
         if (defaultValue instanceof Boolean) {
             // Try to get the value of the config location or return Optional.empty() for default
             Optional<JsonPrimitive> val =
@@ -75,7 +75,7 @@ public class RobotConfig {
                 }
             }
         }
-
+*/
         // Either config didn't have correct information, T wasn't a valid type, or value wasn't
         // overridden
         return defaultValue;
