@@ -18,10 +18,10 @@ public class LeftStartLeftScaleMultiCubeCurveDrive extends CommandGroup {
     public LeftStartLeftScaleMultiCubeCurveDrive() {
         this.addParallel(new InitLift());
         this.addParallel(new SetLiftHeightBlockingAfterTime(AutoConstants.SCALE_HEIGHT, 5, 0.2,1000));
-        this.addSequential(new CurveDrive(2,19,25,0.75,false,"B"));
-        this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED),1);
-        this.addParallel(new SetLiftHeightBlockingAfterTime(Double.MIN_VALUE,5,0.2, 1000),5);
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED,-2.48,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),2);
+        this.addSequential(new CurveDrive(2,19.5,25,0.75,false,"B"));
+        this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED),1.5);
+        this.addParallel(new SetLiftHeightBlockingAfterTime(Double.MIN_VALUE,5,0.2, 500),5);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_SLOW,-2.48,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),2);
         this.addSequential(new RotateDriveWithGyro(125, this + ".turnRightTowardsScale"),2);
         //this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_SLOW,4.5,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),3);
         this.addSequential(new PickupCubeAuto(0.2,0.9), 5);
