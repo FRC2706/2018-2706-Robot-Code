@@ -12,8 +12,8 @@ public class FunDuringAuto extends BlingPattern {
         // Only operate during the autonomous period
         operationPeriod.add(BlingController.AUTONOMOUS_PERIOD);
         
-        rgbColourCode[0] = 0;
-        rgbColourCode[1] = 0;
+        rgbColourCode[0] = 255;
+        rgbColourCode[1] = 255;
         rgbColourCode[2] = 0;
         
         LED_BRIGHTNESS = 255;

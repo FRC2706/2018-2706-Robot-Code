@@ -99,7 +99,7 @@ public class BlingController extends Command {
             // Break at the first positive return. 
             if (pattern.conditionsMet()) {
                 
-                Log.d("BLING : ", "pattern met conditions : " + pattern);
+              //  Log.d("BLING : ", "pattern met conditions : " + pattern);
                 
                 // Reset the pattern that we're no onger running
                 if (currentPattern != null && !currentPattern.equals(pattern)) {

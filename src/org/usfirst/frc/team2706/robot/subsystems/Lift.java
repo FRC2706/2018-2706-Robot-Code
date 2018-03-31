@@ -122,9 +122,10 @@ public class Lift extends Subsystem {
         else if(!override) {
             d = Math.max(d, Double.MIN_VALUE);
         }
+        if(defaultCommand != null) {
+            defaultCommand.setDestination(d);
+        }
         
-
-        defaultCommand.setDestination(d);
     }
 
     private MoveLiftToDestination defaultCommand;
@@ -269,5 +270,9 @@ public class Lift extends Subsystem {
         else {
             liftMotor.setNeutralMode(NeutralMode.Coast);
         }
+    }
+    
+    public void disableMotor() {
+        liftMotor.stopMotor();
     }
 }
