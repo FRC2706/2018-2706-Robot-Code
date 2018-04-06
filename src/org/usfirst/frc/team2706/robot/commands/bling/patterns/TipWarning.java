@@ -34,7 +34,7 @@ public class TipWarning extends BlingPattern {
     }
     
     public void runCommand() {
-        rumbler = new Rumbler(10000, 0, -1, Rumbler.BOTH_JOYSTICKS);
+//        rumbler = new Rumbler(10000, 0, -1, Rumbler.BOTH_JOYSTICKS);
     }
     
     @Override
@@ -43,7 +43,7 @@ public class TipWarning extends BlingPattern {
         super.reset();
         
         // End the rumbler when this pattern is reset.
-        rumbler.end();
+//        rumbler.end();
     }
 
 }

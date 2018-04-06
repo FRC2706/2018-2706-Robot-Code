@@ -62,6 +62,10 @@ public class IntakeSignaller extends BlingPattern {
         patternBeingDisplayed = cubeStateSwitched || (patternBeingDisplayed && timePassed <= 3);
         
         
+        System.out.println("timePassed : " + timePassed + " cubeStateSwitched:" + cubeStateSwitched + 
+                        " patternBeingDisplayed: " + patternBeingDisplayed); // TODO remove
+        
+        
         // Display if the timePassed is under 3 seconds. 
         return patternBeingDisplayed;
     }
