@@ -73,7 +73,7 @@ public class IntakeSignaller extends BlingPattern {
     @Override
     public void runCommand() {
         // Rumble the joystick when the pattern is run.
-        if (!hasRun) new Rumbler(0.8, 0.2, 3, Rumbler.OPERATOR_JOYSTICK);
+//        if (!hasRun) new Rumbler(0.8, 0.2, 3, Rumbler.OPERATOR_JOYSTICK);
         hasRun = true;
     }
 }

@@ -23,7 +23,7 @@ public class CenterStartLeftSwitchMultiCube extends CommandGroup {
         IntakeUntilGrabbed g = new IntakeUntilGrabbed(AutoConstants.SPEED_SLOW,1);
         this.addSequential(g,3);
         //this.addSequential(new StraightDriveWithEncoders(0.55, 3.0, 2, 3, "BBB"), 2.5);
-        this.addParallel(new IntakeCube(1,false),1);
+        this.addParallel(new IntakeCube(1,true),2);
         this.addSequential(new StraightDriveFromCommand(AutoConstants.SPEED_FAST, g, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, "backFromWall"),2);
         this.addSequential(new RotateDriveWithGyro(-45, "turnForSecondCube"),2);
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SWITCH_HEIGHT,2,0.2),2);

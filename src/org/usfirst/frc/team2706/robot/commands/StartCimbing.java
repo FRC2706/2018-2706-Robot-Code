@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2706.robot.commands;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Climber;
 
@@ -15,6 +16,7 @@ private Climber climb;
     }
     
     public void initialize() {
+        Log.d(this, "Started Climbing");
         // Stop PID stuff when climbing so motors are fighting the lift
         if(Robot.lift.getDefaultCommand() != null) {
             Robot.lift.getDefaultCommand().cancel();
@@ -25,10 +27,11 @@ private Climber climb;
         }
         
         Robot.lift.setBrakeMode(false);
+        Robot.lift.disableMotor();
     }
     
     public void execute() {
-        climb.climb();
+       climb.climb();
     }
 
     public void end() {

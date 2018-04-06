@@ -25,7 +25,7 @@ Command intakeCube;
     }
     @Override
     protected boolean isFinished() {
-            return Robot.intake.readIRSensor() > 1.35;        // TODO Auto-generated method stub
+            return Robot.intake.readIRSensor() > 1.75;        // TODO Auto-generated method stub
     }
 
 }
