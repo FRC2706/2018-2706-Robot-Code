@@ -6,13 +6,12 @@ import org.usfirst.frc.team2706.robot.subsystems.Bling;
 public class Blank extends BlingPattern {
     public Blank() {
         
-        // Add this command to all period
+        // Add this command to all periods
         operationPeriod.add(BlingController.AUTONOMOUS_PERIOD);
         operationPeriod.add(BlingController.CLIMBING_PERIOD);
         operationPeriod.add(BlingController.TELEOP_WITHOUT_CLIMB);
         
-        LED_BRIGHTNESS = 0;
-        command = Bling.CLEAR;
+        command = Bling.RAINBOW;
     }
     
     /**
