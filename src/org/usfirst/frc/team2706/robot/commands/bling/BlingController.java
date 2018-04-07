@@ -48,6 +48,7 @@ public class BlingController extends Command {
          */
         Add(new TipWarning());
         Add(new IntakeSignaller());
+        Add(new CubeInSignaller());
         
         // Do fun in auto
         Add(new FunDuringAuto());
