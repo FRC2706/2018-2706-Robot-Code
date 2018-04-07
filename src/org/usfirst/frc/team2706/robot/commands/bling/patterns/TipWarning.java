@@ -9,7 +9,6 @@ import org.usfirst.frc.team2706.robot.subsystems.Lift;
 public class TipWarning extends BlingPattern {
     
     Lift liftSystem;
-    Rumbler rumbler;
     
     public TipWarning() {
         liftSystem = Robot.lift;
@@ -34,16 +33,6 @@ public class TipWarning extends BlingPattern {
     }
     
     public void runCommand() {
-//        rumbler = new Rumbler(10000, 0, -1, Rumbler.BOTH_JOYSTICKS);
+        new Rumbler(0.5, 0, 1, Rumbler.BOTH_JOYSTICKS);
     }
-    
-    @Override
-    public void reset() {
-        // Run the base command
-        super.reset();
-        
-        // End the rumbler when this pattern is reset.
-//        rumbler.end();
-    }
-
 }

@@ -7,27 +7,18 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.networktables.*;
 
-public class Bling extends Subsystem{
-    // Bunch of colour presets.
-    public static final long WHITE = 16777215;
-    public static final long YELLOW = 16775680;
-    public static final long GREEN = 524288;
-    public static final long PURPLE = 8388736;
-    public static final long ORANGE = 16753920;
-    public static final long BLUE = 255;
-    public static final long VIOLET = 15631086;
-    public static final long MERGE = 6160762;
-    public static final long TAN = 16767411;
-    public static final long PINK = 14027935;
-    public static final long BLACK = 0;
-    public static final long GOLD = 16766720;
-    public static final long SILVER = 12632256;
-    public static final long RED = 16711680;
-    
+public class Bling extends Subsystem{    
     // All of the pattern numbers
     public static final String COLOUR_WIPE = "colorWipe", THEATRE_CHASE = "theaterChase", SOLID = "solid", BLINK = "blink",
                     RAINBOW = "rainbow", THEATRE_CHASE_RAINBOW = "theaterChaseRainbow", RAINBOW_CYCLE = "rainbowCycle",
                     CLEAR = "clear";
+    
+    /**
+     * A nice purple merge RGB colour.
+     */
+    public static final int[] MERGERGB = {114, 14, 172};
+    
+    public static final int GOODBRIGHTNESS  = 128;
     
     /**
      * The networktables key for the bling table.

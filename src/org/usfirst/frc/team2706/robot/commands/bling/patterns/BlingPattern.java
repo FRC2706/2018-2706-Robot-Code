@@ -19,9 +19,9 @@ public abstract class BlingPattern {
     
     protected int[] rgbColourCode = new int[3];
     
-    protected int repeatCount = 10000;
+    protected int repeatCount = 1000000;
     protected int wait_ms = 50;
-    protected int LED_BRIGHTNESS = 255;
+    protected int LED_BRIGHTNESS = Bling.GOODBRIGHTNESS;
     protected String command = Bling.COLOUR_WIPE;
    
     protected List<Integer> operationPeriod = new ArrayList<Integer>();
