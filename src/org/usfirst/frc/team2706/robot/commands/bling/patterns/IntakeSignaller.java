@@ -6,8 +6,6 @@ import org.usfirst.frc.team2706.robot.controls.operatorFeedback.Rumbler;
 import org.usfirst.frc.team2706.robot.subsystems.Bling;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj.Timer;
-
 /**
  * 
  * @author eAUE (Kyle Anderson)
@@ -29,9 +27,7 @@ public class IntakeSignaller extends BlingPattern {
         operationPeriod.add(BlingController.CLIMBING_PERIOD);
         
         // Set Colour to green
-        rgbColourCode[0] = 0;
-        rgbColourCode[1] = 255;
-        rgbColourCode[2] = 0;
+        rgbColourCode = Bling.GREEN;
 
 
         command = Bling.SOLID;
@@ -61,10 +57,8 @@ public class IntakeSignaller extends BlingPattern {
         
         wasCubeJustIn = isCubeIn; // Reset the status of this variable.
         
-        // If the cube state was switched, begin timing the pattern.
-        if (cubeStateSwitched) timePoint = Timer.getFPGATimestamp(); 
         // Determine the time passed since the last run.
-        double timePassed = Timer.getFPGATimestamp() - timePoint;
+        double timePassed = getTimeSinceStart();
         
         /* Update the patternBeingDisplayed boolean as needed
          * If the cubeStateWasSwitched, we make it true no mater what.
@@ -79,9 +73,9 @@ public class IntakeSignaller extends BlingPattern {
     }
     
     @Override
-    public void runCommand() {
+    public void initialize() {
+        super.initialize();
         // Rumble the joystick when the pattern is run.
         new Rumbler(0.8, 0.2, 1, Rumbler.OPERATOR_JOYSTICK);
-        hasRun = true;
     }
 }

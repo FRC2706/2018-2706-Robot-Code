@@ -7,6 +7,8 @@ import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Bling;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 
+import edu.wpi.first.wpilibj.Timer;
+
 /**
  * The template for Bling Patterns. Shouldn't be instantiated.
  * @author eAUE (Kyle Anderson)
@@ -16,6 +18,9 @@ public abstract class BlingPattern {
     
     protected Bling blingSystem;
     protected DriveTrain driveTrain;
+    
+    // The start time of the pattern.
+    private double startTime;
     
     protected int[] rgbColourCode = new int[3];
     
@@ -31,6 +36,15 @@ public abstract class BlingPattern {
      * and it was the last pattern to run.
      */
     protected boolean hasRun = false;
+    
+   
+    /**
+     * Gets the time passed since this pattern began to run.
+     * @return The time passed since the beginning of this pattern.
+     */
+    public double getTimeSinceStart() {
+        return Timer.getFPGATimestamp() - startTime;
+    }
     
     public BlingPattern() {        
         blingSystem = Robot.blingSystem;
@@ -99,17 +113,26 @@ public abstract class BlingPattern {
     }
     
     /**
+     * Called by bling every time the command is run, which would be about every 20 miliseconds.
      * If the command would like to run something while it is being displayed,
      * it should be run here.
      */
     public void runCommand() {
-        
     }
     
     /**
-     * Function that resets the bling pattern after it is changed to.
+     * Should be run at the beginning of the command to help initialize it.
      */
-    public void reset() {
+    public void initialize() {
+        hasRun = true;
+        startTime = Timer.getFPGATimestamp();
+    }
+    
+    /**
+     * Should be called when the pattern is ended.
+     * Resets the pattern so it can be run again.
+     */
+    public void end() {
         hasRun = false;
     }
 }

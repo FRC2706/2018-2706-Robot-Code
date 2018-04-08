@@ -11,7 +11,10 @@ public class Blank extends BlingPattern {
         operationPeriod.add(BlingController.CLIMBING_PERIOD);
         operationPeriod.add(BlingController.TELEOP_WITHOUT_CLIMB);
         
-        command = Bling.RAINBOW;
+        command = Bling.RAINBOW_CYCLE;
+        
+        repeatCount = 20;
+        wait_ms = 100;
     }
     
     /**

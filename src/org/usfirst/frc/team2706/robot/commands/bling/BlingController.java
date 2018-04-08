@@ -99,11 +99,13 @@ public class BlingController extends Command {
             // Break at the first positive return. 
             if (pattern.conditionsMet()) {
                 
-              //  Log.d("BLING : ", "pattern met conditions : " + pattern);
-                
-                // Reset the pattern that we're no onger running
+                /* Detect if the new pattern whose conditions are met was the last pattern to run.
+                 * If not, end the last pattern that ran, and start the new one.
+                 * Reset the pattern that we're no longer running
+                 */
                 if (currentPattern != null && !currentPattern.equals(pattern)) {
-                    currentPattern.reset();
+                    currentPattern.end();
+                    pattern.initialize();
                 }
                 currentPattern = pattern;
                 break;
@@ -119,7 +121,7 @@ public class BlingController extends Command {
     public void end() {
         // Just clear the strip at the end.
         blingSystem.clearStrip();
-        if (currentPattern != null) currentPattern.reset();
+        if (currentPattern != null) currentPattern.end();
         currentPattern = null;
     }
     
