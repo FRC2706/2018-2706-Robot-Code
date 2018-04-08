@@ -33,6 +33,6 @@ public class TipWarning extends BlingPattern {
     }
     
     public void runCommand() {
-        new Rumbler(0.5, 0, 1, Rumbler.BOTH_JOYSTICKS);
+        new Rumbler(0.5, 0.2, 2, Rumbler.BOTH_JOYSTICKS);
     }
 }

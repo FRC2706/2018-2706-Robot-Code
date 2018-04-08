@@ -3,7 +3,6 @@ package org.usfirst.frc.team2706.robot.commands.bling;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.commands.bling.patterns.*;
 import org.usfirst.frc.team2706.robot.subsystems.Bling;

@@ -16,7 +16,7 @@ public class Bling extends Subsystem{
     /**
      * A nice purple merge RGB colour.
      */
-    public static final int[] MERGERGB = {114, 14, 172};
+    public static final int[] MERGERGB = {102, 51, 153};
     
     public static final int GOODBRIGHTNESS  = 128;
     
