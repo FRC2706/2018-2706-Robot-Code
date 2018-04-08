@@ -13,9 +13,7 @@ public class TipWarning extends BlingPattern {
     public TipWarning() {
         liftSystem = Robot.lift;
         
-        rgbColourCode[0] = 0;
-        rgbColourCode[1] = 255;
-        rgbColourCode[2] = 255;
+        rgbColourCode = Bling.TURQUOISE;
         
         // Set the command that the bling strip will perform.
         command = Bling.BLINK;
@@ -32,7 +30,10 @@ public class TipWarning extends BlingPattern {
         return (liftSystem.getEncoderHeight() > (Lift.MAX_HEIGHT / 2));
     }
     
-    public void runCommand() {
-        new Rumbler(0.5, 0, 1, Rumbler.BOTH_JOYSTICKS);
+    @Override
+    public void initialize() {
+        super.initialize();
+        // Rumble when this begins.
+        new Rumbler(0.5, 0.2, 2, Rumbler.BOTH_JOYSTICKS);
     }
 }

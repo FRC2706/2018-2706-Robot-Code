@@ -13,10 +13,14 @@ public class Bling extends Subsystem{
                     RAINBOW = "rainbow", THEATRE_CHASE_RAINBOW = "theaterChaseRainbow", RAINBOW_CYCLE = "rainbowCycle",
                     CLEAR = "clear";
     
+    // COLOUR PRESETS BELOW
     /**
      * A nice purple merge RGB colour.
      */
-    public static final int[] MERGERGB = {114, 14, 172};
+    public static final int[] MERGERGB = {114, 14, 172}, WHITE = {255, 255, 255}, BLACK = {0, 0, 0},
+                    ORANGE = {255, 165, 0}, SKYBLUE = {125, 206, 235}, TURQUOISE = {64, 224, 208},
+                    GREEN = {0, 255, 0}, BLUE = {0, 0, 255}, RED = {255, 0, 0}, PURPLE = {128, 0, 128},
+                    YELLOW = {255, 255, 0};
     
     public static final int GOODBRIGHTNESS  = 128;
     
@@ -78,6 +82,9 @@ public class Bling extends Subsystem{
         
         boolean isSameCommand = isSameAsLastCommandRun(patternToShow);
         
+        // Run the command
+        patternToShow.runCommand();
+        
         // Don't spam the pi with the same command, so determine if this is the same as the last command
         if (isSameCommand) return;
         
@@ -89,9 +96,6 @@ public class Bling extends Subsystem{
         
         // Display pattern
         Display(patternToShow.getBrightness(), patternToShow.getWaitMS(), patternToShow.getRGB(), patternToShow.getCommand(), patternToShow.getRepeatCount());
-        
-        // Run the command
-        patternToShow.runCommand();
         
     }
     
