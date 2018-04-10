@@ -2,13 +2,22 @@ package org.usfirst.frc.team2706.robot.commands.bling.patterns;
 
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.commands.bling.BlingController;
-import org.usfirst.frc.team2706.robot.controls.operatorFeedback.Rumbler;
 import org.usfirst.frc.team2706.robot.subsystems.Bling;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
+
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class TipWarning extends BlingPattern {
     
     Lift liftSystem;
+    
+    // Stuff for sending warnings to the dashboard.
+    NetworkTableEntry warningAddQueue, warningRemoveQueue;
+    private static final String WARNINGMESSAGE = "Beware Tipping";
+    
+    static final String NTKEY = "SmartDashboard/Warnings";
     
     public TipWarning() {
         liftSystem = Robot.lift;
@@ -22,6 +31,12 @@ public class TipWarning extends BlingPattern {
         
         operationPeriod.add(BlingController.TELEOP_WITHOUT_CLIMB);
         operationPeriod.add(BlingController.CLIMBING_PERIOD);
+        
+        // Set networktables variables.
+        NetworkTable warningTable = NetworkTableInstance.getDefault().getTable(NTKEY);
+        warningAddQueue = warningTable.getEntry("AddQueue");
+        warningRemoveQueue = warningTable.getEntry("RemoveQueue");
+        
     }
 
     @Override
@@ -33,7 +48,13 @@ public class TipWarning extends BlingPattern {
     @Override
     public void initialize() {
         super.initialize();
-        // Rumble when this begins.
-        new Rumbler(0.5, 0.2, 2, Rumbler.BOTH_JOYSTICKS);
+        
+        // Also set a warning in dashboard.
+        warningAddQueue.setString(WARNINGMESSAGE);
+    }
+    
+    public void end() {
+        // Remove the warning from the dashboard once we're done.
+        warningRemoveQueue.setString(WARNINGMESSAGE);
     }
 }
