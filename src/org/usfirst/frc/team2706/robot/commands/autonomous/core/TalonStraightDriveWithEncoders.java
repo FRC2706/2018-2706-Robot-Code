@@ -51,7 +51,7 @@ public class TalonStraightDriveWithEncoders extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Log.d(this, "Talon driving " + distance + " feet at a speed of " + speed);
+        Log.i(this, "Talon driving " + distance + " feet at a speed of " + speed);
 
         Robot.driveTrain.reset();
 
@@ -96,7 +96,7 @@ public class TalonStraightDriveWithEncoders extends Command {
         PID.disable();
         Robot.driveTrain.drive(0, 0);
 
-        Log.d(this, "Done driving");
+        Log.i(this, "Done driving");
     }
 
     // Called when another command which requires one or more of the same

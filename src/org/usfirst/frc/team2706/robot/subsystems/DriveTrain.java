@@ -137,7 +137,7 @@ public class DriveTrain extends Subsystem {
         }
         setDefaultCommand(defaultCommand);
 
-        Log.d("Drive Train Command", defaultCommand);
+        Log.i("Drive Train Command", defaultCommand);
     }
 
     public Command getDefaultCommand() {
@@ -246,7 +246,7 @@ public class DriveTrain extends Subsystem {
         resetGyro();
         resetDisplacement();
 
-        Log.d("Drive Train", "Resetting sensors");
+        Log.i("Drive Train", "Resetting sensors");
     }
 
     /**
@@ -308,7 +308,7 @@ public class DriveTrain extends Subsystem {
     public void brakeMode(boolean on) {
         NeutralMode mode = on ? NeutralMode.Brake : NeutralMode.Coast;
 
-        Log.d("Brake Mode", mode);
+        Log.i("Brake Mode", mode);
 
         front_left_motor.setNeutralMode(mode);
         back_left_motor.setNeutralMode(mode);

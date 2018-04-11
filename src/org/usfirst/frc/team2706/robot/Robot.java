@@ -8,6 +8,7 @@ import org.usfirst.frc.team2706.robot.subsystems.Climber;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -46,6 +47,8 @@ public class Robot extends IterativeRobot {
     
     AutoInit autoInit;
 
+    private static boolean enteredTeleop;
+    
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -91,8 +94,12 @@ public class Robot extends IterativeRobot {
      * reset any subsystem information you want to clear when the robot is disabled.
      */
     public void disabledInit() {
+        Log.i("Robot", "Disabled");
+        
         Log.updateTableLog();
-        Log.save();
+        if(enteredTeleop) {
+            Log.save();
+        }
         // Stop timer on the dashboard
         SmartDashboard.putBoolean("time_running", false);
     }
@@ -116,7 +123,7 @@ public class Robot extends IterativeRobot {
         // Begin timer.
         SmartDashboard.putBoolean("time_running", true);
         Log.i("Robot", "Entering autonomous mode");
-        Log.d("Robot", "Autonomous game specific message: " + DriverStation.getInstance().getGameSpecificMessage());
+        Log.i("Robot", "Autonomous game specific message: " + DriverStation.getInstance().getGameSpecificMessage());
 
         driveTrain.reset();
         lift.resetSetpoint();
@@ -139,8 +146,9 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
         Log.i("Robot", "Entering teleop mode");
         
-        Log.d("Robot", "Teleop game specific message: " + DriverStation.getInstance().getGameSpecificMessage());
-
+        Log.i("Robot", "Teleop game specific message: " + DriverStation.getInstance().getGameSpecificMessage());
+        enteredTeleop = true;
+        
         Robot.lift.resetSetpoint();
         
         autoInit.end();

@@ -63,7 +63,7 @@ public class StraightDriveWithEncoders extends Command {
 //        PID.setI(SmartDashboard.getNumber("I", I));
 //        PID.setD(SmartDashboard.getNumber("D", D));
 
-        Log.d(this, "Driving " + distance + " feet at a speed of " + speed);
+        Log.i(this, "Driving " + distance + " feet at a speed of " + speed);
         
         Robot.driveTrain.reset();
 
@@ -107,7 +107,7 @@ public class StraightDriveWithEncoders extends Command {
         PID.disable();
         Robot.driveTrain.drive(0, 0);
 
-        Log.d(this, "Done driving, drove " + Robot.driveTrain.getDistance());
+        Log.i(this, "Done driving, drove " + Robot.driveTrain.getDistance());
     }
 
     // Called when another command which requires one or more of the same

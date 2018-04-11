@@ -16,7 +16,7 @@ private Climber climb;
     }
     
     public void initialize() {
-        Log.d(this, "Started Climbing");
+        Log.i(this, "Started Climbing");
         // Stop PID stuff when climbing so motors are fighting the lift
         if(Robot.lift.getDefaultCommand() != null) {
             Robot.lift.getDefaultCommand().cancel();

@@ -80,7 +80,7 @@ public class CurveDrive extends Command {
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
         initHeading = Robot.driveTrain.getHeading();
-        Log.d(this, "Current encoder ticks are " + Robot.driveTrain.getDistance());
+        Log.i(this, "Current encoder ticks are " + Robot.driveTrain.getDistance());
         
         PID.enable();
     }
@@ -100,7 +100,7 @@ public class CurveDrive extends Command {
         
         xPos = 0;
         yPos = 0;
-        Log.d(this, "Finished with encoder ticks at " + Robot.driveTrain.getDistance());
+        Log.i(this, "Finished with encoder ticks at " + Robot.driveTrain.getDistance());
         Robot.driveTrain.brakeMode(true);
         //new CurveDriveStop(endCurve).start();
         lastEncoderAv = 0;

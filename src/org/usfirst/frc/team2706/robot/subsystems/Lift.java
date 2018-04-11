@@ -66,7 +66,7 @@ public class Lift extends Subsystem {
         liftMotor.configPeakCurrentLimit(0, 0);
         liftMotor.configPeakCurrentDuration(0, 0);
         setRegularCurrentLimit();
-        liftMotor.enableCurrentLimit(false);
+        liftMotor.enableCurrentLimit(true);
         
       SmartDashboard.putNumber("P Down", SmartDashboard.getNumber("P Down", pDown));
       SmartDashboard.putNumber("I Down", SmartDashboard.getNumber("I Down", iDown));
@@ -124,6 +124,9 @@ public class Lift extends Subsystem {
         }
         if(defaultCommand != null) {
             defaultCommand.setDestination(d);
+        }
+        else {
+            Log.e("Lift", "Default command null!");
         }
         
     }
@@ -235,11 +238,11 @@ public class Lift extends Subsystem {
     }
 
     public void setRegularCurrentLimit() {
-        liftMotor.configContinuousCurrentLimit(20, 0);
+        liftMotor.configContinuousCurrentLimit(35, 0);
     }
 
     public void setUnsafeCurrentLimit() {
-        liftMotor.configContinuousCurrentLimit(5, 0);
+        liftMotor.configContinuousCurrentLimit(10, 0);
     }
     
     public void setPID(double P, double I, double D) {

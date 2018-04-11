@@ -36,7 +36,7 @@ public class StraightDriveWithTime extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Log.d(this, "Driving for " + time / 1000 + " seconds");
+        Log.i(this, "Driving for " + time / 1000 + " seconds");
         
         // Creates task to stop robot after time
         CommandTimerTask interrupt = new CommandTimerTask();
@@ -59,7 +59,7 @@ public class StraightDriveWithTime extends Command {
     // Called once after isFinished returns true
     protected void end() {
         Robot.driveTrain.drive(0, 0);
-        Log.d(this, "Done driving");
+        Log.i(this, "Done driving");
     }
 
     // Called when another command which requires one or more of the same

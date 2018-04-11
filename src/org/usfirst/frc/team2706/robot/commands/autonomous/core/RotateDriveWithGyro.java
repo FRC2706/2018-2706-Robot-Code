@@ -74,7 +74,7 @@ public class RotateDriveWithGyro extends Command {
 //      PID.setI(SmartDashboard.getNumber("I", I));
 //      PID.setD(SmartDashboard.getNumber("D", D));
       
-        Log.d(this, "Rotating " + angle + " degrees at a speed of " + speed);
+        Log.i(this, "Rotating " + angle + " degrees at a speed of " + speed);
         
         Robot.driveTrain.reset();
 
@@ -114,7 +114,7 @@ public class RotateDriveWithGyro extends Command {
     protected void end() {
         // Disable PID output and stop robot to be safe
         PID.disable();
-        Log.d(this, "Done rotating, rotated " + Robot.driveTrain.getHeading());
+        Log.i(this, "Done rotating, rotated " + Robot.driveTrain.getHeading());
         Robot.driveTrain.drive(0, 0);
         
         Robot.driveTrain.reset();
