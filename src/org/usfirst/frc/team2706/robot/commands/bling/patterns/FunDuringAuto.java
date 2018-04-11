@@ -12,11 +12,10 @@ public class FunDuringAuto extends BlingPattern {
         // Only operate during the autonomous period
         operationPeriod.add(BlingController.AUTONOMOUS_PERIOD);
         
-        rgbColourCode[0] = 255;
-        rgbColourCode[1] = 255;
-        rgbColourCode[2] = 0;
+        rgbColourCode = Bling.YELLOW;
         
-        LED_BRIGHTNESS = 255;
+        // Repeat count ought to be around 20
+        repeatCount = 20;
     }
     
     @Override
