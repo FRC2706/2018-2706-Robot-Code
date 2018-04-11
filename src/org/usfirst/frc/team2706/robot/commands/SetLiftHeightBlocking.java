@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2706.robot.commands;
 
-import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 
 public class SetLiftHeightBlocking extends SetLiftHeightUntilCancelled {
@@ -8,10 +7,9 @@ public class SetLiftHeightBlocking extends SetLiftHeightUntilCancelled {
     private int minDoneCycles;
     private double error;
     private int currentCycles = 0;
-    private double height;
+    
     public SetLiftHeightBlocking(double height, int minDoneCycles, double error) {
         super(height);
-        this.height = height;
         this.minDoneCycles = minDoneCycles;
         this.error = error;
     }

@@ -8,7 +8,6 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.AutoConstants;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This mostly works, but use the QuickRotate command instead. PID control using gyro heading is

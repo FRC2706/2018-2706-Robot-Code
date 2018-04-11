@@ -191,6 +191,12 @@ public class Robot extends IterativeRobot {
             lift.log();
             intake.log();
         }
+        
+        driveTrain.debugLog();
+        autoInit.selectorSwitch.debugLog();
+        lift.debugLog();
+        intake.debugLog();
+        climb.debugLog();
     }
     public void initTestMode() {
         driveTrain.initTestMode();

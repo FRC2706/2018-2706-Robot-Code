@@ -171,6 +171,28 @@ public class DriveTrain extends Subsystem {
         // selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
     }
 
+    public void debugLog() {
+        Log.d("Drive Train", "Acceleration " + gyro.getRawAccelX() + " " + gyro.getRawAccelY() + " " + gyro.getRawAccelZ());
+
+        Log.d("Drive Train", "Right Position " + left_encoder.getDistance());
+        Log.d("Drive Train", "Left Position " + right_encoder.getDistance());
+        
+        Log.d("Drive Train", "Front Right Temperature " + front_right_motor.getTemperature());
+        Log.d("Drive Train", "Front Left Temperature " + front_left_motor.getTemperature());
+        Log.d("Drive Train", "Back Right Temperature " + back_right_motor.getTemperature());
+        Log.d("Drive Train", "Back Left Temperature " + back_left_motor.getTemperature());
+        
+        Log.d("Drive Train", "Front Right Current " + front_right_motor.getOutputCurrent());
+        Log.d("Drive Train", "Front Left Current " + front_left_motor.getOutputCurrent());
+        Log.d("Drive Train", "Back Right Current " + back_right_motor.getOutputCurrent());
+        Log.d("Drive Train", "Back Left Current " + back_left_motor.getOutputCurrent());
+        
+        Log.d("Drive Train", "Front Right Output " + front_right_motor.getMotorOutputPercent());
+        Log.d("Drive Train", "Front Left Output " + front_left_motor.getMotorOutputPercent());
+        Log.d("Drive Train", "Back Right Output " + back_right_motor.getMotorOutputPercent());
+        Log.d("Drive Train", "Back Left Output " + back_left_motor.getMotorOutputPercent());
+    }
+    
     /**
      * Tank style driving for the DriveTrain.
      * 
@@ -430,7 +452,7 @@ public class DriveTrain extends Subsystem {
 
         @Override
         public double pidGet() {
-           // Log.d("DriveTrain", "Got encoder input of " + right.getDistance());
+            Log.d("Drive Train", "Got encoder input of " + right.getDistance());
 
             return (right.getDistance() + left.getDistance()) / 2;
         }
@@ -463,7 +485,7 @@ public class DriveTrain extends Subsystem {
             if (heading > 358.0)
                 heading = 0;
 
-         //   Log.d("Gyro PID", (invert ? -heading : heading));
+            Log.d("Gyro PID", (invert ? -heading : heading));
 
             return invert ? -heading : heading;
         }
@@ -498,7 +520,7 @@ public class DriveTrain extends Subsystem {
         public void pidWrite(double output) {
 
 
-           // Log.d("Drive PID", output);
+            Log.d("Drive PID", output);
 
             double rotateVal;
             if (useCamera) {

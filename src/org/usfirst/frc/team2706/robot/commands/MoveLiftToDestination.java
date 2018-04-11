@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2706.robot.commands;
 
-import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;

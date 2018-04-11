@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
 
@@ -52,6 +53,20 @@ public class Intake extends Subsystem {
     public void log() {
         SmartDashboard.putNumber("Intake IR", readIRSensor());
         SmartDashboard.putBoolean("CubeIn", cubeCaptured());
+    }
+    
+    public void debugLog() {
+        Log.d("Intake", "Intake IR" + readIRSensor());
+        Log.d("Intake", "Cube Held" + cubeCaptured());
+        
+        Log.d("Intake", "Right Temperature " + right_intake_motor.getTemperature());
+        Log.d("Intake", "Left Temperature " + left_intake_motor.getTemperature());
+        
+        Log.d("Intake", "Right Current " + right_intake_motor.getOutputCurrent());
+        Log.d("Intake", "Left Current " + left_intake_motor.getOutputCurrent());
+        
+        Log.d("Intake", "Right Output " + right_intake_motor.getMotorOutputPercent());
+        Log.d("Intake", "Left Output " + left_intake_motor.getMotorOutputPercent());
     }
     
     // Turns the robot motors on to suck in the cube on the left

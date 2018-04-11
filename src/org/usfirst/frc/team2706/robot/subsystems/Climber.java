@@ -1,4 +1,5 @@
 package org.usfirst.frc.team2706.robot.subsystems;
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -43,5 +44,12 @@ public class Climber extends Subsystem {
     public void initTestMode() {
         new WPI_TalonSRX(8).setName("Climber","Climber Motor");
         IR_sensor.setName("Climber","Climber IR");
+    }
+    
+    public void debugLog() {
+        Log.d("Climber", "IR " + readIRSensor());
+        Log.d("Climber", "Temperature " + climber_motor.getTemperature());
+        Log.d("Climber", "Current " + climber_motor.getOutputCurrent());
+        Log.d("Climber", "Output " + climber_motor.getMotorOutputPercent());
     }
 }
