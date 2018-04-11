@@ -37,7 +37,7 @@ public class CurveDrive extends Command {
 
     private final boolean isRight;
     
-    private final double P = 0.15, I = 0, D = 0, FF = 0.0;
+    private final double P = 0.1, I = 0, D = 0, FF = 0.0;
     
     private final PIDController PID;
 

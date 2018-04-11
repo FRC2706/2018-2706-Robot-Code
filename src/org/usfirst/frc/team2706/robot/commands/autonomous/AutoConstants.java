@@ -5,7 +5,7 @@ public class AutoConstants {
     public static final double ROTATE_SPEED = 0.65;
     public static final double ROTATE_ERROR = 1.5;
     public static final int ROTATE_CYCLES = 3;
-    public static final double SCALE_HEIGHT = 6.4;
+    public static final double SCALE_HEIGHT = 6.7;
     public static final double FAR_SCALE_HEIGHT = 6.9;
     public static final double SWITCH_HEIGHT = 2.5;
     public static final double EJECT_SPEED = 0.65;
