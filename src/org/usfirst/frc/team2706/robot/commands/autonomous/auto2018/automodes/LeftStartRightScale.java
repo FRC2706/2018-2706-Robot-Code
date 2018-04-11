@@ -3,6 +3,7 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes;
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightBlocking;
 import org.usfirst.frc.team2706.robot.commands.autonomous.AutoConstants;
+import org.usfirst.frc.team2706.robot.commands.autonomous.PickupCubeAuto;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
 
@@ -25,5 +26,7 @@ public class LeftStartRightScale extends CommandGroup{
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_SLOW,-1.5,AutoConstants.ACCURATE_ERROR, 1, this + ".endForwardToScale"),2);
         this.addParallel(new SetLiftHeightBlocking(Double.MIN_VALUE,5,0.2),5);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED,-1.48,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),2);
+        this.addSequential(new RotateDriveWithGyro(-100, this + ".rotateToSwitch2"), 2);
+        this.addSequential(new PickupCubeAuto(0.6,0.4), 5);
     }
 }
