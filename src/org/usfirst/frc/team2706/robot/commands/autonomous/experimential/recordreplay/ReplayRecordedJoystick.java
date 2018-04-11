@@ -3,18 +3,18 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordr
 import java.util.function.Supplier;
 
 import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.OI;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
 import org.usfirst.frc.team2706.robot.commands.teleop.ArcadeDriveWithJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Replays a {@link RecordableJoystick} for the driver and operator Joystick
  */
-public class ReplayRecordedJoystick extends Command {
+public class ReplayRecordedJoystick extends LoggedCommand {
 
     private final boolean deserializeInConstructor;
 

@@ -1,12 +1,11 @@
 package org.usfirst.frc.team2706.robot.commands;
 
 import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Climber;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class StartCimbing extends Command {
+public class StartCimbing extends LoggedCommand {
 
 private Climber climb;
 
@@ -16,7 +15,7 @@ private Climber climb;
     }
     
     public void initialize() {
-        Log.d(this, "Started Climbing");
+        Log.i(this, "Started Climbing");
         // Stop PID stuff when climbing so motors are fighting the lift
         if(Robot.lift.getDefaultCommand() != null) {
             Robot.lift.getDefaultCommand().cancel();

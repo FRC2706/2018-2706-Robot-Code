@@ -3,6 +3,7 @@ package org.usfirst.frc.team2706.robot.vision;
 import java.util.function.Supplier;
 
 import org.usfirst.frc.team2706.robot.JoystickMap;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -11,13 +12,12 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Drives the robot in a straight line towards the target found by the camera. Used for lining up
  * the peg at short distances
  */
-public class FollowCamera extends Command {
+public class FollowCamera extends LoggedCommand {
 
     private final PIDController rotatePID;
     private final double P = 0.75, I = 0.0, D = 0.0;

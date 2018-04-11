@@ -1,16 +1,15 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 
 import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 /**
  * Have the robot drive certain distance
  */
-public class TalonStraightDriveWithEncoders extends Command {
+public class TalonStraightDriveWithEncoders extends LoggedCommand {
 
     private final double speed;
 
@@ -51,7 +50,7 @@ public class TalonStraightDriveWithEncoders extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Log.d(this, "Talon driving " + distance + " feet at a speed of " + speed);
+        Log.i(this, "Talon driving " + distance + " feet at a speed of " + speed);
 
         Robot.driveTrain.reset();
 
@@ -96,7 +95,7 @@ public class TalonStraightDriveWithEncoders extends Command {
         PID.disable();
         Robot.driveTrain.drive(0, 0);
 
-        Log.d(this, "Done driving");
+        Log.i(this, "Done driving");
     }
 
     // Called when another command which requires one or more of the same

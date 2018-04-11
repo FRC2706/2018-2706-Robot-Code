@@ -1,7 +1,5 @@
 package org.usfirst.frc.team2706.robot.controls.talon;
 
-import org.usfirst.frc.team2706.robot.Log;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -19,8 +17,6 @@ public class TalonPID {
     /**
      * The PID and feed forward values of the PID
      */
-    private double setP, setI, setD, setFF;
-    
     private double P, I, D, FF;
 
     /**
@@ -33,7 +29,6 @@ public class TalonPID {
      */
     private double setpoint;
     
-    private double setSetpoint;
     public boolean enabled;
 
     /**
@@ -71,10 +66,10 @@ public class TalonPID {
      * @param FF The feed forward value
      */
     public void setPID(double P, double I, double D, double FF) {
-        this.setP = P;
-        this.setI = I;
-        this.setD = D;
-        this.setFF = FF;
+        this.P = P;
+        this.I = I;
+        this.D = D;
+        this.FF = FF;
     }
 
     /**
@@ -110,7 +105,7 @@ public class TalonPID {
      * @param setpoint The location to go to
      */
     public void setSetpoint(double setpoint) {
-        this.setSetpoint = setpoint;
+        this.setpoint = setpoint;
     }
 
     /**
@@ -220,25 +215,13 @@ public class TalonPID {
     }
 
     public void update() {
-        if(setSetpoint != setpoint && enabled) {
-            
-            setpoint = setSetpoint;
+        if(enabled) {
             
             for(TalonSensorGroup talon : talons) {
                 // Set the motor to the desired position
                 talon.getMaster().set(ControlMode.Position,
                                 setpoint / talon.getTalonEncoder().getDistancePerPulse());
             }
-        }
-        
-        if((setP != P || setI != I || setD != D || setFF != FF) && enabled) {
-            
-            P = setP;
-            I = setI;
-            D = setD;
-            FF = setFF;
-            
-           // Log.d("TalonPID", P + " " + I + " " + D + " " + FF);
             
             for(TalonSensorGroup talon : talons) {
                 // Set the motor to the desired position

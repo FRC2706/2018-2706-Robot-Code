@@ -1,11 +1,10 @@
 package org.usfirst.frc.team2706.robot.commands;
 
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class EjectCubeWithIR extends Command {
+public class EjectCubeWithIR extends LoggedCommand {
 
     private Intake exhale;
     

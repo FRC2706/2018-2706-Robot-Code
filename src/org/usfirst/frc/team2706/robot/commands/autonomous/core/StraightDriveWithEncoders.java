@@ -1,17 +1,17 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 
 import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
 import org.usfirst.frc.team2706.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Have the robot drive certain distance
  */
-public class StraightDriveWithEncoders extends Command {
+public class StraightDriveWithEncoders extends LoggedCommand {
 
     private final double speed;
 
@@ -63,7 +63,7 @@ public class StraightDriveWithEncoders extends Command {
 //        PID.setI(SmartDashboard.getNumber("I", I));
 //        PID.setD(SmartDashboard.getNumber("D", D));
 
-        Log.d(this, "Driving " + distance + " feet at a speed of " + speed);
+        Log.i(this, "Driving " + distance + " feet at a speed of " + speed);
         
         Robot.driveTrain.reset();
 
@@ -107,7 +107,7 @@ public class StraightDriveWithEncoders extends Command {
         PID.disable();
         Robot.driveTrain.drive(0, 0);
 
-        Log.d(this, "Done driving, drove " + Robot.driveTrain.getDistance());
+        Log.i(this, "Done driving, drove " + Robot.driveTrain.getDistance());
     }
 
     // Called when another command which requires one or more of the same

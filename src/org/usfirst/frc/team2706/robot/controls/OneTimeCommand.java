@@ -1,8 +1,8 @@
 package org.usfirst.frc.team2706.robot.controls;
 
-import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 
-public class OneTimeCommand extends Command {
+public class OneTimeCommand extends LoggedCommand {
 
     private final Runnable command;
     

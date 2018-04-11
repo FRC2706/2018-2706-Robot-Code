@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2706.robot.commands;
 
-import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 
 public class SetLiftHeightBlockingAfterTime extends SetLiftHeightUntilCancelled {

@@ -10,7 +10,6 @@ import org.usfirst.frc.team2706.robot.commands.MoveLiftWithPID;
 import org.usfirst.frc.team2706.robot.commands.PickupCube;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightUntilCancelled;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
-import org.usfirst.frc.team2706.robot.controls.SmoothedTriggerButtonJoystick;
 import org.usfirst.frc.team2706.robot.controls.StickQuadrantButtonJoystick;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;

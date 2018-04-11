@@ -1,13 +1,13 @@
 package org.usfirst.frc.team2706.robot.controls.operatorFeedback;
 
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
 
-public class Rumbler extends Command {
+public class Rumbler extends LoggedCommand {
     
     public static final int DRIVER_JOYSTICK = 1;
     public static final int OPERATOR_JOYSTICK = 2;

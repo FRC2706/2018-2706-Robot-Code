@@ -3,15 +3,20 @@ package org.usfirst.frc.team2706.robot.commands.bling;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
-import org.usfirst.frc.team2706.robot.commands.bling.patterns.*;
+import org.usfirst.frc.team2706.robot.commands.bling.patterns.Blank;
+import org.usfirst.frc.team2706.robot.commands.bling.patterns.BlingPattern;
+import org.usfirst.frc.team2706.robot.commands.bling.patterns.CubeInSignaller;
+import org.usfirst.frc.team2706.robot.commands.bling.patterns.FunDuringAuto;
+import org.usfirst.frc.team2706.robot.commands.bling.patterns.IntakeSignaller;
+import org.usfirst.frc.team2706.robot.commands.bling.patterns.TipWarning;
 import org.usfirst.frc.team2706.robot.subsystems.Bling;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
-public class BlingController extends Command {
+public class BlingController extends LoggedCommand {
 
     private Bling blingSystem;
     private BlingPattern currentPattern = null;
