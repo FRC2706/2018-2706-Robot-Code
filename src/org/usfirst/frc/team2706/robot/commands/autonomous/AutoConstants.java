@@ -3,7 +3,7 @@ package org.usfirst.frc.team2706.robot.commands.autonomous;
 public class AutoConstants {
 
     public static final double ROTATE_SPEED = 0.65;
-    public static final double ROTATE_ERROR = 1;
+    public static final double ROTATE_ERROR = 1.5;
     public static final int ROTATE_CYCLES = 3;
     public static final double SCALE_HEIGHT = 6.4;
     public static final double FAR_SCALE_HEIGHT = 6.9;
@@ -15,5 +15,5 @@ public class AutoConstants {
     public static final double ACCURATE_ERROR = 1.5;
     public static final double LENIENT_ERROR = 2;
     public static final int ACCURATE_CYCLES = 5;
-    public static final int LENIENT_CYCLES = 3;
+    public static final int LENIENT_CYCLES = 2;
 }

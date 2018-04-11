@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Drives from one position to another and ends at a certain line based on a cubic equation creator.
  */
-public class CurveDrive extends Command {
+public class CurveDriveTwoSpeed extends Command {
 
     // How many feet you want to go right
     private final double xFeet;
@@ -27,7 +27,11 @@ public class CurveDrive extends Command {
     public final double endCurve;
 
     // TODO remove this for velocity calculator
-    private final double speed;
+    private final double firstSpeed;
+    
+    private final double secondSpeed, thirdSpeed;
+    
+    private final double splitSpeedY, splitSpeedY2;
 
     // The equation that the robot will follow
     private CubicEquation eq;
@@ -37,7 +41,7 @@ public class CurveDrive extends Command {
 
     private final boolean isRight;
     
-    private final double P = 0.15, I = 0, D = 0, FF = 0.0;
+    private final double P = 0.1, I = 0, D = 0, FF = 0.0;
     
     private final PIDController PID;
 
@@ -47,12 +51,14 @@ public class CurveDrive extends Command {
      * @param xFeet Distance right, in feet
      * @param yFeet Distance forward, in feet (preferably not negative)
      * @param endCurve Ending angle (-90 to 90 degrees, but only useful at -80 to 80)
-     * @param speed Base speed the robot drives (-1.0 to 1.0)
+     * @param firstSpeed
+     * @param secondSpeed
+     * @param splitSpeedY
      * @param isRight Is the curve taking the robot right?
      * @param tangentOffset offsets of the tangents for interpolation
      * @param name The name of the of the configuration properties to look for
      */
-    public CurveDrive(double xFeet, double yFeet, double endCurve, double speed, boolean isRight,
+    public CurveDriveTwoSpeed(double xFeet, double yFeet, double endCurve, double firstSpeed, double secondSpeed, double thirdSpeed, double splitSpeedY, double splitSpeedY2, boolean isRight,
                      String name) {
         super(name);
         requires(Robot.driveTrain);
@@ -60,10 +66,14 @@ public class CurveDrive extends Command {
         this.xFeet = RobotConfig.get(name + ".xFeet", xFeet);
         this.yFeet = RobotConfig.get(name + ".yFeet", yFeet);
         this.endCurve = RobotConfig.get(name + ".endCurve", endCurve);
-        this.speed = RobotConfig.get(name + ".speed", speed);
+        this.firstSpeed = RobotConfig.get(name + ".firstSpeed", firstSpeed);
+        this.secondSpeed = RobotConfig.get(name + ".secondSpeed", secondSpeed);
+        this.thirdSpeed = RobotConfig.get(name + ".secondSpeed", thirdSpeed);
+        this.splitSpeedY = RobotConfig.get(name + ".splitSpeedY", splitSpeedY);
+        this.splitSpeedY2 = RobotConfig.get(name + ".splitSpeedY2", splitSpeedY2);
         this.isRight = RobotConfig.get(name + ".isRight", isRight);
         
-        this.PID = new PIDController(P, I, D, FF, new PIDInput(), (turn) -> Robot.driveTrain.arcadeDrive(speed, -turn));
+        this.PID = new PIDController(P, I, D, FF, new PIDInput(), (turn) -> twoSpeedArcadeDrive(-turn));
 //      SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
 //      SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
 //      SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
@@ -120,75 +130,17 @@ public class CurveDrive extends Command {
     }
 
     LinkedHashMap<Double, Double> tangents;
-
-    public void followCurveRelational() {
-        // Figures out the angle that you are currently on
-        double tangent = (Robot.driveTrain.getHeading() - initHeading);
-
-        double desiredTangent = 0;
-        double desiredBelowY = 0;
-        double desiredBelowTangent = 0;
-        double desiredBelowClosestDistance = Double.POSITIVE_INFINITY;
-        double desiredAboveY = 0;
-        double desiredAboveTangent = 0;
-        double desiredAboveClosestDistance = Double.POSITIVE_INFINITY;
-        for (Double key : tangents.keySet()) {
-            Double value = tangents.get(key);
-            if (key <= yPos) {
-                if (Math.abs(key - yPos) < desiredBelowClosestDistance) {
-                    desiredBelowY = key;
-                    desiredBelowTangent = value;
-                    desiredBelowClosestDistance = Math.abs(key - yPos);
-                }
-            } else {
-                if (Math.abs(key - yPos) < desiredAboveClosestDistance) {
-                    desiredAboveY = key;
-                    desiredAboveTangent = value;
-                    desiredAboveClosestDistance = Math.abs(key - yPos);
-                    // TODO break right here lol
-                }
-            }
+    public void twoSpeedArcadeDrive(double turn) {
+        if(yPos < splitSpeedY) {
+            Robot.driveTrain.arcadeDrive(firstSpeed, turn);
         }
-
-        double desiredBelowX =
-                        (eq.a * Math.pow(desiredBelowY, 3)) + (eq.b * Math.pow(desiredBelowY, 2));
-        double desiredAboveX =
-                        (eq.a * Math.pow(desiredAboveY, 3)) + (eq.b * Math.pow(desiredAboveY, 2));
-
-        // pythagoreum theorum
-        double distanceBelow = Math.sqrt(
-                        Math.pow(yPos - desiredBelowY, 2) + Math.pow(xPos - desiredBelowX, 2));
-        double distanceAbove = Math.sqrt(
-                        Math.pow(yPos - desiredAboveY, 2) + Math.pow(xPos - desiredAboveX, 2));
-        double total = distanceBelow + distanceAbove;
-        double proportionBelow = distanceAbove / total;
-        double proportionAbove = distanceBelow / total;
-
-        desiredTangent = desiredBelowTangent * proportionBelow
-                        + desiredAboveTangent * proportionAbove;
-        double rotateVal = desiredTangent - tangent;
-        rotateVal /= 7;
-
-        Robot.driveTrain.arcadeDrive(-speed, -rotateVal + (rotateVal < 0 ? 0 : -0));
+        else if(yPos < splitSpeedY2) {
+            Robot.driveTrain.arcadeDrive(secondSpeed, turn);
+        }
+        else {
+            Robot.driveTrain.arcadeDrive(thirdSpeed, turn);
+        }
     }
-
-    public void followCurveArcade() {
-        // Figures out the angle that you are currently on
-        double tangent = (3 * eq.a * Math.pow(yPos, 2)) + (2 * eq.b * yPos);
-        tangent = Math.toDegrees(Math.atan(tangent));
-
-        // Finds out what x position you should be at, and compares it with what you are currently
-        // at
-        double wantedX = (eq.a * Math.pow(yPos, 3)) + (eq.b * Math.pow(yPos, 2));
-
-        double offset = xPos - wantedX;
-
-        // Figures out how far you should rotate based on offset and gyro pos
-        double rotateVal = offset * 10;
-        // Tank Drives according to the above factors
-        Robot.driveTrain.arcadeDrive(-speed, rotateVal + (rotateVal > 0 ? 0.3 : -0.3));
-    }
-
     private double xPos = 0;
 
     private double yPos = 0;

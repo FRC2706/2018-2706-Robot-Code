@@ -59,7 +59,7 @@ public class DashboardAutoSelector implements TableEntryListener {
     public Priority[] getPriorityList() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("SmartDashboard");
         String priorities = table.getEntry("autonomous/selected_modes").getString("");
-        if (priorities != "") {
+        if (!priorities.equals("")) {
             ArrayList<String> priorityList =
                             new Gson().fromJson(priorities, new ArrayList<String>().getClass());
             ArrayList<Priority> objectPriorityList = new ArrayList<Priority>();
@@ -67,7 +67,7 @@ public class DashboardAutoSelector implements TableEntryListener {
                 if (position.equals("l")) {
                     objectPriorityList.add(findPriority(priority,
                                     new ArrayList<Priority>(Arrays.asList(leftPriorities))));
-                } else if (position.equals("c")) {
+                } else if (position.equals("c")) { 
                     objectPriorityList.add(findPriority(priority,
                                     new ArrayList<Priority>(Arrays.asList(centerPriorities))));
                 } else if (position.equals("r")) {

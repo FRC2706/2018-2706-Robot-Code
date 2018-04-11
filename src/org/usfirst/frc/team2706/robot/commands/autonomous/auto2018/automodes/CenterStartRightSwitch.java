@@ -13,13 +13,13 @@ public class CenterStartRightSwitch extends CommandGroup {
     
     public CenterStartRightSwitch() {
         this.addParallel(new InitLift());
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST, 1.02, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".awayFromWall"), 1);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST, 1.02, AutoConstants.LENIENT_ERROR, AutoConstants.LENIENT_CYCLES, this + ".awayFromWall"), 1);
         this.addSequential(new RotateDriveWithGyro(38.5, this + ".faceSwitch"), 2);
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST, 5, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".driveToSwitch"), 5);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST, 5, AutoConstants.LENIENT_ERROR, AutoConstants.LENIENT_CYCLES, this + ".driveToSwitch"), 5);
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SWITCH_HEIGHT,2,0.2),3);
         this.addSequential(new RotateDriveWithGyro(-38.5, this + ".turnInFrontOfSwitch"), 2);
       
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED, 3.5, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".forwardToSwitch"), 3);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED, 3.5, AutoConstants.LENIENT_ERROR, AutoConstants.LENIENT_CYCLES, this + ".forwardToSwitch"), 3);
 
         // this.addSequential(new StraightDriveWithEncoders(0.5, 1.325, 1, 3, "lTYUul"),1);
         this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED), 0.8);

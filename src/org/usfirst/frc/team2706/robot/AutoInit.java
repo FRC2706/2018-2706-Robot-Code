@@ -221,7 +221,7 @@ public class AutoInit {
         Log.d("Auto", "Switches set to " + selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1)
         + " " + selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
         
-        autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
+        autonomousCommand = new RightStartRightScaleMultiCubeCurveDrive();//getAutonomousCommand(new ArcadeDriveWithJoystick());
 
         Command dashboardResponse = Priority
                         .chooseCommandFromPriorityList(dashBoardAutoSelector.getPriorityList());
