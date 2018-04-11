@@ -1,15 +1,15 @@
 package org.usfirst.frc.team2706.robot.commands.teleop;
 
 import org.usfirst.frc.team2706.robot.JoystickMap;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Have the robot drive arcade style using the Xbox Joystick until interrupted.
  */
-public class ArcadeDriveWithJoystick extends Command {
+public class ArcadeDriveWithJoystick extends LoggedCommand {
 
     protected Joystick joystick;
 

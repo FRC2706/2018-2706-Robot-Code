@@ -4,15 +4,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
-
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Have the robot drive certain amount of time
  */
-public class StraightDriveWithTime extends Command {
+public class StraightDriveWithTime extends LoggedCommand {
 
     private final double speed;
 

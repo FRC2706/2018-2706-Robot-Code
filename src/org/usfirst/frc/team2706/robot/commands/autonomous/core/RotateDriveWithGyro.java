@@ -1,13 +1,13 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 
 import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.commands.autonomous.AutoConstants;
 
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * This mostly works, but use the QuickRotate command instead. PID control using gyro heading is
@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * Note that the gyro heading is now absolute and not relative, so angle is a target heading and not
  * a relative turn angle.
  */
-public class RotateDriveWithGyro extends Command {
+public class RotateDriveWithGyro extends LoggedCommand {
 
     private final double speed;
 

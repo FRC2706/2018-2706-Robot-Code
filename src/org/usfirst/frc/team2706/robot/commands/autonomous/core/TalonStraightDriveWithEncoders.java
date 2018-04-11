@@ -1,16 +1,15 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 
 import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 /**
  * Have the robot drive certain distance
  */
-public class TalonStraightDriveWithEncoders extends Command {
+public class TalonStraightDriveWithEncoders extends LoggedCommand {
 
     private final double speed;
 

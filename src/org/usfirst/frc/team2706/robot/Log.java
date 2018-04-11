@@ -97,7 +97,7 @@ public class Log {
      */
     public static void setUpLogging() {
         ConsoleHandler ch = new ConsoleHandler();
-        out = new ByteArrayOutputStream();
+        out = new LimitedByteArrayOutputStream();
         StreamHandler tableOut = new EStreamHandler(out, formatter);
         final FileHandler fh;
         
@@ -193,7 +193,7 @@ public class Log {
         byte[] b = out.toByteArray();
 
         byte[] results = new byte[0];
-
+        
         if (a == new byte[0]) {
             results = b;
         } else if (b.length == 0) {
@@ -363,6 +363,19 @@ public class Log {
         if (DriverStation.getInstance().isFMSAttached()) {
             NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("save")
                             .setBoolean(true);
+        }
+    }
+    
+    private static class LimitedByteArrayOutputStream extends ByteArrayOutputStream {
+        
+        // 40MB limit
+        private static int limit = 41943040;
+        
+        @Override
+        public void write(byte[] b) throws IOException {
+            if(super.count + b.length <= limit) {
+                super.write(b);
+            }
         }
     }
 }

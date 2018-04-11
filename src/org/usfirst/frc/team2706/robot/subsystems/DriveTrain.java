@@ -173,6 +173,7 @@ public class DriveTrain extends Subsystem {
 
     public void debugLog() {
         Log.d("Drive Train", "Acceleration " + gyro.getRawAccelX() + " " + gyro.getRawAccelY() + " " + gyro.getRawAccelZ());
+        Log.d("Drive Train", "Heading " + getHeading());
 
         Log.d("Drive Train", "Right Position " + left_encoder.getDistance());
         Log.d("Drive Train", "Left Position " + right_encoder.getDistance());

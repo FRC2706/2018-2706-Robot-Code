@@ -2,14 +2,14 @@ package org.usfirst.frc.team2706.robot.commands;
 
 import java.util.function.Supplier;
 
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.controls.OneTimeCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveLiftWithPID extends Command {
+public class MoveLiftWithPID extends LoggedCommand {
     
     private final Supplier<Double> liftspeed;
 

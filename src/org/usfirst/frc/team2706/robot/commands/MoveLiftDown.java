@@ -1,10 +1,9 @@
 package org.usfirst.frc.team2706.robot.commands;
 
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class MoveLiftDown extends Command {
+public class MoveLiftDown extends LoggedCommand {
     
     public MoveLiftDown() {
         this.requires(Robot.lift);

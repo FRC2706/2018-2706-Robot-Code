@@ -1,14 +1,13 @@
 package org.usfirst.frc.team2706.robot.commands.teleop;
 
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
-
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Keeps robot in brake mode until the command is interrupted
  */
-public class HandBrake extends Command {
+public class HandBrake extends LoggedCommand {
 
     /**
      * Puts robot into brake mode and can disable driving if wanted

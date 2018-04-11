@@ -3,19 +3,19 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedr
 import java.util.LinkedHashMap;
 
 import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Drives from one position to another and ends at a certain line based on a cubic equation creator.
  */
-public class CurveDrive extends Command {
+public class CurveDrive extends LoggedCommand {
 
     // How many feet you want to go right
     private final double xFeet;

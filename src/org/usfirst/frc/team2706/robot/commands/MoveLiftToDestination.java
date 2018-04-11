@@ -1,12 +1,11 @@
 package org.usfirst.frc.team2706.robot.commands;
 
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class MoveLiftToDestination extends Command {
+public class MoveLiftToDestination extends LoggedCommand {
 
     TalonPID liftPID;
     double liftDestination;

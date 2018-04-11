@@ -1,16 +1,15 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.experimential.movements;
 
 import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
-
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * A very simple two-stage proportional control for quickly rotating the robot heading based on the
  * robot gyro.
  */
-public class QuickRotate extends Command {
+public class QuickRotate extends LoggedCommand {
 
     // Gyro headings - what we want to be at, where we are now
     private double targetHeading;

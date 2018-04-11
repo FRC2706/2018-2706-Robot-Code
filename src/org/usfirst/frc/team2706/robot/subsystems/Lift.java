@@ -260,7 +260,7 @@ public class Lift extends Subsystem {
     }
     
     public void useUpPID() {
-        Log.d("Lift", "Going down");
+        Log.d("Lift", "Going up");
         
         liftPID.setPID(pUp, iUp, dUp);
         liftPID.setPID(SmartDashboard.getNumber("P Up", pUp), SmartDashboard.getNumber("I Up", iUp), SmartDashboard.getNumber("D Up", dUp));

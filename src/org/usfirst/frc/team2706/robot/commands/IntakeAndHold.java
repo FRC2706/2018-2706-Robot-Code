@@ -1,13 +1,13 @@
 package org.usfirst.frc.team2706.robot.commands;
 
 import org.usfirst.frc.team2706.robot.JoystickMap;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeAndHold extends Command {
+public class IntakeAndHold extends LoggedCommand {
 
     private Intake inhale;
     @SuppressWarnings("unused")
