@@ -216,7 +216,7 @@ public class Log {
      * @param message The object (or String) message to log
      */
     public static void d(Object name, Object message) {
-        LogLevels.DEBUG.log(name, message);
+      //  LogLevels.DEBUG.log(name, message);
     }
 
     /**
@@ -227,7 +227,7 @@ public class Log {
      * @param t The Throwable to log
      */
     public static void d(Object name, Object message, Throwable t) {
-        LogLevels.DEBUG.log(name, message, t);
+     //   LogLevels.DEBUG.log(name, message, t);
     }
 
     /**
