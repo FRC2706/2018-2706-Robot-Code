@@ -43,6 +43,8 @@ public class Lift extends Subsystem {
     
     private static final double pDown = 0.5, iDown = 0, dDown = 160;
     private static final double pUp = 0.5, iUp = 0, dUp = 50;
+    
+    private boolean disabled = false;
 
     public Lift() {
         liftDown = new LimitSwitch(RobotMap.LIMIT_DOWN);
@@ -143,6 +145,10 @@ public class Lift extends Subsystem {
      * When no other command is running use PID to hold position
      */
     public void initDefaultCommand() {
+        if(disabled) {
+            return;
+        }
+        
         if (defaultCommand == null) {
             getDefaultCommand();
         }
@@ -288,9 +294,19 @@ public class Lift extends Subsystem {
         }
     }
     
+    public void enable() {
+        Log.i("Lift", "Enabled");
+        disabled = false;
+    }
+    
     public void disableMotor() {
-        Log.d("Lift", "Disabled Motor");
+        Log.i("Lift", "Disabled Motor");
         
         liftMotor.stopMotor();
+        disabled = true;
+    }
+    
+    public boolean disabled() {
+        return disabled;
     }
 }

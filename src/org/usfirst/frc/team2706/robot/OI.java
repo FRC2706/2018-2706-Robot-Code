@@ -86,10 +86,10 @@ public class OI {
         MoveLift.runWhileHeld(new MoveLiftWithPID (controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, true));
         
         EJoystickButton MoveLiftUp = new EJoystickButton(controlStick, JoystickMap.XBOX_Y_BUTTON);
-        MoveLiftUp.runWhileHeld(new MoveLift(0.3));
+        MoveLiftUp.runWhileHeld(new MoveLift(0.6));
         
         EJoystickButton MoveLiftDown = new EJoystickButton(controlStick, JoystickMap.XBOX_A_BUTTON);
-        MoveLiftDown.runWhileHeld(new MoveLift(-0.3));
+        MoveLiftDown.runWhileHeld(new MoveLift(-0.35));
 
         // Sending lift to fixed destinations   
         StickQuadrantButtonJoystick liftLevelRight = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.RIGHT, 0.2);

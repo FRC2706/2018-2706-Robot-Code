@@ -12,10 +12,12 @@ private Climber climb;
     public StartCimbing() {
         // TODO Auto-generated constructor stub
         climb = Robot.climb;
+       // requires(Robot.lift);
     }
     
     public void initialize() {
         Log.i(this, "Started Climbing");
+        
         // Stop PID stuff when climbing so motors are fighting the lift
         if(Robot.lift.getDefaultCommand() != null) {
             Robot.lift.getDefaultCommand().cancel();

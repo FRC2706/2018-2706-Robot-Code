@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2706.robot.controls.talon;
 
+import org.usfirst.frc.team2706.robot.Log;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -141,6 +143,8 @@ public class TalonPID {
      * Enables the PID
      */
     public void enable() {
+        Log.i("TalonaPID", "Enabled");
+        
         // Apply initial settings to each talon
         for (TalonSensorGroup talon : talons) {
             TalonSRX master = talon.getMaster();
@@ -178,6 +182,8 @@ public class TalonPID {
      * Disables the PID
      */
     public void disable() {
+        Log.i("TalonaPID", "Disabled");
+        
         // Apply initial settings to each talon
         for (TalonSensorGroup talon : talons) {
             TalonSRX master = talon.getMaster();

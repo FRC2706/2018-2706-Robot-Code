@@ -96,6 +96,7 @@ public class Robot extends IterativeRobot {
     public void disabledInit() {
         Log.i("Robot", "Disabled");
         
+        lift.enable();
         Log.updateTableLog();
         if(enteredTeleop) {
             Log.save();
