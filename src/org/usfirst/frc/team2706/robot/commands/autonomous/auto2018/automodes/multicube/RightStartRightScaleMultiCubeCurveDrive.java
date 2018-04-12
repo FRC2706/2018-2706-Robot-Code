@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
+import org.usfirst.frc.team2706.robot.commands.InitLift;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightBlocking;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightBlockingAfterTime;
@@ -15,7 +16,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class RightStartRightScaleMultiCubeCurveDrive extends CommandGroup {
 
     public RightStartRightScaleMultiCubeCurveDrive() {
-        this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT, 5, 0.2));
+        this.addParallel(new InitLift());
+        this.addParallel(new SetLiftHeightBlockingAfterTime(AutoConstants.SCALE_HEIGHT, 5, 0.2, 250));
         this.addSequential(new CurveDriveTwoSpeed(2,19.75,25,0.95,0.85,0.7,10, 14,true,"B"))                                   ;
         this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED),1);
         

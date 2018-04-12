@@ -17,7 +17,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LeftStartLeftScaleMultiCubeCurveDrive extends CommandGroup {
 
     public LeftStartLeftScaleMultiCubeCurveDrive() {
-        this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT, 5, 0.2));
+        this.addParallel(new InitLift());
+        this.addParallel(new SetLiftHeightBlockingAfterTime(AutoConstants.SCALE_HEIGHT, 5, 0.2,250));
         this.addSequential(new CurveDriveTwoSpeed(2,19.75,25,0.95,0.85,0.7,10, 14,false,"B"))                                   ;
         this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED),1);
         
