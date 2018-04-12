@@ -7,6 +7,7 @@ import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.commands.bling.patterns.Blank;
 import org.usfirst.frc.team2706.robot.commands.bling.patterns.BlingPattern;
+import org.usfirst.frc.team2706.robot.commands.bling.patterns.ClimbWarning;
 import org.usfirst.frc.team2706.robot.commands.bling.patterns.CubeInSignaller;
 import org.usfirst.frc.team2706.robot.commands.bling.patterns.FunDuringAuto;
 import org.usfirst.frc.team2706.robot.commands.bling.patterns.IntakeSignaller;
@@ -50,6 +51,7 @@ public class BlingController extends LoggedCommand {
          * Since patterns from different periods won't run at the same time, you only have to 
          * make sure you put patterns from the same period in proper order.
          */
+        Add(new ClimbWarning());
         Add(new TipWarning());
         Add(new IntakeSignaller());
         Add(new CubeInSignaller());
