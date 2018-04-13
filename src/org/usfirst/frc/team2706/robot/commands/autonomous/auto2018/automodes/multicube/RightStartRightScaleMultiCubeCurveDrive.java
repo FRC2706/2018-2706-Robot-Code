@@ -18,16 +18,17 @@ public class RightStartRightScaleMultiCubeCurveDrive extends CommandGroup {
 
     public RightStartRightScaleMultiCubeCurveDrive() {
         this.addParallel(new InitLift());
-        this.addSequential(new StraightDriveWithEncoders(0.8,0.25,0.1,1,"aabab"),0.15);
+        this.addSequential(new StraightDriveWithEncoders(0.8,0.5,0.1,1,"aabab"),0.5);
         this.addSequential(new StraightDriveWithEncoders(0.0,0.25,0.1,1,"awfawf"),0.15);
         
         this.addParallel(new SetLiftHeightBlockingAfterTime(AutoConstants.SCALE_HEIGHT, 5, 0.2, 100));
         this.addSequential(new CurveDriveTwoSpeed(2,20,25,0.95,0.9,0.7,10, 14,true,"B"))                                   ;
         this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED),1);
         
-        this.addParallel(new SetLiftHeightBlockingAfterTime(Double.MIN_VALUE,5,0.1, 750),5);
         
-        this.addSequential(new RotateDriveWithGyro(0.35, -143, 2, 3, this + ".turnRightTowardsScale"),5);
+        
+        this.addSequential(new RotateDriveWithGyro(0.35, -143, 2, 3, this + ".turnRightTowardsScale"));
+        this.addSequential(new SetLiftHeightBlocking(Double.MIN_VALUE,5,0.1),5);
         this.addSequential(new StraightDriveWithEncoders(0.8,2.0,1.0,1,"a"));
         IntakeUntilGrabbed g = new IntakeUntilGrabbed(AutoConstants.SPEED_SLOW,1);
         this.addSequential(g);
