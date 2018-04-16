@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.controls.talon.TalonEncoder;
 
@@ -15,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake extends Subsystem { 
     boolean cubeIn = false; 
     
-    private static final double CUBE_CAPTURED = 0.5;
+    private static final double CUBE_CAPTURED = 1.5;
     
     // Objects for inhaling and exhaling the cube
     private WPI_TalonSRX right_intake_motor;
@@ -51,6 +52,21 @@ public class Intake extends Subsystem {
     
     public void log() {
         SmartDashboard.putNumber("Intake IR", readIRSensor());
+        SmartDashboard.putBoolean("CubeIn", cubeCaptured());
+    }
+    
+    public void debugLog() {
+        Log.d("Intake", "Intake IR" + readIRSensor());
+        Log.d("Intake", "Cube Held" + cubeCaptured());
+        
+        Log.d("Intake", "Right Temperature " + right_intake_motor.getTemperature());
+        Log.d("Intake", "Left Temperature " + left_intake_motor.getTemperature());
+        
+        Log.d("Intake", "Right Current " + right_intake_motor.getOutputCurrent());
+        Log.d("Intake", "Left Current " + left_intake_motor.getOutputCurrent());
+        
+        Log.d("Intake", "Right Output " + right_intake_motor.getMotorOutputPercent());
+        Log.d("Intake", "Left Output " + left_intake_motor.getMotorOutputPercent());
     }
     
     // Turns the robot motors on to suck in the cube on the left
@@ -77,6 +93,10 @@ public class Intake extends Subsystem {
         right_intake_motor.set(-motorSpeed * 0.75); 
     }
     
+    public void inhaleCubeCustom(double left, double right) {
+        left_intake_motor.set(-left);
+        right_intake_motor.set(-right);
+    }
     // Turns the robot motors on to shoot out the cube
     public void exhaleCube (double motorSpeed) {
         left_intake_motor.set(motorSpeed * m_ejectMaxPower);

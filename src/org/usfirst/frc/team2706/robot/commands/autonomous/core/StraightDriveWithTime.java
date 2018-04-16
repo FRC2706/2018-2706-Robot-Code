@@ -4,15 +4,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
-
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Have the robot drive certain amount of time
  */
-public class StraightDriveWithTime extends Command {
+public class StraightDriveWithTime extends LoggedCommand {
 
     private final double speed;
 
@@ -36,7 +35,7 @@ public class StraightDriveWithTime extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Log.d(this, "Driving for " + time / 1000 + " seconds");
+        Log.i(this, "Driving for " + time / 1000 + " seconds");
         
         // Creates task to stop robot after time
         CommandTimerTask interrupt = new CommandTimerTask();
@@ -59,7 +58,7 @@ public class StraightDriveWithTime extends Command {
     // Called once after isFinished returns true
     protected void end() {
         Robot.driveTrain.drive(0, 0);
-        Log.d(this, "Done driving");
+        Log.i(this, "Done driving");
     }
 
     // Called when another command which requires one or more of the same

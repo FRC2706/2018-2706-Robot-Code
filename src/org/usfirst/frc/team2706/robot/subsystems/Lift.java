@@ -41,15 +41,17 @@ public class Lift extends Subsystem {
 
     private boolean zeroedOnce = false;
     
-    private static final double pDown = 0.5, iDown = 0, dDown = 100;
+    private static final double pDown = 0.5, iDown = 0, dDown = 160;
     private static final double pUp = 0.5, iUp = 0, dUp = 50;
+    
+    private boolean disabled = false;
 
     public Lift() {
         liftDown = new LimitSwitch(RobotMap.LIMIT_DOWN);
         liftMotor = new TalonLimit(RobotMap.MOTOR_LIFT, liftDown);
         setBrakeMode(true);
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
-
+        liftMotor.configClosedloopRamp(0.2, 0);
         encoder = new TalonEncoder(liftMotor);
         liftDown.whileActive(new OneTimeCommand(this::reset));
         liftDown.whenActive(new OneTimeCommand(() -> {
@@ -66,15 +68,15 @@ public class Lift extends Subsystem {
         liftMotor.configPeakCurrentLimit(0, 0);
         liftMotor.configPeakCurrentDuration(0, 0);
         setRegularCurrentLimit();
-        liftMotor.enableCurrentLimit(true);
+        liftMotor.enableCurrentLimit(false);
         
-//      SmartDashboard.putNumber("P Down", SmartDashboard.getNumber("P Down", pDown));
-//      SmartDashboard.putNumber("I Down", SmartDashboard.getNumber("I Down", iDown));
-//      SmartDashboard.putNumber("D Down", SmartDashboard.getNumber("D Down", dDown));
-//      
-//      SmartDashboard.putNumber("P Up", SmartDashboard.getNumber("P Up", pUp));
-//      SmartDashboard.putNumber("I Up", SmartDashboard.getNumber("I Up", iUp));
-//      SmartDashboard.putNumber("D Up", SmartDashboard.getNumber("D Up", dUp));
+      SmartDashboard.putNumber("P Down", SmartDashboard.getNumber("P Down", pDown));
+      SmartDashboard.putNumber("I Down", SmartDashboard.getNumber("I Down", iDown));
+      SmartDashboard.putNumber("D Down", SmartDashboard.getNumber("D Down", dDown));
+      
+      SmartDashboard.putNumber("P Up", SmartDashboard.getNumber("P Up", pUp));
+      SmartDashboard.putNumber("I Up", SmartDashboard.getNumber("I Up", iUp));
+      SmartDashboard.putNumber("D Up", SmartDashboard.getNumber("D Up", dUp));
     }
 
     public TalonPID getPID() {
@@ -122,15 +124,19 @@ public class Lift extends Subsystem {
         else if(!override) {
             d = Math.max(d, Double.MIN_VALUE);
         }
+        if(defaultCommand != null) {
+            defaultCommand.setDestination(d);
+        }
+        else {
+            Log.e("Lift", "Default command null!");
+        }
         
-
-        defaultCommand.setDestination(d);
     }
 
     private MoveLiftToDestination defaultCommand;
 
     public void resetSetpoint() {
-      //  Log.d("Lift", "Resetting setpoint");
+        Log.d("Lift", "Resetting setpoint");
         // Override in case it starts negative
         setHeight(encoder.getDistance(), true);
     }
@@ -139,6 +145,10 @@ public class Lift extends Subsystem {
      * When no other command is running use PID to hold position
      */
     public void initDefaultCommand() {
+        if(disabled) {
+            return;
+        }
+        
         if (defaultCommand == null) {
             getDefaultCommand();
         }
@@ -164,6 +174,13 @@ public class Lift extends Subsystem {
         SmartDashboard.putNumber("Lift Current", liftMotor.getOutputCurrent());
     }
 
+    public void debugLog() {
+        Log.d("Lift", "Position " + encoder.getDistance());
+        Log.d("Lift", "Temperature " + liftMotor.getTemperature());
+        Log.d("Lift", "Current " + liftMotor.getOutputCurrent());
+        Log.d("Lift", "Output " + liftMotor.getMotorOutputPercent());
+    }
+    
     public boolean bottomLimit() {
         return liftDown.get();
     }
@@ -219,7 +236,7 @@ public class Lift extends Subsystem {
     }
 
     public void reset() {
-      //  Log.i("Lift", "Resetting");
+        Log.d("Lift", "Resetting");
         encoder.reset();
         zeroedOnce = true;
 
@@ -234,23 +251,32 @@ public class Lift extends Subsystem {
     }
 
     public void setRegularCurrentLimit() {
-        liftMotor.configContinuousCurrentLimit(20, 0);
+        Log.d("Lift", "Current limit to 37");
+        liftMotor.configContinuousCurrentLimit(37, 0);
     }
 
     public void setUnsafeCurrentLimit() {
-        liftMotor.configContinuousCurrentLimit(5, 0);
+        Log.d("Lift", "Current limit to 10");
+        liftMotor.configContinuousCurrentLimit(10, 0);
     }
     
     public void setPID(double P, double I, double D) {
         liftPID.setPID(P, I, D);
+        liftPID.setPID(SmartDashboard.getNumber("P Down", pDown), SmartDashboard.getNumber("I Down", iDown), SmartDashboard.getNumber("D Down", dDown));
     }
     
     public void useUpPID() {
-        Robot.lift.setPID(pUp, iUp, dUp);
+        Log.d("Lift", "Going up");
+        
+        liftPID.setPID(pUp, iUp, dUp);
+        liftPID.setPID(SmartDashboard.getNumber("P Up", pUp), SmartDashboard.getNumber("I Up", iUp), SmartDashboard.getNumber("D Up", dUp));
     }
     
     public void useDownPID() {
+        Log.d("Lift", "Going down");
+        
         Robot.lift.setPID(pDown, iDown, dDown);
+        Robot.lift.setPID(pUp, iUp, dUp);
     }
     
     public void initTestMode() {
@@ -266,5 +292,21 @@ public class Lift extends Subsystem {
         else {
             liftMotor.setNeutralMode(NeutralMode.Coast);
         }
+    }
+    
+    public void enable() {
+        Log.i("Lift", "Enabled");
+        disabled = false;
+    }
+    
+    public void disableMotor() {
+        Log.i("Lift", "Disabled Motor");
+        
+        liftMotor.stopMotor();
+        disabled = true;
+    }
+    
+    public boolean disabled() {
+        return disabled;
     }
 }

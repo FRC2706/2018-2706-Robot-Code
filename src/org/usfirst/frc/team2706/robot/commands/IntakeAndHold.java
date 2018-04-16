@@ -1,14 +1,13 @@
 package org.usfirst.frc.team2706.robot.commands;
 
 import org.usfirst.frc.team2706.robot.JoystickMap;
-import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeAndHold extends Command {
+public class IntakeAndHold extends LoggedCommand {
 
     private Intake inhale;
     @SuppressWarnings("unused")
@@ -34,7 +33,6 @@ public class IntakeAndHold extends Command {
      * Turns the motors on to suck in the cube
      */
     public void execute() {
-        Log.d(this, inhale.readIRSensor());
         if (inhale.readIRSensor() >= 0.26 && inhale.readIRSensor() < 0.5) {
             inhale.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_BACK_RIGHT_TRIGGER)); 
             
@@ -46,7 +44,6 @@ public class IntakeAndHold extends Command {
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
-        System.out.println("Ended IntakeCube command");
         inhale.stopMotors();
     }
     

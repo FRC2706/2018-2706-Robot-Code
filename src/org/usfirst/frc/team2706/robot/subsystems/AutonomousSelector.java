@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
+import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.commands.autonomous.Priority;
 
@@ -127,5 +128,9 @@ public class AutonomousSelector extends SensorBase implements Sendable {
     public void log() {
         SmartDashboard.putNumber("selector1", getVoltageAsIndex(selector1));
         SmartDashboard.putNumber("selector2", getVoltageAsIndex(selector2));
+    }
+    
+    public void debugLog() {
+        Log.d("AutonomousSelector", "Selected " + getVoltageAsIndex(selector1) + " " + getVoltageAsIndex(selector2));
     }
 }

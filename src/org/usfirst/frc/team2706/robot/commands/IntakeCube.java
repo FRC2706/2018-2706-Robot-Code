@@ -2,14 +2,14 @@ package org.usfirst.frc.team2706.robot.commands;
 
 import java.util.function.Supplier;
 
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.command.Command;
 
 
-public class IntakeCube extends Command {
+public class IntakeCube extends LoggedCommand {
 
     private Intake inhale;
 
@@ -45,7 +45,7 @@ public class IntakeCube extends Command {
         inhale = Robot.intake;
         this.speed = speed;
         this.sameRatio = sameRatio;
-        this.requires(Robot.intake);
+      //  this.requires(Robot.intake);
     }
     
     /**
@@ -70,7 +70,6 @@ public class IntakeCube extends Command {
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
-        System.out.println("Ended IntakeCube command");
         inhale.stopMotors();
     }
     

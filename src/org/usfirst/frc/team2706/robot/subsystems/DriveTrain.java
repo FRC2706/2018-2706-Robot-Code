@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2706.robot.subsystems;
 
+import java.util.function.Supplier;
+
 import org.usfirst.frc.team2706.robot.JoystickMap;
 import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
@@ -135,7 +137,7 @@ public class DriveTrain extends Subsystem {
         }
         setDefaultCommand(defaultCommand);
 
-        Log.d("Drive Train Command", defaultCommand);
+        Log.i("Drive Train Command", defaultCommand);
     }
 
     public Command getDefaultCommand() {
@@ -169,6 +171,29 @@ public class DriveTrain extends Subsystem {
         // selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
     }
 
+    public void debugLog() {
+        Log.d("Drive Train", "Acceleration " + gyro.getRawAccelX() + " " + gyro.getRawAccelY() + " " + gyro.getRawAccelZ());
+        Log.d("Drive Train", "Heading " + getHeading());
+
+        Log.d("Drive Train", "Right Position " + left_encoder.getDistance());
+        Log.d("Drive Train", "Left Position " + right_encoder.getDistance());
+        
+        Log.d("Drive Train", "Front Right Temperature " + front_right_motor.getTemperature());
+        Log.d("Drive Train", "Front Left Temperature " + front_left_motor.getTemperature());
+        Log.d("Drive Train", "Back Right Temperature " + back_right_motor.getTemperature());
+        Log.d("Drive Train", "Back Left Temperature " + back_left_motor.getTemperature());
+        
+        Log.d("Drive Train", "Front Right Current " + front_right_motor.getOutputCurrent());
+        Log.d("Drive Train", "Front Left Current " + front_left_motor.getOutputCurrent());
+        Log.d("Drive Train", "Back Right Current " + back_right_motor.getOutputCurrent());
+        Log.d("Drive Train", "Back Left Current " + back_left_motor.getOutputCurrent());
+        
+        Log.d("Drive Train", "Front Right Output " + front_right_motor.getMotorOutputPercent());
+        Log.d("Drive Train", "Front Left Output " + front_left_motor.getMotorOutputPercent());
+        Log.d("Drive Train", "Back Right Output " + back_right_motor.getMotorOutputPercent());
+        Log.d("Drive Train", "Back Left Output " + back_left_motor.getMotorOutputPercent());
+    }
+    
     /**
      * Tank style driving for the DriveTrain.
      * 
@@ -244,7 +269,7 @@ public class DriveTrain extends Subsystem {
         resetGyro();
         resetDisplacement();
 
-        Log.d("Drive Train", "Resetting sensors");
+        Log.i("Drive Train", "Resetting sensors");
     }
 
     /**
@@ -306,7 +331,7 @@ public class DriveTrain extends Subsystem {
     public void brakeMode(boolean on) {
         NeutralMode mode = on ? NeutralMode.Brake : NeutralMode.Coast;
 
-        Log.d("Brake Mode", mode);
+        Log.i("Brake Mode", mode);
 
         front_left_motor.setNeutralMode(mode);
         back_left_motor.setNeutralMode(mode);
@@ -321,7 +346,18 @@ public class DriveTrain extends Subsystem {
      */
     public PIDOutput getDrivePIDOutput(boolean useGyroStraightening, boolean useCamera,
                     boolean invert) {
-        return new DrivePIDOutput(drive, useGyroStraightening, useCamera, invert);
+        return new DrivePIDOutput(drive, useGyroStraightening, useCamera,
+                        () -> -Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), invert);
+    }
+    
+    /**
+     * @param useGyroStraightening True to invert second motor direction for rotating
+     * 
+     * @return The robot's drive PIDOutput
+     */
+    public PIDOutput getDrivePIDOutput(boolean useGyroStraightening, boolean useCamera,
+                    Supplier<Double> forward, boolean invert) {
+        return new DrivePIDOutput(drive, useGyroStraightening, useCamera, forward, invert);
     }
 
     /**
@@ -417,7 +453,7 @@ public class DriveTrain extends Subsystem {
 
         @Override
         public double pidGet() {
-            Log.d("DriveTrain", "Got encoder input of " + right.getDistance());
+            Log.d("Drive Train", "Got encoder input of " + right.getDistance());
 
             return (right.getDistance() + left.getDistance()) / 2;
         }
@@ -470,12 +506,14 @@ public class DriveTrain extends Subsystem {
         private final boolean useGyroStraightening;
 
         private final boolean useCamera;
+        private final Supplier<Double> forward;
 
         public DrivePIDOutput(DifferentialDrive drive, boolean useGyroStraightening,
-                        boolean useCamera, boolean invert) {
+                        boolean useCamera, Supplier<Double> forward, boolean invert) {
             this.drive = drive;
             this.useGyroStraightening = useGyroStraightening;
             this.useCamera = useCamera;
+            this.forward = forward;
             this.invert = invert;
         }
 
@@ -488,10 +526,10 @@ public class DriveTrain extends Subsystem {
             double rotateVal;
             if (useCamera) {
                 if (invert) {
-                    drive.arcadeDrive(-Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), -output,
+                    drive.arcadeDrive(forward.get(), -output,
                                     false);
                 } else {
-                    drive.arcadeDrive(-Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), output,
+                    drive.arcadeDrive(forward.get(), output,
                                     false);
                 }
             } else {
@@ -503,7 +541,6 @@ public class DriveTrain extends Subsystem {
                     if (invert) {
                         drive.arcadeDrive(-output, rotateVal);
                     } else {
-                        System.out.println(-output + " " + rotateVal);
                         drive.arcadeDrive(output, -rotateVal);
                     }
                 } else if (invert) {

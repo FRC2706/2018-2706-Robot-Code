@@ -2,13 +2,13 @@ package org.usfirst.frc.team2706.robot.commands;
 
 import java.util.function.Supplier;
 
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveLift extends Command {
+public class MoveLift extends LoggedCommand {
 
     private Lift move;
     

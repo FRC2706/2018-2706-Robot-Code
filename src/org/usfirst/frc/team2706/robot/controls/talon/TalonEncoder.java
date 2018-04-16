@@ -1,7 +1,5 @@
 package org.usfirst.frc.team2706.robot.controls.talon;
 
-import org.usfirst.frc.team2706.robot.Log;
-
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PIDSource;
@@ -66,7 +64,6 @@ public class TalonEncoder extends SensorBase implements PIDSource, Sendable {
      * Reset the Encoder distance to zero. Resets the current count to zero on the encoder.
      */
     public void reset() {
-        Log.d("TalonEncoder", "Resetting");
         controller.setSelectedSensorPosition(0, 0, 0);
     }
 

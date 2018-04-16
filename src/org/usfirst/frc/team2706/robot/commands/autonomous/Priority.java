@@ -82,7 +82,6 @@ public class Priority {
      * @return
      */
     public boolean getPossible() {
-        System.out.println(DriverStation.getInstance().getGameSpecificMessage() + "," + guaranteedPriority + "," + location + "," + isSwitch + "," + isScale);
         if (guaranteedPriority || DriverStation.getInstance().getGameSpecificMessage().equals("")) {
             return true;
         }
@@ -133,7 +132,6 @@ public class Priority {
             return null;
         }
         for (Priority priority : priorityList) {
-            System.out.println(priority);
             if (priority == null) {
                 return null;
             }

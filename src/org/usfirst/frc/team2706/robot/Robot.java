@@ -2,7 +2,8 @@
 package org.usfirst.frc.team2706.robot;
 
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.recordreplay.RecordJoystick;
-import org.usfirst.frc.team2706.robot.controls.StickRumble;
+import org.usfirst.frc.team2706.robot.controls.operatorFeedback.Rumbler;
+import org.usfirst.frc.team2706.robot.subsystems.Bling;
 import org.usfirst.frc.team2706.robot.subsystems.Climber;
 import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
@@ -37,15 +38,17 @@ public class Robot extends IterativeRobot {
 
     // Stores all of the joysticks, and returns them as read only.
     public static OI oi;
+    
+    // Bling Subsystem
+    public static Bling blingSystem;
 
     // Records joystick states to file for later replaying
     RecordJoystick recordAJoystick;
-
-    // Rumbles joystick to tell drive team which mode we're in
-    StickRumble rumbler;
     
     AutoInit autoInit;
 
+    private static boolean enteredTeleop;
+    
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -58,7 +61,7 @@ public class Robot extends IterativeRobot {
         RobotMap.log();
 
         UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
-        //Runtime.getRuntime().addShutdownHook(new Thread(camera::free));
+        Runtime.getRuntime().addShutdownHook(new Thread(camera::free));
         
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
@@ -82,6 +85,8 @@ public class Robot extends IterativeRobot {
         recordAJoystick = new RecordJoystick(oi.getDriverJoystick(), oi.getOperatorJoystick(),
                         () -> SmartDashboard.getString("record-joystick-name", "default"),
                         "recordJoystick");
+        
+        blingSystem = new Bling();
     }
 
     /**
@@ -89,9 +94,13 @@ public class Robot extends IterativeRobot {
      * reset any subsystem information you want to clear when the robot is disabled.
      */
     public void disabledInit() {
-        Log.updateTableLog();
-        Log.save();
+        Log.i("Robot", "Disabled");
         
+        lift.enable();
+        Log.updateTableLog();
+        if(enteredTeleop) {
+            Log.save();
+        }
         // Stop timer on the dashboard
         SmartDashboard.putBoolean("time_running", false);
     }
@@ -112,7 +121,10 @@ public class Robot extends IterativeRobot {
      * additional strings & commands.
      */
     public void autonomousInit() {
+        // Begin timer.
+        SmartDashboard.putBoolean("time_running", true);
         Log.i("Robot", "Entering autonomous mode");
+        Log.i("Robot", "Autonomous game specific message: " + DriverStation.getInstance().getGameSpecificMessage());
 
         driveTrain.reset();
         lift.resetSetpoint();
@@ -134,7 +146,10 @@ public class Robot extends IterativeRobot {
 
     public void teleopInit() {
         Log.i("Robot", "Entering teleop mode");
-
+        
+        Log.i("Robot", "Teleop game specific message: " + DriverStation.getInstance().getGameSpecificMessage());
+        enteredTeleop = true;
+        
         Robot.lift.resetSetpoint();
         
         autoInit.end();
@@ -144,16 +159,15 @@ public class Robot extends IterativeRobot {
         if (SmartDashboard.getBoolean("record-joystick", false))
             recordAJoystick.start();
         // Tell drive team to drive
-        rumbler = new StickRumble(0.4, 0.15, 1, 0, 1, 1.0, 1, "controllerStickRumble");
-        rumbler.start();
-        
+        new Rumbler(0.2, 0.1, 3, Rumbler.BOTH_JOYSTICKS);
     }
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-      
+      SmartDashboard.putBoolean("CubeIn", Robot.intake.cubeCaptured());
+        
         Scheduler.getInstance().run();
         log();
     }
@@ -177,6 +191,14 @@ public class Robot extends IterativeRobot {
             autoInit.selectorSwitch.log();
             lift.log();
             intake.log();
+        }
+        
+        if(DriverStation.getInstance().isEnabled()) {
+            driveTrain.debugLog();
+            autoInit.selectorSwitch.debugLog();
+            lift.debugLog();
+            intake.debugLog();
+            climb.debugLog();
         }
     }
     public void initTestMode() {

@@ -62,7 +62,26 @@ public class RobotMap {
     private static final double[] ENCODER_RIGHT_DPP_VALS = {1.0 / 2517.5, 1.0 / 2555, 1.0 / 264};
     public static final double ENCODER_RIGHT_DPP = getConstant("ENCODER_RIGHT_DPP");
 
-
+    private static final double[] STRAIGHT_DRIVE_P_VALS = {2.0, 2.0, 1.0};
+    public static final double STRAIGHT_DRIVE_P = getConstant("STRAIGHT_DRIVE_P");
+    
+    private static final double[] STRAIGHT_DRIVE_I_VALS = {0.0, 0.0, 0.0};
+    public static final double STRAIGHT_DRIVE_I = getConstant("STRAIGHT_DRIVE_I");
+    
+    private static final double[] STRAIGHT_DRIVE_D_VALS = {5.0, 5.0, 0.0};
+    public static final double STRAIGHT_DRIVE_D = getConstant("STRAIGHT_DRIVE_D");
+    
+    
+    private static final double[] ROTATE_DRIVE_P_VALS = {0.04, 0.04, 1.0};
+    public static final double ROTATE_DRIVE_P = getConstant("ROTATE_DRIVE_P");
+    
+    private static final double[] ROTATE_DRIVE_I_VALS = {0.0, 0.0, 0.0};
+    public static final double ROTATE_DRIVE_I = getConstant("ROTATE_DRIVE_I");
+    
+    private static final double[] ROTATE_DRIVE_D_VALS = {0.08, 0.08, 0.0};
+    public static final double ROTATE_DRIVE_D = getConstant("ROTATE_DRIVE_D");
+    
+    
     private static final boolean[] INVERT_JOYSTICK_X_VALS = {false, false, true};
     public static final boolean INVERT_JOYSTICK_X = getConstant("INVERT_JOYSTICK_X");
 
@@ -90,7 +109,7 @@ public class RobotMap {
     private static final boolean[] MOTOR_LIFT_INVERTED_VALS = {true, true, true};
     public static final boolean MOTOR_LIFT_INVERTED = getConstant("MOTOR_LIFT_INVERTED");
 
-    private static final double[] ENCODER_LIFT_DPP_VALS = {169.0 / 1169280.0, -169.0 / 1169280.0, 1};
+    private static final double[] ENCODER_LIFT_DPP_VALS = {7.0 / 48638, -1.0 / 7075.0, 1};
     public static final double ENCODER_LIFT_DPP = getConstant("ENCODER_LIFT_DPP");
     
     private static final int[] LIMIT_DOWN_VALS = {1, 1, 1};
@@ -116,7 +135,7 @@ public class RobotMap {
      * Prints which RobotMap is being used
      */
     public static void log() {
-        Log.d("RobotMap", "RobotMap ID is " + ROBOT_ID);
+        Log.i("RobotMap", "RobotMap ID is " + ROBOT_ID);
     }
     
     private static final String ROBOT_ID_LOC = "/home/lvuser/robot-type.conf";

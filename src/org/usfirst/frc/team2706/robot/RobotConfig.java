@@ -26,9 +26,9 @@ public class RobotConfig {
      * @param defaultValue The value to be returned if no other value exists
      * @return The value for of the property
      */
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public static <T> T get(String name, T defaultValue) {
-        // Create JSON primitives depending on the type of T
+        /*// Create JSON primitives depending on the type of T
         if (defaultValue instanceof Boolean) {
             // Try to get the value of the config location or return Optional.empty() for default
             Optional<JsonPrimitive> val =
@@ -75,7 +75,7 @@ public class RobotConfig {
                 }
             }
         }
-
+*/
         // Either config didn't have correct information, T wasn't a valid type, or value wasn't
         // overridden
         return defaultValue;
@@ -103,6 +103,7 @@ public class RobotConfig {
      * @param defaultValue The default value in case the name can't be found
      * @return The JSON primitive value of the property if it can be found
      */
+    @SuppressWarnings("unused")
     private static Optional<JsonPrimitive> get(String name, JsonPrimitive defaultValue) {
         // Get each name in the chain of objects
         String[] path = name.split("\\.");

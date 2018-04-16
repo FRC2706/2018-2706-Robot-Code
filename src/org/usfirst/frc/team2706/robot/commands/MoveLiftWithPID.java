@@ -2,23 +2,19 @@ package org.usfirst.frc.team2706.robot.commands;
 
 import java.util.function.Supplier;
 
-import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.controls.OneTimeCommand;
-import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveLiftWithPID extends Command {
-    
-    private Lift move;
+public class MoveLiftWithPID extends LoggedCommand {
     
     private final Supplier<Double> liftspeed;
 
-    public static final double SPEED_UP_PER_SECOND = 2.2;
-    public static final double SPEED_DOWN_PER_SECOND = 3.5;
+    public static final double SPEED_UP_PER_SECOND = 7.0 / 2.0;
+    public static final double SPEED_DOWN_PER_SECOND = 7.0 / 1.3;
     
     public static final double MIN_HEIGHT = 0.5;
     
@@ -47,7 +43,6 @@ public class MoveLiftWithPID extends Command {
      * @param speed The supplier for the speed
      */
     public MoveLiftWithPID(Supplier<Double> speed) {
-        move = Robot.lift;
         this.liftspeed = speed;
         this.requires(Robot.lift);
     }
@@ -96,8 +91,8 @@ public class MoveLiftWithPID extends Command {
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
-        move.stop();
-        Robot.lift.resetSetpoint();
+     //   move.stop();
+     //   Robot.lift.resetSetpoint();
     }
 
     protected boolean isFinished() {

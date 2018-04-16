@@ -1,13 +1,13 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.core;
 
 import org.usfirst.frc.team2706.robot.Log;
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.RobotConfig;
+import org.usfirst.frc.team2706.robot.RobotMap;
 import org.usfirst.frc.team2706.robot.commands.autonomous.AutoConstants;
 
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This mostly works, but use the QuickRotate command instead. PID control using gyro heading is
@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Note that the gyro heading is now absolute and not relative, so angle is a target heading and not
  * a relative turn angle.
  */
-public class RotateDriveWithGyro extends Command {
+public class RotateDriveWithGyro extends LoggedCommand {
 
     private final double speed;
 
@@ -26,7 +26,10 @@ public class RotateDriveWithGyro extends Command {
 
     private final int minDoneCycles;
 
-    private final double P = 0.022, I = 0.0, D = 0.01, F = 0;
+    private final double P = RobotMap.ROTATE_DRIVE_P,
+                         I = RobotMap.ROTATE_DRIVE_I,
+                         D = RobotMap.ROTATE_DRIVE_D,
+                         F = 0;
     
     private final double error;
 
@@ -59,18 +62,18 @@ public class RotateDriveWithGyro extends Command {
         PID = new PIDController(P, I, D, F, Robot.driveTrain.getGyroPIDSource(false),
                         Robot.driveTrain.getDrivePIDOutput(false, false, true));
         
-      SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
-      SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
-      SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
+//      SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+//      SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+//      SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
   }
 
   // Called just before this Command runs the first time
   protected void initialize() {
-      PID.setP(SmartDashboard.getNumber("P", P));
-      PID.setI(SmartDashboard.getNumber("I", I));
-      PID.setD(SmartDashboard.getNumber("D", D));
+//      PID.setP(SmartDashboard.getNumber("P", P));
+//      PID.setI(SmartDashboard.getNumber("I", I));
+//      PID.setD(SmartDashboard.getNumber("D", D));
       
-        Log.d(this, "Rotating " + angle + " degrees at a speed of " + speed);
+        Log.i(this, "Rotating " + angle + " degrees at a speed of " + speed);
         
         Robot.driveTrain.reset();
 
@@ -110,11 +113,11 @@ public class RotateDriveWithGyro extends Command {
     protected void end() {
         // Disable PID output and stop robot to be safe
         PID.disable();
-
+        Log.i(this, "Done rotating, rotated " + Robot.driveTrain.getHeading());
         Robot.driveTrain.drive(0, 0);
         
         Robot.driveTrain.reset();
-        Log.d(this, "Done rotating");
+        
     }
 
     // Called when another command which requires one or more of the same

@@ -1,11 +1,10 @@
 package org.usfirst.frc.team2706.robot.commands;
 
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class DoubleIntake extends Command {
+public class DoubleIntake extends LoggedCommand {
 
     private Intake inhale;
     /**
@@ -52,8 +51,6 @@ public class DoubleIntake extends Command {
      * Sets both Intake motors to 0, stopping them
      */
     public void end() {
-        
-        System.out.println("Ended IntakeCube command");
         inhale.stopMotors();
     }
     

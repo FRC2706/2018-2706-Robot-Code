@@ -1,11 +1,14 @@
 package org.usfirst.frc.team2706.robot;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.ErrorManager;
+import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -48,10 +51,12 @@ public class Log {
     private static final Formatter formatter = new Formatter() {
         @Override
         public String format(LogRecord record) {
+            // Get timestamp
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
             Date dt = new Date(record.getMillis());
             String S = sdf.format(dt);
 
+            // Get time in match including mode
             String matchtime;
             if(DriverStation.getInstance().isFMSAttached()) {
                 if(DriverStation.getInstance().isAutonomous()) {
@@ -73,6 +78,7 @@ public class Log {
                 matchtime = ""+Timer.getFPGATimestamp();
             }
             
+            // Format log with all relevant info
             return record.getLevel() + " " + S + "[" + matchtime
                             + "] " + record.getSourceClassName() + "."
                             + record.getSourceMethodName() + "() " + record.getLoggerName() + " "
@@ -91,9 +97,10 @@ public class Log {
      */
     public static void setUpLogging() {
         ConsoleHandler ch = new ConsoleHandler();
-        out = new ByteArrayOutputStream();
+        out = new LimitedByteArrayOutputStream();
         StreamHandler tableOut = new EStreamHandler(out, formatter);
-
+        final FileHandler fh;
+        
         try {
             logger.setUseParentHandlers(false);
             logger.setLevel(Level.ALL);
@@ -104,24 +111,45 @@ public class Log {
 
             ch.setFormatter(formatter);
 
+            // Log to first available USB
+            File f = new File("/U/robot.log");
+            
+            if(f.isFile()) {
+                fh = new FileHandler(f.getAbsolutePath(), true);
+                
+                fh.setLevel(Level.ALL);
+                fh.setFormatter(formatter);
+                
+                logger.addHandler(fh);
+            }
+            else {
+                fh = null;
+                Log.w("Logging", "Couldn't access USB to put logs");
+            }
+            
 
             logger.addHandler(ch);
             logger.addHandler(tableOut);
 
-            ch.setLevel(Level.ALL);
             tableOut.setLevel(Level.ALL);
+            ch.setLevel(Level.INFO);
 
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 @Override
                 public void run() {
                     ch.flush();
                     ch.close();
+                    
+                    if(fh != null) {
+                        fh.flush();
+                        fh.close();
+                    }
 
                     tableOut.flush();
                     tableOut.close();
                 }
             });
-        } catch (SecurityException e) {
+        } catch (SecurityException | IOException e) {
             e.printStackTrace();
         }
 
@@ -130,10 +158,10 @@ public class Log {
             @Override
             public void valueChanged(NetworkTable source, String key, NetworkTableEntry entry,
                             NetworkTableValue value, int flags) {
-                Level level = Level.parse(entry.getNumber(Level.ALL.intValue()).intValue() + "");
-                ch.setLevel(level);
-                tableOut.setLevel(level);
-                logger.setLevel(level);
+                //Level level = Level.parse(entry.getNumber(Level.ALL.intValue()).intValue() + "");
+                //ch.setLevel(level);
+                //tableOut.setLevel(level);
+                //logger.setLevel(level);
 
             }
         };
@@ -165,7 +193,7 @@ public class Log {
         byte[] b = out.toByteArray();
 
         byte[] results = new byte[0];
-
+        
         if (a == new byte[0]) {
             results = b;
         } else if (b.length == 0) {
@@ -188,7 +216,7 @@ public class Log {
      * @param message The object (or String) message to log
      */
     public static void d(Object name, Object message) {
-        LogLevels.DEBUG.log(name, message);
+      //  LogLevels.DEBUG.log(name, message);
     }
 
     /**
@@ -199,7 +227,7 @@ public class Log {
      * @param t The Throwable to log
      */
     public static void d(Object name, Object message, Throwable t) {
-        LogLevels.DEBUG.log(name, message, t);
+     //   LogLevels.DEBUG.log(name, message, t);
     }
 
     /**
@@ -328,15 +356,26 @@ public class Log {
         }
     }
 
-    private static int disableCount = 0;
-
     /**
      * Tells the RIOLogger client to save the log with a certain name
      */
     public static void save() {
-        if (DriverStation.getInstance().isFMSAttached() && ++disableCount > 2) {
+        if (DriverStation.getInstance().isFMSAttached()) {
             NetworkTableInstance.getDefault().getTable(LOGGER_TABLE).getEntry("save")
                             .setBoolean(true);
+        }
+    }
+    
+    private static class LimitedByteArrayOutputStream extends ByteArrayOutputStream {
+        
+        // 40MB limit
+        private static int limit = 41943040;
+        
+        @Override
+        public void write(byte[] b) throws IOException {
+            if(super.count + b.length <= limit) {
+                super.write(b);
+            }
         }
     }
 }

@@ -1,11 +1,12 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes;
 
+import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeUntilGrabbed extends Command {
+public class IntakeUntilGrabbed extends LoggedCommand {
 public double driveSpeed, intakeSpeed;
 public double distance;
 Command intakeCube;
@@ -27,8 +28,7 @@ Command intakeCube;
     }
     @Override
     protected boolean isFinished() {
-        System.out.println(Robot.intake.readIRSensor());
-            return Robot.intake.readIRSensor() > 1.5;        // TODO Auto-generated method stub
+            return Robot.intake.readIRSensor() > 1.75;        // TODO Auto-generated method stub
     }
 
 }
