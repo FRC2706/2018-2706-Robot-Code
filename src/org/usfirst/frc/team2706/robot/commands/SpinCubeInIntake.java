@@ -13,8 +13,8 @@ public class SpinCubeInIntake extends Command {
     
     @Override
     protected void initialize() {
-        Robot.intake.leftCube(0.7);
-        Robot.intake.rightCube(-0.7);
+        Robot.intake.leftCube(2.0);
+        Robot.intake.rightCube(-2.0);
     }
     
     @Override
