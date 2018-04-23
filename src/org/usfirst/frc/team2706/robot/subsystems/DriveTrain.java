@@ -206,7 +206,7 @@ public class DriveTrain extends Subsystem {
 
     public void curvatureDrive(double speed, double rotation, boolean override) {
         if (Robot.oi.getDriverJoystick().getRawButton(JoystickMap.XBOX_LB_BUTTON)) {
-            drive.curvatureDrive(speed,(override ? rotation / 3.5 : rotation), override); 
+            drive.curvatureDrive(speed * 0.25,(override ? rotation / 3.5 : rotation), override); 
         }
         else {
             drive.curvatureDrive(speed,(override ? rotation / 2 : rotation), override); 

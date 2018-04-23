@@ -9,6 +9,7 @@ import org.usfirst.frc.team2706.robot.commands.MoveLift;
 import org.usfirst.frc.team2706.robot.commands.MoveLiftWithPID;
 import org.usfirst.frc.team2706.robot.commands.PickupCube;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightUntilCancelled;
+import org.usfirst.frc.team2706.robot.commands.SpinCubeInIntake;
 import org.usfirst.frc.team2706.robot.commands.StartCimbing;
 import org.usfirst.frc.team2706.robot.controls.StickQuadrantButtonJoystick;
 import org.usfirst.frc.team2706.robot.controls.TriggerButtonJoystick;
@@ -79,6 +80,9 @@ public class OI {
         
         EJoystickButton ejectTimed = new EJoystickButton(driverStick, JoystickMap.XBOX_RB_BUTTON);
         ejectTimed.runWhileHeld(new PickupCube());
+        
+        EJoystickButton spinCube = new EJoystickButton(controlStick, JoystickMap.XBOX_START_BUTTON);
+        spinCube.runWhileHeld(new SpinCubeInIntake());
         
         // Currently lift is mapped to buttons as well
         // Final: Elevator on axis 1
