@@ -172,6 +172,7 @@ public class Lift extends Subsystem {
         SmartDashboard.putString("Talon Command",
                         getCurrentCommand() != null ? getCurrentCommand().getName() : "None");
         SmartDashboard.putNumber("Lift Current", liftMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Lift Temperature", liftMotor.getTemperature());
     }
 
     public void debugLog() {

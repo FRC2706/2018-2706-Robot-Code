@@ -27,7 +27,7 @@ public class RightStartRightScaleMultiCubeCurveDrive extends CommandGroup {
         
         
         
-        this.addSequential(new RotateDriveWithGyro(0.35, -143, 2, 3, this + ".turnRightTowardsScale"));
+        this.addSequential(new RotateDriveWithGyro(0.4, -143, 2, 3, this + ".turnRightTowardsScale"));
         this.addSequential(new SetLiftHeightBlocking(Double.MIN_VALUE,5,0.1),5);
         this.addSequential(new StraightDriveWithEncoders(0.8,2.0,1.0,1,"a"));
         IntakeUntilGrabbed g = new IntakeUntilGrabbed(AutoConstants.SPEED_SLOW,1);

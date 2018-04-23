@@ -533,7 +533,7 @@ public class DriveTrain extends Subsystem {
                                     false);
                 }
             } else {
-                rotateVal = normalize(getHeading() - initGyro) * 0.1;
+                rotateVal = normalize(getHeading() - initGyro) * 0.15;
 
 
 

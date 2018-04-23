@@ -9,11 +9,15 @@ public class PickupCubeAuto extends CommandGroup {
     
     private final IntakeUntilGrabbedNoDrive grab;
     public PickupCubeAuto(double leftSpeed, double rightSpeed) {
-        this.addParallel(new FollowCamera(0.25));
+        this.addParallel(new FollowCamera(0.3));
         grab = new IntakeUntilGrabbedNoDrive(leftSpeed, rightSpeed);
         this.addSequential(grab);
     }
-    
+    public PickupCubeAuto(double leftSpeed, double rightSpeed, double speed) {
+        this.addParallel(new FollowCamera(speed));
+        grab = new IntakeUntilGrabbedNoDrive(leftSpeed, rightSpeed);
+        this.addSequential(grab);
+    }
     public void end() {
     }
     @Override

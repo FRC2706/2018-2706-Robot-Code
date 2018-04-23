@@ -16,7 +16,7 @@ public class LeftStartLeftSwitch extends CommandGroup {
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_FAST, 135 / 12.0, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES,
                         this + ".forwardToSwitch"), 7);
         this.addSequential(new RotateDriveWithGyro(90, this + ".rotateToSwitch"), 3);
-        this.addParallel(new SetLiftHeightBlocking(AutoConstants.SWITCH_HEIGHT, 2, 0.2), 2);
+        this.addSequential(new SetLiftHeightBlocking(AutoConstants.SWITCH_HEIGHT, 2, 0.2), 2);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED, 48 / 12.0, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES,
                         this + ".driveToSwitch"), 2);
 
