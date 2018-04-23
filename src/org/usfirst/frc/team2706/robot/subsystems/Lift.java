@@ -52,6 +52,7 @@ public class Lift extends Subsystem {
         setBrakeMode(true);
         liftMotor.setInverted(RobotMap.MOTOR_LIFT_INVERTED);
         liftMotor.configClosedloopRamp(0.2, 0);
+        liftMotor.enableCurrentLimit(true);
         encoder = new TalonEncoder(liftMotor);
         liftDown.whileActive(new OneTimeCommand(this::reset));
         liftDown.whenActive(new OneTimeCommand(() -> {
@@ -68,7 +69,7 @@ public class Lift extends Subsystem {
         liftMotor.configPeakCurrentLimit(0, 0);
         liftMotor.configPeakCurrentDuration(0, 0);
         setRegularCurrentLimit();
-        liftMotor.enableCurrentLimit(false);
+        liftMotor.enableCurrentLimit(true);
         
       SmartDashboard.putNumber("P Down", SmartDashboard.getNumber("P Down", pDown));
       SmartDashboard.putNumber("I Down", SmartDashboard.getNumber("I Down", iDown));
@@ -252,8 +253,8 @@ public class Lift extends Subsystem {
     }
 
     public void setRegularCurrentLimit() {
-        Log.d("Lift", "Current limit to 37");
-        liftMotor.configContinuousCurrentLimit(37, 0);
+        Log.i("Lift", "Current limit to 20");
+        liftMotor.configContinuousCurrentLimit(60, 0);
     }
 
     public void setUnsafeCurrentLimit() {
