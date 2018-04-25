@@ -3,19 +3,21 @@ package org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes;
 import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
+import org.usfirst.frc.team2706.robot.commands.IntakeCubeCustom;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class IntakeUntilGrabbed extends LoggedCommand {
-public double driveSpeed, intakeSpeed;
+public double driveSpeed, leftSpeed, rightSpeed;
 public double distance;
 Command intakeCube;
-    public IntakeUntilGrabbed(double driveSpeed, double intakeSpeed) {
+    public IntakeUntilGrabbed(double driveSpeed, double leftSpeed, double rightSpeed) {
         this.driveSpeed = driveSpeed;
-        this.intakeSpeed = intakeSpeed;
+        this.leftSpeed = leftSpeed;
+        this.rightSpeed = rightSpeed;
     }
     public void initialize() {
-       intakeCube = new IntakeCube(intakeSpeed, false);
+       intakeCube = new IntakeCubeCustom(leftSpeed, rightSpeed);
        intakeCube.start();
     }
     public void execute() {

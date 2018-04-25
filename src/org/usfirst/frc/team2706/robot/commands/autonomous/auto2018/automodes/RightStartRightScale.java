@@ -18,7 +18,7 @@ public class RightStartRightScale extends CommandGroup {
         this.addSequential(new StraightDriveWithEncoders(0.0,0.25,0.1,1,"awfawf"),0.15);
         
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT, 5, 0.2));
-        this.addSequential(new CurveDriveTwoSpeed(2.5,19,25,0.95,0.9,0.7,10, 14,true,"B"));
+        this.addSequential(new CurveDriveTwoSpeed(2.5,20,25,0.95,0.9,0.7,10, 14,true,"B"));
         this.addSequential(new EjectCube(0.8),0.5);
 //        
 //        this.addParallel(new SetLiftHeightBlockingAfterTime(Double.MIN_VALUE,5,0.1, 750),5);
