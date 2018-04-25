@@ -35,7 +35,7 @@ public class LeftStartRightScale extends CommandGroup{
         this.addSequential(new RotateDriveWithGyro(0.45, -130, 2, 3, this + ".turnRightTowardsScale"),3);
         this.addSequential(new StraightDriveWithEncoders(0.9,2.0,1.0,1,"a"),2);
         this.addParallel(new MoveLift(-0.3),0.5);
-        this.addSequential(new PickupCubeAuto(0.6,0.4), 5);
+        this.addSequential(new PickupCubeAuto(0.9,0.3), 5);
         this.addSequential(new IntakeCube(1,false),0.25);
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT,2,0.1),5);
         this.addSequential(new StraightDriveWithEncoders(0.7,-5.2,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),3);

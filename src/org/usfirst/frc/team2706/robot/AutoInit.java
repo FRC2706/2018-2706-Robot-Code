@@ -78,11 +78,11 @@ public class AutoInit {
                         new RightStartRightSwitch());
 
         leftStartLeftScale = new Priority("left_left_scale",
-                        "Left Start Left Scale (No CurveDrive, Ryerson)", !Priority.IS_SWITCH,
+                        "Left Start Left Scale, backs up out of way after", !Priority.IS_SWITCH,
                         Priority.IS_SCALE, Priority.LEFT, new LeftStartLeftScale());
 
         rightStartRightScale = new Priority("right_right_scale",
-                        "Right Start Right Scale (No CurveDrive, Ryerson)", !Priority.IS_SWITCH,
+                        "Right Start Right Scale, backs up out of way after", !Priority.IS_SWITCH,
                         Priority.IS_SCALE, Priority.RIGHT, new RightStartRightScale());
 
         leftStartLeftScaleMultiCube = new Priority("left_left_scale_multi",
@@ -183,10 +183,13 @@ public class AutoInit {
                                         new Priority[] {leftStartLeftScaleLeftSwitchMultiCube,
                                                         leftStartLeftScaleMultiCube, leftStartLeftSwitch,
                                                         driveForward},
-                                        // position 6: multi cube right scale fallback
+                                        // position 8: multi cube right scale fallback
                                         new Priority[] {leftStartLeftScaleLeftSwitchMultiCube,
                                                         leftStartLeftScaleMultiCube, leftStartLeftSwitch,
-                                                        leftStartRightScale}},
+                                                        leftStartRightScale},
+                                        // position 9: close left scale backup or drive fwd
+                                        new Priority[] {leftStartLeftScale, driveForward}
+                                                        },
                         // position 5: Right Position
                         new Priority[][] {
                                         // position 1: do right switch
@@ -208,10 +211,12 @@ public class AutoInit {
                                         new Priority[] {rightStartRightScaleRightSwitchMultiCube,
                                                         rightStartRightScaleMultiCube, rightStartRightSwitch,
                                                         driveForward},
-                                        // position 6: multi cube right scale fallback
+                                        // position 8: multi cube right scale fallback
                                         new Priority[] {rightStartRightScaleRightSwitchMultiCube,
                                                         rightStartRightScaleMultiCube, rightStartRightSwitch,
-                                                        rightStartLeftScale}});
+                                                        rightStartLeftScale},
+                                        // position 9: close left scale backup or drive fwd
+                                        new Priority[] {rightStartRightScale, driveForward}});
     }
 
     /**

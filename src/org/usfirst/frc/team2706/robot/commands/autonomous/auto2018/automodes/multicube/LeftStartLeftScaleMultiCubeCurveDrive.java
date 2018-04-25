@@ -1,13 +1,11 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.multicube;
 
 import org.usfirst.frc.team2706.robot.commands.EjectCube;
-import org.usfirst.frc.team2706.robot.commands.InitLift;
 import org.usfirst.frc.team2706.robot.commands.IntakeCube;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightBlocking;
 import org.usfirst.frc.team2706.robot.commands.SetLiftHeightBlockingAfterTime;
 import org.usfirst.frc.team2706.robot.commands.autonomous.AutoConstants;
 import org.usfirst.frc.team2706.robot.commands.autonomous.PickupCubeAuto;
-import org.usfirst.frc.team2706.robot.commands.autonomous.auto2018.automodes.IntakeUntilGrabbed;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.RotateDriveWithGyro;
 import org.usfirst.frc.team2706.robot.commands.autonomous.core.StraightDriveWithEncoders;
 import org.usfirst.frc.team2706.robot.commands.autonomous.experimential.curvedrive.CurveDriveTwoSpeed;
