@@ -100,7 +100,7 @@ public class OI {
         liftLevelRight.runWhileHeld(new SetLiftHeightUntilCancelled(5.8));
         
         StickQuadrantButtonJoystick liftLevelUp = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.DOWN, 0.2);
-        liftLevelUp.runWhileHeld(new SetLiftHeightUntilCancelled(5.74));
+        liftLevelUp.runWhileHeld(new SetLiftHeightUntilCancelled(5.68));
         
         StickQuadrantButtonJoystick liftLevelLeft = new StickQuadrantButtonJoystick(controlStick, JoystickMap.XBOX_RIGHT_AXIS_X, JoystickMap.XBOX_RIGHT_AXIS_Y, StickQuadrantButtonJoystick.LEFT, 0.2);
         liftLevelLeft.runWhileHeld(new SetLiftHeightUntilCancelled(Lift.MAX_HEIGHT * 0.5));

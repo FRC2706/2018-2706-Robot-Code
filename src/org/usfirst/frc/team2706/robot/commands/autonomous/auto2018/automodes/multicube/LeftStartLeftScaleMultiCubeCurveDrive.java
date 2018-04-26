@@ -21,30 +21,30 @@ public class LeftStartLeftScaleMultiCubeCurveDrive extends CommandGroup {
         
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT, 5, 0.2));
         this.addSequential(new CurveDriveTwoSpeed(2.5,20,25,0.95,0.9,0.7,10, 14,false,"B"));
-        this.addSequential(new EjectCube(0.8),0.5);
+        this.addSequential(new EjectCube(0.66),0.5);
 //        
 //        this.addParallel(new SetLiftHeightBlockingAfterTime(Double.MIN_VALUE,5,0.1, 750),5);
         this.addParallel(new SetLiftHeightBlockingAfterTime(Double.MIN_VALUE,5,0.1, 500),5);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED, -2,1,2,"aff"));
 //        this.addSequential(new RotateDriveWithGyro(0.35, 143, 2, 3, this + ".turnRightTowardsScale"),5);
         
-        this.addSequential(new RotateDriveWithGyro(0.55, 130, 2, 3, this + ".turnRightTowardsScale"),3);
+        this.addSequential(new RotateDriveWithGyro(0.55, 125, 2, 3, this + ".turnRightTowardsScale"),3);
         
-        this.addSequential(new StraightDriveWithEncoders(0.8,1.7,1.0,1,"a"));
+        this.addSequential(new StraightDriveWithEncoders(0.8,1.25,1.0,1,"a"));
      //   IntakeUntilGrabbed g = new IntakeUntilGrabbed(AutoConstants.SPEED_SLOW,1);
      //   this.addSequential(g);
-        this.addSequential(new PickupCubeAuto(0.3,0.9, 0.25), 5);
+        this.addSequential(new PickupCubeAuto(0.5,0.9, 0.25), 5);
         this.addSequential(new IntakeCube(1,false),0.25);
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT,2,0.1),4);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED,-5.3,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),3);
-        this.addSequential(new RotateDriveWithGyro(0.45, -110, 2, 3, this + ".turnRightTowardsScale"),2);
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED, 1.0,1,2,"aff"));
-        this.addSequential(new EjectCube(AutoConstants.EJECT_SPEED),0.5);
+        this.addSequential(new RotateDriveWithGyro(0.45, -90, 2, 3, this + ".turnRightTowardsScale"),2);
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED, 3,1,2,"aff"));
+        this.addSequential(new EjectCube(0.7),1);
         
         this.addParallel(new SetLiftHeightBlockingAfterTime(Double.MIN_VALUE,5,0.2, 750),5);
         this.addSequential(new RotateDriveWithGyro(0.35, 110, 2, 3, this + ".turnRightTowardsScale"),2);
         this.addSequential(new StraightDriveWithEncoders(0.8,2.0,1.0,1,"a"));
-        this.addSequential(new PickupCubeAuto(0.9,0.3), 5);
+        this.addSequential(new PickupCubeAuto(0.5,0.9), 5);
         this.addSequential(new IntakeCube(1,false),0.25);
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT,2,0.1),4);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED,-5.4,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),3);
