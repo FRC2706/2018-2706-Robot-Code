@@ -25,13 +25,13 @@ public class RightStartLeftScale extends CommandGroup {
         this.addSequential(new RotateDriveWithGyro(0.55, 115, 2, 3, this + ".turnRightTowardsScale"),3);
         //this.addSequential(new IntakeCube(0.1, true),0.5);
         
-        this.addSequential(new StraightDriveWithEncoders(0.6,45 / 12.0,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".pressSwitch2"),5);
+        this.addSequential(new StraightDriveWithEncoders(0.6,46.5 / 12.0,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".pressSwitch2"),5);
         
         this.addSequential(new EjectCube(0.8),0.25);
       //  this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_SLOW,-1.5,AutoConstants.ACCURATE_ERROR, 1, this + ".endForwardToScale"),2);
-        this.addParallel(new SetLiftHeightBlockingAfterTime(Double.MIN_VALUE,2,0.2,750),5);
+        this.addParallel(new SetLiftHeightBlockingAfterTime(Double.MIN_VALUE,2,0.2,500),5);
       //  this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED,-1.48,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),2);
-        this.addSequential(new RotateDriveWithGyro(0.45, 140, 2, 3, this + ".turnRightTowardsScale"),3);
+        this.addSequential(new RotateDriveWithGyro(0.45, 135, 2, 3, this + ".turnRightTowardsScale"),3);
         this.addSequential(new StraightDriveWithEncoders(0.9,2.0,1.0,1,"a"),2);
         this.addParallel(new MoveLift(-0.3),0.5);
         this.addSequential(new PickupCubeAuto(0.3,0.9), 5);
@@ -39,7 +39,7 @@ public class RightStartLeftScale extends CommandGroup {
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT,2,0.1),5);
         this.addSequential(new StraightDriveWithEncoders(0.7,-5.2,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),3);
         
-        this.addSequential(new RotateDriveWithGyro(0.45, -125, 2, 3, this + ".turnRightTowardsScale"),2);
+        this.addSequential(new RotateDriveWithGyro(0.45, -120, 2, 3, this + ".turnRightTowardsScale"),2);
         this.addSequential(new EjectCube(0.8),0.5);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_SLOW,-1.5,AutoConstants.ACCURATE_ERROR, 1, this + ".endForwardToScale"),2);
         this.addParallel(new SetLiftHeightBlocking(Double.MIN_VALUE,5,0.2),5);
