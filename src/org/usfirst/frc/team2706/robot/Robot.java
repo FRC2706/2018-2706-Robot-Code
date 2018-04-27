@@ -60,8 +60,8 @@ public class Robot extends IterativeRobot {
 
         RobotMap.log();
 
-        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
-        Runtime.getRuntime().addShutdownHook(new Thread(camera::free));
+      //  UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+      //  Runtime.getRuntime().addShutdownHook(new Thread(camera::free));
         
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();

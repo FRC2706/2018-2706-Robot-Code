@@ -109,7 +109,7 @@ public class RobotMap {
     private static final boolean[] MOTOR_LIFT_INVERTED_VALS = {true, true, true};
     public static final boolean MOTOR_LIFT_INVERTED = getConstant("MOTOR_LIFT_INVERTED");
 
-    private static final double[] ENCODER_LIFT_DPP_VALS = {7.0 / 48638, -1.0 / 7075.0, 1};
+    private static final double[] ENCODER_LIFT_DPP_VALS = {7.0 / 49250, -1.0 / 7075.0, 1};
     public static final double ENCODER_LIFT_DPP = getConstant("ENCODER_LIFT_DPP");
     
     private static final int[] LIMIT_DOWN_VALS = {1, 1, 1};
