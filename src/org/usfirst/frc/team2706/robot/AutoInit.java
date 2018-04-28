@@ -173,7 +173,7 @@ public class AutoInit {
                                                         driveForward},
                                         // position 4: try left scale, otherwise do left switch
                                         new Priority[] {leftStartLeftScaleMultiCube, leftStartLeftSwitch,
-                                                        driveForward},
+                                                        leftStartRightScale},
                                         // position 5: try left switch, otherwise do scale
                                         new Priority[] {leftStartLeftSwitch, leftStartLeftScaleMultiCube,
                                                         leftStartRightScale},
@@ -184,7 +184,7 @@ public class AutoInit {
                                                         leftStartLeftScaleMultiCube, leftStartLeftSwitch,
                                                         driveForward},
                                         // position 8: multi cube right scale fallback
-                                        new Priority[] {leftStartLeftScaleLeftSwitchMultiCube,
+                                        new Priority[] {
                                                         leftStartLeftScaleMultiCube, leftStartLeftSwitch,
                                                         leftStartRightScale},
                                         // position 9: close left scale backup or drive fwd
