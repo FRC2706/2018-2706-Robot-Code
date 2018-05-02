@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake extends Subsystem { 
     boolean cubeIn = false; 
     
-    private static final double CUBE_CAPTURED = 1.5;
+    private static final double CUBE_CAPTURED = 1.8;
     
     // Objects for inhaling and exhaling the cube
     private WPI_TalonSRX right_intake_motor;
