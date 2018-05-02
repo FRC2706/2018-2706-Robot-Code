@@ -173,7 +173,7 @@ public class AutoInit {
                                                         driveForward},
                                         // position 4: try left scale, otherwise do left switch
                                         new Priority[] {leftStartLeftScaleMultiCube, leftStartLeftSwitch,
-                                                        leftStartRightScale},
+                                                        driveForward},
                                         // position 5: try left switch, otherwise do scale
                                         new Priority[] {leftStartLeftSwitch, leftStartLeftScaleMultiCube,
                                                         leftStartRightScale},

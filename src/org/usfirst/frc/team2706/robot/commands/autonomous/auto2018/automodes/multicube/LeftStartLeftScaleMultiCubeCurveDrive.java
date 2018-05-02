@@ -37,10 +37,10 @@ public class LeftStartLeftScaleMultiCubeCurveDrive extends CommandGroup {
         this.addSequential(new IntakeCube(1,false),0.25);
         this.addParallel(new SetLiftHeightBlocking(AutoConstants.SCALE_HEIGHT,2,0.1),4);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED,-5.3,AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".endForwardToScale"),3);
-        this.addSequential(new RotateDriveWithGyro(0.45, -90, 2, 3, this + ".turnRightTowardsScale"),2);
+        this.addSequential(new RotateDriveWithGyro(0.45, -85, 2, 3, this + ".turnRightTowardsScale"),2);
         this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED, 3,1,2,"aff"));
-        this.addSequential(new EjectCube(0.7),1);
-        
+       this.addSequential(new EjectCube(0.95),0.5);
+      
         this.addParallel(new SetLiftHeightBlockingAfterTime(Double.MIN_VALUE,5,0.2, 750),5);
         this.addSequential(new RotateDriveWithGyro(0.35, 110, 2, 3, this + ".turnRightTowardsScale"),2);
         this.addSequential(new StraightDriveWithEncoders(0.8,2.0,1.0,1,"a"));
