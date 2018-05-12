@@ -100,17 +100,30 @@ public class DashboardAutoSelector implements TableEntryListener {
         }
     }
 
+    /**
+     * Converts a list of priorities to a {@code Map<String, String>}
+     * 
+     * @param pp The list to convert
+     * @return The new Map
+     */
     public LinkedHashMap<String, String> listToMap(ArrayList<Priority> pp) {
         LinkedHashMap<String, String> stringList = new LinkedHashMap<String, String>();
         for (Priority p : pp) {
-            stringList.put(p.id, p.name);
+            stringList.put(p.getID(), p.getName());
         }
         return stringList;
     }
 
+    /**
+     * Searches for a priority within a list of priorities
+     * 
+     * @param id The id of the priority to search for
+     * @param pp The list of priorities to search
+     * @return The priority that was found, otherwise null
+     */
     public Priority findPriority(String id, ArrayList<Priority> pp) {
         for (Priority p : pp) {
-            if (p.id.equals(id)) {
+            if (p.getID().equals(id)) {
                 return p;
             }
         }

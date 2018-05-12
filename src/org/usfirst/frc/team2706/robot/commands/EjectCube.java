@@ -1,21 +1,21 @@
 package org.usfirst.frc.team2706.robot.commands;
 
-
 import java.util.function.Supplier;
 
 import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
-import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * Ejects the cube from the intake
+ */
 public class EjectCube extends LoggedCommand {
 
-    private Intake inhale;
     private final Supplier<Double> speed;
 
     /**
-     * Allows us to use the methods in 'Intake'
+     * Ejects cube using a joystick axis
      * 
      * @param stick The joystick to use
      * @param axis The axis to use
@@ -25,7 +25,7 @@ public class EjectCube extends LoggedCommand {
     }
     
     /**
-     * Allows us to use the methods in 'Intake'
+     * Ejects a cube at a constant speed
      * 
      * @param speed The the speed
      */
@@ -35,42 +35,33 @@ public class EjectCube extends LoggedCommand {
     }
     
     /**
-     * Allows us to use the methods in 'Intake'
+     * Ejects a cube at a supplied speed
      * 
      * @param speed The supplier for the speed
      */
     public EjectCube(Supplier<Double> speed) {
-        inhale = Robot.intake;
-        
         this.speed = speed;
     }
     
     /**
-     * I don't believe initialization is required 
+     * Run the motors at the given speed
      */
-    public void initialize() {}
-    
-    /**
-     * Turns the motors on to suck in the cube
-     */
-    public void execute() {
-        inhale.exhaleCube(speed.get()); 
-    }
-    
-    /**
-     * Sets both Intake motors to 0, stopping them
-     */
-    public void end() {
-        inhale.stopMotors();
-    }
-    
-
     @Override
+    public void execute() {
+        Robot.intake.exhaleCube(speed.get()); 
+    }
+    
     /**
-     * Used to detect whether the motors should stop
+     * Stops both intake motors
      */
+    @Override
+    public void end() {
+        Robot.intake.stopMotors();
+    }
+    
+    @Override
     protected boolean isFinished() {
-            return false;     
+        return false;     
     }
 
 }

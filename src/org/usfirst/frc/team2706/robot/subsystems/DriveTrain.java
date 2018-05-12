@@ -108,6 +108,11 @@ public class DriveTrain extends Subsystem {
         // selectorSwitch.setName("Drive Train", "Autonomous Selector");
     }
 
+    /**
+     * Whether to use voltage or current drive
+     * 
+     * @param voltage Voltage or current drive
+     */
     public void setVoltageDrive(boolean voltage) {
         front_left_motor.setUseVoltage(voltage);
         back_left_motor.setUseVoltage(voltage);
@@ -171,6 +176,9 @@ public class DriveTrain extends Subsystem {
         // selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
     }
 
+    /**
+     * Log debug information to the console
+     */
     public void debugLog() {
         Log.d("Drive Train", "Acceleration " + gyro.getRawAccelX() + " " + gyro.getRawAccelY() + " " + gyro.getRawAccelZ());
         Log.d("Drive Train", "Heading " + getHeading());
@@ -204,6 +212,13 @@ public class DriveTrain extends Subsystem {
         drive.tankDrive(left, right);
     }
 
+    /**
+     * Drives using curves instead of rotation
+     * 
+     * @param speed The speed to drive forward
+     * @param rotation The to curve at
+     * @param override Whether to use in-place maneuvers or not
+     */
     public void curvatureDrive(double speed, double rotation, boolean override) {
         if (Robot.oi.getDriverJoystick().getRawButton(JoystickMap.XBOX_LB_BUTTON)) {
             drive.curvatureDrive(speed * 0.25,(override ? rotation / 3.5 : rotation), override); 

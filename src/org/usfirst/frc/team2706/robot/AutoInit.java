@@ -44,6 +44,9 @@ public class AutoInit {
                     rightStartLeftScale, leftStartLeftScaleMultiCube, rightStartRightScaleMultiCube,
                     leftStartLeftScaleLeftSwitchMultiCube, rightStartRightScaleRightSwitchMultiCube;
 
+    /**
+     * Creates all of the priorities
+     */
     public AutoInit() {
 
         doNothing = new Priority(new ArcadeDriveWithJoystick());
@@ -263,10 +266,21 @@ public class AutoInit {
         selectorSwitch.selector2.setName("Auto Selector", "Selector 2");
     }
 
+    /**
+     * Sets the priority lists
+     * 
+     * @param commands The priority lists
+     */
     public void setAutonomousCommandList(Priority[][]... commands) {
         selectorSwitch.setCommands(commands);
     }
 
+    /**
+     * Gets the highest priority autonomous mode
+     * 
+     * @param fallbackCommand The command to fall back on if none of the priorities were satisfied
+     * @return The command to run
+     */
     public Command getAutonomousCommand(Command fallbackCommand) {
         return Priority.chooseCommandFromPriorityList(selectorSwitch.getSelected());
     }

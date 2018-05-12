@@ -9,7 +9,8 @@ import org.usfirst.frc.team2706.robot.RobotMap;
 import edu.wpi.first.wpilibj.PIDController;
 
 /**
- * Have the robot drive certain distance
+ * Have the robot drive certain distance,
+ * and switches the maximum speed after reaching a certain distance
  */
 public class StraightDriveWithEncoders2Speed extends LoggedCommand {
 
@@ -33,7 +34,9 @@ public class StraightDriveWithEncoders2Speed extends LoggedCommand {
     /**
      * Drive at a specific speed for a certain amount of time
      * 
-     * @param speed Speed in range [-1,1]
+     * @param speed1 The initial speed in range [-1,1]
+     * @param speed2 The second speed in range [-1,1]
+     * @param switchPoint The distance to switch to the second speed at
      * @param distance The encoder distance to travel
      * @param error The range that the robot is happy ending the command in
      * @param name The name of the of the configuration properties to look for

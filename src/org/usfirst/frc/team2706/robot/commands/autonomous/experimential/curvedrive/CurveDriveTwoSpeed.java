@@ -86,7 +86,7 @@ public class CurveDriveTwoSpeed extends Command {
 //      PID.setD(SmartDashboard.getNumber("D", D));
         // Creates the cubic equation that the robot follows
         eq = EquationCreator.MakeCubicEquation(xFeet, yFeet, endCurve, isRight);
-       // Log.d(this, eq);
+//        Log.d(this, eq);
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
         initHeading = Robot.driveTrain.getHeading();
@@ -97,7 +97,7 @@ public class CurveDriveTwoSpeed extends Command {
 
     @Override
     protected boolean isFinished() {
-        //System.out.println("isF" + (yPos - yFeet));
+//        System.out.println("isF" + (yPos - yFeet));
         // Checks if the x is within 1.5 feet and the y within 0.2 feet
         return yPos - yFeet > 0.0;
     }
@@ -112,7 +112,7 @@ public class CurveDriveTwoSpeed extends Command {
         yPos = 0;
         Log.d(this, "Finished with encoder ticks at " + Robot.driveTrain.getDistance());
         Robot.driveTrain.brakeMode(true);
-        //new CurveDriveStop(endCurve).start();
+//        new CurveDriveStop(endCurve).start();
         lastEncoderAv = 0;
         lastGyro = 0;
     }
@@ -181,7 +181,7 @@ public class CurveDriveTwoSpeed extends Command {
 
         SmartDashboard.putNumber("X Position", xPos);
         SmartDashboard.putNumber("Y Position", yPos);
-        // System.out.println(xPos + " " + yPos);
+//         System.out.println(xPos + " " + yPos);
         // Saves your encoder distance so you can calculate how far you've went in the new tick
         lastEncoderAv = Robot.driveTrain.getDistance();
         lastGyro = gyroAngle;

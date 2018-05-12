@@ -2,41 +2,42 @@ package org.usfirst.frc.team2706.robot.commands;
 
 import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
-import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
+/**
+ * Ejects a cube until it is no longer in the intake
+ */
 public class EjectCubeWithIR extends LoggedCommand {
-
-    private Intake exhale;
     
     /**
-     * Allows us to use the methods in 'Intake'
+     * Ejects a cube until it is no longer in the intake
      */
     public EjectCubeWithIR() {
-        exhale = Robot.intake;
         this.requires(Robot.intake);
     }
     
     /**
      * Turns on the motors on to eject the cube
      */
+    @Override
     public void execute() {
-        exhale.exhaleCube(0.8);
+        Robot.intake.exhaleCube(0.8);
     }
     
     /**
      * Sets both Intake motors to 0, stopping them
      */
+    @Override
     public void end() {
-        exhale.stopMotors();
+        Robot.intake.stopMotors();
     }
     
 
-    @Override
     /**
-     * Used to detect whether the motors should stop
+     * Run until IR detects cube is captured
      */
+    @Override
     protected boolean isFinished() {
-        return exhale.readIRSensor() <= 1.3;
+        return Robot.intake.readIRSensor() <= 1.3;
     }
 
 }

@@ -9,8 +9,6 @@ import org.usfirst.frc.team2706.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2706.robot.subsystems.Intake;
 import org.usfirst.frc.team2706.robot.subsystems.Lift;
 
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -60,8 +58,9 @@ public class Robot extends IterativeRobot {
 
         RobotMap.log();
 
-      //  UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
-      //  Runtime.getRuntime().addShutdownHook(new Thread(camera::free));
+        // FIXME: Camera causes (at least partially) to memory issues
+//        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+//        Runtime.getRuntime().addShutdownHook(new Thread(camera::free));
         
         // Instantiate the robot subsystems
         driveTrain = new DriveTrain();
@@ -139,7 +138,6 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-      //  System.out.println(intake.readIRSensor());
         Scheduler.getInstance().run();
         log();
     }

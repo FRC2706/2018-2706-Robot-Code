@@ -44,17 +44,24 @@ public class SmoothedTriggerButtonJoystick extends EJoystickButton {
 
     @Override
     public boolean get() {
-        
+        // Get the current axis value
         double unsmoothed = joystick.getRawAxis(axis);
+        
+        // Apply smoothing to the input
         double smoothed = alpha * unsmoothed + (1 - alpha) * last;
+        
+        // Save the smoothed input for next tick
         last = smoothed;
         
-        if (smoothed < deadzone && smoothed > -deadzone) {
-            return false;
-        }
-        return true;
+        // Check if the smoothed input is outside the deadzone
+        return smoothed >= deadzone || smoothed <= -deadzone;
     }
     
+    /**
+     * Gets the smoothed axis input without changing how often the smoothing is applied
+     * 
+     * @return The last smoothed input
+     */
     public double getAxis() {
         return last;
     }

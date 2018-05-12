@@ -9,6 +9,7 @@ import org.usfirst.frc.team2706.robot.controls.talon.TalonPID;
 /**
  * Have the robot drive certain distance
  */
+// FIXME: Make Talons hold position until both are finished
 public class TalonStraightDriveWithEncoders extends LoggedCommand {
 
     private final double speed;

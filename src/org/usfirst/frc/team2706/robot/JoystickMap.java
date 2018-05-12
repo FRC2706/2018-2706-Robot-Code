@@ -1,5 +1,8 @@
 package org.usfirst.frc.team2706.robot;
 
+/**
+ * Holds mappings for all joystick mappings
+ */
 public class JoystickMap {
     // Joystick mapping
     

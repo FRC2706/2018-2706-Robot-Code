@@ -70,7 +70,7 @@ public class StraightDriveFromCommand extends Command {
 
         Robot.driveTrain.initGyro = 0;
 
-        PID.setSetpoint(-intake.distance);
+        PID.setSetpoint(-intake.getDistanceDriven());
 
 
         // Will accept within 5 inch of target

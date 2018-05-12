@@ -8,7 +8,9 @@ import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-
+/**
+ * Intakes a cube into the intake
+ */
 public class IntakeCube extends LoggedCommand {
 
     private Intake inhale;
@@ -17,10 +19,11 @@ public class IntakeCube extends LoggedCommand {
     
     private boolean sameRatio;
     /**
-     * Allows us to use the methods in 'Intake'
+     * Intake cube using a joystick axis
      * 
      * @param stick The joystick to use
      * @param axis The axis to use
+     * @param sameRatio Whether to use the optimal ratio for intaking free cubes or not
      */
     public IntakeCube(Joystick stick, int axis, boolean sameRatio) {
         this(() -> stick.getRawAxis(axis), sameRatio);
@@ -28,34 +31,34 @@ public class IntakeCube extends LoggedCommand {
     }
     
     /**
-     * Allows us to use the methods in 'Intake'
+     * Intakes a cube at a constant speed
      * 
      * @param speed The the speed
+     * @param sameRatio Whether to use the optimal ratio for intaking free cubes or not 
      */
     public IntakeCube(double speed, boolean sameRatio) {
         this(() -> speed, sameRatio);
     }
     
     /**
-     * Allows us to use the methods in 'Intake'
+     * Intakes a cube at a supplied speed
      * 
      * @param speed The supplier for the speed
+     * @param sameRatio Whether to use the optimal ratio for intaking free cubes or not
      */
     public IntakeCube(Supplier<Double> speed, boolean sameRatio) {
         inhale = Robot.intake;
         this.speed = speed;
         this.sameRatio = sameRatio;
-      //  this.requires(Robot.intake);
+        
+        // FIXME: Sometimes stops auto modes from running correctly
+//        this.requires(Robot.intake);
     }
     
     /**
-     * I don't believe initialization is required 
+     * Run the motors at the given speed
      */
-    public void initialize() {}
-    
-    /**
-     * Turns the motors on to suck in the cube
-     */
+    @Override
     public void execute() {
         if(sameRatio) {
             inhale.inhaleCubeStatic(speed.get());
@@ -67,17 +70,15 @@ public class IntakeCube extends LoggedCommand {
     }
     
     /**
-     * Sets both Intake motors to 0, stopping them
+     * Stops both intake motors
      */
+    @Override
     public void end() {
         inhale.stopMotors();
     }
     
 
     @Override
-    /**
-     * Used to detect whether the motors should stop
-     */
     protected boolean isFinished() {
             return false;
     }

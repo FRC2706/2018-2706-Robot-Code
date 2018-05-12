@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutonomousSelector extends SensorBase implements Sendable {
 
+    /**
+     * The number of different positions on the selector switch (including not connencted)
+     */
     public static final int NUM_INDICES = 13;
 
     private static final Range[] voltages = {   new Range(0, 2.5), new Range(2.5, 2.75),
@@ -44,10 +47,19 @@ public class AutonomousSelector extends SensorBase implements Sendable {
         setCommands(commands);
     }
 
+    /**
+     * Sets the priorities that the selectors have
+     * 
+     * @param commands The priorities that the selectors have
+     */
     public void setCommands(Priority[][]... commands) {
+        // Use the first selector as the first dimension index of the array
         for (int i = 0; i < NUM_INDICES; i++) {
+            
+            // Use the second selector as the second dimension index of the array
             for(int j = 0; j < NUM_INDICES; j++) {
              
+                // Add command if it it was provided
                 if (i < commands.length && j < commands[i].length) {
                     this.commands[i][j] = commands[i][j];
                 } else {
@@ -58,39 +70,58 @@ public class AutonomousSelector extends SensorBase implements Sendable {
     }
 
     /**
-     * Gets the currently selected command
+     * Gets the currently selected priority list
      * 
-     * @return The selected command
+     * @return The selected priority list
      */
     public Priority[] getSelected() {
+        // Get the index of the selectors
         int idx1 = getVoltageAsIndex(selector1);
         int idx2 = getVoltageAsIndex(selector2);
+        
+        // If the first dimension of the array is null default back to the 0th dimension
         if(commands[idx1] == null) {
             idx1 = 0;
         }
+        // If the second dimension of the array is null default back to drive forward
         else if (commands[idx1][idx2] == null) {
             idx1 = 2;
             idx2 = 0;
         }
+        // Ensure that the second index is not going to be less than 0
         if(idx2 == 0) {
             idx2 = 1;
         }
        
+        // Return the selected priority list
         return commands[idx1][idx2 - 1];
     }
 
+    /**
+     * Gets the index of a selector switch
+     * 
+     * @param selector The selector switch to get the index of
+     * @return The index of the selector
+     */
     public int getVoltageAsIndex(AnalogInput selector) {
+        // Don't try to get hardware data if the hardware was freed
         if (isFree) {
             return -1;
         }
 
+        // Check each voltage range
         for (int i = 0; i < voltages.length; i++) {
+            // Get the current voltage
             double voltage = selector.getAverageVoltage();
+            
+            // Check if the voltage is within the current voltage range
             if (voltage >= voltages[i].min && voltage < voltages[i].max) {
+                // The selector is within this range
                 return i;
             }
         }
 
+        // Default to index of 0
         return 0;
     }
 
@@ -125,11 +156,18 @@ public class AutonomousSelector extends SensorBase implements Sendable {
             this.max = max;
         }
     }
+    
+    /**
+     * Log data to SmartDashboard
+     */
     public void log() {
         SmartDashboard.putNumber("selector1", getVoltageAsIndex(selector1));
         SmartDashboard.putNumber("selector2", getVoltageAsIndex(selector2));
     }
     
+    /**
+     * Log debug information to the console
+     */
     public void debugLog() {
         Log.d("AutonomousSelector", "Selected " + getVoltageAsIndex(selector1) + " " + getVoltageAsIndex(selector2));
     }

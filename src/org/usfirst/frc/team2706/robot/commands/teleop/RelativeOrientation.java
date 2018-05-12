@@ -15,7 +15,6 @@ public class RelativeOrientation extends LoggedCommand {
     }
     @Override
     protected boolean isFinished() {
-        // TODO Auto-generated method stub
         return false;
     }
 

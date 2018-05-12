@@ -23,20 +23,26 @@ public class FollowCamera extends LoggedCommand {
     private final double P = 0.75, I = 0.0, D = 0.0;
     
     /**
-     * Drive at a specific speed based on camera
-     * 
-     * @param speed Speed in range [-1,1]
-     * @param distance The encoder distance to travel
-     * @param error The range that the robot is happy ending the command in inches
+     * Drive at the speed of an axis on the driver joystick using the camera to control rotation
      */
     public FollowCamera() {
         this(() -> -Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y));
     }
 
+    /**
+     * Drive at a constant speed using the camera to control rotation
+     * 
+     * @param speed The speed to drive forward at
+     */
     public FollowCamera(double speed) {
         this(() -> speed);
     }
     
+    /**
+     * Drive at a supplied speed using the camera to control rotation
+     * 
+     * @param speed The supplied speed to drive forward at
+     */
     public FollowCamera(Supplier<Double> forwardSpeed) {
        requires(Robot.driveTrain);
         
@@ -47,6 +53,7 @@ public class FollowCamera extends LoggedCommand {
 //        SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
 //        SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
     }
+    
     
     private class CameraPID implements PIDSource {
 
@@ -80,6 +87,7 @@ public class FollowCamera extends LoggedCommand {
     }
     
     // Called just before this Command runs the first time
+    @Override
     protected void initialize() {
 //        rotatePID.setP(SmartDashboard.getNumber("P", P));
 //        rotatePID.setI(SmartDashboard.getNumber("I", I));
@@ -90,6 +98,7 @@ public class FollowCamera extends LoggedCommand {
         rotatePID.enable();
     }
    
+    @Override
     protected void execute() {
 //        NetworkTable table = NetworkTableInstance.getDefault().getTable("vision");
 //        double input = table.getEntry("ctrX").getDouble(0);
@@ -99,11 +108,13 @@ public class FollowCamera extends LoggedCommand {
     }
 
     // Make this return true when this Command no longer needs to run execute()
+    @Override
     protected boolean isFinished() {
         return false;
     }
 
     // Called once after isFinished returns true
+    @Override
     protected void end() {
         rotatePID.disable();
         
@@ -116,6 +127,7 @@ public class FollowCamera extends LoggedCommand {
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
+    @Override
     protected void interrupted() {
         end();
     }

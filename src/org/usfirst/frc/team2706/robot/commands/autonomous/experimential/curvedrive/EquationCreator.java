@@ -29,13 +29,13 @@ public class EquationCreator {
 
         // Instead of making another equation class for each I just store each polynomial in its own
         // double
-        double eq1a = Math.pow(c.x, 3);
-        double eq1b = Math.pow(c.x, 2);
-        double eq1y = c.y;
+        double eq1a = Math.pow(c.getX(), 3);
+        double eq1b = Math.pow(c.getX(), 2);
+        double eq1y = c.getY();
 
         // The derivative equation that will be compared to the first equation, basically y`(x)
-        double eq2a = Math.pow(c.x, 2) * 3;
-        double eq2b = c.x * 2;
+        double eq2a = Math.pow(c.getX(), 2) * 3;
+        double eq2b = c.getX() * 2;
 
         // Figures out a similar b value to each equation so they can be subtracted away
         double multiplier = eq1b / eq2b;

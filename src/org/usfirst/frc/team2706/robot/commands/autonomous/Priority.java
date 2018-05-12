@@ -15,13 +15,13 @@ public class Priority {
     public static final boolean IS_SCALE = true;
     public static final boolean LEFT = true;
     public static final boolean RIGHT = false;
-    String id;
-    String name;
-    boolean guaranteedPriority;
-    boolean location;
-    boolean isSwitch;
-    boolean isScale;
-    public Command linkedCommand;
+    private final String id;
+    private final String name;
+    private final boolean guaranteedPriority;
+    private final boolean location;
+    private final boolean isSwitch;
+    private final boolean isScale;
+    private final Command linkedCommand;
 
     /**
      * Allows the priority to be checked to see if it is possible.
@@ -53,6 +53,9 @@ public class Priority {
     public Priority(String id, String name, Command linkedCommand) {
         this.id = id;
         this.name = name;
+        this.location = false;
+        this.isSwitch = false;
+        this.isScale = false;
         this.linkedCommand = linkedCommand;
         guaranteedPriority = true;
     }
@@ -61,6 +64,8 @@ public class Priority {
      * Non-guaranteed no text priority
      */
     public Priority(Command linkedCommand, boolean location, boolean isSwitch, boolean isScale) {
+        id = null;
+        name = null;
         this.location = location;
         this.isSwitch = isSwitch;
         this.isScale = isScale;
@@ -72,6 +77,11 @@ public class Priority {
      * No feature priority
      */
     public Priority(Command linkedCommand) {
+        id = null;
+        name = null;
+        this.location = false;
+        this.isSwitch = false;
+        this.isScale = false;
         this.linkedCommand = linkedCommand;
         guaranteedPriority = true;
     }
@@ -117,6 +127,19 @@ public class Priority {
         }
     }
 
+    public String getID() {
+        return id;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    /**
+     * Gets the command linked with this priority
+     * 
+     * @return The linked command
+     */
     public Command getCommand() {
         return linkedCommand;
     }
