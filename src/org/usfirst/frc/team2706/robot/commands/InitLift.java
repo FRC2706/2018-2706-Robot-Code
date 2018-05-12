@@ -11,7 +11,7 @@ public class InitLift extends CommandGroup {
      * Initializes the lift
      */
     public InitLift() {
-        this.addSequential(new SetLiftHeightBlocking(0.5,5,0.1),0.25);
+        this.addSequential(new SetLiftHeightBlocking(0.5, 5, 0.1), 0.25);
     }
-    
+
 }

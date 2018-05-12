@@ -58,31 +58,26 @@ public class Log {
 
             // Get time in match including mode
             String matchtime;
-            if(DriverStation.getInstance().isFMSAttached()) {
-                if(DriverStation.getInstance().isAutonomous()) {
+            if (DriverStation.getInstance().isFMSAttached()) {
+                if (DriverStation.getInstance().isAutonomous()) {
                     matchtime = "autonomous";
-                }
-                else if(DriverStation.getInstance().isOperatorControl()) {
+                } else if (DriverStation.getInstance().isOperatorControl()) {
                     matchtime = "teleop";
-                }
-                else if(DriverStation.getInstance().isTest()) {
+                } else if (DriverStation.getInstance().isTest()) {
                     matchtime = "test";
-                }
-                else {
+                } else {
                     matchtime = "disabled";
                 }
-                
+
                 matchtime += "-" + DriverStation.getInstance().getMatchTime();
+            } else {
+                matchtime = "" + Timer.getFPGATimestamp();
             }
-            else {
-                matchtime = ""+Timer.getFPGATimestamp();
-            }
-            
+
             // Format log with all relevant info
-            return record.getLevel() + " " + S + "[" + matchtime
-                            + "] " + record.getSourceClassName() + "."
-                            + record.getSourceMethodName() + "() " + record.getLoggerName() + " "
-                            + record.getMessage() + "\n";
+            return record.getLevel() + " " + S + "[" + matchtime + "] "
+                            + record.getSourceClassName() + "." + record.getSourceMethodName()
+                            + "() " + record.getLoggerName() + " " + record.getMessage() + "\n";
         }
     };
 
@@ -100,7 +95,7 @@ public class Log {
         out = new LimitedByteArrayOutputStream();
         StreamHandler tableOut = new EStreamHandler(out, formatter);
         final FileHandler fh;
-        
+
         try {
             logger.setUseParentHandlers(false);
             logger.setLevel(Level.ALL);
@@ -113,20 +108,19 @@ public class Log {
 
             // Log to first available USB
             File f = new File("/U/robot.log");
-            
-            if(f.isFile()) {
+
+            if (f.isFile()) {
                 fh = new FileHandler(f.getAbsolutePath(), true);
-                
+
                 fh.setLevel(Level.ALL);
                 fh.setFormatter(formatter);
-                
+
                 logger.addHandler(fh);
-            }
-            else {
+            } else {
                 fh = null;
                 Log.w("Logging", "Couldn't access USB to put logs");
             }
-            
+
 
             logger.addHandler(ch);
             logger.addHandler(tableOut);
@@ -139,8 +133,8 @@ public class Log {
                 public void run() {
                     ch.flush();
                     ch.close();
-                    
-                    if(fh != null) {
+
+                    if (fh != null) {
                         fh.flush();
                         fh.close();
                     }
@@ -158,10 +152,10 @@ public class Log {
             @Override
             public void valueChanged(NetworkTable source, String key, NetworkTableEntry entry,
                             NetworkTableValue value, int flags) {
-                //Level level = Level.parse(entry.getNumber(Level.ALL.intValue()).intValue() + "");
-                //ch.setLevel(level);
-                //tableOut.setLevel(level);
-                //logger.setLevel(level);
+//                 Level level = Level.parse(entry.getNumber(Level.ALL.intValue()).intValue() + "");
+//                 ch.setLevel(level);
+//                 tableOut.setLevel(level);
+//                 logger.setLevel(level);
 
             }
         };
@@ -193,7 +187,7 @@ public class Log {
         byte[] b = out.toByteArray();
 
         byte[] results = new byte[0];
-        
+
         if (a == new byte[0]) {
             results = b;
         } else if (b.length == 0) {
@@ -216,7 +210,8 @@ public class Log {
      * @param message The object (or String) message to log
      */
     public static void d(Object name, Object message) {
-      //  LogLevels.DEBUG.log(name, message);
+        // FIXME: Disabled because it makes the robot less responsive
+//         LogLevels.DEBUG.log(name, message);
     }
 
     /**
@@ -227,7 +222,8 @@ public class Log {
      * @param t The Throwable to log
      */
     public static void d(Object name, Object message, Throwable t) {
-     //   LogLevels.DEBUG.log(name, message, t);
+        // FIXME: Disabled because it makes the robot less responsive
+//         LogLevels.DEBUG.log(name, message, t);
     }
 
     /**
@@ -365,15 +361,15 @@ public class Log {
                             .setBoolean(true);
         }
     }
-    
+
     private static class LimitedByteArrayOutputStream extends ByteArrayOutputStream {
-        
+
         // 40MB limit
         private static int limit = 41943040;
-        
+
         @Override
         public void write(byte[] b) throws IOException {
-            if(super.count + b.length <= limit) {
+            if (super.count + b.length <= limit) {
                 super.write(b);
             }
         }

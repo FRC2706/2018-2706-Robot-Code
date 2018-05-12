@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * Drives forward and intakes until the cube is detected
  */
 public class IntakeUntilGrabbed extends LoggedCommand {
-    
+
     private final double driveSpeed;
     private double distance;
     private final Command intakeCube;
@@ -24,7 +24,7 @@ public class IntakeUntilGrabbed extends LoggedCommand {
      */
     public IntakeUntilGrabbed(double driveSpeed, double leftSpeed, double rightSpeed) {
         this.driveSpeed = driveSpeed;
-        
+
         intakeCube = new IntakeCubeCustom(leftSpeed, rightSpeed);
     }
 
@@ -49,7 +49,7 @@ public class IntakeUntilGrabbed extends LoggedCommand {
     protected boolean isFinished() {
         return Robot.intake.readIRSensor() > 1.75;
     }
-    
+
     /**
      * Gets the distance driven forward
      * 

@@ -7,13 +7,13 @@ import org.usfirst.frc.team2706.robot.subsystems.Bling;
 import edu.wpi.first.wpilibj.Timer;
 
 public class ClimbWarning extends BlingPattern {
-    
+
     public ClimbWarning() {
         operationPeriod.add(BlingController.TELEOP_WITHOUT_CLIMB);
         operationPeriod.add(BlingController.CLIMBING_PERIOD);
-        
+
         command = Bling.BLINK;
-       
+
         rgbColourCode = Bling.RED;
     }
 
@@ -22,7 +22,7 @@ public class ClimbWarning extends BlingPattern {
         double timeLeft = Timer.getMatchTime();
         return timeLeft <= 45 && timeLeft > 40;
     }
-    
+
     @Override
     public void initialize() {
         new Rumbler(2, 0, 1, Rumbler.BOTH_JOYSTICKS);

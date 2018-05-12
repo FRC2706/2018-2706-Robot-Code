@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class TalonLimit extends WPI_TalonSRX {
 
     private final LimitSwitch liftDown;
-    
+
     /**
      * Creates the limited Talon
      * 
@@ -22,11 +22,11 @@ public class TalonLimit extends WPI_TalonSRX {
         super(deviceNumber);
         this.liftDown = liftDown;
     }
-    
+
     @Override
     public void set(double value) {
         // Can move unless moving downwards when limit switch is hit
-        if(!liftDown.get() || value > 0) {
+        if (!liftDown.get() || value > 0) {
             super.set(value);
         } else {
             super.set(0);

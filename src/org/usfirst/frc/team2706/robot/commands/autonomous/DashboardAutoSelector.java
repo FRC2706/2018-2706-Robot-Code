@@ -30,7 +30,8 @@ public class DashboardAutoSelector implements TableEntryListener {
      * Instantiate with sending values
      * 
      */
-    public DashboardAutoSelector(Priority[] leftPriorities, Priority[] centerPriorities,Priority[] rightPriorities) {
+    public DashboardAutoSelector(Priority[] leftPriorities, Priority[] centerPriorities,
+                    Priority[] rightPriorities) {
         this.leftPriorities = leftPriorities;
         this.centerPriorities = centerPriorities;
         this.rightPriorities = rightPriorities;
@@ -67,7 +68,7 @@ public class DashboardAutoSelector implements TableEntryListener {
                 if (position.equals("l")) {
                     objectPriorityList.add(findPriority(priority,
                                     new ArrayList<Priority>(Arrays.asList(leftPriorities))));
-                } else if (position.equals("c")) { 
+                } else if (position.equals("c")) {
                     objectPriorityList.add(findPriority(priority,
                                     new ArrayList<Priority>(Arrays.asList(centerPriorities))));
                 } else if (position.equals("r")) {

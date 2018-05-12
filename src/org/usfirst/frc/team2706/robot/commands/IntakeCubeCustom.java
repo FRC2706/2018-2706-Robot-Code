@@ -9,8 +9,9 @@ import org.usfirst.frc.team2706.robot.Robot;
 public class IntakeCubeCustom extends LoggedCommand {
 
     private double leftSpeed;
-    
+
     private double rightSpeed;
+
     /**
      * Intake with different speeds for each side
      * 
@@ -21,16 +22,16 @@ public class IntakeCubeCustom extends LoggedCommand {
         this.leftSpeed = leftSpeed;
         this.rightSpeed = rightSpeed;
     }
-    
+
     /**
      * Run the motors at the given speed
      */
     @Override
     public void execute() {
         Robot.intake.inhaleCubeCustom(leftSpeed, rightSpeed);
-           
+
     }
-    
+
     /**
      * Stops both intake motors
      */
@@ -38,7 +39,7 @@ public class IntakeCubeCustom extends LoggedCommand {
     public void end() {
         Robot.intake.stopMotors();
     }
-    
+
 
     @Override
     protected boolean isFinished() {

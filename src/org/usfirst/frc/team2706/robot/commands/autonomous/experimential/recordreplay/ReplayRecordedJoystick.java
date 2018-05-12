@@ -80,7 +80,7 @@ public class ReplayRecordedJoystick extends LoggedCommand {
         String folder = "/home/lvuser/joystick-recordings/" + name + "/";
 
         Log.i("Record and Replay", "Replaying joystick from folder " + folder);
-        
+
         if (!deserializeInConstructor) {
             String driverLoc = folder + name + "-driver";
             String operatorLoc = folder + name + "-operator";
@@ -140,7 +140,7 @@ public class ReplayRecordedJoystick extends LoggedCommand {
         }
 
         Robot.oi = new OI(driverStick, operatorStick);
-        
+
         // Just in case they were driving when disabling
         Robot.driveTrain.drive(0, 0);
     }

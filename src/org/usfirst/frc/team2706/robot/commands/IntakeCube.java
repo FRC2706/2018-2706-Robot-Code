@@ -16,8 +16,9 @@ public class IntakeCube extends LoggedCommand {
     private Intake inhale;
 
     private final Supplier<Double> speed;
-    
+
     private boolean sameRatio;
+
     /**
      * Intake cube using a joystick axis
      * 
@@ -27,19 +28,19 @@ public class IntakeCube extends LoggedCommand {
      */
     public IntakeCube(Joystick stick, int axis, boolean sameRatio) {
         this(() -> stick.getRawAxis(axis), sameRatio);
-        
+
     }
-    
+
     /**
      * Intakes a cube at a constant speed
      * 
      * @param speed The the speed
-     * @param sameRatio Whether to use the optimal ratio for intaking free cubes or not 
+     * @param sameRatio Whether to use the optimal ratio for intaking free cubes or not
      */
     public IntakeCube(double speed, boolean sameRatio) {
         this(() -> speed, sameRatio);
     }
-    
+
     /**
      * Intakes a cube at a supplied speed
      * 
@@ -50,25 +51,24 @@ public class IntakeCube extends LoggedCommand {
         inhale = Robot.intake;
         this.speed = speed;
         this.sameRatio = sameRatio;
-        
+
         // FIXME: Sometimes stops auto modes from running correctly
 //        this.requires(Robot.intake);
     }
-    
+
     /**
      * Run the motors at the given speed
      */
     @Override
     public void execute() {
-        if(sameRatio) {
+        if (sameRatio) {
             inhale.inhaleCubeStatic(speed.get());
-        }
-        else {
+        } else {
             inhale.inhaleCube(speed.get());
         }
-           
+
     }
-    
+
     /**
      * Stops both intake motors
      */
@@ -76,11 +76,11 @@ public class IntakeCube extends LoggedCommand {
     public void end() {
         inhale.stopMotors();
     }
-    
+
 
     @Override
     protected boolean isFinished() {
-            return false;
+        return false;
     }
 
 }

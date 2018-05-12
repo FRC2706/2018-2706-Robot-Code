@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
  * Moves the lift at a specified speed using override control
  */
 public class MoveLift extends LoggedCommand {
-    
+
     private final Supplier<Double> liftspeed;
 
     /**
@@ -23,7 +23,7 @@ public class MoveLift extends LoggedCommand {
     public MoveLift(Joystick stick, int axis) {
         this(stick, axis, false);
     }
-    
+
     /**
      * Moves the lift using a joystick axis with a specified inversion
      * 
@@ -34,7 +34,7 @@ public class MoveLift extends LoggedCommand {
     public MoveLift(Joystick stick, int axis, boolean invert) {
         this(() -> (invert ? -1 : 1) * stick.getRawAxis(axis));
     }
-    
+
     /**
      * Moves the lift at a constant speed
      * 
@@ -43,7 +43,7 @@ public class MoveLift extends LoggedCommand {
     public MoveLift(double speed) {
         this(() -> speed);
     }
-    
+
     /**
      * Moves the lift at a supplied speed
      * 
@@ -58,7 +58,7 @@ public class MoveLift extends LoggedCommand {
     public void initialize() {
         Robot.lift.setUnsafeCurrentLimit();
     }
-    
+
     /**
      * Run the motors at the given speed
      */
@@ -66,7 +66,7 @@ public class MoveLift extends LoggedCommand {
     public void execute() {
         Robot.lift.move(liftspeed.get());
     }
-    
+
     /**
      * Sets the setpoint to the current height, and return to regular current limitting
      */

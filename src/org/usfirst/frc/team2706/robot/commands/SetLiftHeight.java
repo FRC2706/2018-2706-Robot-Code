@@ -7,7 +7,7 @@ import org.usfirst.frc.team2706.robot.controls.OneTimeCommand;
  * Makes the lift move to a specified height
  */
 public class SetLiftHeight extends OneTimeCommand {
-    
+
     /**
      * Makes the lift move to a specified height
      * 
@@ -16,9 +16,9 @@ public class SetLiftHeight extends OneTimeCommand {
     public SetLiftHeight(double height) {
         super(() -> {
             // Use up PID when moving upwards
-            if(height < Robot.lift.getEncoderHeight()) {
+            if (height < Robot.lift.getEncoderHeight()) {
                 Robot.lift.useDownPID();
-                 Robot.lift.setHeight(height, false);
+                Robot.lift.setHeight(height, false);
             }
             // Use down PID when moving downwards
             else {

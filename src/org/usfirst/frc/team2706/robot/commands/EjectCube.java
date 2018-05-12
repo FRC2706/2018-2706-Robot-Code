@@ -23,7 +23,7 @@ public class EjectCube extends LoggedCommand {
     public EjectCube(Joystick stick, int axis) {
         this(() -> stick.getRawAxis(axis));
     }
-    
+
     /**
      * Ejects a cube at a constant speed
      * 
@@ -33,7 +33,7 @@ public class EjectCube extends LoggedCommand {
     public EjectCube(double speed) {
         this(() -> speed);
     }
-    
+
     /**
      * Ejects a cube at a supplied speed
      * 
@@ -42,15 +42,15 @@ public class EjectCube extends LoggedCommand {
     public EjectCube(Supplier<Double> speed) {
         this.speed = speed;
     }
-    
+
     /**
      * Run the motors at the given speed
      */
     @Override
     public void execute() {
-        Robot.intake.exhaleCube(speed.get()); 
+        Robot.intake.exhaleCube(speed.get());
     }
-    
+
     /**
      * Stops both intake motors
      */
@@ -58,10 +58,10 @@ public class EjectCube extends LoggedCommand {
     public void end() {
         Robot.intake.stopMotors();
     }
-    
+
     @Override
     protected boolean isFinished() {
-        return false;     
+        return false;
     }
 
 }

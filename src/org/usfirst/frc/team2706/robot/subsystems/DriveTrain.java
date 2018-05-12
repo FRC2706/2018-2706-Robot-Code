@@ -58,14 +58,14 @@ public class DriveTrain extends Subsystem {
         back_left_motor.setInverted(RobotMap.MOTOR_REAR_LEFT_INVERTED);
         front_right_motor.setInverted(RobotMap.MOTOR_FRONT_RIGHT_INVERTED);
         back_right_motor.setInverted(RobotMap.MOTOR_REAR_RIGHT_INVERTED);
-        
+
         front_left_motor.configPeakCurrentLimit(2, 0);
         back_left_motor.configPeakCurrentLimit(2, 0);
         front_right_motor.configPeakCurrentLimit(2, 0);
         back_right_motor.configPeakCurrentLimit(2, 0);
-        
+
         setVoltageDrive(true);
-        
+
         drive = new DifferentialDrive(new SpeedControllerGroup(front_left_motor, back_left_motor),
                         new SpeedControllerGroup(front_right_motor, back_right_motor));
 
@@ -104,8 +104,8 @@ public class DriveTrain extends Subsystem {
 
         reset();
 
-      
-        // selectorSwitch.setName("Drive Train", "Autonomous Selector");
+
+//         selectorSwitch.setName("Drive Train", "Autonomous Selector");
     }
 
     /**
@@ -119,20 +119,21 @@ public class DriveTrain extends Subsystem {
         front_right_motor.setUseVoltage(voltage);
         back_right_motor.setUseVoltage(voltage);
     }
-     
+
     public void initTestMode() {
         // Let's show everything on the LiveWindow
-        new WPI_TalonSRX(1).setName("Drive Train","Left Front Motor");
-        new WPI_TalonSRX(2).setName("Drive Train","Left Back Motor");
-        new WPI_TalonSRX(3).setName("Drive Train","Right Front Motor");
-        new WPI_TalonSRX(4).setName("Drive Train","Right Back Motor");
-        
-     
-        
+        new WPI_TalonSRX(1).setName("Drive Train", "Left Front Motor");
+        new WPI_TalonSRX(2).setName("Drive Train", "Left Back Motor");
+        new WPI_TalonSRX(3).setName("Drive Train", "Right Front Motor");
+        new WPI_TalonSRX(4).setName("Drive Train", "Right Back Motor");
+
+
+
         left_encoder.setName("Drive Train", "Left Encoder");
         right_encoder.setName("Drive Train", "Right Encoder");
         gyro.setName("Drive Train", "Gyro");
     }
+
     /**
      * When no other command is running let the operator drive around using the Xbox joystick.
      */
@@ -170,38 +171,39 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Left Speed (RPM)", left_encoder.getRate());
         SmartDashboard.putNumber("Right Speed (RPM)", right_encoder.getRate());
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
-        // SmartDashboard.putNumber("Autonomous Selector 1",
-        // selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1));
-        // SmartDashboard.putNumber("Autonomous Selector 2",
-        // selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
+//         SmartDashboard.putNumber("Autonomous Selector 1",
+//         selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1));
+//         SmartDashboard.putNumber("Autonomous Selector 2",
+//         selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
     }
 
     /**
      * Log debug information to the console
      */
     public void debugLog() {
-        Log.d("Drive Train", "Acceleration " + gyro.getRawAccelX() + " " + gyro.getRawAccelY() + " " + gyro.getRawAccelZ());
+        Log.d("Drive Train", "Acceleration " + gyro.getRawAccelX() + " " + gyro.getRawAccelY() + " "
+                        + gyro.getRawAccelZ());
         Log.d("Drive Train", "Heading " + getHeading());
 
         Log.d("Drive Train", "Right Position " + left_encoder.getDistance());
         Log.d("Drive Train", "Left Position " + right_encoder.getDistance());
-        
+
         Log.d("Drive Train", "Front Right Temperature " + front_right_motor.getTemperature());
         Log.d("Drive Train", "Front Left Temperature " + front_left_motor.getTemperature());
         Log.d("Drive Train", "Back Right Temperature " + back_right_motor.getTemperature());
         Log.d("Drive Train", "Back Left Temperature " + back_left_motor.getTemperature());
-        
+
         Log.d("Drive Train", "Front Right Current " + front_right_motor.getOutputCurrent());
         Log.d("Drive Train", "Front Left Current " + front_left_motor.getOutputCurrent());
         Log.d("Drive Train", "Back Right Current " + back_right_motor.getOutputCurrent());
         Log.d("Drive Train", "Back Left Current " + back_left_motor.getOutputCurrent());
-        
+
         Log.d("Drive Train", "Front Right Output " + front_right_motor.getMotorOutputPercent());
         Log.d("Drive Train", "Front Left Output " + front_left_motor.getMotorOutputPercent());
         Log.d("Drive Train", "Back Right Output " + back_right_motor.getMotorOutputPercent());
         Log.d("Drive Train", "Back Left Output " + back_left_motor.getMotorOutputPercent());
     }
-    
+
     /**
      * Tank style driving for the DriveTrain.
      * 
@@ -221,14 +223,13 @@ public class DriveTrain extends Subsystem {
      */
     public void curvatureDrive(double speed, double rotation, boolean override) {
         if (Robot.oi.getDriverJoystick().getRawButton(JoystickMap.XBOX_LB_BUTTON)) {
-            drive.curvatureDrive(speed * 0.25,(override ? rotation / 3.5 : rotation), override); 
+            drive.curvatureDrive(speed * 0.25, (override ? rotation / 3.5 : rotation), override);
+        } else {
+            drive.curvatureDrive(speed, (override ? rotation / 2 : rotation), override);
         }
-        else {
-            drive.curvatureDrive(speed,(override ? rotation / 2 : rotation), override); 
-        }
-          
+
     }
-    
+
 
     /**
      * @param joy The Xbox style joystick to use to drive arcade style.
@@ -247,7 +248,7 @@ public class DriveTrain extends Subsystem {
             YAxis /= 1.85;
             XAxis /= 1.5;
         }
-        
+
         drive.arcadeDrive(YAxis, XAxis, true);
     }
 
@@ -361,10 +362,10 @@ public class DriveTrain extends Subsystem {
      */
     public PIDOutput getDrivePIDOutput(boolean useGyroStraightening, boolean useCamera,
                     boolean invert) {
-        return new DrivePIDOutput(drive, useGyroStraightening, useCamera,
-                        () -> -Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), invert);
+        return new DrivePIDOutput(drive, useGyroStraightening, useCamera, () -> -Robot.oi
+                        .getDriverJoystick().getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y), invert);
     }
-    
+
     /**
      * @param useGyroStraightening True to invert second motor direction for rotating
      * 
@@ -402,7 +403,7 @@ public class DriveTrain extends Subsystem {
     public double getDistance() {
         return (right_encoder.getDistance() + left_encoder.getDistance()) / 2;
     }
-    
+
     /**
      * @return The robot's encoder PIDSource
      */
@@ -541,11 +542,9 @@ public class DriveTrain extends Subsystem {
             double rotateVal;
             if (useCamera) {
                 if (invert) {
-                    drive.arcadeDrive(forward.get(), -output,
-                                    false);
+                    drive.arcadeDrive(forward.get(), -output, false);
                 } else {
-                    drive.arcadeDrive(forward.get(), output,
-                                    false);
+                    drive.arcadeDrive(forward.get(), output, false);
                 }
             } else {
                 rotateVal = normalize(getHeading() - initGyro) * 0.15;

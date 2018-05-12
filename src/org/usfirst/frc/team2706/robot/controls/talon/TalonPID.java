@@ -30,7 +30,7 @@ public class TalonPID {
      * The location to go to
      */
     private double setpoint;
-    
+
     public boolean enabled;
 
     /**
@@ -55,7 +55,7 @@ public class TalonPID {
      * @param D The derivative value
      */
     public void setPID(double P, double I, double D) {
-       // Log.d("TalonPID", P + " " + I + " " + D);
+        // Log.d("TalonPID", P + " " + I + " " + D);
         setPID(P, I, D, 0);
     }
 
@@ -144,7 +144,7 @@ public class TalonPID {
      */
     public void enable() {
         Log.i("TalonaPID", "Enabled");
-        
+
         // Apply initial settings to each talon
         for (TalonSensorGroup talon : talons) {
             TalonSRX master = talon.getMaster();
@@ -161,7 +161,7 @@ public class TalonPID {
                             0);
 
             // Disable safety stop
-            if(talon.getSafetySetter() != null) {
+            if (talon.getSafetySetter() != null) {
                 talon.getSafetySetter().accept(false);
             }
 
@@ -174,7 +174,7 @@ public class TalonPID {
                 slave.follow(talon.getMaster());
             }
         }
-        
+
         enabled = true;
     }
 
@@ -183,7 +183,7 @@ public class TalonPID {
      */
     public void disable() {
         Log.i("TalonaPID", "Disabled");
-        
+
         // Apply initial settings to each talon
         for (TalonSensorGroup talon : talons) {
             TalonSRX master = talon.getMaster();
@@ -204,32 +204,32 @@ public class TalonPID {
             master.configAllowableClosedloopError(0, 0, 0);
 
             // Re-enable safety stop
-            if(talon.getSafetySetter() != null) {
+            if (talon.getSafetySetter() != null) {
                 talon.getSafetySetter().accept(true);
             }
 
             // Make the master stop PIDing
             master.set(ControlMode.PercentOutput, 0.0);
-            
+
             // Make all followers stop following
             for (TalonSRX slave : talon.getSlaves()) {
                 slave.set(ControlMode.PercentOutput, 0.0);
             }
         }
-        
+
         enabled = false;
     }
 
     public void update() {
-        if(enabled) {
-            
-            for(TalonSensorGroup talon : talons) {
+        if (enabled) {
+
+            for (TalonSensorGroup talon : talons) {
                 // Set the motor to the desired position
                 talon.getMaster().set(ControlMode.Position,
                                 setpoint / talon.getTalonEncoder().getDistancePerPulse());
             }
-            
-            for(TalonSensorGroup talon : talons) {
+
+            for (TalonSensorGroup talon : talons) {
                 // Set the motor to the desired position
                 talon.getMaster().config_kP(0, P, 0);
                 talon.getMaster().config_kI(0, I, 0);
@@ -238,7 +238,7 @@ public class TalonPID {
             }
         }
     }
-    
+
     /**
      * Checks if the talons are all on target
      * 

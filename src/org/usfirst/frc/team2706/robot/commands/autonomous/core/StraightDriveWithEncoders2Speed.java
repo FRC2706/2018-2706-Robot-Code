@@ -9,8 +9,8 @@ import org.usfirst.frc.team2706.robot.RobotMap;
 import edu.wpi.first.wpilibj.PIDController;
 
 /**
- * Have the robot drive certain distance,
- * and switches the maximum speed after reaching a certain distance
+ * Have the robot drive certain distance, and switches the maximum speed after reaching a certain
+ * distance
  */
 public class StraightDriveWithEncoders2Speed extends LoggedCommand {
 
@@ -41,8 +41,8 @@ public class StraightDriveWithEncoders2Speed extends LoggedCommand {
      * @param error The range that the robot is happy ending the command in
      * @param name The name of the of the configuration properties to look for
      */
-    public StraightDriveWithEncoders2Speed(double speed1, double speed2, double switchPoint, double distance, double error,
-                    int minDoneCycles, String name) {
+    public StraightDriveWithEncoders2Speed(double speed1, double speed2, double switchPoint,
+                    double distance, double error, int minDoneCycles, String name) {
         super(name);
         requires(Robot.driveTrain);
 

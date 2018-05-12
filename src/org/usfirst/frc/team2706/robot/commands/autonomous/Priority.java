@@ -95,7 +95,7 @@ public class Priority {
         if (guaranteedPriority || DriverStation.getInstance().getGameSpecificMessage().equals("")) {
             return true;
         }
-          
+
         if (location == LEFT) {
             if (isSwitch == IS_SWITCH && isScale != IS_SCALE && DriverStation.getInstance()
                             .getGameSpecificMessage().toCharArray()[0] == 'L')
@@ -130,11 +130,11 @@ public class Priority {
     public String getID() {
         return id;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     /**
      * Gets the command linked with this priority
      * 

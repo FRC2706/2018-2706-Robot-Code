@@ -22,10 +22,10 @@ public class AutonomousSelector extends SensorBase implements Sendable {
     public static final int NUM_INDICES = 13;
 
     private static final Range[] voltages = {   new Range(0, 2.5), new Range(2.5, 2.75),
-                                                new Range(2.75, 3.1), new Range(3.1, 3.5), new Range(3.5, 3.75),
-                                                new Range(3.75, 3.95), new Range(3.95, 4.1), new Range(4.1, 4.2),
-                                                new Range(4.2, 4.3), new Range(4.3, 4.4), new Range(4.4, 4.5),
-                                                new Range(4.5, 4.6), new Range(4.6, 5)};
+                    new Range(2.75, 3.1), new Range(3.1, 3.5), new Range(3.5, 3.75),
+                    new Range(3.75, 3.95), new Range(3.95, 4.1), new Range(4.1, 4.2),
+                    new Range(4.2, 4.3), new Range(4.3, 4.4), new Range(4.4, 4.5),
+                    new Range(4.5, 4.6), new Range(4.6, 5)};
 
     private final Priority[][][] commands;
     public final AnalogInput selector1;
@@ -55,10 +55,10 @@ public class AutonomousSelector extends SensorBase implements Sendable {
     public void setCommands(Priority[][]... commands) {
         // Use the first selector as the first dimension index of the array
         for (int i = 0; i < NUM_INDICES; i++) {
-            
+
             // Use the second selector as the second dimension index of the array
-            for(int j = 0; j < NUM_INDICES; j++) {
-             
+            for (int j = 0; j < NUM_INDICES; j++) {
+
                 // Add command if it it was provided
                 if (i < commands.length && j < commands[i].length) {
                     this.commands[i][j] = commands[i][j];
@@ -78,9 +78,9 @@ public class AutonomousSelector extends SensorBase implements Sendable {
         // Get the index of the selectors
         int idx1 = getVoltageAsIndex(selector1);
         int idx2 = getVoltageAsIndex(selector2);
-        
+
         // If the first dimension of the array is null default back to the 0th dimension
-        if(commands[idx1] == null) {
+        if (commands[idx1] == null) {
             idx1 = 0;
         }
         // If the second dimension of the array is null default back to drive forward
@@ -89,10 +89,10 @@ public class AutonomousSelector extends SensorBase implements Sendable {
             idx2 = 0;
         }
         // Ensure that the second index is not going to be less than 0
-        if(idx2 == 0) {
+        if (idx2 == 0) {
             idx2 = 1;
         }
-       
+
         // Return the selected priority list
         return commands[idx1][idx2 - 1];
     }
@@ -113,7 +113,7 @@ public class AutonomousSelector extends SensorBase implements Sendable {
         for (int i = 0; i < voltages.length; i++) {
             // Get the current voltage
             double voltage = selector.getAverageVoltage();
-            
+
             // Check if the voltage is within the current voltage range
             if (voltage >= voltages[i].min && voltage < voltages[i].max) {
                 // The selector is within this range
@@ -133,7 +133,7 @@ public class AutonomousSelector extends SensorBase implements Sendable {
         if (selector1 != null && !isFree) {
             selector1.free();
         }
-        if(selector2 != null && !isFree) {
+        if (selector2 != null && !isFree) {
             selector2.free();
         }
     }
@@ -143,8 +143,8 @@ public class AutonomousSelector extends SensorBase implements Sendable {
         builder.setSmartDashboardType("Selector Switch");
         builder.addDoubleProperty("Voltage1", selector1::getAverageVoltage, null);
         builder.addDoubleProperty("Voltage2", selector2::getAverageVoltage, null);
-        builder.addDoubleProperty("Index1", ()->this.getVoltageAsIndex(selector1), null);
-        builder.addDoubleProperty("Index2", ()->this.getVoltageAsIndex(selector2), null);
+        builder.addDoubleProperty("Index1", () -> this.getVoltageAsIndex(selector1), null);
+        builder.addDoubleProperty("Index2", () -> this.getVoltageAsIndex(selector2), null);
     }
 
     private static class Range {
@@ -156,7 +156,7 @@ public class AutonomousSelector extends SensorBase implements Sendable {
             this.max = max;
         }
     }
-    
+
     /**
      * Log data to SmartDashboard
      */
@@ -164,11 +164,12 @@ public class AutonomousSelector extends SensorBase implements Sendable {
         SmartDashboard.putNumber("selector1", getVoltageAsIndex(selector1));
         SmartDashboard.putNumber("selector2", getVoltageAsIndex(selector2));
     }
-    
+
     /**
      * Log debug information to the console
      */
     public void debugLog() {
-        Log.d("AutonomousSelector", "Selected " + getVoltageAsIndex(selector1) + " " + getVoltageAsIndex(selector2));
+        Log.d("AutonomousSelector", "Selected " + getVoltageAsIndex(selector1) + " "
+                        + getVoltageAsIndex(selector2));
     }
 }

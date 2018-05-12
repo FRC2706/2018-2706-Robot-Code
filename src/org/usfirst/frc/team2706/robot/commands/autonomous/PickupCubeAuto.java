@@ -21,7 +21,7 @@ public class PickupCubeAuto extends CommandGroup {
     public PickupCubeAuto(double leftSpeed, double rightSpeed) {
         this(leftSpeed, rightSpeed, 0.3);
     }
-    
+
     /**
      * Intakes with specified speeds driving at a specified speed forward
      * 

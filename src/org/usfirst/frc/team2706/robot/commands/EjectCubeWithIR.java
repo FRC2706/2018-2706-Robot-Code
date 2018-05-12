@@ -7,14 +7,14 @@ import org.usfirst.frc.team2706.robot.Robot;
  * Ejects a cube until it is no longer in the intake
  */
 public class EjectCubeWithIR extends LoggedCommand {
-    
+
     /**
      * Ejects a cube until it is no longer in the intake
      */
     public EjectCubeWithIR() {
         this.requires(Robot.intake);
     }
-    
+
     /**
      * Turns on the motors on to eject the cube
      */
@@ -22,7 +22,7 @@ public class EjectCubeWithIR extends LoggedCommand {
     public void execute() {
         Robot.intake.exhaleCube(0.8);
     }
-    
+
     /**
      * Sets both Intake motors to 0, stopping them
      */
@@ -30,7 +30,7 @@ public class EjectCubeWithIR extends LoggedCommand {
     public void end() {
         Robot.intake.stopMotors();
     }
-    
+
 
     /**
      * Run until IR detects cube is captured

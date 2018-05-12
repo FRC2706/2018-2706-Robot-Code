@@ -33,10 +33,10 @@ public class MoveLiftToDestination extends LoggedCommand {
 
         // Make lift go to its current height
         setDestination(Robot.lift.getEncoderHeight());
-        
+
         // Use the PID for moving up by default
         Robot.lift.useUpPID();
-        
+
         // Start the PID
         liftPID.enable();
     }
@@ -56,7 +56,7 @@ public class MoveLiftToDestination extends LoggedCommand {
             Robot.lift.reset();
         }
     }
-    
+
     @Override
     public void end() {
         liftPID.disable();

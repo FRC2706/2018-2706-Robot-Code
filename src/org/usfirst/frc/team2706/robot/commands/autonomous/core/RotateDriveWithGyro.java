@@ -26,20 +26,19 @@ public class RotateDriveWithGyro extends LoggedCommand {
 
     private final int minDoneCycles;
 
-    private final double P = RobotMap.ROTATE_DRIVE_P,
-                         I = RobotMap.ROTATE_DRIVE_I,
-                         D = RobotMap.ROTATE_DRIVE_D,
-                         F = 0;
-    
+    private final double P = RobotMap.ROTATE_DRIVE_P, I = RobotMap.ROTATE_DRIVE_I, D = RobotMap.ROTATE_DRIVE_D, F = 0;
+
     private final double error;
 
     public RotateDriveWithGyro(double speed, double angle, int minDonecycles, String name) {
         this(speed, angle, 1, minDonecycles, name);
     }
+
     public RotateDriveWithGyro(double angle, String name) {
-        this(AutoConstants.ROTATE_SPEED, angle, AutoConstants.ROTATE_ERROR, AutoConstants.ROTATE_CYCLES,name);
+        this(AutoConstants.ROTATE_SPEED, angle, AutoConstants.ROTATE_ERROR,
+                        AutoConstants.ROTATE_CYCLES, name);
     }
-    
+
     /**
      * Drive at a specific speed for a certain amount of time
      * 
@@ -47,7 +46,8 @@ public class RotateDriveWithGyro extends LoggedCommand {
      * @param angle The angle to rotate to
      * @param name The name of the of the configuration properties to look for
      */
-    public RotateDriveWithGyro(double speed, double angle, double error, int minDonecycles, String name) {
+    public RotateDriveWithGyro(double speed, double angle, double error, int minDonecycles,
+                    String name) {
         super(name);
         requires(Robot.driveTrain);
 
@@ -58,23 +58,23 @@ public class RotateDriveWithGyro extends LoggedCommand {
         this.minDoneCycles = RobotConfig.get(name + ".minDoneCycles", minDonecycles);
 
         this.error = RobotConfig.get(name + ".error", error);
-        
+
         PID = new PIDController(P, I, D, F, Robot.driveTrain.getGyroPIDSource(false),
                         Robot.driveTrain.getDrivePIDOutput(false, false, true));
-        
-//      SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
-//      SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
-//      SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
-  }
 
-  // Called just before this Command runs the first time
-  protected void initialize() {
-//      PID.setP(SmartDashboard.getNumber("P", P));
-//      PID.setI(SmartDashboard.getNumber("I", I));
-//      PID.setD(SmartDashboard.getNumber("D", D));
-      
+//         SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+//         SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+//         SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
+    }
+
+    // Called just before this Command runs the first time
+    protected void initialize() {
+//         PID.setP(SmartDashboard.getNumber("P", P));
+//         PID.setI(SmartDashboard.getNumber("I", I));
+//         PID.setD(SmartDashboard.getNumber("D", D));
+
         Log.i(this, "Rotating " + angle + " degrees at a speed of " + speed);
-        
+
         Robot.driveTrain.reset();
 
         PID.setInputRange(-360.0, 360.0);
@@ -87,7 +87,7 @@ public class RotateDriveWithGyro extends LoggedCommand {
         } else {
             PID.setOutputRange(speed, -speed);
         }
-        
+
         // Set the tolerance in degrees
         PID.setAbsoluteTolerance(error);
 
@@ -115,9 +115,9 @@ public class RotateDriveWithGyro extends LoggedCommand {
         PID.disable();
         Log.i(this, "Done rotating, rotated " + Robot.driveTrain.getHeading());
         Robot.driveTrain.drive(0, 0);
-        
+
         Robot.driveTrain.reset();
-        
+
     }
 
     // Called when another command which requires one or more of the same

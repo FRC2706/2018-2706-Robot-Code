@@ -226,9 +226,10 @@ public class AutoInit {
      * Call in Robot.autonomousInit()
      */
     public void initialize() {
-        Log.i("Auto", "Switches set to " + selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1)
-        + " " + selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
-        
+        Log.i("Auto", "Switches set to "
+                        + selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1) + " "
+                        + selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
+
         autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
 
         Command dashboardResponse = Priority

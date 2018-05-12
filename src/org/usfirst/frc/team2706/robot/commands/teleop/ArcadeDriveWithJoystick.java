@@ -49,7 +49,8 @@ public class ArcadeDriveWithJoystick extends LoggedCommand {
     protected void execute() {
         double turn = joystick.getRawAxis(JoystickMap.XBOX_RIGHT_AXIS_X);
         double speed = joystick.getRawAxis(JoystickMap.XBOX_LEFT_AXIS_Y);
-        Robot.driveTrain.curvatureDrive(-speed, (turn > -0.05 && turn < 0.05) ? 0 : turn, (speed > -0.25 && speed < 0.25));
+        Robot.driveTrain.curvatureDrive(-speed, (turn > -0.05 && turn < 0.05) ? 0 : turn,
+                        (speed > -0.25 && speed < 0.25));
     }
 
     // Make this return true when this Command no longer needs to run execute()

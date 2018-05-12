@@ -75,8 +75,7 @@ public class EquationCreator {
             tangent = Math.toDegrees(Math.atan(tangent));
             if (Math.abs(Math.sqrt(Math.pow((Math.pow(eq.a * lastEntryKey, 3) + 
                             Math.pow(eq.b * lastEntryKey, 2)) - (Math.pow(eq.a * currentParse, 3) + 
-                                    Math.pow(eq.b * currentParse, 2)), 2) + Math.pow(lastEntryKey - currentParse, 2)))
-                                        > distanceOffsetDegrees) {
+                                    Math.pow(eq.b * currentParse, 2)), 2) + Math.pow(lastEntryKey - currentParse, 2))) > distanceOffsetDegrees) {
                 followTangents.put(currentParse, tangent);
                 lastEntryKey = currentParse;
             }

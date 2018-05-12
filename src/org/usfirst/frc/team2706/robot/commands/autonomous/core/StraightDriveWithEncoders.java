@@ -23,10 +23,8 @@ public class StraightDriveWithEncoders extends LoggedCommand {
 
     private final int minDoneCycles;
 
-    private final double P = RobotMap.STRAIGHT_DRIVE_P,
-                         I = RobotMap.STRAIGHT_DRIVE_I,
-                         D = RobotMap.STRAIGHT_DRIVE_D,
-                         F = 0;
+    private final double P = RobotMap.STRAIGHT_DRIVE_P, I = RobotMap.STRAIGHT_DRIVE_I,
+                    D = RobotMap.STRAIGHT_DRIVE_D, F = 0;
 
     /**
      * Drive at a specific speed for a certain amount of time
@@ -51,20 +49,20 @@ public class StraightDriveWithEncoders extends LoggedCommand {
 
         PID = new PIDController(P, I, D, F, Robot.driveTrain.getAverageEncoderPIDSource(),
                         Robot.driveTrain.getDrivePIDOutput(true, false, false));
-        
-//        SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
-//        SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
-//        SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
+
+//         SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+//         SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+//         SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-//        PID.setP(SmartDashboard.getNumber("P", P));
-//        PID.setI(SmartDashboard.getNumber("I", I));
-//        PID.setD(SmartDashboard.getNumber("D", D));
+//         PID.setP(SmartDashboard.getNumber("P", P));
+//         PID.setI(SmartDashboard.getNumber("I", I));
+//         PID.setD(SmartDashboard.getNumber("D", D));
 
         Log.i(this, "Driving " + distance + " feet at a speed of " + speed);
-        
+
         Robot.driveTrain.reset();
 
         Robot.driveTrain.brakeMode(true);

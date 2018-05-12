@@ -12,8 +12,7 @@ public class CubicEquation {
     public double a, b, c, d;
 
     /**
-     * Creates a cubic equation with four coefficients:
-     * {@code x = ay^3 + by^2 + cy + d}
+     * Creates a cubic equation with four coefficients: {@code x = ay^3 + by^2 + cy + d}
      * 
      * @param a The A term
      * @param b The B term

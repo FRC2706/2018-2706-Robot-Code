@@ -19,19 +19,19 @@ public class MoveLiftDown extends LoggedCommand {
     public void initialize() {
         Robot.lift.setUnsafeCurrentLimit();
     }
-    
+
     @Override
     public void execute() {
         Robot.lift.moveDown();
     }
-    
+
     @Override
     public void end() {
         Robot.lift.setRegularCurrentLimit();
         Robot.lift.stop();
         Robot.lift.resetSetpoint();
     }
-    
+
     @Override
     protected boolean isFinished() {
         return false;

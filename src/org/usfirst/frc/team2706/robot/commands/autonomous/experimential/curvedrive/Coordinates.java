@@ -16,7 +16,7 @@ public class Coordinates {
         this.x = x;
         this.y = y;
     }
-    
+
     /**
      * Gets the X component of the coordinates
      * 
@@ -25,7 +25,7 @@ public class Coordinates {
     public double getX() {
         return x;
     }
-    
+
     /**
      * Sets the X component of the coordinates
      * 
@@ -34,7 +34,7 @@ public class Coordinates {
     public void setX(double x) {
         this.x = x;
     }
-    
+
     /**
      * Gets the Y component of the coordinates
      * 
@@ -43,7 +43,7 @@ public class Coordinates {
     public double getY() {
         return y;
     }
-    
+
     /**
      * Sets the Y component of the coordinates
      * 
@@ -52,7 +52,7 @@ public class Coordinates {
     public void setY(double y) {
         this.y = y;
     }
-    
+
     /**
      * Rotates the coordinates 90 degrees around (0, 0)
      */

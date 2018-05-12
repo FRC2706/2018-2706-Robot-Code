@@ -26,56 +26,57 @@ public class RobotConfig {
      * @param defaultValue The value to be returned if no other value exists
      * @return The value for of the property
      */
-    //@SuppressWarnings("unchecked")
+    // FIXME: Easy duplication of names will cause crash, disabled until fixed
+//    @SuppressWarnings("unchecked")
     public static <T> T get(String name, T defaultValue) {
-        /*// Create JSON primitives depending on the type of T
-        if (defaultValue instanceof Boolean) {
-            // Try to get the value of the config location or return Optional.empty() for default
-            Optional<JsonPrimitive> val =
-                            get(name, new JsonPrimitive(Boolean.class.cast(defaultValue)));
-            if (val.isPresent()) {
-                // Cast the returned value back to to T to be returned
-                return (T) defaultValue.getClass().cast(val.get().getAsBoolean());
-            }
-        } else if (defaultValue instanceof String) {
-            // Try to get the value of the config location or return Optional.empty() for default
-            Optional<JsonPrimitive> val =
-                            get(name, new JsonPrimitive(String.class.cast(defaultValue)));
-            if (val.isPresent()) {
-                // Cast the returned value back to to T to be returned
-                return (T) defaultValue.getClass().cast(val.get().getAsString());
-            }
-        } else if (defaultValue instanceof Character) {
-            // Try to get the value of the config location or return Optional.empty() for default
-            Optional<JsonPrimitive> val =
-                            get(name, new JsonPrimitive(Character.class.cast(defaultValue)));
-            if (val.isPresent()) {
-                // Cast the returned value back to to T to be returned
-                return (T) defaultValue.getClass().cast(val.get().getAsCharacter());
-            }
-        } else if (defaultValue instanceof Number) {
-            // Try to get the value of the config location or return Optional.empty() for default
-            Optional<JsonPrimitive> val =
-                            get(name, new JsonPrimitive(Number.class.cast(defaultValue)));
-            if (val.isPresent()) {
-                // Cast the number back to the correct type it should be
-                Number num = val.get().getAsNumber();
-                if (defaultValue instanceof Byte) {
-                    return (T) defaultValue.getClass().cast(num.byteValue());
-                } else if (defaultValue instanceof Double) {
-                    return (T) defaultValue.getClass().cast(num.doubleValue());
-                } else if (defaultValue instanceof Float) {
-                    return (T) defaultValue.getClass().cast(num.floatValue());
-                } else if (defaultValue instanceof Integer) {
-                    return (T) defaultValue.getClass().cast(num.intValue());
-                } else if (defaultValue instanceof Long) {
-                    return (T) defaultValue.getClass().cast(num.longValue());
-                } else if (defaultValue instanceof Short) {
-                    return (T) defaultValue.getClass().cast(num.shortValue());
-                }
-            }
-        }
-*/
+//        // Create JSON primitives depending on the type of T
+//        if (defaultValue instanceof Boolean) {
+//            // Try to get the value of the config location or return Optional.empty() for default
+//            Optional<JsonPrimitive> val =
+//                            get(name, new JsonPrimitive(Boolean.class.cast(defaultValue)));
+//            if (val.isPresent()) {
+//                // Cast the returned value back to to T to be returned
+//                return (T) defaultValue.getClass().cast(val.get().getAsBoolean());
+//            }
+//        } else if (defaultValue instanceof String) {
+//            // Try to get the value of the config location or return Optional.empty() for default
+//            Optional<JsonPrimitive> val =
+//                            get(name, new JsonPrimitive(String.class.cast(defaultValue)));
+//            if (val.isPresent()) {
+//                // Cast the returned value back to to T to be returned
+//                return (T) defaultValue.getClass().cast(val.get().getAsString());
+//            }
+//        } else if (defaultValue instanceof Character) {
+//            // Try to get the value of the config location or return Optional.empty() for default
+//            Optional<JsonPrimitive> val =
+//                            get(name, new JsonPrimitive(Character.class.cast(defaultValue)));
+//            if (val.isPresent()) {
+//                // Cast the returned value back to to T to be returned
+//                return (T) defaultValue.getClass().cast(val.get().getAsCharacter());
+//            }
+//        } else if (defaultValue instanceof Number) {
+//            // Try to get the value of the config location or return Optional.empty() for default
+//            Optional<JsonPrimitive> val =
+//                            get(name, new JsonPrimitive(Number.class.cast(defaultValue)));
+//            if (val.isPresent()) {
+//                // Cast the number back to the correct type it should be
+//                Number num = val.get().getAsNumber();
+//                if (defaultValue instanceof Byte) {
+//                    return (T) defaultValue.getClass().cast(num.byteValue());
+//                } else if (defaultValue instanceof Double) {
+//                    return (T) defaultValue.getClass().cast(num.doubleValue());
+//                } else if (defaultValue instanceof Float) {
+//                    return (T) defaultValue.getClass().cast(num.floatValue());
+//                } else if (defaultValue instanceof Integer) {
+//                    return (T) defaultValue.getClass().cast(num.intValue());
+//                } else if (defaultValue instanceof Long) {
+//                    return (T) defaultValue.getClass().cast(num.longValue());
+//                } else if (defaultValue instanceof Short) {
+//                    return (T) defaultValue.getClass().cast(num.shortValue());
+//                }
+//            }
+//        }
+
         // Either config didn't have correct information, T wasn't a valid type, or value wasn't
         // overridden
         return defaultValue;

@@ -14,27 +14,28 @@ public class IntakeAndHold extends LoggedCommand {
      */
     public IntakeAndHold() {
         this.requires(Robot.intake);
-       
-    }
-    
-    /**
-     * Turns the motors on to suck in the cube
-     */
-    public void execute() {
-        if (Robot.intake.readIRSensor() >= 0.26 && Robot.intake.readIRSensor() < 0.5) {
-            Robot.intake.inhaleCube(Robot.oi.getDriverJoystick().getRawAxis(JoystickMap.XBOX_BACK_RIGHT_TRIGGER)); 
-            
-        }
 
     }
-    
+
     /**
-     * Sets both Intake motors to 0, stopping them
+     * Runs the motors when the cube isn't detected
      */
+    @Override
+    public void execute() {
+        if (Robot.intake.readIRSensor() >= 0.26 && Robot.intake.readIRSensor() < 0.5) {
+            Robot.intake.inhaleCube(Robot.oi.getDriverJoystick()
+                            .getRawAxis(JoystickMap.XBOX_BACK_RIGHT_TRIGGER));
+        }
+    }
+
+    /**
+     * Stops the intake motors
+     */
+    @Override
     public void end() {
         Robot.intake.stopMotors();
     }
-    
+
 
     @Override
     protected boolean isFinished() {

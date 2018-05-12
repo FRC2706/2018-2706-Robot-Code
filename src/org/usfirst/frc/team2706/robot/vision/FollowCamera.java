@@ -21,7 +21,7 @@ public class FollowCamera extends LoggedCommand {
 
     private final PIDController rotatePID;
     private final double P = 0.75, I = 0.0, D = 0.0;
-    
+
     /**
      * Drive at the speed of an axis on the driver joystick using the camera to control rotation
      */
@@ -37,41 +37,41 @@ public class FollowCamera extends LoggedCommand {
     public FollowCamera(double speed) {
         this(() -> speed);
     }
-    
+
     /**
      * Drive at a supplied speed using the camera to control rotation
      * 
      * @param speed The supplied speed to drive forward at
      */
     public FollowCamera(Supplier<Double> forwardSpeed) {
-       requires(Robot.driveTrain);
-        
+        requires(Robot.driveTrain);
+
         rotatePID = new PIDController(P, I, D, new CameraPID(),
                         Robot.driveTrain.getDrivePIDOutput(false, true, forwardSpeed, false));
-//        
-//        SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
-//        SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
-//        SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
+
+//         SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+//         SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+//         SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
     }
-    
-    
+
+
     private class CameraPID implements PIDSource {
 
         private PIDSourceType pidSource = PIDSourceType.kDisplacement;
-        
+
         private final NetworkTableEntry ctrX;
         private final NetworkTableEntry numTargetsFound;
-        
+
         {
             NetworkTable table = NetworkTableInstance.getDefault().getTable("vision");
             ctrX = table.getEntry("ctrX");
             numTargetsFound = table.getEntry("numTargetsFound");
         }
-        
+
         @Override
         public void setPIDSourceType(PIDSourceType pidSource) {
             this.pidSource = pidSource;
-            
+
         }
 
         @Override
@@ -83,28 +83,19 @@ public class FollowCamera extends LoggedCommand {
         public double pidGet() {
             return numTargetsFound.getDouble(0) > 0 ? -ctrX.getDouble(0) : 0;
         }
-        
+
     }
-    
+
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-//        rotatePID.setP(SmartDashboard.getNumber("P", P));
-//        rotatePID.setI(SmartDashboard.getNumber("I", I));
-//        rotatePID.setD(SmartDashboard.getNumber("D", D));
-        
+//         rotatePID.setP(SmartDashboard.getNumber("P", P));
+//         rotatePID.setI(SmartDashboard.getNumber("I", I));
+//         rotatePID.setD(SmartDashboard.getNumber("D", D));
+
         rotatePID.setOutputRange(-0.5, 0.5);
         rotatePID.setSetpoint(0);
         rotatePID.enable();
-    }
-   
-    @Override
-    protected void execute() {
-//        NetworkTable table = NetworkTableInstance.getDefault().getTable("vision");
-//        double input = table.getEntry("ctrX").getDouble(0);
-//        double rotateVal = (input < 0 ? -1 : 1) * Math.sqrt(Math.abs(input));
-//        System.out.println(rotateVal);
-//        Robot.driveTrain.arcadeDrive(0.0, -rotateVal);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -117,7 +108,7 @@ public class FollowCamera extends LoggedCommand {
     @Override
     protected void end() {
         rotatePID.disable();
-        
+
         // Robot.camera.enableRingLight(false);
         Robot.driveTrain.brakeMode(false);
 

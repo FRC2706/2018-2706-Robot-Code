@@ -8,24 +8,24 @@ import org.usfirst.frc.team2706.robot.LoggedCommand;
 public class OneTimeCommand extends LoggedCommand {
 
     private final Runnable command;
-    
+
     /**
      * Creates a one time command
      */
     public OneTimeCommand(Runnable command) {
         this.command = command;
     }
-    
+
     @Override
     public void initialize() {
         command.run();
     }
-    
+
     @Override
     protected boolean isFinished() {
         return true;
     }
-    
+
     /**
      * Not sure why anyone wants this...
      * 
@@ -34,7 +34,7 @@ public class OneTimeCommand extends LoggedCommand {
     public static void run(Runnable command) {
         run(new OneTimeCommand(command));
     }
-    
+
     /**
      * Runs a {@code OneTimeCommand}
      * 

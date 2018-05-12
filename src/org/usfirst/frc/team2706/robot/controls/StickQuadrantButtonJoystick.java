@@ -51,10 +51,10 @@ public class StickQuadrantButtonJoystick extends EJoystickButton {
         double y = joystick.getRawAxis(axis2);
 
         // Only continue if the coordinates are outside of the deadzone
-        if(Math.abs(x) <= deadzone && Math.abs(y) < deadzone) {
+        if (Math.abs(x) <= deadzone && Math.abs(y) < deadzone) {
             return false;
         }
-        
+
         // Rotate coordinates so the quadrant range is always in the same location
         double a, b;
         if (quadrant == UP) {

@@ -27,8 +27,10 @@ public class RecordJoystick extends LoggedCommand {
      * 
      * @see #RecordJoystick(Joystick, Joystick, Supplier) The main constructor
      */
-    public RecordJoystick(Joystick driverStick, Joystick operatorStick, String joystickName, String name) {
-        this(driverStick, operatorStick, () -> RobotConfig.get(name + ".joystickName", joystickName), name);
+    public RecordJoystick(Joystick driverStick, Joystick operatorStick, String joystickName,
+                    String name) {
+        this(driverStick, operatorStick,
+                        () -> RobotConfig.get(name + ".joystickName", joystickName), name);
     }
 
     /**
@@ -43,7 +45,7 @@ public class RecordJoystick extends LoggedCommand {
     public RecordJoystick(Joystick driverStick, Joystick operatorStick,
                     Supplier<String> nameSupplier, String name) {
         super(name);
-        
+
         this.nameSupplier = nameSupplier;
 
         this.driverStick = driverStick;
@@ -62,7 +64,7 @@ public class RecordJoystick extends LoggedCommand {
         String folder = "/home/lvuser/joystick-recordings/" + name + "/";
 
         Log.i("Record and Replay", "Recording joystick to folder " + folder);
-        
+
         String driverLoc = folder + name + "-driver";
         String operatorLoc = folder + name + "-operator";
 
@@ -97,19 +99,19 @@ public class RecordJoystick extends LoggedCommand {
     @Override
     public void end() {
         super.end();
-        
+
         ((RecordableJoystick) driverStick).end();
         ((RecordableJoystick) operatorStick).end();
 
         // Make sure that Oi receives a real joystick, not a RecordableJoystick
-        while(driverStick instanceof RecordableJoystick) {
+        while (driverStick instanceof RecordableJoystick) {
             driverStick = ((RecordableJoystick) driverStick).getRealJoystick();
         }
-        
-        while(operatorStick instanceof RecordableJoystick) {
+
+        while (operatorStick instanceof RecordableJoystick) {
             operatorStick = ((RecordableJoystick) operatorStick).getRealJoystick();
         }
-        
+
         Robot.oi = new OI(driverStick, operatorStick);
     }
 

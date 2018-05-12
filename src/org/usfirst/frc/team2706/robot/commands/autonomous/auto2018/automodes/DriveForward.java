@@ -16,8 +16,10 @@ public class DriveForward extends CommandGroup {
     public DriveForward() {
         // Put the lift down
         this.addSequential(new InitLift());
-        
+
         // Drive past the auto line
-        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED, 12, AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES, this + ".testForward"));
+        this.addSequential(new StraightDriveWithEncoders(AutoConstants.SPEED_CONTROLLED, 12,
+                        AutoConstants.ACCURATE_ERROR, AutoConstants.LENIENT_CYCLES,
+                        this + ".testForward"));
     }
 }

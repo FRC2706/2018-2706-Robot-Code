@@ -22,13 +22,13 @@ public class TriggerButtonJoystick extends EJoystickButton {
     public TriggerButtonJoystick(Joystick joystick, int axis) {
         this(joystick, axis, 0.1);
     }
-    
+
     /**
      * Creates a the button for an axis on a joystick
      * 
      * @param joystick The joystick the axis is on
      * @param axis The axis to act as a button
-     * @param 
+     * @param
      */
     public TriggerButtonJoystick(Joystick joystick, int axis, double deadzone) {
         super(joystick, axis);

@@ -51,7 +51,7 @@ public class QuickRotate extends LoggedCommand {
     // Called just before this Command runs the first time
     protected void initialize() {
         Log.i(this, "QuickRotating to " + targetHeading + " degrees");
-        
+
         done = 10;
         maxCycles = 120;
 

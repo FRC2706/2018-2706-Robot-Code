@@ -18,10 +18,10 @@ public class SetLiftHeightUntilCancelled extends SetLiftHeight {
     public boolean isFinished() {
         return false;
     }
-    
+
     @Override
     public void end() {
         Robot.lift.resetSetpoint();
     }
-    
+
 }

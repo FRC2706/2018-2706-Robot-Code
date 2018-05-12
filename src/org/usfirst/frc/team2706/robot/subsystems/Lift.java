@@ -25,7 +25,8 @@ public class Lift extends Subsystem {
 
     private static final double DEADZONE = 3.0 / 12.0;
 
-    private static final double[] HEIGHTS = new double[] {0.0, // Bottom of lift
+    private static final double[] HEIGHTS = new double[] {
+                    0.0, // Bottom of lift
                     3.0, // Switch height
                     5.0, // Scale low height
                     6.0, // Scale mid height
@@ -46,10 +47,10 @@ public class Lift extends Subsystem {
     public static final double SPEED = 1.0;
 
     private boolean zeroedOnce = false;
-    
+
     private static final double pDown = 0.5, iDown = 0, dDown = 160;
     private static final double pUp = 0.5, iUp = 0, dUp = 50;
-    
+
     private boolean disabled = false;
 
     /**
@@ -79,14 +80,14 @@ public class Lift extends Subsystem {
         liftMotor.configPeakCurrentDuration(0, 0);
         setRegularCurrentLimit();
         liftMotor.enableCurrentLimit(true);
-        
-//      SmartDashboard.putNumber("P Down", SmartDashboard.getNumber("P Down", pDown));
-//      SmartDashboard.putNumber("I Down", SmartDashboard.getNumber("I Down", iDown));
-//      SmartDashboard.putNumber("D Down", SmartDashboard.getNumber("D Down", dDown));
-//      
-//      SmartDashboard.putNumber("P Up", SmartDashboard.getNumber("P Up", pUp));
-//      SmartDashboard.putNumber("I Up", SmartDashboard.getNumber("I Up", iUp));
-//      SmartDashboard.putNumber("D Up", SmartDashboard.getNumber("D Up", dUp));
+
+//         SmartDashboard.putNumber("P Down", SmartDashboard.getNumber("P Down", pDown));
+//         SmartDashboard.putNumber("I Down", SmartDashboard.getNumber("I Down", iDown));
+//         SmartDashboard.putNumber("D Down", SmartDashboard.getNumber("D Down", dDown));
+//        
+//         SmartDashboard.putNumber("P Up", SmartDashboard.getNumber("P Up", pUp));
+//         SmartDashboard.putNumber("I Up", SmartDashboard.getNumber("I Up", iUp));
+//         SmartDashboard.putNumber("D Up", SmartDashboard.getNumber("D Up", dUp));
     }
 
     /**
@@ -99,9 +100,8 @@ public class Lift extends Subsystem {
     }
 
     /**
-     * Moves the lift at a certain speed.
-     * The lift can only move if the lift is moving down but the limit switch isn't pressed,
-     * or the lift is moving up but is less than the maximum height.
+     * Moves the lift at a certain speed. The lift can only move if the lift is moving down but the
+     * limit switch isn't pressed, or the lift is moving up but is less than the maximum height.
      * 
      * @param liftspeed The speed to move the lift at
      */
@@ -115,8 +115,8 @@ public class Lift extends Subsystem {
     }
 
     /**
-     * Moves the lift up at the max speed of the lift.
-     * The lift can only move if it is less than the maximum lift height.
+     * Moves the lift up at the max speed of the lift. The lift can only move if it is less than the
+     * maximum lift height.
      */
     public void moveUp() {
         if (encoder.getDistance() <= MAX_HEIGHT) {
@@ -127,8 +127,8 @@ public class Lift extends Subsystem {
     }
 
     /**
-     * Moves the lift down at the max speed of the lift.
-     * The lift can only move if the limit switch is not pressed.
+     * Moves the lift down at the max speed of the lift. The lift can only move if the limit switch
+     * is not pressed.
      */
     public void moveDown() {
         if (!liftDown.get()) {
@@ -161,19 +161,18 @@ public class Lift extends Subsystem {
             d = Math.max(d, 0);
         }
         // When not overriding the height cannot go below MIN_VALUE, which is effectively 0
-        else if(!override) {
+        else if (!override) {
             d = Math.max(d, Double.MIN_VALUE);
         }
-        
+
         // Ensure that there will be no nullpointers
-        if(defaultCommand != null) {
+        if (defaultCommand != null) {
             // Set the lift height to the safe height
             defaultCommand.setDestination(d);
-        }
-        else {
+        } else {
             Log.e("Lift", "Default command null!");
         }
-        
+
     }
 
     private MoveLiftToDestination defaultCommand;
@@ -191,10 +190,10 @@ public class Lift extends Subsystem {
      * When no other command is running use PID to hold position
      */
     public void initDefaultCommand() {
-        if(disabled) {
+        if (disabled) {
             return;
         }
-        
+
         if (defaultCommand == null) {
             getDefaultCommand();
         }
@@ -239,7 +238,7 @@ public class Lift extends Subsystem {
         Log.d("Lift", "Current " + liftMotor.getOutputCurrent());
         Log.d("Lift", "Output " + liftMotor.getMotorOutputPercent());
     }
-    
+
     /**
      * Get whether the bottom limit switch has been pressed
      * 
@@ -288,7 +287,7 @@ public class Lift extends Subsystem {
 
         for (int i = 0; i < HEIGHTS.length; i++) {
             double heightLevel = HEIGHTS[i];
-            
+
             // Check whether the height is close enough to the height level
             if (height > heightLevel - DEADZONE && height < heightLevel + DEADZONE) {
                 // Move the level up or down if possible
@@ -303,7 +302,7 @@ public class Lift extends Subsystem {
                 }
             }
         }
-        
+
         if (HEIGHTS.length > 1) {
             for (int i = 0; i < HEIGHTS.length - 1; i++) {
                 double bottomLevel = HEIGHTS[i];
@@ -359,13 +358,14 @@ public class Lift extends Subsystem {
     }
 
     /**
-     * Use a lower current limit for when there is a change that the lift could hit the bottom or the top
+     * Use a lower current limit for when there is a change that the lift could hit the bottom or
+     * the top
      */
     public void setUnsafeCurrentLimit() {
         Log.d("Lift", "Current limit to 10");
         liftMotor.configContinuousCurrentLimit(10, 0);
     }
-    
+
     /**
      * Sets the PID parameters to use on the lift
      * 
@@ -375,43 +375,42 @@ public class Lift extends Subsystem {
      */
     public void setPID(double P, double I, double D) {
         liftPID.setPID(P, I, D);
-//        liftPID.setPID(SmartDashboard.getNumber("P Down", pDown), SmartDashboard.getNumber("I Down", iDown), SmartDashboard.getNumber("D Down", dDown));
+//         liftPID.setPID(SmartDashboard.getNumber("P Down", pDown), SmartDashboard.getNumber("I Down", iDown), SmartDashboard.getNumber("D Down", dDown));
     }
-    
+
     public void useUpPID() {
         Log.d("Lift", "Going up");
-        
+
         liftPID.setPID(pUp, iUp, dUp);
-//        liftPID.setPID(SmartDashboard.getNumber("P Up", pUp), SmartDashboard.getNumber("I Up", iUp), SmartDashboard.getNumber("D Up", dUp));
+//         liftPID.setPID(SmartDashboard.getNumber("P Up", pUp), SmartDashboard.getNumber("I Up", iUp), SmartDashboard.getNumber("D Up", dUp));
     }
-    
+
     public void useDownPID() {
         Log.d("Lift", "Going down");
-        
+
         Robot.lift.setPID(pDown, iDown, dDown);
         Robot.lift.setPID(pUp, iUp, dUp);
     }
-    
+
     public void initTestMode() {
-        
-       new WPI_TalonSRX(5).setName("Lift","Lift Motor");
-       liftDown.setName("Lift","Limit Switch Down");
+
+        new WPI_TalonSRX(5).setName("Lift", "Lift Motor");
+        liftDown.setName("Lift", "Limit Switch Down");
     }
-    
+
     /**
      * Sets whether to use brake mode on the lift
      * 
      * @param brakeMode Whether to use brake mode
      */
     public void setBrakeMode(boolean brakeMode) {
-        if(brakeMode) {
+        if (brakeMode) {
             liftMotor.setNeutralMode(NeutralMode.Brake);
-        }
-        else {
+        } else {
             liftMotor.setNeutralMode(NeutralMode.Coast);
         }
     }
-    
+
     /**
      * Enable the lift, and allow the PID to control it
      */
@@ -419,17 +418,17 @@ public class Lift extends Subsystem {
         Log.i("Lift", "Enabled");
         disabled = false;
     }
-    
+
     /**
      * Stops the motor and ensures it can't be restarted
      */
     public void disableMotor() {
         Log.i("Lift", "Disabled Motor");
-        
+
         liftMotor.stopMotor();
         disabled = true;
     }
-    
+
     /**
      * Get whether the lift is disabled
      * 
