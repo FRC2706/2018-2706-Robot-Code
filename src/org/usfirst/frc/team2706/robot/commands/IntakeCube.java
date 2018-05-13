@@ -4,7 +4,6 @@ import java.util.function.Supplier;
 
 import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
-import org.usfirst.frc.team2706.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -12,8 +11,6 @@ import edu.wpi.first.wpilibj.Joystick;
  * Intakes a cube into the intake
  */
 public class IntakeCube extends LoggedCommand {
-
-    private Intake inhale;
 
     private final Supplier<Double> speed;
 
@@ -48,7 +45,6 @@ public class IntakeCube extends LoggedCommand {
      * @param sameRatio Whether to use the optimal ratio for intaking free cubes or not
      */
     public IntakeCube(Supplier<Double> speed, boolean sameRatio) {
-        inhale = Robot.intake;
         this.speed = speed;
         this.sameRatio = sameRatio;
 
@@ -62,9 +58,9 @@ public class IntakeCube extends LoggedCommand {
     @Override
     public void execute() {
         if (sameRatio) {
-            inhale.inhaleCubeStatic(speed.get());
+            Robot.intake.inhaleCubeStatic(speed.get());
         } else {
-            inhale.inhaleCube(speed.get());
+            Robot.intake.inhaleCube(speed.get());
         }
 
     }
@@ -74,9 +70,8 @@ public class IntakeCube extends LoggedCommand {
      */
     @Override
     public void end() {
-        inhale.stopMotors();
+        Robot.intake.stopMotors();
     }
-
 
     @Override
     protected boolean isFinished() {

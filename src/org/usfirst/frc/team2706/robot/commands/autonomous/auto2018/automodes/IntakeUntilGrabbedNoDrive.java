@@ -35,7 +35,7 @@ public class IntakeUntilGrabbedNoDrive extends LoggedCommand {
 
     @Override
     protected boolean isFinished() {
-        return Robot.intake.readIRSensor() > 1.75;
+        return Robot.intake.cubeCaptured();
     }
 
 }

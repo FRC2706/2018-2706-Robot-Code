@@ -57,9 +57,9 @@ public class StraightDriveWithEncoders extends LoggedCommand {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-//         PID.setP(SmartDashboard.getNumber("P", P));
-//         PID.setI(SmartDashboard.getNumber("I", I));
-//         PID.setD(SmartDashboard.getNumber("D", D));
+//         pid.setP(SmartDashboard.getNumber("P", P));
+//         pid.setI(SmartDashboard.getNumber("I", I));
+//         pid.setD(SmartDashboard.getNumber("D", D));
 
         Log.i(this, "Driving " + distance + " feet at a speed of " + speed);
 

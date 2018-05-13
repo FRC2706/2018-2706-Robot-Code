@@ -43,7 +43,7 @@ public class CurveDriveTwoSpeed extends Command {
 
     private final double P = 0.1, I = 0, D = 0, FF = 0.0;
 
-    private final PIDController PID;
+    private final PIDController pid;
 
     /**
      * Drives to a specified point and ends at a specified angle.
@@ -74,32 +74,32 @@ public class CurveDriveTwoSpeed extends Command {
         this.splitSpeedY2 = RobotConfig.get(name + ".splitSpeedY2", splitSpeedY2);
         this.isRight = RobotConfig.get(name + ".isRight", isRight);
 
-        this.PID = new PIDController(P, I, D, FF, new PIDInput(),
+        this.pid = new PIDController(P, I, D, FF, new PIDInput(),
                         (turn) -> twoSpeedArcadeDrive(-turn));
-//         SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
-//         SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
-//         SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
+//        SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+//        SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+//        SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-//         PID.setP(SmartDashboard.getNumber("P", P));
-//         PID.setI(SmartDashboard.getNumber("I", I));
-//         PID.setD(SmartDashboard.getNumber("D", D));
+//        pid.setP(SmartDashboard.getNumber("P", P));
+//        pid.setI(SmartDashboard.getNumber("I", I));
+//        pid.setD(SmartDashboard.getNumber("D", D));
         // Creates the cubic equation that the robot follows
         eq = EquationCreator.MakeCubicEquation(xFeet, yFeet, endCurve, isRight);
-//         Log.d(this, eq);
+        // Log.d(this, eq);
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
         initHeading = Robot.driveTrain.getHeading();
         Log.d(this, "Current encoder ticks are " + Robot.driveTrain.getDistance());
 
-        PID.enable();
+        pid.enable();
     }
 
     @Override
     protected boolean isFinished() {
-//         System.out.println("isF" + (yPos - yFeet));
+        // System.out.println("isF" + (yPos - yFeet));
         // Checks if the x is within 1.5 feet and the y within 0.2 feet
         return yPos - yFeet > 0.0;
     }
@@ -108,13 +108,13 @@ public class CurveDriveTwoSpeed extends Command {
      * Resets everything in the command so it can be reused
      */
     protected void end() {
-        PID.disable();
+        pid.disable();
 
         xPos = 0;
         yPos = 0;
         Log.d(this, "Finished with encoder ticks at " + Robot.driveTrain.getDistance());
         Robot.driveTrain.brakeMode(true);
-//         new CurveDriveStop(endCurve).start();
+        // new CurveDriveStop(endCurve).start();
         lastEncoderAv = 0;
         lastGyro = 0;
     }
@@ -181,7 +181,7 @@ public class CurveDriveTwoSpeed extends Command {
 
         SmartDashboard.putNumber("X Position", xPos);
         SmartDashboard.putNumber("Y Position", yPos);
-//         System.out.println(xPos + " " + yPos);
+        // System.out.println(xPos + " " + yPos);
         // Saves your encoder distance so you can calculate how far you've went in the new tick
         lastEncoderAv = Robot.driveTrain.getDistance();
         lastGyro = gyroAngle;

@@ -18,7 +18,7 @@ public class TalonStraightDriveWithEncoders extends LoggedCommand {
 
     private final double error;
 
-    private TalonPID PID;
+    private TalonPID pid;
 
     private final int minDoneCycles;
 
@@ -45,8 +45,8 @@ public class TalonStraightDriveWithEncoders extends LoggedCommand {
 
         this.minDoneCycles = RobotConfig.get(name + ".minDoneCycles", minDoneCycles);
 
-        PID = Robot.driveTrain.getTalonPID();
-        PID.setPID(P, I, D, F);
+        pid = Robot.driveTrain.getTalonPID();
+        pid.setPID(P, I, D, F);
     }
 
     // Called just before this Command runs the first time
@@ -59,20 +59,20 @@ public class TalonStraightDriveWithEncoders extends LoggedCommand {
 
         // Set output speed range
         if (speed > 0) {
-            PID.setOutputRange(-speed, speed);
+            pid.setOutputRange(-speed, speed);
         } else {
-            PID.setOutputRange(speed, -speed);
+            pid.setOutputRange(speed, -speed);
         }
 
         Robot.driveTrain.initGyro = Robot.driveTrain.getHeading();
 
-        PID.setSetpoint(distance);
+        pid.setSetpoint(distance);
 
         // Will accept within 5 inch of target
-        PID.setError(error);
+        pid.setError(error);
 
         // Start going to location
-        PID.enable();
+        pid.enable();
 
         this.doneTicks = 0;
     }
@@ -82,7 +82,7 @@ public class TalonStraightDriveWithEncoders extends LoggedCommand {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
 
-        if (PID.isOnTarget())
+        if (pid.isOnTarget())
             doneTicks++;
         else
             doneTicks = 0;
@@ -93,7 +93,7 @@ public class TalonStraightDriveWithEncoders extends LoggedCommand {
     // Called once after isFinished returns true
     protected void end() {
         // Disable PID output and stop robot to be safe
-        PID.disable();
+        pid.disable();
         Robot.driveTrain.drive(0, 0);
 
         Log.i(this, "Done driving");

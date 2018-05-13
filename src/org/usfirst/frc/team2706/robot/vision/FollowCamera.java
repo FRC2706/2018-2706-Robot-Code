@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
  */
 public class FollowCamera extends LoggedCommand {
 
-    private final PIDController rotatePID;
+    private final PIDController rotatePid;
     private final double P = 0.75, I = 0.0, D = 0.0;
 
     /**
@@ -46,7 +46,7 @@ public class FollowCamera extends LoggedCommand {
     public FollowCamera(Supplier<Double> forwardSpeed) {
         requires(Robot.driveTrain);
 
-        rotatePID = new PIDController(P, I, D, new CameraPID(),
+        rotatePid = new PIDController(P, I, D, new CameraPID(),
                         Robot.driveTrain.getDrivePIDOutput(false, true, forwardSpeed, false));
 
 //         SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
@@ -89,13 +89,13 @@ public class FollowCamera extends LoggedCommand {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-//         rotatePID.setP(SmartDashboard.getNumber("P", P));
-//         rotatePID.setI(SmartDashboard.getNumber("I", I));
-//         rotatePID.setD(SmartDashboard.getNumber("D", D));
+//         rotatePid.setP(SmartDashboard.getNumber("P", P));
+//         rotatePid.setI(SmartDashboard.getNumber("I", I));
+//         rotatePid.setD(SmartDashboard.getNumber("D", D));
 
-        rotatePID.setOutputRange(-0.5, 0.5);
-        rotatePID.setSetpoint(0);
-        rotatePID.enable();
+        rotatePid.setOutputRange(-0.5, 0.5);
+        rotatePid.setSetpoint(0);
+        rotatePid.enable();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -107,7 +107,7 @@ public class FollowCamera extends LoggedCommand {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        rotatePID.disable();
+        rotatePid.disable();
 
         // Robot.camera.enableRingLight(false);
         Robot.driveTrain.brakeMode(false);

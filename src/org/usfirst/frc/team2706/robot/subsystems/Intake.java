@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake extends Subsystem {
     boolean cubeIn = false;
 
-    private static final double CUBE_CAPTURED = 1.8;
+    private static final double CUBE_CAPTURED = 1.75;
 
     // Objects for inhaling and exhaling the cube
     private WPI_TalonSRX right_intake_motor;
@@ -121,7 +121,7 @@ public class Intake extends Subsystem {
      * @return Whether the robot has a cube or not
      */
     public boolean cubeCaptured() {
-       return IR_sensor.getVoltage() >= CUBE_CAPTURED;
+       return IR_sensor.getVoltage() > CUBE_CAPTURED;
     }
 
     @Override

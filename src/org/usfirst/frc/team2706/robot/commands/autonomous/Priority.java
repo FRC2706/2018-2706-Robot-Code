@@ -92,43 +92,25 @@ public class Priority {
      * @return
      */
     public boolean getPossible() {
-        if (guaranteedPriority || DriverStation.getInstance().getGameSpecificMessage().equals("")) {
+        if (guaranteedPriority
+                        || DriverStation.getInstance().getGameSpecificMessage().length() >= 2) {
             return true;
         }
 
-        if (location == LEFT) {
-            if (isSwitch == IS_SWITCH && isScale != IS_SCALE && DriverStation.getInstance()
-                            .getGameSpecificMessage().toCharArray()[0] == 'L')
-                return true;
-            else if (isSwitch != IS_SWITCH && isScale == IS_SCALE && DriverStation.getInstance()
-                            .getGameSpecificMessage().toCharArray()[1] == 'L')
-                return true;
-            else if (isSwitch == IS_SWITCH && isScale == IS_SCALE
-                            && DriverStation.getInstance().getGameSpecificMessage()
-                                            .toCharArray()[0] == 'L'
-                            && DriverStation.getInstance().getGameSpecificMessage()
-                                            .toCharArray()[1] == 'L')
-                return true;
-            return false;
-        } else {
-            if (isSwitch == IS_SWITCH && isScale != IS_SCALE && DriverStation.getInstance()
-                            .getGameSpecificMessage().toCharArray()[0] == 'R')
-                return true;
-            else if (isSwitch != IS_SWITCH && isScale == IS_SCALE && DriverStation.getInstance()
-                            .getGameSpecificMessage().toCharArray()[1] == 'R')
-                return true;
-            else if (isSwitch == IS_SWITCH && isScale == IS_SCALE
-                            && DriverStation.getInstance().getGameSpecificMessage()
-                                            .toCharArray()[0] == 'R'
-                            && DriverStation.getInstance().getGameSpecificMessage()
-                                            .toCharArray()[1] == 'R')
-                return true;
-            return false;
-        }
+        boolean switchLeft = DriverStation.getInstance().getGameSpecificMessage()
+                        .toCharArray()[0] == 'L';
+        boolean scaleLeft = DriverStation.getInstance().getGameSpecificMessage()
+                        .toCharArray()[1] == 'L';
+
+        // You only care whether the switch/scale is on your side if you require it
+        // Ensure that you have or don't need both the switch and the scale
+        return (isSwitch != IS_SWITCH || location == switchLeft)
+                        && (isScale != IS_SCALE || location == scaleLeft);
     }
 
     /**
      * Gets the id of the priority, its identification string.
+     * 
      * @return The identification tag for this priority, such as "left_scale_multi_cube"
      */
     public String getID() {
@@ -137,6 +119,7 @@ public class Priority {
 
     /**
      * Gets the user friendly name for this priority
+     * 
      * @return The user friendly name for this autonomous priority, such as "Left scale multi cube"
      */
     public String getName() {

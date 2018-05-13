@@ -22,7 +22,7 @@ public class RotateDriveWithGyro extends LoggedCommand {
 
     private final double angle;
 
-    private PIDController PID;
+    private PIDController pid;
 
     private final int minDoneCycles;
 
@@ -59,7 +59,7 @@ public class RotateDriveWithGyro extends LoggedCommand {
 
         this.error = RobotConfig.get(name + ".error", error);
 
-        PID = new PIDController(P, I, D, F, Robot.driveTrain.getGyroPIDSource(false),
+        pid = new PIDController(P, I, D, F, Robot.driveTrain.getGyroPIDSource(false),
                         Robot.driveTrain.getDrivePIDOutput(false, false, true));
 
 //         SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
@@ -69,39 +69,39 @@ public class RotateDriveWithGyro extends LoggedCommand {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-//         PID.setP(SmartDashboard.getNumber("P", P));
-//         PID.setI(SmartDashboard.getNumber("I", I));
-//         PID.setD(SmartDashboard.getNumber("D", D));
+//         pid.setP(SmartDashboard.getNumber("P", P));
+//         pid.setI(SmartDashboard.getNumber("I", I));
+//         pid.setD(SmartDashboard.getNumber("D", D));
 
         Log.i(this, "Rotating " + angle + " degrees at a speed of " + speed);
 
         Robot.driveTrain.reset();
 
-        PID.setInputRange(-360.0, 360.0);
+        pid.setInputRange(-360.0, 360.0);
 
         // Make input infinite
-        PID.setContinuous();
+        pid.setContinuous();
         if (speed > 0) {
             // Set output speed range
-            PID.setOutputRange(-speed, speed);
+            pid.setOutputRange(-speed, speed);
         } else {
-            PID.setOutputRange(speed, -speed);
+            pid.setOutputRange(speed, -speed);
         }
 
         // Set the tolerance in degrees
-        PID.setAbsoluteTolerance(error);
+        pid.setAbsoluteTolerance(error);
 
-        PID.setSetpoint(angle);
+        pid.setSetpoint(angle);
 
         // Start going to location
-        PID.enable();
+        pid.enable();
     }
 
     private int doneTicks;
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if (PID.onTarget())
+        if (pid.onTarget())
             doneTicks++;
         else
             doneTicks = 0;
@@ -112,7 +112,7 @@ public class RotateDriveWithGyro extends LoggedCommand {
     // Called once after isFinished returns true
     protected void end() {
         // Disable PID output and stop robot to be safe
-        PID.disable();
+        pid.disable();
         Log.i(this, "Done rotating, rotated " + Robot.driveTrain.getHeading());
         Robot.driveTrain.drive(0, 0);
 

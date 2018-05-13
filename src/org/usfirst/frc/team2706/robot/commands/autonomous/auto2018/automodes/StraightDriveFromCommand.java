@@ -15,7 +15,7 @@ public class StraightDriveFromCommand extends Command {
 
     private final double error;
 
-    private PIDController PID;
+    private PIDController pid;
 
     private final int minDoneCycles;
 
@@ -43,7 +43,7 @@ public class StraightDriveFromCommand extends Command {
 
         this.minDoneCycles = RobotConfig.get(name + ".minDoneCycles", minDoneCycles);
 
-        PID = new PIDController(P, I, D, F, Robot.driveTrain.getAverageEncoderPIDSource(),
+        pid = new PIDController(P, I, D, F, Robot.driveTrain.getAverageEncoderPIDSource(),
                         Robot.driveTrain.getDrivePIDOutput(true, false, false));
 
 //         SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
@@ -53,9 +53,9 @@ public class StraightDriveFromCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-//         PID.setP(SmartDashboard.getNumber("P", P));
-//         PID.setI(SmartDashboard.getNumber("I", I));
-//         PID.setD(SmartDashboard.getNumber("D", D));
+//         pid.setP(SmartDashboard.getNumber("P", P));
+//         pid.setI(SmartDashboard.getNumber("I", I));
+//         pid.setD(SmartDashboard.getNumber("D", D));
 
         Robot.driveTrain.reset();
 
@@ -63,21 +63,21 @@ public class StraightDriveFromCommand extends Command {
 
         // Set output speed range
         if (speed > 0) {
-            PID.setOutputRange(-speed, speed);
+            pid.setOutputRange(-speed, speed);
         } else {
-            PID.setOutputRange(speed, -speed);
+            pid.setOutputRange(speed, -speed);
         }
 
         Robot.driveTrain.initGyro = 0;
 
-        PID.setSetpoint(-intake.getDistanceDriven());
+        pid.setSetpoint(-intake.getDistanceDriven());
 
 
         // Will accept within 5 inch of target
-        PID.setAbsoluteTolerance(error);
+        pid.setAbsoluteTolerance(error);
 
         // Start going to location
-        PID.enable();
+        pid.enable();
     }
 
     private int doneTicks;
@@ -85,7 +85,7 @@ public class StraightDriveFromCommand extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
 
-        if (PID.onTarget())
+        if (pid.onTarget())
             doneTicks++;
         else
             doneTicks = 0;
@@ -96,7 +96,7 @@ public class StraightDriveFromCommand extends Command {
     // Called once after isFinished returns true
     protected void end() {
         // Disable PID output and stop robot to be safe
-        PID.disable();
+        pid.disable();
         Robot.driveTrain.drive(0, 0);
     }
 

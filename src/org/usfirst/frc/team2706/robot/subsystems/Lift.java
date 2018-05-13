@@ -41,7 +41,7 @@ public class Lift extends Subsystem {
     private final TalonLimit liftMotor;
 
     private final TalonEncoder encoder;
-    private final TalonPID liftPID;
+    private final TalonPID liftPid;
 
     private final LimitSwitch liftDown;
     public static final double SPEED = 1.0;
@@ -71,8 +71,8 @@ public class Lift extends Subsystem {
             this.setHeight(0, false);
         }));
 
-        liftPID = new TalonPID(new TalonSensorGroup(liftMotor, null, encoder));
-        liftPID.setError(0);
+        liftPid = new TalonPID(new TalonSensorGroup(liftMotor, null, encoder));
+        liftPid.setError(0);
         encoder.setDistancePerPulse(RobotMap.ENCODER_LIFT_DPP);
         encoder.reset();
 
@@ -96,7 +96,7 @@ public class Lift extends Subsystem {
      * @return The PID
      */
     public TalonPID getPID() {
-        return liftPID;
+        return liftPid;
     }
 
     /**
@@ -334,7 +334,7 @@ public class Lift extends Subsystem {
         encoder.reset();
         zeroedOnce = true;
 
-        if (liftPID.getSetpoint() < 0) {
+        if (liftPid.getSetpoint() < 0) {
             Log.d("Lift", "Setting height to zero");
             setHeight(0, false);
         }
@@ -374,15 +374,15 @@ public class Lift extends Subsystem {
      * @param D The D value
      */
     public void setPID(double P, double I, double D) {
-        liftPID.setPID(P, I, D);
-//         liftPID.setPID(SmartDashboard.getNumber("P Down", pDown), SmartDashboard.getNumber("I Down", iDown), SmartDashboard.getNumber("D Down", dDown));
+        liftPid.setPID(P, I, D);
+//         liftPid.setPID(SmartDashboard.getNumber("P Down", pDown), SmartDashboard.getNumber("I Down", iDown), SmartDashboard.getNumber("D Down", dDown));
     }
 
     public void useUpPID() {
         Log.d("Lift", "Going up");
 
-        liftPID.setPID(pUp, iUp, dUp);
-//         liftPID.setPID(SmartDashboard.getNumber("P Up", pUp), SmartDashboard.getNumber("I Up", iUp), SmartDashboard.getNumber("D Up", dUp));
+        liftPid.setPID(pUp, iUp, dUp);
+//         liftPid.setPID(SmartDashboard.getNumber("P Up", pUp), SmartDashboard.getNumber("I Up", iUp), SmartDashboard.getNumber("D Up", dUp));
     }
 
     public void useDownPID() {
