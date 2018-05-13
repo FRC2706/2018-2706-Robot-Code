@@ -31,6 +31,9 @@ public class MoveLiftWithPID extends LoggedCommand {
      */
     public static final double MIN_HEIGHT = 0.5;
 
+    /**
+     * The last time (in miliseconds) that this command ran.
+     */
     private double lastTime;
 
     /**

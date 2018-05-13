@@ -121,10 +121,7 @@ public class Intake extends Subsystem {
      * @return Whether the robot has a cube or not
      */
     public boolean cubeCaptured() {
-        if (IR_sensor.getVoltage() >= CUBE_CAPTURED) {
-            return true;
-        }
-        return false;
+       return IR_sensor.getVoltage() >= CUBE_CAPTURED;
     }
 
     @Override

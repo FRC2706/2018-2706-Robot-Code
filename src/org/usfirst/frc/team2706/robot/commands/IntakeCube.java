@@ -53,7 +53,7 @@ public class IntakeCube extends LoggedCommand {
         this.sameRatio = sameRatio;
 
         // FIXME: Sometimes stops auto modes from running correctly
-//        this.requires(Robot.intake);
+        // this.requires(Robot.intake);
     }
 
     /**

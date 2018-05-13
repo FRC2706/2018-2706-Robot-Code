@@ -25,6 +25,6 @@ public class ClimbWarning extends BlingPattern {
 
     @Override
     public void initialize() {
-        new Rumbler(2, 0, 1, Rumbler.BOTH_JOYSTICKS);
+        new Rumbler(2, 0, 1, Rumbler.JoystickSelection.BOTH_JOYSTICKS);
     }
 }

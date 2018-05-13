@@ -27,7 +27,7 @@ public abstract class BlingPattern {
 
     protected int repeatCount = 1000000;
     protected int wait_ms = 50;
-    protected int LED_BRIGHTNESS = Bling.GOODBRIGHTNESS;
+    protected int led_brightness = Bling.GOODBRIGHTNESS;
     protected String command = Bling.COLOUR_WIPE;
 
     protected List<Integer> operationPeriod = new ArrayList<Integer>();
@@ -89,7 +89,7 @@ public abstract class BlingPattern {
      * @return The brightness (from 0 to 255) of the LED strip when displaying this pattern
      */
     public int getBrightness() {
-        return LED_BRIGHTNESS;
+        return led_brightness;
     }
 
     /**

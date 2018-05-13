@@ -158,7 +158,7 @@ public class Robot extends IterativeRobot {
         if (SmartDashboard.getBoolean("record-joystick", false))
             recordAJoystick.start();
         // Tell drive team to drive
-        new Rumbler(0.2, 0.1, 3, Rumbler.DRIVER_JOYSTICK);
+        new Rumbler(0.2, 0.1, 3, Rumbler.JoystickSelection.DRIVER_JOYSTICK);
     }
 
     /**

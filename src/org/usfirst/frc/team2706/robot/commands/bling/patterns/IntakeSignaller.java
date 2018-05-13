@@ -78,6 +78,6 @@ public class IntakeSignaller extends BlingPattern {
     public void initialize() {
         super.initialize();
         // Rumble the joystick when the pattern is run.
-        new Rumbler(0.8, 0.2, 1, Rumbler.OPERATOR_JOYSTICK);
+        new Rumbler(0.8, 0.2, 1, Rumbler.JoystickSelection.OPERATOR_JOYSTICK);
     }
 }

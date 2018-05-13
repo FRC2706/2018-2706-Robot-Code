@@ -11,7 +11,7 @@ public class StartCimbing extends LoggedCommand {
 
     public StartCimbing() {
         // FIXME: Makes command fail to start
-//         requires(Robot.lift);
+        // requires(Robot.lift);
     }
 
     @Override

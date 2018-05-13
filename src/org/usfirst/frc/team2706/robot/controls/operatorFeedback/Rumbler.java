@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class Rumbler extends LoggedCommand {
 
-    public static final int DRIVER_JOYSTICK = 1;
-    public static final int OPERATOR_JOYSTICK = 2;
-    public static final int BOTH_JOYSTICKS = 3;
+    public static enum JoystickSelection {
+        DRIVER_JOYSTICK, OPERATOR_JOYSTICK, BOTH_JOYSTICKS
+    }
 
     private boolean isFinished = false;
 
@@ -19,7 +19,7 @@ public class Rumbler extends LoggedCommand {
      * An integer which is one DRIVER_JOYSTICK, OPERATOR_JOYSTICK or BOTH_JOYSTICKS values.
      * Represents which controller to rumble
      */
-    int controllerToRumble;
+    JoystickSelection controllerToRumble;
 
     // How long to rumble
     double timeOn;
@@ -54,7 +54,7 @@ public class Rumbler extends LoggedCommand {
      */
     public Rumbler() {
         // Just a default rumble of 1 second 1 time on both joysticks.
-        this(1.0, 0, 1, BOTH_JOYSTICKS, 1);
+        this(1.0, 0, 1, JoystickSelection.BOTH_JOYSTICKS, 1);
     }
 
     /**
@@ -68,7 +68,7 @@ public class Rumbler extends LoggedCommand {
      * @param controllerToRumble Which controller (one of DRIVER_JOYSTICK, OPERATOR_JOYSTICK or
      *        BOTH_JOYSTICKS) to rumble.
      */
-    public Rumbler(double timeOn, double timeOff, int repeatCount, int controllerToRumble) {
+    public Rumbler(double timeOn, double timeOff, int repeatCount, JoystickSelection controllerToRumble) {
         this(timeOn, timeOff, repeatCount, controllerToRumble, 1);
     }
 
@@ -81,11 +81,11 @@ public class Rumbler extends LoggedCommand {
      * @param timeOff How long to pause between rumbles
      * @param repeatCount How long to repeat the pattern. Enter a negative number for infinite, but
      *        DON'T FORGET TO CALL THE END() FUNCTION.
-     * @param controllerToRumble Which controller (one of
-     * @param intensity The rumble intensity setting. DRIVER_JOYSTICK, OPERATOR_JOYSTICK or
-     *        BOTH_JOYSTICKS) to rumble.
+     * @param controllerToRumble Which controller (one of DRIVER_JOYSTICK, OPERATOR_JOYSTICK or
+     *        BOTH_JOYSTICKS)
+     * @param intensity The rumble intensity setting.  to rumble.
      */
-    public Rumbler(double timeOn, double timeOff, int repeatCount, int controllerToRumble,
+    public Rumbler(double timeOn, double timeOff, int repeatCount, JoystickSelection controllerToRumble,
                     double intensity) {
         this.timeOn = timeOn;
         this.timeOff = timeOff;
@@ -153,12 +153,12 @@ public class Rumbler extends LoggedCommand {
         double rumbleIntensity = (on ? intensity : 0.0);
 
         // Rumble the appropriate joysticks
-        if (controllerToRumble == DRIVER_JOYSTICK || controllerToRumble == BOTH_JOYSTICKS) {
+        if (controllerToRumble == JoystickSelection.DRIVER_JOYSTICK || controllerToRumble == JoystickSelection.BOTH_JOYSTICKS) {
             driver.setRumble(RumbleType.kRightRumble, rumbleIntensity);
             driver.setRumble(RumbleType.kLeftRumble, rumbleIntensity);
         }
 
-        if (controllerToRumble == OPERATOR_JOYSTICK || controllerToRumble == BOTH_JOYSTICKS) {
+        if (controllerToRumble == JoystickSelection.OPERATOR_JOYSTICK || controllerToRumble == JoystickSelection.BOTH_JOYSTICKS) {
             operator.setRumble(RumbleType.kRightRumble, rumbleIntensity);
             operator.setRumble(RumbleType.kLeftRumble, rumbleIntensity);
         }

@@ -87,7 +87,7 @@ public class Priority {
     }
 
     /**
-     * Determines if it is possible for the priority to run. Assumes FMS actually gives a value
+     * Determines if it is possible for this priority to run. Assumes FMS actually gives a value
      * 
      * @return
      */
@@ -127,10 +127,18 @@ public class Priority {
         }
     }
 
+    /**
+     * Gets the id of the priority, its identification string.
+     * @return The identification tag for this priority, such as "left_scale_multi_cube"
+     */
     public String getID() {
         return id;
     }
 
+    /**
+     * Gets the user friendly name for this priority
+     * @return The user friendly name for this autonomous priority, such as "Left scale multi cube"
+     */
     public String getName() {
         return name;
     }

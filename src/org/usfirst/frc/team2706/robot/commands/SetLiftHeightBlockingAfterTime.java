@@ -50,12 +50,9 @@ public class SetLiftHeightBlockingAfterTime extends SetLiftHeightUntilCancelled 
     @Override
     public boolean isFinished() {
         // Wait until command has started to check if the lift is at its destination
-        if (System.currentTimeMillis() - currentMs < timeMs) {
-            return false;
-        }
-
-        // Check to see if the lift is in the correct position and for the minimum number of ticks
-        return Math.abs(Robot.lift.getPID().getSetpoint() - Robot.lift.getEncoderHeight()) < error
+        return !(System.currentTimeMillis() - currentMs < timeMs) &&
+                        // Then check to see if the lift is in the correct position and for the minimum number of ticks
+                        Math.abs(Robot.lift.getPID().getSetpoint() - Robot.lift.getEncoderHeight()) < error
                         && ++currentCycles >= minDoneCycles;
     }
 
