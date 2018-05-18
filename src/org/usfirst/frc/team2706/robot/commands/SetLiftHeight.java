@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2706.robot.commands;
 
-import org.usfirst.frc.team2706.robot.Log;
 import org.usfirst.frc.team2706.robot.Robot;
 import org.usfirst.frc.team2706.robot.controls.OneTimeCommand;
 
@@ -17,8 +16,6 @@ public class SetLiftHeight extends OneTimeCommand {
     public SetLiftHeight(double height) {
         super(() -> {
             Robot.lift.enable(false);
-            
-            Log.i("SetLiftHeight", "Should work");
             
             // Use up PID when moving upwards
             if (height < Robot.lift.getEncoderHeight()) {

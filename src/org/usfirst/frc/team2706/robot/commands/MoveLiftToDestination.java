@@ -17,16 +17,11 @@ public class MoveLiftToDestination extends LoggedCommand {
      * Moves the lift to the height that it is set to go to
      */
     public MoveLiftToDestination() {
-        //this.requires(Robot.lift);
         liftPID = Robot.lift.getPID();
     }
 
     @Override
     protected void initialize() {
-        Log.i("Lift", Robot.lift.disabled());
-        
-        working = true;
-
         // Ensure lift output is within motor speed bounds
         liftPID.setOutputRange(-Lift.SPEED, Lift.SPEED);
 
@@ -37,6 +32,11 @@ public class MoveLiftToDestination extends LoggedCommand {
         Robot.lift.useUpPID();
     }
 
+    /**
+     * Sets the lift to a certain height
+     * 
+     * @param destination The height in feet from the bottom
+     */
     public void setDestination(double destination) {
         Log.d(this, "Setting destination to " + destination);
         liftPID.setSetpoint(destination);
@@ -59,6 +59,7 @@ public class MoveLiftToDestination extends LoggedCommand {
         }
         else {
             if(!this.liftPID.enabled) {
+                Robot.lift.setBrakeMode(true);
                 liftPID.enable();
             }
         }
@@ -67,7 +68,6 @@ public class MoveLiftToDestination extends LoggedCommand {
     @Override
     public void end() {
         liftPID.disable();
-        working = false;
     }
 
     @Override
@@ -78,10 +78,5 @@ public class MoveLiftToDestination extends LoggedCommand {
     @Override
     protected boolean isFinished() {
         return false;
-    }
-    
-    private boolean working = false;
-    public boolean working() {
-        return working;
     }
 }

@@ -143,12 +143,12 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-        Log.i("Robot", "Free Memory: " + ((double)Runtime.getRuntime().freeMemory()) / (1024 * 1024) + "MB\n"
-                        + "Allocated: " + ((double)Runtime.getRuntime().totalMemory()) / (1024 * 1024) + "MB\n"
-                        + "Available: " + ((double)Runtime.getRuntime().maxMemory()) / (1024 * 1024) + "MB\n");
-        
         Log.i("Robot", "Entering teleop mode");
-
+        
+        Log.i("Robot", "Free Memory: " + ((double)Runtime.getRuntime().freeMemory()) / (1024 * 1024) + "MB");
+        Log.i("Robot", "Allocated: " + ((double)Runtime.getRuntime().totalMemory()) / (1024 * 1024) + "MB");
+        Log.i("Robot", "Available: " + ((double)Runtime.getRuntime().maxMemory()) / (1024 * 1024) + "MB");
+        
         Log.i("Robot", "Teleop game specific message: "
                         + DriverStation.getInstance().getGameSpecificMessage());
         enteredTeleop = true;

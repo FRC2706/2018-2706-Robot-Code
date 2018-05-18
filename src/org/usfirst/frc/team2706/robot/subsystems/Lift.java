@@ -14,9 +14,7 @@ import org.usfirst.frc.team2706.robot.controls.talon.TalonSensorGroup;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -427,29 +425,6 @@ public class Lift extends Subsystem {
         if(!climbing) {
             disabled = false;
         }
-        
-        /*if (!climbing) {
-            Log.i("Lift", "Enabled " + !this.getDefaultCommand().isRunning());
-            
-            if(DriverStation.getInstance().isEnabled()) {
-                defaultCommand.cancel();
-                while(defaultCommand.working()) {
-                    Scheduler.getInstance().run();
-                }
-                disabled = false;
-                climbing = false;
-                defaultCommand.start();
-                
-                while(!defaultCommand.working()) {
-                    disabled = false;
-                    climbing = false;
-                    
-                    Scheduler.getInstance().run();
-                }
-            }
-            
-            Log.i("Lift", "Working");
-        }*/
     }
 
     /**
@@ -458,16 +433,10 @@ public class Lift extends Subsystem {
      * @param climb Whether the motor is disabled for climb and must be overridden to re-enable
      */
     public void disableMotor(boolean climb) {
-        //if (climb) {
-            Log.i("Lift", "Disabled Motor");
-            
-           // Thread.dumpStack();
-        //}
-
         this.getDefaultCommand().cancel();
         liftMotor.stopMotor();
         disabled = true;
-        climbing = climb;
+        climbing = climbing || climb;
     }
 
     /**
@@ -476,7 +445,6 @@ public class Lift extends Subsystem {
      * @return Whether the lift is disabled
      */
     public boolean disabled() {
-
         return disabled;
     }
 

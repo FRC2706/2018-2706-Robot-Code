@@ -4,7 +4,6 @@ import java.util.function.Supplier;
 
 import org.usfirst.frc.team2706.robot.LoggedCommand;
 import org.usfirst.frc.team2706.robot.Robot;
-import org.usfirst.frc.team2706.robot.controls.OneTimeCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -73,7 +72,6 @@ public class MoveLiftWithPID extends LoggedCommand {
      */
     public MoveLiftWithPID(Supplier<Double> speed) {
         this.liftspeed = speed;
-        //this.requires(Robot.lift);
     }
 
     @Override
@@ -103,7 +101,7 @@ public class MoveLiftWithPID extends LoggedCommand {
             // bottom
             if (Robot.lift.getEncoderHeight() < MIN_HEIGHT
                             || Robot.lift.getPID().getSetpoint() < MIN_HEIGHT) {
-                OneTimeCommand.run(new SetLiftHeight(0));
+                Robot.lift.setHeight(0, false);
                 return;
             }
         }
