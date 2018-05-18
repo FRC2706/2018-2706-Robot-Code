@@ -143,6 +143,10 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
+        Log.i("Robot", "Free Memory: " + ((double)Runtime.getRuntime().freeMemory()) / (1024 * 1024) + "MB\n"
+                        + "Allocated: " + ((double)Runtime.getRuntime().totalMemory()) / (1024 * 1024) + "MB\n"
+                        + "Available: " + ((double)Runtime.getRuntime().maxMemory()) / (1024 * 1024) + "MB\n");
+        
         Log.i("Robot", "Entering teleop mode");
 
         Log.i("Robot", "Teleop game specific message: "
@@ -159,6 +163,8 @@ public class Robot extends IterativeRobot {
             recordAJoystick.start();
         // Tell drive team to drive
         new Rumbler(0.2, 0.1, 3, Rumbler.JoystickSelection.DRIVER_JOYSTICK);
+        
+        lift.disableMotor(false);
     }
 
     /**

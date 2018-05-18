@@ -183,6 +183,7 @@ public class TalonPID {
      */
     public void disable() {
         Log.i("TalonaPID", "Disabled");
+        Thread.dumpStack();
 
         // Apply initial settings to each talon
         for (TalonSensorGroup talon : talons) {

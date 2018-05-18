@@ -73,7 +73,7 @@ public class MoveLiftWithPID extends LoggedCommand {
      */
     public MoveLiftWithPID(Supplier<Double> speed) {
         this.liftspeed = speed;
-        this.requires(Robot.lift);
+        //this.requires(Robot.lift);
     }
 
     @Override
@@ -81,6 +81,7 @@ public class MoveLiftWithPID extends LoggedCommand {
         lastTime = Timer.getFPGATimestamp();
         Robot.lift.useUpPID();
         Robot.lift.resetSetpoint();
+        Robot.lift.enable(false);
     }
 
     /**
@@ -124,5 +125,10 @@ public class MoveLiftWithPID extends LoggedCommand {
     @Override
     protected boolean isFinished() {
         return false;
+    }
+    
+    @Override
+    public void end() {
+        Robot.lift.disableMotor(false);
     }
 }

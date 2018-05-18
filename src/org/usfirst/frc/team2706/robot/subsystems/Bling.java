@@ -3,9 +3,11 @@ package org.usfirst.frc.team2706.robot.subsystems;
 import org.usfirst.frc.team2706.robot.commands.bling.BlingController;
 import org.usfirst.frc.team2706.robot.commands.bling.patterns.BlingPattern;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.networktables.*;
 
 public class Bling extends Subsystem {
     // All of the pattern numbers
