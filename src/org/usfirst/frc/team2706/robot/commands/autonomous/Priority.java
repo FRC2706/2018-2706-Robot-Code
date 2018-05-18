@@ -93,7 +93,7 @@ public class Priority {
      */
     public boolean getPossible() {
         if (guaranteedPriority
-                        || DriverStation.getInstance().getGameSpecificMessage().length() >= 2) {
+                        || DriverStation.getInstance().getGameSpecificMessage().length() < 2) {
             return true;
         }
 

@@ -52,6 +52,7 @@ public class Lift extends Subsystem {
     private static final double pUp = 0.5, iUp = 0, dUp = 50;
 
     private boolean disabled = false;
+    private boolean climbing = false;
 
     /**
      * Creates and sets up all the parts of the lift
@@ -413,20 +414,30 @@ public class Lift extends Subsystem {
 
     /**
      * Enable the lift, and allow the PID to control it
+     * 
+     * @param override Whether to ignore that climbing has begun and re-enable the motor
      */
-    public void enable() {
-        Log.i("Lift", "Enabled");
-        disabled = false;
+    public void enable(boolean override) {
+        if (override) {
+            Log.i("Lift", "Enabled");
+            disabled = false;
+            climbing = false;
+        }
     }
 
     /**
      * Stops the motor and ensures it can't be restarted
+     * 
+     * @param climb Whether the motor is disabled for climb and must be overridden to re-enable
      */
-    public void disableMotor() {
-        Log.i("Lift", "Disabled Motor");
+    public void disableMotor(boolean climb) {
+        if (climb) {
+            Log.i("Lift", "Disabled Motor");
+        }
 
         liftMotor.stopMotor();
         disabled = true;
+        climbing = climb;
     }
 
     /**
@@ -436,5 +447,14 @@ public class Lift extends Subsystem {
      */
     public boolean disabled() {
         return disabled;
+    }
+
+    /**
+     * Whether to keep motor disabled, unless told climb is finished
+     * 
+     * @return
+     */
+    public boolean climbing() {
+        return climbing;
     }
 }

@@ -36,10 +36,4 @@ public class SetLiftHeightBlocking extends SetLiftHeightUntilCancelled {
         return Math.abs(Robot.lift.getPID().getSetpoint() - Robot.lift.getEncoderHeight()) < error
                         && ++currentCycles >= minDoneCycles;
     }
-
-    @Override
-    public void end() {
-        Robot.lift.resetSetpoint();
-    }
-
 }

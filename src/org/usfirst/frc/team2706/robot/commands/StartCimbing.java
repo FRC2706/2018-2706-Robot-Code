@@ -28,7 +28,7 @@ public class StartCimbing extends LoggedCommand {
 
         // Allow lift motor to coast, and disable it
         Robot.lift.setBrakeMode(false);
-        Robot.lift.disableMotor();
+        Robot.lift.disableMotor(true);
     }
 
     @Override

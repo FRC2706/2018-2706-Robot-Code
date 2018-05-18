@@ -22,6 +22,7 @@ public class SetLiftHeightUntilCancelled extends SetLiftHeight {
     @Override
     public void end() {
         Robot.lift.resetSetpoint();
+        Robot.lift.disableMotor(false);
     }
 
 }
