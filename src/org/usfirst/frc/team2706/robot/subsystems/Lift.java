@@ -418,11 +418,15 @@ public class Lift extends Subsystem {
      * @param override Whether to ignore that climbing has begun and re-enable the motor
      */
     public void enable(boolean override) {
-        if(climbing && override) {
+        // The lift can only be re-enabled after climbing when specified
+        if(override) {
+            // Disable lift re-enable lockout
             climbing = false;
         }
         
+        // Only re-enable lift if there is no disable lockout
         if(!climbing) {
+            // Lift is no longer disabled
             disabled = false;
         }
     }

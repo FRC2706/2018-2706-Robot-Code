@@ -62,6 +62,8 @@ public class OI {
         this.controlStick = controlStick;
 
         // Runs the code depending which button/trigger is pressed
+        
+        // Intake commands
         TriggerButtonJoystick intakeCube = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER);
         intakeCube.runWhileHeld(new IntakeCube(controlStick, JoystickMap.XBOX_BACK_LEFT_TRIGGER, true));
 
@@ -74,26 +76,30 @@ public class OI {
         EJoystickButton ejectSmooth = new EJoystickButton(controlStick, JoystickMap.XBOX_RB_BUTTON);
         ejectSmooth.runWhileHeld(new EjectCubeWithIR());
 
-
-        EJoystickButton climber = new EJoystickButton(controlStick, JoystickMap.XBOX_X_BUTTON);
-        climber.runWhileHeld(new StartCimbing());
-
         EJoystickButton ejectTimed = new EJoystickButton(driverStick, JoystickMap.XBOX_RB_BUTTON);
         ejectTimed.runWhileHeld(new PickupCube());
 
         EJoystickButton spinCube = new EJoystickButton(controlStick, JoystickMap.XBOX_START_BUTTON);
         spinCube.runWhileHeld(new SpinCubeInIntake());
+        
+        
+        // Climber command
+        EJoystickButton climber = new EJoystickButton(controlStick, JoystickMap.XBOX_X_BUTTON);
+        climber.runWhileHeld(new StartCimbing());
 
-        // Currently lift is mapped to buttons as well
-        // Final: Elevator on axis 1
-        TriggerButtonJoystick MoveLift = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, 0.2);
-        MoveLift.runWhileHeld( new MoveLiftWithPID(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, true));
 
-        EJoystickButton MoveLiftUp = new EJoystickButton(controlStick, JoystickMap.XBOX_Y_BUTTON);
-        MoveLiftUp.runWhileHeld(new MoveLift(0.6));
+        // Lift manual control
+        TriggerButtonJoystick moveLift = new TriggerButtonJoystick(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, 0.2);
+        moveLift.runWhileHeld(new MoveLiftWithPID(controlStick, JoystickMap.XBOX_LEFT_AXIS_Y, true));
 
-        EJoystickButton MoveLiftDown = new EJoystickButton(controlStick, JoystickMap.XBOX_A_BUTTON);
-        MoveLiftDown.runWhileHeld(new MoveLift(-0.35));
+        
+        // Lift manual override
+        EJoystickButton moveLiftUp = new EJoystickButton(controlStick, JoystickMap.XBOX_Y_BUTTON);
+        moveLiftUp.runWhileHeld(new MoveLift(0.6));
+
+        EJoystickButton moveLiftDown = new EJoystickButton(controlStick, JoystickMap.XBOX_A_BUTTON);
+        moveLiftDown.runWhileHeld(new MoveLift(-0.35));
+
 
         // Sending lift to fixed destinations
         StickQuadrantButtonJoystick liftLevelRight = new StickQuadrantButtonJoystick(controlStick,
@@ -120,6 +126,7 @@ public class OI {
         liftLevelDown.runWhileHeld(new SetLiftHeightUntilCancelled(0));
 
 
+        // Don't spam console with unplugged warnings
         removeUnplugWarning();
     }
 

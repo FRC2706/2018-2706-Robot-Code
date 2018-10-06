@@ -89,7 +89,7 @@ public class Priority {
     /**
      * Determines if it is possible for this priority to run. Assumes FMS actually gives a value
      * 
-     * @return
+     * @return Whether the command can run
      */
     public boolean getPossible() {
         if (guaranteedPriority
