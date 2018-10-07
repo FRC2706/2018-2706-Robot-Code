@@ -38,6 +38,11 @@ public class Lift extends Subsystem {
      */
     public static final double MAX_HEIGHT = 7.0;
 
+    /**
+     * When true, the lift motor will not run unless the lift is being moved
+     */
+    public static final boolean STALL_PROTECTION = false;
+
     private final TalonLimit liftMotor;
 
     private final TalonEncoder encoder;
@@ -81,6 +86,8 @@ public class Lift extends Subsystem {
         liftMotor.configPeakCurrentDuration(0, 0);
         setRegularCurrentLimit();
         liftMotor.enableCurrentLimit(true);
+
+        SmartDashboard.putBoolean("Lift Stall Protection", STALL_PROTECTION);
 
 //         SmartDashboard.putNumber("P Down", SmartDashboard.getNumber("P Down", pDown));
 //         SmartDashboard.putNumber("I Down", SmartDashboard.getNumber("I Down", iDown));
@@ -438,8 +445,8 @@ public class Lift extends Subsystem {
     public void disableMotor(boolean climb) {
         this.getDefaultCommand().cancel();
         liftMotor.stopMotor();
-        disabled = true;
         climbing = climbing || climb;
+        disabled = climbing || STALL_PROTECTION;
     }
 
     /**
