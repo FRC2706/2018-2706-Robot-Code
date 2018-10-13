@@ -5,12 +5,12 @@ import org.usfirst.frc.team2706.robot.commands.bling.BlingController;
 import org.usfirst.frc.team2706.robot.subsystems.Bling;
 
 public class CubeInSignaller extends BlingPattern {
-    
+
     public CubeInSignaller() {
         // Pattern will function during climb and regular teleop.
         operationPeriod.add(BlingController.TELEOP_WITHOUT_CLIMB);
         operationPeriod.add(BlingController.CLIMBING_PERIOD);
-        
+
         // Set command to theatre chase
         command = Bling.THEATRE_CHASE;
 

@@ -36,10 +36,10 @@ public class CurveDrive extends LoggedCommand {
     private double initHeading;
 
     private final boolean isRight;
-    
+
     private final double P = 0.1, I = 0, D = 0, FF = 0.0;
-    
-    private final PIDController PID;
+
+    private final PIDController pid;
 
     /**
      * Drives to a specified point and ends at a specified angle.
@@ -53,7 +53,7 @@ public class CurveDrive extends LoggedCommand {
      * @param name The name of the of the configuration properties to look for
      */
     public CurveDrive(double xFeet, double yFeet, double endCurve, double speed, boolean isRight,
-                     String name) {
+                    String name) {
         super(name);
         requires(Robot.driveTrain);
 
@@ -62,32 +62,33 @@ public class CurveDrive extends LoggedCommand {
         this.endCurve = RobotConfig.get(name + ".endCurve", endCurve);
         this.speed = RobotConfig.get(name + ".speed", speed);
         this.isRight = RobotConfig.get(name + ".isRight", isRight);
-        
-        this.PID = new PIDController(P, I, D, FF, new PIDInput(), (turn) -> Robot.driveTrain.arcadeDrive(speed, -turn));
-//      SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
-//      SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
-//      SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
-  }
 
-  // Called just before this Command runs the first time
-  protected void initialize() {
-//      PID.setP(SmartDashboard.getNumber("P", P));
-//      PID.setI(SmartDashboard.getNumber("I", I));
-//      PID.setD(SmartDashboard.getNumber("D", D));
+        this.pid = new PIDController(P, I, D, FF, new PIDInput(),
+                        (turn) -> Robot.driveTrain.arcadeDrive(speed, -turn));
+//        SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+//        SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+//        SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
+    }
+
+    // Called just before this Command runs the first time
+    protected void initialize() {
+//        pid.setP(SmartDashboard.getNumber("P", P));
+//        pid.setI(SmartDashboard.getNumber("I", I));
+//        pid.setD(SmartDashboard.getNumber("D", D));
         // Creates the cubic equation that the robot follows
         eq = EquationCreator.MakeCubicEquation(xFeet, yFeet, endCurve, isRight);
-       // Log.d(this, eq);
+        // Log.d(this, eq);
         // Resets the gyro and encoders
         Robot.driveTrain.reset();
         initHeading = Robot.driveTrain.getHeading();
         Log.i(this, "Current encoder ticks are " + Robot.driveTrain.getDistance());
-        
-        PID.enable();
+
+        pid.enable();
     }
 
     @Override
     protected boolean isFinished() {
-        //System.out.println("isF" + (yPos - yFeet));
+        // System.out.println("isF" + (yPos - yFeet));
         // Checks if the x is within 1.5 feet and the y within 0.2 feet
         return yPos - yFeet > 0.0;
     }
@@ -96,13 +97,13 @@ public class CurveDrive extends LoggedCommand {
      * Resets everything in the command so it can be reused
      */
     protected void end() {
-        PID.disable();
-        
+        pid.disable();
+
         xPos = 0;
         yPos = 0;
         Log.i(this, "Finished with encoder ticks at " + Robot.driveTrain.getDistance());
         Robot.driveTrain.brakeMode(true);
-        //new CurveDriveStop(endCurve).start();
+        // new CurveDriveStop(endCurve).start();
         lastEncoderAv = 0;
         lastGyro = 0;
     }
@@ -110,12 +111,12 @@ public class CurveDrive extends LoggedCommand {
     protected void interrupt() {
         end();
     }
-    
+
     private double getRotateVal() {
         // Figures out the angle that you are currently on
         double tangent = (3 * eq.a * Math.pow(yPos, 2)) + (2 * eq.b * yPos);
         tangent = Math.toDegrees(Math.atan(tangent));
-        
+
         return tangent - (Robot.driveTrain.getHeading() - initHeading);
     }
 
@@ -177,8 +178,7 @@ public class CurveDrive extends LoggedCommand {
         double tangent = (3 * eq.a * Math.pow(yPos, 2)) + (2 * eq.b * yPos);
         tangent = Math.toDegrees(Math.atan(tangent));
 
-        // Finds out what x position you should be at, and compares it with what you are currently
-        // at
+        // Finds out what x position you should be at, and compares it with what you are currently at
         double wantedX = (eq.a * Math.pow(yPos, 3)) + (eq.b * Math.pow(yPos, 2));
 
         double offset = xPos - wantedX;
@@ -207,20 +207,18 @@ public class CurveDrive extends LoggedCommand {
         double encoderAv = (Robot.driveTrain.getDistance() - lastEncoderAv);
         // Gets the radius of the arc
         double distance;
-        if(Math.abs(changeInGyro) > 0.001) {
+        if (Math.abs(changeInGyro) > 0.001) {
             double radius = encoderAv / Math.toRadians(changeInGyro);
-            
+
             // Calculate distance based on arc lengths, and invert if driving backwards
-            distance = (encoderAv > 0 ? 1 : -1) * 
-                            Math.sqrt((2 * Math.pow(radius, 2))
-                                            * (1 - Math.cos(Math.toRadians(changeInGyro))));
-        }
-        else {
+            distance = (encoderAv > 0 ? 1 : -1) * Math.sqrt((2 * Math.pow(radius, 2))
+                            * (1 - Math.cos(Math.toRadians(changeInGyro))));
+        } else {
             distance = encoderAv;
         }
-        
+
         // Uses trigonometry 'n stuff to figure out how far right and forward you traveled
-        double changedXPos = Math.sin(Math.toRadians((lastGyro + gyroAngle) / 2.0)) * distance;        
+        double changedXPos = Math.sin(Math.toRadians((lastGyro + gyroAngle) / 2.0)) * distance;
         double changedYPos = Math.cos(Math.toRadians((lastGyro + gyroAngle) / 2.0)) * distance;
 
         // Adjusts your current position accordingly.
@@ -234,15 +232,15 @@ public class CurveDrive extends LoggedCommand {
         lastEncoderAv = Robot.driveTrain.getDistance();
         lastGyro = gyroAngle;
     }
-    
+
     private class PIDInput implements PIDSource {
 
         private PIDSourceType pidSource = PIDSourceType.kDisplacement;
-        
+
         @Override
         public void setPIDSourceType(PIDSourceType pidSource) {
             this.pidSource = pidSource;
-            
+
         }
 
         @Override
@@ -255,6 +253,6 @@ public class CurveDrive extends LoggedCommand {
             findPosition();
             return getRotateVal();
         }
-        
+
     }
 }

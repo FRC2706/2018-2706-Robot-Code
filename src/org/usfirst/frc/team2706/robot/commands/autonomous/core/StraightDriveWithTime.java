@@ -11,6 +11,7 @@ import org.usfirst.frc.team2706.robot.RobotConfig;
 /**
  * Have the robot drive certain amount of time
  */
+// FIXME: May not work...
 public class StraightDriveWithTime extends LoggedCommand {
 
     private final double speed;
@@ -36,7 +37,7 @@ public class StraightDriveWithTime extends LoggedCommand {
     // Called just before this Command runs the first time
     protected void initialize() {
         Log.i(this, "Driving for " + time / 1000 + " seconds");
-        
+
         // Creates task to stop robot after time
         CommandTimerTask interrupt = new CommandTimerTask();
         new Timer().schedule(interrupt, time);

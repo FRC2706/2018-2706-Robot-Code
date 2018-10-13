@@ -44,6 +44,9 @@ public class AutoInit {
                     rightStartLeftScale, leftStartLeftScaleMultiCube, rightStartRightScaleMultiCube,
                     leftStartLeftScaleLeftSwitchMultiCube, rightStartRightScaleRightSwitchMultiCube;
 
+    /**
+     * Creates all of the priorities
+     */
     public AutoInit() {
 
         doNothing = new Priority(new ArcadeDriveWithJoystick());
@@ -223,9 +226,10 @@ public class AutoInit {
      * Call in Robot.autonomousInit()
      */
     public void initialize() {
-        Log.i("Auto", "Switches set to " + selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1)
-        + " " + selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
-        
+        Log.i("Auto", "Switches set to "
+                        + selectorSwitch.getVoltageAsIndex(selectorSwitch.selector1) + " "
+                        + selectorSwitch.getVoltageAsIndex(selectorSwitch.selector2));
+
         autonomousCommand = getAutonomousCommand(new ArcadeDriveWithJoystick());
 
         Command dashboardResponse = Priority
@@ -263,10 +267,21 @@ public class AutoInit {
         selectorSwitch.selector2.setName("Auto Selector", "Selector 2");
     }
 
+    /**
+     * Sets the priority lists
+     * 
+     * @param commands The priority lists
+     */
     public void setAutonomousCommandList(Priority[][]... commands) {
         selectorSwitch.setCommands(commands);
     }
 
+    /**
+     * Gets the highest priority autonomous mode
+     * 
+     * @param fallbackCommand The command to fall back on if none of the priorities were satisfied
+     * @return The command to run
+     */
     public Command getAutonomousCommand(Command fallbackCommand) {
         return Priority.chooseCommandFromPriorityList(selectorSwitch.getSelected());
     }

@@ -11,6 +11,14 @@ public class CubicEquation {
     // The four coefficients that need to be saved
     public double a, b, c, d;
 
+    /**
+     * Creates a cubic equation with four coefficients: {@code x = ay^3 + by^2 + cy + d}
+     * 
+     * @param a The A term
+     * @param b The B term
+     * @param c The C term
+     * @param d The D term
+     */
     public CubicEquation(double a, double b, double c, double d) {
         this.a = a;
         this.b = b;
@@ -26,6 +34,8 @@ public class CubicEquation {
                         new DecimalFormat("############.#########################################");
         String aa = df.format(a);
         String bb = df.format(b);
-        return "x = " + aa + "y^3 + " + bb + "y^2";
+        String cc = df.format(c);
+        String dd = df.format(d);
+        return "x = " + aa + "y^3 + " + bb + "y^2" + cc + "y^2" + dd;
     }
 }

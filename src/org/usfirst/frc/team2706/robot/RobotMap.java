@@ -12,8 +12,6 @@ import java.util.Scanner;
  * reduces the number of magic numbers floating around.
  */
 @SuppressWarnings("unused")
-
-
 public class RobotMap {
 
     private static final int ROBOT_ID = getRobotID();
@@ -53,35 +51,35 @@ public class RobotMap {
     private static final boolean[] MOTOR_REAR_RIGHT_INVERTED_VALS = {false, false, false};
     public static final boolean MOTOR_REAR_RIGHT_INVERTED =
                     getConstant("MOTOR_REAR_RIGHT_INVERTED");
-    
-    
+
+
     private static final double[] ENCODER_LEFT_DPP_VALS = {-1.0 / 2517.5, -1.0 / 2555.0, 1.0 / 264};
     public static final double ENCODER_LEFT_DPP = getConstant("ENCODER_LEFT_DPP");
-    
+
 
     private static final double[] ENCODER_RIGHT_DPP_VALS = {1.0 / 2517.5, 1.0 / 2555, 1.0 / 264};
     public static final double ENCODER_RIGHT_DPP = getConstant("ENCODER_RIGHT_DPP");
 
     private static final double[] STRAIGHT_DRIVE_P_VALS = {2.0, 2.0, 1.0};
     public static final double STRAIGHT_DRIVE_P = getConstant("STRAIGHT_DRIVE_P");
-    
+
     private static final double[] STRAIGHT_DRIVE_I_VALS = {0.0, 0.0, 0.0};
     public static final double STRAIGHT_DRIVE_I = getConstant("STRAIGHT_DRIVE_I");
-    
+
     private static final double[] STRAIGHT_DRIVE_D_VALS = {5.0, 5.0, 0.0};
     public static final double STRAIGHT_DRIVE_D = getConstant("STRAIGHT_DRIVE_D");
-    
-    
+
+
     private static final double[] ROTATE_DRIVE_P_VALS = {0.04, 0.04, 1.0};
     public static final double ROTATE_DRIVE_P = getConstant("ROTATE_DRIVE_P");
-    
+
     private static final double[] ROTATE_DRIVE_I_VALS = {0.0, 0.0, 0.0};
     public static final double ROTATE_DRIVE_I = getConstant("ROTATE_DRIVE_I");
-    
+
     private static final double[] ROTATE_DRIVE_D_VALS = {0.08, 0.08, 0.0};
     public static final double ROTATE_DRIVE_D = getConstant("ROTATE_DRIVE_D");
-    
-    
+
+
     private static final boolean[] INVERT_JOYSTICK_X_VALS = {false, false, true};
     public static final boolean INVERT_JOYSTICK_X = getConstant("INVERT_JOYSTICK_X");
 
@@ -90,56 +88,54 @@ public class RobotMap {
 
     private static final int[] SELECTOR1_CHANNEL_VALS = {0, 0, 0};
     public static final int SELECTOR1_CHANNEL = getConstant("SELECTOR1_CHANNEL");
-    
+
     private static final int[] SELECTOR2_CHANNEL_VALS = {3, 3, 3};
     public static final int SELECTOR2_CHANNEL = getConstant("SELECTOR2_CHANNEL");
 
-    
+
     // Climber
     private static final int[] CLIMBER_MOTOR_VALS = {8, 8, 8};
     public static final int CLIMBER_MOTOR = getConstant("CLIMBER_MOTOR");
 
     private static final int[] CLIMBER_IR_SENSOR_VALS = {2, 2, 2};
     public static final int CLIMBER_IR_SENSOR = getConstant("CLIMBER_IR_SENSOR");
-    
+
     // Lift
     private static final int[] MOTOR_LIFT_VALS = {5, 5, 5};
     public static final int MOTOR_LIFT = getConstant("MOTOR_LIFT");
-    
+
     private static final boolean[] MOTOR_LIFT_INVERTED_VALS = {true, true, true};
     public static final boolean MOTOR_LIFT_INVERTED = getConstant("MOTOR_LIFT_INVERTED");
 
     private static final double[] ENCODER_LIFT_DPP_VALS = {7.0 / 49250, -1.0 / 7075.0, 1};
     public static final double ENCODER_LIFT_DPP = getConstant("ENCODER_LIFT_DPP");
-    
+
     private static final int[] LIMIT_DOWN_VALS = {1, 1, 1};
     public static final int LIMIT_DOWN = getConstant("LIMIT_DOWN");
-    
+
     // Intake
     private static final int[] INTAKE_MOTOR_LEFT_VALS = {6, 6, 6};
-    public static final int INTAKE_MOTOR_LEFT =
-                    getConstant("INTAKE_MOTOR_LEFT");
-    
+    public static final int INTAKE_MOTOR_LEFT = getConstant("INTAKE_MOTOR_LEFT");
+
     private static final int[] INTAKE_MOTOR_RIGHT_VALS = {7, 7, 7};
-    public static final int INTAKE_MOTOR_RIGHT =
-                    getConstant("INTAKE_MOTOR_RIGHT");
-    
+    public static final int INTAKE_MOTOR_RIGHT = getConstant("INTAKE_MOTOR_RIGHT");
+
     private static final int[] INTAKE_IR_SENSOR_VALS = {1, 1, 1};
     public static final int INTAKE_IR_SENSOR = getConstant("INTAKE_IR_SENSOR");
-    
+
     public static final double INTAKE_LEFT_MOTOR_MAX_POWER = 0.25;
     public static final double INTAKE_RIGHT_MOTOR_MAX_POWER = 0.5;
     public static final double EJECT_MAX_POWER = 1;
-    
+
     /**
      * Prints which RobotMap is being used
      */
     public static void log() {
         Log.i("RobotMap", "RobotMap ID is " + ROBOT_ID);
     }
-    
+
     private static final String ROBOT_ID_LOC = "/home/lvuser/robot-type.conf";
-    
+
     private static int getRobotID() {
         int temp = 0;
 
@@ -155,8 +151,8 @@ public class RobotMap {
     @SuppressWarnings("unchecked")
     private static <T> T getConstant(String constant) {
         try {
-            return RobotConfig.get("RobotMap." + constant,
-                (T) getArray(RobotMap.class.getDeclaredField(constant + "_VALS").get(null))[ROBOT_ID]);
+            return RobotConfig.get("RobotMap." + constant, (T) getArray(RobotMap.class
+                            .getDeclaredField(constant + "_VALS").get(null))[ROBOT_ID]);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -165,7 +161,7 @@ public class RobotMap {
     }
 
     float boat; // must be a float or else it sinks
- 
+
     private static Object[] getArray(Object val) {
         int arrlength = Array.getLength(val);
         Object[] outputArray = new Object[arrlength];

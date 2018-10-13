@@ -6,27 +6,36 @@ import org.usfirst.frc.team2706.robot.commands.IntakeCubeCustom;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Drives forward and intakes until the cube is detected
+ */
 public class IntakeUntilGrabbedNoDrive extends LoggedCommand {
-public double leftSpeed, rightSpeed;
-public double distance;
-Command intakeCube;
+    private final Command intakeCube;
+
+    /**
+     * Drives forward and intakes until the cube is detected
+     * 
+     * @param leftSpeed The speed of the left intake
+     * @param rightSpeed The speed of the right intake
+     */
     public IntakeUntilGrabbedNoDrive(double leftSpeed, double rightSpeed) {
-        this.leftSpeed = leftSpeed;
-        this.rightSpeed = rightSpeed;
+        intakeCube = new IntakeCubeCustom(leftSpeed, rightSpeed);
     }
+
+    @Override
     public void initialize() {
-       intakeCube = new IntakeCubeCustom(leftSpeed, rightSpeed);
-       intakeCube.start();
+        intakeCube.start();
     }
-    
+
+    @Override
     public void end() {
-        distance = Robot.driveTrain.getDistance();
-        Robot.driveTrain.drive(0,0);
+        Robot.driveTrain.drive(0, 0);
         intakeCube.cancel();
     }
+
     @Override
     protected boolean isFinished() {
-            return Robot.intake.readIRSensor() > 1.8;        // TODO Auto-generated method stub
+        return Robot.intake.cubeCaptured();
     }
 
 }

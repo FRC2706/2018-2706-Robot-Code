@@ -9,7 +9,8 @@ import org.usfirst.frc.team2706.robot.RobotMap;
 import edu.wpi.first.wpilibj.PIDController;
 
 /**
- * Have the robot drive certain distance
+ * Have the robot drive certain distance, and switches the maximum speed after reaching a certain
+ * distance
  */
 public class StraightDriveWithEncoders2Speed extends LoggedCommand {
 
@@ -23,7 +24,7 @@ public class StraightDriveWithEncoders2Speed extends LoggedCommand {
 
     private final double error;
 
-    private PIDController PID;
+    private PIDController pid;
 
     private final int minDoneCycles;
 
@@ -33,13 +34,15 @@ public class StraightDriveWithEncoders2Speed extends LoggedCommand {
     /**
      * Drive at a specific speed for a certain amount of time
      * 
-     * @param speed Speed in range [-1,1]
+     * @param speed1 The initial speed in range [-1,1]
+     * @param speed2 The second speed in range [-1,1]
+     * @param switchPoint The distance to switch to the second speed at
      * @param distance The encoder distance to travel
      * @param error The range that the robot is happy ending the command in
      * @param name The name of the of the configuration properties to look for
      */
-    public StraightDriveWithEncoders2Speed(double speed1, double speed2, double switchPoint, double distance, double error,
-                    int minDoneCycles, String name) {
+    public StraightDriveWithEncoders2Speed(double speed1, double speed2, double switchPoint,
+                    double distance, double error, int minDoneCycles, String name) {
         super(name);
         requires(Robot.driveTrain);
 
@@ -52,19 +55,19 @@ public class StraightDriveWithEncoders2Speed extends LoggedCommand {
 
         this.minDoneCycles = RobotConfig.get(name + ".minDoneCycles", minDoneCycles);
 
-        PID = new PIDController(P, I, D, F, Robot.driveTrain.getAverageEncoderPIDSource(),
+        pid = new PIDController(P, I, D, F, Robot.driveTrain.getAverageEncoderPIDSource(),
                         Robot.driveTrain.getDrivePIDOutput(true, false, false));
 
-        // SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
-        // SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
-        // SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
+//        SmartDashboard.putNumber("P", SmartDashboard.getNumber("P", P));
+//        SmartDashboard.putNumber("I", SmartDashboard.getNumber("I", I));
+//        SmartDashboard.putNumber("D", SmartDashboard.getNumber("D", D));
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        // PID.setP(SmartDashboard.getNumber("P", P));
-        // PID.setI(SmartDashboard.getNumber("I", I));
-        // PID.setD(SmartDashboard.getNumber("D", D));
+//         pid.setP(SmartDashboard.getNumber("P", P));
+//         pid.setI(SmartDashboard.getNumber("I", I));
+//         pid.setD(SmartDashboard.getNumber("D", D));
 
         Log.i(this, "Driving " + distance + " feet at a speed of " + speed1);
 
@@ -74,21 +77,21 @@ public class StraightDriveWithEncoders2Speed extends LoggedCommand {
 
         // Set output speed range
         if (speed1 > 0) {
-            PID.setOutputRange(-speed1, speed1);
+            pid.setOutputRange(-speed1, speed1);
         } else {
-            PID.setOutputRange(speed1, -speed1);
+            pid.setOutputRange(speed1, -speed1);
         }
 
         Robot.driveTrain.initGyro = 0;
 
-        PID.setSetpoint(distance);
+        pid.setSetpoint(distance);
 
 
         // Will accept within 5 inch of target
-        PID.setAbsoluteTolerance(error);
+        pid.setAbsoluteTolerance(error);
 
         // Start going to location
-        PID.enable();
+        pid.enable();
     }
 
     private int doneTicks;
@@ -98,9 +101,9 @@ public class StraightDriveWithEncoders2Speed extends LoggedCommand {
         if (Robot.driveTrain.getDistance() > switchPoint && !first) {
             first = true;
             if (speed2 > 0) {
-                PID.setOutputRange(-speed2, speed2);
+                pid.setOutputRange(-speed2, speed2);
             } else {
-                PID.setOutputRange(speed2, -speed2);
+                pid.setOutputRange(speed2, -speed2);
             }
         }
     }
@@ -108,7 +111,7 @@ public class StraightDriveWithEncoders2Speed extends LoggedCommand {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
 
-        if (PID.onTarget())
+        if (pid.onTarget())
             doneTicks++;
         else
             doneTicks = 0;
@@ -119,8 +122,9 @@ public class StraightDriveWithEncoders2Speed extends LoggedCommand {
     // Called once after isFinished returns true
     protected void end() {
         first = false;
+        
         // Disable PID output and stop robot to be safe
-        PID.disable();
+        pid.disable();
         Robot.driveTrain.drive(0, 0);
 
         Log.i(this, "Done driving, drove " + Robot.driveTrain.getDistance());

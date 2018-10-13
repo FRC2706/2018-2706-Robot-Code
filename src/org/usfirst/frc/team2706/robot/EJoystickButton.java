@@ -59,23 +59,23 @@ public class EJoystickButton extends JoystickButton {
             }
         });
     }
-    
+
     private boolean m_sendablePressed;
-    
+
     // Grabs the value
     private boolean grab() {
         return get() || m_sendablePressed;
     }
-    
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("Button");
         builder.setSafeState(() -> {
-          m_sendablePressed = false;
+            m_sendablePressed = false;
         });
         builder.addBooleanProperty("pressed", this::grab, (value) -> {
-          m_sendablePressed = value;
+            m_sendablePressed = value;
         });
-      }
+    }
 
 }

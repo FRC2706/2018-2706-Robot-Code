@@ -1,5 +1,8 @@
 package org.usfirst.frc.team2706.robot.commands.autonomous;
 
+/**
+ * Holds speeds and distances that are used in different auto modes
+ */
 public class AutoConstants {
 
     public static final double ROTATE_SPEED = 0.65;

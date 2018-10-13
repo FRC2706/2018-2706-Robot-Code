@@ -22,6 +22,9 @@ import edu.wpi.first.wpilibj.hal.HAL;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
+/**
+ * An extended {@code WPI_TalonSRX} that can use current mode when setting output
+ */
 public class EWPI_TalonSRX extends TalonSRX implements SpeedController, Sendable, MotorSafety {
 
     private String _description;
