@@ -376,7 +376,6 @@ public class Lift extends Subsystem {
      */
     public void setPID(double P, double I, double D) {
         liftPid.setPID(P, I, D);
-//         liftPid.setPID(SmartDashboard.getNumber("P Down", pDown), SmartDashboard.getNumber("I Down", iDown), SmartDashboard.getNumber("D Down", dDown));
     }
 
     public void useUpPID() {
@@ -390,7 +389,7 @@ public class Lift extends Subsystem {
         Log.d("Lift", "Going down");
 
         Robot.lift.setPID(pDown, iDown, dDown);
-        Robot.lift.setPID(pUp, iUp, dUp);
+//      liftPid.setPID(SmartDashboard.getNumber("P Down", pDown), SmartDashboard.getNumber("I Down", iDown), SmartDashboard.getNumber("D Down", dDown));
     }
 
     public void initTestMode() {

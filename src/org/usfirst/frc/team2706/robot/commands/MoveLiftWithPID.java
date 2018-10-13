@@ -94,6 +94,8 @@ public class MoveLiftWithPID extends LoggedCommand {
         double speed;
         // Sending lift down
         if (liftspeed.get() < 0) {
+            Robot.lift.useDownPID();
+            
             // Use downward speed
             speed = SPEED_DOWN_PER_SECOND;
 
@@ -107,6 +109,8 @@ public class MoveLiftWithPID extends LoggedCommand {
         }
         // Sending the lift upwards
         else {
+            Robot.lift.useUpPID();
+            
             speed = SPEED_UP_PER_SECOND;
         }
 

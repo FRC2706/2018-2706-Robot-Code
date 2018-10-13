@@ -16,15 +16,15 @@ public class SetLiftHeight extends OneTimeCommand {
     public SetLiftHeight(double height) {
         super(() -> {
             Robot.lift.enable(false);
-            
-            // Use up PID when moving upwards
+
+            // Use up PID when moving downwards
             if (height < Robot.lift.getEncoderHeight()) {
                 Robot.lift.useDownPID();
                 Robot.lift.setHeight(height, false);
             }
-            // Use down PID when moving downwards
+            // Use down PID when moving upwards
             else {
-                Robot.lift.useDownPID();
+                Robot.lift.useUpPID();
                 Robot.lift.setHeight(height, false);
             }
         });
