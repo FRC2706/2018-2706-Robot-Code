@@ -27,6 +27,8 @@ public class SetLiftHeightBlocking extends SetLiftHeightUntilCancelled {
 
     @Override
     public void initialize() {
+        super.initialize();
+        
         currentCycles = 0;
     }
 
