@@ -192,7 +192,7 @@ public class AutoInit {
                                                         leftStartRightScale},
                                         // position 9: close left scale backup or drive fwd
                                         new Priority[] {leftStartLeftScale, driveForward}
-                                                        },
+                                                        }, // TODO check later
                         // position 5: Right Position
                         new Priority[][] {
                                         // position 1: do right switch
@@ -218,7 +218,7 @@ public class AutoInit {
                                         new Priority[] {rightStartRightScaleRightSwitchMultiCube,
                                                         rightStartRightScaleMultiCube, rightStartRightSwitch,
                                                         rightStartLeftScale},
-                                        // position 9: close left scale backup or drive fwd
+                                        // position 9: close right scale backup or drive fwd
                                         new Priority[] {rightStartRightScale, driveForward}});
     }
 
