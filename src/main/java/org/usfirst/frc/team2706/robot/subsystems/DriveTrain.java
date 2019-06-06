@@ -230,10 +230,6 @@ public class DriveTrain extends Subsystem {
 
     }
 
-
-    /**
-     * @param joy The Xbox style joystick to use to drive arcade style.
-     */
     public void arcadeDrive(double forward, double turn) {
         drive.arcadeDrive(forward, turn, true);
     }
@@ -257,7 +253,6 @@ public class DriveTrain extends Subsystem {
      * add a rotation joystick function for robot relative control when needed to align
      * 
      * @param joy The main drive joystick
-     * @param rotate Joystick to rotate the robot with
      */
     public void headlessDrive(GenericHID joy) {
         Log.d("HeadlessDrive", "X: " + joy.getRawAxis(5) + ", Y: " + joy.getRawAxis(4));
@@ -377,7 +372,6 @@ public class DriveTrain extends Subsystem {
     }
 
     /**
-     * @param useGyroStraightening True to invert second motor direction for rotating
      * 
      * @return The robot's drive PIDOutput
      */

@@ -6,7 +6,7 @@ import org.usfirst.frc.team2706.robot.commands.autonomous.Priority;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.SensorBase;
+import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Controls the 12 switch dial on the robot to select an autonomous mode. The autonomous modes on
  * each of the switches are defined in Robot.java
  */
-public class AutonomousSelector extends SensorBase implements Sendable {
+public class AutonomousSelector extends SendableBase implements Sendable {
 
     /**
      * The number of different positions on the selector switch (including not connencted)

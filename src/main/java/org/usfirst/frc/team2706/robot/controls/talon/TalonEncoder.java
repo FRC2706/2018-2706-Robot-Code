@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.SensorBase;
+import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  * All encoders will immediately start counting - reset() them if you need them to be zeroed before
  * use.
  */
-public class TalonEncoder extends SensorBase implements PIDSource, Sendable {
+public class TalonEncoder extends SendableBase implements PIDSource, Sendable {
 
     /**
      * The source type of the PID
